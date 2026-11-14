@@ -1,0 +1,88 @@
+/* Diálogo de encontro, painel da missão e rolagem da chance de recrutar (expedição). */
+.xdlg { position: absolute; z-index: 7; left: 50%; bottom: max(56px, calc(env(safe-area-inset-bottom, 0px) + 56px)); transform: translateX(-50%); width: min(760px, calc(100% - 24px)); pointer-events: auto }
+.xdlg.out { animation: xdlgOut .2s ease-in forwards }
+@keyframes xdlgOut { to { opacity: 0; transform: translate(-50%, 16px) } }
+.xdlg-box { --sc: #ffb030; position: relative; display: flex; gap: 12px; align-items: stretch; background: rgba(14, 7, 26, .94); border: 3px solid #000;
+  outline: 3px solid var(--sc); outline-offset: -6px; border-radius: 10px; padding: 12px 14px; box-shadow: 6px 6px 0 #000; cursor: pointer; min-height: 112px }
+.xdlg-box.pop { animation: xdlgPop .22s ease-out }
+@keyframes xdlgPop { from { transform: translateY(14px) scale(.98); opacity: .2 } }
+.xdlg-box.r { flex-direction: row-reverse }
+.xdlg-face { position: relative; flex: 0 0 auto; width: 88px; height: 88px; align-self: center; background: #0d0818; border: 3px solid var(--sc); border-radius: 8px; overflow: hidden; box-shadow: 3px 3px 0 #000 }
+.xdlg-face.empty { display: none }
+.xdlg-face canvas { width: 100%; height: 100%; image-rendering: pixelated; display: block }
+.xdlg-main { flex: 1; min-width: 0; display: grid; grid-template-rows: auto 1fr auto; gap: 4px }
+.xdlg-plate { display: flex; align-items: center; gap: 8px; flex-wrap: wrap }
+.xdlg-name { font-family: var(--f-display); font-size: 17px; color: var(--sc); text-shadow: 2px 2px 0 #000; letter-spacing: .02em }
+.xdlg-kick { font-family: var(--f-pix); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted) }
+.xdlg-text { margin: 0; font-family: var(--f-pix); font-size: clamp(14px, 1.9vw, 18px); line-height: 1.35; color: var(--ink); min-height: 2.7em }
+.xdlg-foot { display: flex; justify-content: space-between; align-items: center; font-family: var(--f-pix); font-size: 10px; color: var(--muted) }
+.xdlg-next { color: var(--sc); font-style: normal; opacity: 0 }
+.xdlg-box.full .xdlg-next { opacity: 1; animation: xdlgBlink .6s steps(1) infinite }
+@keyframes xdlgBlink { 50% { opacity: 0 } }
+.xdlg-skip { position: absolute; top: -14px; right: 12px; font-size: 12px; padding: 3px 10px; border: 2px solid #000; border-radius: 5px; background: var(--panel2); color: var(--ink); box-shadow: 2px 2px 0 #000 }
+.xdlg-skip:hover { background: var(--moon); color: #1a0d00 }
+
+/* painel da missão (abaixo do HUD do time) */
+.xmis { position: absolute; z-index: 5; left: var(--g, 12px); top: 76px; display: none; gap: 8px; align-items: center; background: rgba(10, 5, 20, .88); border: 2px solid #000;
+  outline: 2px solid var(--mc, #ffb030); outline-offset: -4px; border-radius: 8px; padding: 6px 10px 6px 6px; font-family: var(--f-pix); font-size: 12px; color: var(--muted); pointer-events: none; max-width: min(380px, 62vw) }
+.xmis.on { display: flex }
+.xmis-face { position: relative; width: 48px; height: 48px; flex: 0 0 auto; background: #0d0818; border-radius: 6px; overflow: hidden }
+.xmis-face canvas { width: 100%; height: 100%; image-rendering: pixelated; display: block }
+.xmis-face .grade { min-width: 16px; height: 16px; font-size: 10px; border-width: 1px; right: 1px; bottom: 1px; box-shadow: 1px 1px 0 #000 }
+.xmis b { color: var(--ink); font-size: 13px }
+.xmis .xmis-obj { color: var(--moon); display: block }
+.xmis .xmis-pr { color: var(--ink); font-weight: 700 }
+.xmis .xmis-ch { display: block; color: var(--ink) }
+.xmis .xmis-ch .up { color: #6fdc7a } .xmis .xmis-ch .down { color: #ff6a6a }
+.xmis .bar { height: 5px; background: #000; border-radius: 3px; overflow: hidden; margin-top: 3px; width: 150px }
+.xmis .bar i { display: block; height: 100%; background: var(--mc, #ffb030); transition: width .15s }
+.xmis.ok { --mc: #6fdc7a }
+.xmis.bad { --mc: #ff2e4d; opacity: .9 }
+
+/* rolagem da chance */
+.xroll { position: absolute; z-index: 8; left: 50%; top: 30%; transform: translateX(-50%); width: min(420px, calc(100% - 24px)); pointer-events: none }
+.xroll-box { background: rgba(14, 7, 26, .95); border: 3px solid #000; outline: 3px solid var(--moon); outline-offset: -6px; border-radius: 10px; padding: 12px 16px; box-shadow: 6px 6px 0 #000; font-family: var(--f-pix); color: var(--muted); font-size: 13px; text-align: center; animation: xdlgPop .22s ease-out }
+.xroll-head { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap }
+.xroll-head > b { font-family: var(--f-display); font-weight: 400; color: var(--ink); font-size: 17px }
+.xroll-head span b { color: var(--ink) }
+.xroll-lbl { margin: 6px 0 4px } .xroll-lbl b { color: var(--moon); font-size: 16px }
+.xroll-bar { position: relative; height: 18px; background: #3a0c18; border: 2px solid #000; border-radius: 5px; overflow: hidden }
+.xroll-zone { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(#7cf08a, #3fae54) }
+.xroll-mark { position: absolute; top: -2px; bottom: -2px; width: 4px; margin-left: -2px; background: #fff; box-shadow: 0 0 0 1px #000, 0 0 8px #fff }
+.xroll-res { font-family: var(--f-display); font-size: 24px; min-height: 30px; margin-top: 6px; text-shadow: 2px 2px 0 #000 }
+.xroll.ok .xroll-res { color: #6fdc7a } .xroll.bad .xroll-res { color: #ff2e4d }
+.xroll.out { animation: xrollOut .25s ease-in forwards }
+@keyframes xrollOut { to { opacity: 0; transform: translate(-50%, -10px) } }
+
+@media (max-width: 720px) {
+  .xmis { top: 64px; font-size: 11px }
+  .xdlg { bottom: 110px }
+  .xdlg-face { width: 64px; height: 64px }
+  .xdlg-box { min-height: 90px; padding: 10px }
+}
+
+/* resultado: card de encontro */
+.xr-face { position: relative; flex: 0 0 auto; line-height: 0 }
+.xr-guy.bad { border-color: var(--blood); opacity: .85 }
+.xr-guy .lbl b { color: var(--ink) }
+
+/* escolha Aceitar/Recusar a missão do encontro */
+.xchoice { position: absolute; z-index: 8; left: 50%; bottom: max(56px, calc(env(safe-area-inset-bottom, 0px) + 56px)); transform: translateX(-50%); width: min(520px, calc(100% - 24px)); pointer-events: auto }
+.xchoice-box { background: rgba(14, 7, 26, .95); border: 3px solid #000; outline: 3px solid var(--moon); outline-offset: -6px; border-radius: 10px; padding: 12px 16px 10px; box-shadow: 6px 6px 0 #000; text-align: center; animation: xdlgPop .22s ease-out }
+.xchoice-k { font-family: var(--f-pix); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted) }
+.xchoice-t { margin: 4px 0 10px; font-family: var(--f-display); font-size: clamp(15px, 2vw, 19px); color: var(--moon); text-shadow: 2px 2px 0 #000 }
+.xchoice-btns { display: flex; gap: 12px; justify-content: center }
+.xchoice-b { font-family: var(--f-display); font-size: 17px; padding: 8px 20px; border: 3px solid #000; border-radius: 7px; box-shadow: 3px 3px 0 #000; cursor: pointer; color: #120a1f; transition: transform .08s }
+.xchoice-b:hover { transform: translateY(-2px) }
+.xchoice-b:active { transform: translateY(1px); box-shadow: 1px 1px 0 #000 }
+.xchoice-b.ok { background: linear-gradient(#8ff59b, #3fae54) }
+.xchoice-b.no { background: linear-gradient(#ff8a96, #c8263e); color: #fff; text-shadow: 1px 1px 0 #000 }
+.xchoice-b:not(.def) { filter: saturate(.55) brightness(.85) }
+.xchoice-b.def { outline: 2px solid #fff; outline-offset: 2px; animation: xchPulse .9s ease-in-out infinite }
+@keyframes xchPulse { 50% { outline-color: transparent } }
+.xchoice-b .cd { font-family: var(--f-pix); font-size: 13px }
+.xchoice-bar { height: 4px; margin-top: 10px; background: #000; border-radius: 2px; overflow: hidden }
+.xchoice-bar i { display: block; height: 100%; width: 100%; background: var(--moon) }
+.xchoice.out { animation: xdlgOut .22s ease-in forwards }
+.xchoice.is-ok .xchoice-b.ok, .xchoice.is-no .xchoice-b.no { transform: scale(1.08); filter: none }
+@media (max-width: 720px) { .xchoice { bottom: 110px } }

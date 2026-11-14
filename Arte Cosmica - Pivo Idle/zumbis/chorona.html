@@ -1,0 +1,480 @@
+<title>A Chorona M02</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: ficha de personagem de fliperama. Palco grande à esquerda com o sprite vivo, painel de controle à direita;
+   abaixo, quadros da animação, paleta, antes/depois e a tradução da ficha para a direção de arte. Tema escuro fixo. */
+:root{
+  color-scheme:dark;
+  --night:#120a1f; --panel:#1e1333; --panel2:#2a1b46; --line:#3d2a62;
+  --ink:#f5eefe; --muted:#ac9dca;
+  --blood:#ff2e4d; --moon:#ffd23f; --cosmic:#3ed4ff; --toxic:#8be35a;
+  --f-display:"Bungee", Impact, "Arial Black", sans-serif;
+  --f-pix:"Pixelify Sans", "Courier New", monospace;
+  --f-body:"Barlow", "Segoe UI", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:24px 64px;
+  background:radial-gradient(circle at 90% -10%, rgba(255,46,77,.25), transparent 40%), var(--night)}
+:focus-visible{outline:3px solid var(--moon);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:28px}
+.eyebrow{font-family:var(--f-pix);text-transform:uppercase;letter-spacing:.12em;color:var(--cosmic);font-size:13px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(36px,7vw,76px);line-height:.95;margin:4px 0 8px;
+  text-shadow:4px 4px 0 var(--blood),8px 8px 0 #000}
+h1 small{font-size:.38em;color:var(--moon);display:inline-block;vertical-align:.9em;margin-left:10px;text-shadow:3px 3px 0 #000}
+.lede{max-width:72ch;color:var(--muted);margin:0}
+.lede b{color:var(--ink)}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(20px,3vw,28px);margin:0 0 10px;text-wrap:balance}
+h2 small{display:block;font-family:var(--f-pix);font-size:13px;color:var(--blood);letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+
+.show{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0;border:3px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 0 0 6px #0b0614,10px 10px 0 6px rgba(255,46,77,.35);background:#000}
+.stagewrap{position:relative;min-width:0;background:#000}
+.stagewrap{min-height:320px;overflow:hidden}
+#stage{display:block;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;max-width:100%}
+.fx{position:absolute;pointer-events:none;font-family:var(--f-display);color:#fff;transform:translate(-50%,-50%) rotate(-8deg);
+  text-shadow:3px 3px 0 #000;-webkit-text-stroke:1.5px #000;font-size:clamp(20px,4vw,40px);white-space:nowrap}
+.fx.burst{background:var(--moon);color:var(--blood);padding:4px 14px;clip-path:polygon(0 30%,12% 22%,8% 0,28% 14%,40% 0,52% 16%,70% 2%,74% 20%,100% 12%,88% 40%,100% 60%,84% 70%,96% 100%,70% 84%,56% 100%,44% 82%,24% 98%,22% 76%,0 84%,10% 58%);text-shadow:none}
+.fx.bubble{background:#fff;color:#000;-webkit-text-stroke:0;text-shadow:none;border:3px solid #000;border-radius:50%;padding:6px 14px;transform:translate(-50%,-50%) rotate(4deg)}
+.tagfx{position:absolute;left:10px;top:10px;font-family:var(--f-pix);font-size:12px;background:rgba(10,5,20,.8);border:2px solid #000;border-radius:5px;padding:3px 8px;color:var(--muted)}
+.tagfx b{color:var(--moon)}
+.panel{background:var(--panel);border-left:2px solid var(--line);padding:14px;display:grid;gap:14px;align-content:start;font-family:var(--f-pix);min-width:0}
+.grp{display:grid;gap:6px}
+.lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font-family:var(--f-pix);font-weight:600;font-size:13px;cursor:pointer;padding:6px 10px;border-radius:5px;border:2px solid var(--line);background:var(--panel2);color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--moon);color:#1a0d00;border-color:#000;box-shadow:2px 2px 0 #000}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#b89cff}
+.seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:var(--blood);color:#fff}
+.real{display:flex;gap:12px;align-items:flex-end;background:#0d0818;border:1px solid var(--line);border-radius:6px;padding:8px}
+.real canvas{image-rendering:pixelated;display:block}
+.real span{font-size:11px;color:var(--muted);display:block;text-align:center}
+.note{font-family:var(--f-body);font-size:13px;color:var(--muted);margin:0}
+
+.strip{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px}
+.fr{flex:0 0 auto;display:grid;gap:4px;justify-items:center;background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:6px;cursor:pointer;font-family:var(--f-pix);font-size:11px;color:var(--muted)}
+.fr.on{border-color:var(--moon);color:var(--ink)}
+.fr canvas{width:104px;height:120px;image-rendering:pixelated;background:repeating-conic-gradient(#1a1030 0 25%, #221640 0 50%) 0 0/12px 12px}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:start}
+.box{background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.ramps{display:grid;gap:8px}
+.ramp{display:grid;grid-template-columns:90px repeat(4,1fr);gap:4px;align-items:center;font-family:var(--f-pix);font-size:12px}
+.ramp i{display:block;height:26px;border:2px solid #000;border-radius:3px}
+.ramp .hx{font-size:10px;color:var(--muted);text-align:center;font-family:var(--f-pix)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ba figure{margin:0;display:grid;gap:6px;justify-items:center;background:#0d0818;border:1px solid var(--line);border-radius:8px;padding:10px}
+.ba img,.ba canvas{image-rendering:pixelated;width:100%;max-width:220px;height:auto;aspect-ratio:auto}
+.ba figcaption{font-family:var(--f-pix);font-size:12px;color:var(--muted);text-align:center}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-pix);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td:first-child{font-family:var(--f-pix);color:var(--moon);white-space:nowrap}
+ul.rules{margin:0;padding-left:20px;display:grid;gap:6px}
+ul.rules b{color:#fff}
+.quote{border-left:4px solid var(--toxic);padding:6px 12px;margin:0 0 12px;color:#dfe9d2;font-style:italic;max-width:72ch}
+@media (max-width:860px){ .stagewrap{min-height:0} #stage{height:auto;aspect-ratio:200/140} .show{grid-template-columns:1fr} .panel{border-left:0;border-top:2px solid var(--line)} }
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:240/150;object-fit:contain!important} .fr canvas{width:128px;height:124px}
+.seg.forms button[data-form="furia"][aria-pressed="true"]{background:#ff3a3a;color:#fff}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bestiário · Mini chefe M02 · Direção de arte cósmica</div>
+    <h1>A Chorona <small>M02</small></h1>
+    <p class="lede">Fica sentada no chão chorando. <b>Se ninguém a incomoda, não ataca</b>: é um mini chefe que dá pra evitar. Se for perturbada, para de chorar, levanta devagar e caça o herói em zigue-zague com garras enormes. Na <b>Fúria</b>, o cabelo se ergue como se flutuasse, os olhos ficam vermelhos e ela deixa um rastro vermelho por onde passa.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="240" height="150" role="img" aria-label="A Chorona animada no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Fase</span>
+        <div class="seg forms" id="forms"><button data-form="normal" aria-pressed="true">Normal</button><button data-form="furia" aria-pressed="false">Fúria</button></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real no jogo</span>
+        <div class="real"><div><canvas id="r1" width="128" height="128"></canvas><span>ficha (100%)</span></div><div><canvas id="r2" width="90" height="90"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">Na ficha o quadro tem 128×128 px. No jogo ela entra a 70%, igual aos outros zumbis. Sentada, tem só ~40 px de altura e parece entulho até levantar.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">"Levantar" é o aviso: 1,5 s entre parar de chorar e ficar de pé. Na expedição automática, a IA do squad tenta passar longe dela; se alguém ataca ou faz barulho perto, a transição começa. Nas Garras, os quadros 3 e 6 são os golpes (✦).</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><img alt="Sprite atual da Chorona, 128 px" src="data:image/png;base64,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"><figcaption>Atual · pixel chunky, contorno uniforme, 2 tons</figcaption></figure>
+        <figure><canvas id="afterCv" width="128" height="128"></canvas><figcaption>Novo · 4 tons, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor da fase <span id="formName">Normal</span></h2>
+      <div class="ramps" id="ramps"></div>
+      <p class="note" style="margin-top:10px">Ela é a figura mais clara da tela (pele e vestido quase brancos) contra o cabelo quase preto, e esse contraste é a assinatura dela. Na Fúria só os olhos, as lágrimas e a luz de lua viram vermelho; o resto continua pálido.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead>
+      <tbody>
+        <tr><td>Cabeça</td><td>Cabelo preto, liso e muito comprido, cobrindo quase todo o rosto. Pelas frestas aparecem os olhos brilhando e lágrimas escuras. Pele quase branca.</td><td>O cabelo vem em duas peças: uma mecha longa atrás, que cai até a cintura, e uma cortina na frente cobrindo o rosto até o queixo. Uma fresta estreita mostra a pele branca, o olho brilhando (com luz aditiva no palco) e 2 riscos de lágrima preta.</td></tr>
+        <tr><td>Tronco</td><td>Vestido branco comprido, sujo de terra, barra rasgada. Corpo muito magro e encolhido, ombros tremendo de choro.</td><td>Vestido branco encardido com manchas de terra e barra serrilhada que acompanha as pernas. Nos quadros de soluço os ombros sobem 1 px, e no palco aparecem o "snif…" e as lágrimas caindo.</td></tr>
+        <tr><td>Braços</td><td>Braços finos abraçando os joelhos. Garras compridas e curvas, maiores que a mão.</td><td>Sentada, os braços usam cinemática inversa pra abraçar os joelhos. Cada dedo vira uma garra preta de 3 segmentos (~12 px, o dobro da mão), que se abre quando ela levanta.</td></tr>
+        <tr><td>Pernas</td><td>Pernas magras dobradas por baixo do vestido. Pés descalços e cinzentos.</td><td>Pernas finas e pálidas, dobradas sob o vestido quando sentada. Pés cinzentos com dedinhos marcados.</td></tr>
+        <tr><td>Movimento</td><td>Balança e soluça. Se o herói chega perto ou faz barulho, para de chorar, levanta devagar e avança em zigue-zague, rápida, com as garras abertas.</td><td>"Chorando" balança o tronco em 6 quadros. "Levantar" faz a transição de sentada pra de pé em 6 quadros (1,5 s), com "!" quando ela para de chorar. "Avançar" é uma corrida curvada de 85 ms por quadro que no palco anda em zigue-zague. "Garras" tem 2 golpes com rastro.</td></tr>
+        <tr><td>Fúria</td><td>Cabelo erguido como se flutuasse, olhos vermelhos e rastro vermelho por onde passa.</td><td>A mecha de trás vira 9 espetos subindo, olhos, lágrimas e luz de lua ficam vermelhos e, ao avançar, ela deixa no chão um rastro vermelho com imagens fantasmas.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+/* ===== PIX: pipeline hi-bit compartilhado (vetor → quantiza → luz/sombra → contorno seletivo → luz de lua) ===== */
+const PIX=(function(){
+  const OUTLINE='#170b1c'; let K=1; const setK=k=>{K=k;}, getK=()=>K;
+  const rad=d=>d*Math.PI/180;
+  function hexRgb(h){ const n=parseInt(h.slice(1),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+  function toHex(r,g,b){ return '#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join(''); }
+  function mix(a,b,t){ const A=hexRgb(a),B=hexRgb(b); return toHex(A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,A[2]+(B[2]-A[2])*t); }
+  function ramp(h){ return [mix(h,'#fff2cc',.36),h,mix(h,'#3b2c63',.38),mix(h,'#1c1233',.64)]; }
+  const lp=(p,a,L)=>({x:p.x+Math.sin(rad(a))*L, y:p.y+Math.cos(rad(a))*L});
+  const lerp=(a,b,t)=>({x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t});
+  const P2=(x,y)=>({x,y});
+  function ik(S,W,L1,L2,elbowDown){
+    const dx=W.x-S.x, dy=W.y-S.y, d0=Math.hypot(dx,dy);
+    const d=Math.max(Math.abs(L1-L2)+0.5, Math.min(L1+L2-0.3, d0));
+    const base=Math.atan2(dy,dx), A=Math.acos(Math.max(-1,Math.min(1,(L1*L1+d*d-L2*L2)/(2*L1*d))));
+    const e1={x:S.x+Math.cos(base-A)*L1,y:S.y+Math.sin(base-A)*L1}, e2={x:S.x+Math.cos(base+A)*L1,y:S.y+Math.sin(base+A)*L1};
+    const E=elbowDown?(e1.y>e2.y?e1:e2):(e1.y<e2.y?e1:e2);
+    return {E, W:{x:S.x+Math.cos(base)*d, y:S.y+Math.sin(base)*d}};
+  }
+  function mkPen(ctx,used){
+    const F=c=>{ ctx.fillStyle=c; used.add(c); };
+    const circle=(p,r)=>{ ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill(); };
+    const cap=(a,b,wa,wb)=>{ const dx=b.x-a.x, dy=b.y-a.y, L=Math.hypot(dx,dy)||1, nx=-dy/L, ny=dx/L;
+      ctx.beginPath(); ctx.moveTo(a.x+nx*wa/2,a.y+ny*wa/2); ctx.lineTo(b.x+nx*wb/2,b.y+ny*wb/2); ctx.lineTo(b.x-nx*wb/2,b.y-ny*wb/2); ctx.lineTo(a.x-nx*wa/2,a.y-ny*wa/2); ctx.closePath(); ctx.fill(); circle(a,wa/2); circle(b,wb/2); };
+    const poly=pts=>{ ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); ctx.fill(); };
+    const ell=(x,y,rx,ry,r=0)=>{ ctx.beginPath(); ctx.ellipse(x,y,rx,ry,r,0,Math.PI*2); ctx.fill(); };
+    const rect=(x,y,w,h)=>ctx.fillRect(x,y,w,h);
+    const xf=(a,ox,oy)=>{ const c=Math.cos(a), s=Math.sin(a); ctx.setTransform(c*K,s*K,-s*K,c*K,ox*K,oy*K); };
+    const id=()=>ctx.setTransform(K,0,0,K,0,0);
+    return {F,circle,cap,poly,ell,rect,xf,id};
+  }
+  const tmpCache={};
+  function compose(o){ // o: {FW,FH,GROUND,parts,M,step,flash,rim,rimTop}
+    const {FW,FH,parts,M,step}=o; const key=FW+'x'+FH;
+    if(!tmpCache[key]){ const c=document.createElement('canvas'); c.width=FW; c.height=FH; tmpCache[key]=[c,c.getContext('2d',{willReadFrequently:true})]; }
+    const tctx=tmpCache[key][1];
+    const cinfo=new Map(); Object.entries(M).forEach(([k,r])=>r.forEach((h,t)=>{ if(!cinfo.has(h)) cinfo.set(h,{ramp:k,tone:t}); }));
+    const N=FW*FH, col=new Array(N).fill(null), part=new Int8Array(N).fill(-1);
+    parts.forEach((pt,k)=>{
+      tctx.setTransform(1,0,0,1,0,0); tctx.clearRect(0,0,FW,FH); const used=new Set(); pt.draw(tctx,used); if(!used.size) return;
+      const list=[...used].map(h=>[h,...hexRgb(h)]); const d=tctx.getImageData(0,0,FW,FH).data;
+      for(let i=0;i<N;i++){ if(d[i*4+3]<128) continue; let best=list[0][0], bd=1e9; const r=d[i*4],g=d[i*4+1],b=d[i*4+2];
+        for(const c of list){ const dd=(c[1]-r)**2+(c[2]-g)**2+(c[3]-b)**2; if(dd<bd){bd=dd;best=c[0];} }
+        col[i]=best; part[i]=k; }
+    });
+    const at=(x,y)=> (x<0||y<0||x>=FW||y>=FH)?-1:part[y*FW+x];
+    const out=new Array(N).fill(null);
+    for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){
+      const i=y*FW+x, c=col[i]; if(c===null) continue; const k=part[i];
+      if(step===1){ out[i]='#2a1d40'; continue; }
+      const info=cinfo.get(c); let oc=c;
+      if(step>=3 && info && !parts[k].noShade){
+        let tone=info.tone;
+        if(tone===1){ if(at(x-1,y)!==k||at(x-2,y)!==k||at(x,y+1)!==k||at(x,y+2)!==k) tone=2; else if(at(x+1,y)!==k||at(x,y-1)!==k) tone=0; }
+        const up2=at(x,y-2), ul=at(x+1,y-2); if((up2>k)||(ul>k)) tone=Math.min(3,tone+1);
+        if(step>=4){ const n=[at(x+1,y),at(x-1,y),at(x,y+1),at(x,y-1)]; if(n.some(q=>q>k && !parts[q].smear)) tone=3; }
+        if(parts[k].back) tone=Math.min(3,tone+1);
+        oc=M[info.ramp][tone];
+      }
+      if(o.flash && step>=3) oc='#ffffff';
+      out[i]=oc;
+    }
+    if(step>=5 && !o.flash && o.rim){ const lim=Math.min(FH,(o.GROUND||FH)-8); for(let y=0;y<lim;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]!==null && at(x-1,y)===-1 && !parts[part[i]].noShade && !parts[part[i]].noRim) out[i]=o.rim; } }
+    const cv=document.createElement('canvas'); cv.width=FW; cv.height=FH; const g=cv.getContext('2d'); const img=g.createImageData(FW,FH);
+    const put=(i,h)=>{ const [r,gg,b]=hexRgb(h); img.data[i*4]=r; img.data[i*4+1]=gg; img.data[i*4+2]=b; img.data[i*4+3]=255; };
+    for(let i=0;i<N;i++) if(out[i]) put(i,out[i]);
+    if(step>=4){ for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]!==null) continue; if(at(x+1,y)>=0||at(x-1,y)>=0||at(x,y+1)>=0||at(x,y-1)>=0) put(i,OUTLINE); } }
+    g.putImageData(img,0,0);
+    return cv;
+  }
+  return {setK,getK,OUTLINE,rad,hexRgb,toHex,mix,ramp,lp,lerp,P2,ik,mkPen,compose};
+})();
+
+/* ===== A CHORONA (mini boss M02), hi-bit ===== */
+const CHOR=(function(){
+  const {rad,lp,lerp,P2,ik,mkPen,compose}=PIX;
+  const FW=128, FH=128, GROUND=122, AX=52;
+  const RIM={normal:'#c8d8ff', furia:'#ff6a6a'};
+  function mats(form){
+    const m={
+      skin:['#ffffff','#d6dae0','#9ea4b0','#62687a'],
+      hair:['#40507a','#1a2236','#0e1422','#06080e'],
+      dress:['#ffffff','#dedac8','#a6a08c','#686252'],
+      dirt:['#a08a6a','#6e5a42','#4a3a2a','#2a2018'],
+      claw:['#6a6a7a','#1e1e28','#121218','#08080c'],
+      eye:['#ffffff','#eef6ff','#a8d0ff','#5a7ab0'],
+      tear:['#4a4a6a','#1a1a2e','#10101e','#08080e'],
+      feet:['#b8bcc4','#8a8e98','#5e626e','#3a3e48'],
+    };
+    if(form==='furia'){ m.eye=['#fff0f0','#ff3a3a','#c01a1a','#6a0a0a']; m.tear=['#ff6a6a','#8a0a14','#5a0610','#300308']; m.hair=['#4a5a8a','#1e2840','#101828','#080a12']; }
+    return m;
+  }
+  const NAMES={skin:'Pele',hair:'Cabelo',dress:'Vestido',dirt:'Terra',claw:'Garras',eye:'Olhos',tear:'Lágrimas',feet:'Pés'};
+  const SIT={lean:40,head:30,hx:-2,lFh:125,lFk:20,lBh:118,lBk:12,hug:1,hem:0.95,aFs:60,aFe:120,aBs:60,aBe:120,smear:0,flash:0,sob:0};
+  const STAND={lean:22,head:6,hx:0,lFh:10,lFk:-4,lBh:-12,lBk:-20,hug:0,hem:0.42,aFs:62,aFe:78,aBs:50,aBe:66,smear:0,flash:0,sob:0};
+  const mixP=(a,b,t)=>{ const o={}; for(const k in b) o[k]=typeof b[k]==='number'?(a[k]??b[k])+((b[k])-(a[k]??b[k]))*t:b[k]; o.hug=t<0.45?a.hug:b.hug; return o; };
+  const ANIMS={
+    idle:{nome:'Chorando (sentada)',n:6,dur:()=>200,pose:i=>{ const p=i/6*Math.PI*2, s=Math.sin(p); return Object.assign({},SIT,{lean:40+3*s, head:30+2*Math.sin(p-0.7), hx:-2+0.6*s, sob:(i%3===1)?1:0}); }},
+    rise:{nome:'Levantar (incomodada)',n:6,dur:i=>[300,260,240,200,160,320][i],pose:i=>{ const t=[0,0.06,0.28,0.55,0.82,1][i]; const o=mixP(SIT,STAND,t); if(i===1){ o.head=-8; } return o; }},
+    walk:{nome:'Avançar em zigue-zague',n:8,dur:()=>85,pose:i=>{ const p=i/8*Math.PI*2; const th=o=>8+26*Math.sin(p+o), sh=o=>th(o)-10-50*Math.max(0,Math.cos(p+o));
+      return Object.assign({},STAND,{lFh:th(0),lFk:sh(0),lBh:th(Math.PI),lBk:sh(Math.PI),lean:32+3*Math.sin(2*p),head:-4,aFs:80+10*Math.sin(p),aFe:96,aBs:72-10*Math.sin(p),aBe:88,hem:0.4}); }},
+    attack:{nome:'Garras',n:7,dur:i=>[180,90,60,120,80,60,200][i],pose:i=>Object.assign({},STAND,[
+      {aFs:150,aFe:170,aBs:130,aBe:150,lean:10,head:-2,hx:-2},
+      {aFs:172,aFe:200,aBs:150,aBe:182,lean:4,head:-6,hx:-3},
+      {aFs:84,aFe:58,aBs:64,aBe:40,lean:34,head:4,hx:8,smear:1,lFh:24,lFk:6,lBh:-22,lBk:-28},
+      {aFs:62,aFe:30,aBs:50,aBe:20,lean:36,head:6,hx:9,lFh:24,lFk:6,lBh:-22,lBk:-28},
+      {aFs:150,aFe:176,aBs:40,aBe:20,lean:20,hx:6},
+      {aFs:74,aFe:50,aBs:40,aBe:20,lean:34,hx:11,smear:2,lFh:26,lFk:8,lBh:-24,lBk:-30},
+      {}][i])},
+    hurt:{nome:'Dano',n:4,dur:i=>[80,110,120,150][i],pose:i=>Object.assign({},STAND,[
+      {lean:-6,head:-26,hx:-6,flash:1,aFs:20,aFe:10,aBs:16,aBe:6},
+      {lean:0,head:-18,hx:-5,aFs:30,aFe:30,aBs:26,aBe:24},
+      {lean:12,head:-6,hx:-2},
+      {}][i])},
+  };
+  function poseOf(anim,i){ return Object.assign({},STAND,ANIMS[anim].pose(i)); }
+  function skeleton(P){
+    const hip={x:AX+P.hx,y:64};
+    const hipF={x:hip.x+2,y:hip.y}, hipB={x:hip.x-2,y:hip.y};
+    const kneeF=lp(hipF,P.lFh,20), ankleF=lp(kneeF,P.lFk,20), kneeB=lp(hipB,P.lBh,20), ankleB=lp(kneeB,P.lBk,20);
+    const dy=GROUND-Math.max(ankleF.y+3, ankleB.y+3, hip.y+5);
+    [hip,hipF,hipB,kneeF,ankleF,kneeB,ankleB].forEach(p=>p.y+=dy);
+    const a=rad(P.lean), c=Math.cos(a), s=Math.sin(a);
+    const T=(lx,ly)=>({x:hip.x+lx*c-ly*s, y:hip.y+lx*s+ly*c});
+    const sob=P.sob?-1.2:0;
+    const neck=T(2,-28+sob), shF=T(4,-24+sob), shB=T(-3,-25+sob);
+    const ha=rad(P.lean+P.head), hc=Math.cos(ha), hs=Math.sin(ha);
+    const H=(lx,ly)=>({x:neck.x+lx*hc-ly*hs, y:neck.y+lx*hs+ly*hc});
+    let elF,wrF,elB,wrB;
+    if(P.hug>0.5){ const f=ik(shF,{x:kneeF.x+2,y:kneeF.y+6},13,12,true), b=ik(shB,{x:kneeB.x+3,y:kneeB.y+5},13,12,true); elF=f.E; wrF=f.W; elB=b.E; wrB=b.W; }
+    else { elF=lp(shF,P.aFs,13); wrF=lp(elF,P.aFe,12); elB=lp(shB,P.aBs,13); wrB=lp(elB,P.aBe,12); }
+    return {hip,hipF,hipB,kneeF,ankleF,kneeB,ankleB,neck,shF,shB,elF,wrF,elB,wrB,a,ha,H,T,eye:H(8,-14)};
+  }
+  function drawArm(p,M,sh,el,wr,P){
+    p.id();
+    p.F(M.dress[1]); p.cap(sh,lerp(sh,el,0.35),5.6,5);
+    p.F(M.skin[1]); p.cap(lerp(sh,el,0.3),el,3.6,3.2); p.cap(el,wr,3.2,2.6);
+    const ang=Math.atan2(wr.y-el.y,wr.x-el.x); p.xf(ang,wr.x,wr.y);
+    p.F(M.skin[1]); p.poly([[-0.4,-2],[3.4,-2.4],[3.8,2.2],[-0.4,2]]);
+    const curl=P.hug>0.5?1.6:0.9;
+    for(let k=0;k<4;k++){ const y0=-1.8+k*1.2, A=rad(-14+k*10);
+      const m1=P2(3.6+Math.cos(A)*5,y0+Math.sin(A)*5), m2=P2(m1.x+Math.cos(A+0.4*curl)*4.4,m1.y+Math.sin(A+0.4*curl)*4.4), t=P2(m2.x+Math.cos(A+0.9*curl)*3,m2.y+Math.sin(A+0.9*curl)*3);
+      p.F(M.skin[1]); p.cap(P2(3.4,y0),P2(4.6,y0),1.3,1.2);
+      p.F(M.claw[1]); p.cap(P2(4.4,y0),m1,1.3,1.1); p.cap(m1,m2,1.1,0.8); p.cap(m2,t,0.8,0.5); }
+    p.id();
+  }
+  function drawLeg(p,M,hip,knee,ankle){
+    p.id(); p.F(M.skin[2]); p.cap(hip,knee,5.2,4); p.cap(knee,ankle,3.6,3);
+    p.F(M.feet[1]); const a=ankle; p.poly([[a.x-2.6,a.y-1.4],[a.x+2.4,a.y-1.4],[a.x+7,a.y+1.4],[a.x+7,a.y+3],[a.x-2.8,a.y+3]]);
+    p.F(M.feet[3]); p.rect(a.x+5,a.y+1.8,0.8,0.8); p.rect(a.x+3.4,a.y+2,0.8,0.8);
+  }
+  function drawDress(p,M,sk,P){
+    p.id();
+    const kF=sk.kneeF, kB=sk.kneeB, hF=lerp(sk.kneeF,sk.ankleF,P.hem), hB=lerp(sk.kneeB,sk.ankleB,P.hem);
+    const wF=sk.T(8,-1), wB=sk.T(-9,-1);
+    const pts=[[wB.x,wB.y],[wF.x,wF.y],[kF.x+3,kF.y],[hF.x+4,hF.y+2]];
+    const n=6; for(let k=1;k<n;k++){ const q=lerp(hF,hB,k/n); pts.push([q.x+(k%2?1.5:-1),q.y+2+(k%2?3:0)]); }
+    pts.push([hB.x-4,hB.y+2],[kB.x-3,kB.y]);
+    p.F(M.dress[1]); p.poly(pts);
+    p.F(M.dirt[1]); const d1=lerp(hF,hB,0.3), d2=lerp(hF,hB,0.7); p.ell(d1.x,d1.y,2.4,1.4); p.ell(d2.x,d2.y-1,2,1.2); const d3=lerp(wF,kF,0.6); p.ell(d3.x,d3.y,1.4,1);
+    p.F(M.dress[2]); const f1=lerp(wB,hB,0.5), f2=lerp(wF,hF,0.5); p.rect(lerp(f1,f2,0.4).x,lerp(f1,f2,0.4).y,0.9,6);
+  }
+  function drawTorso(p,M,sk,P){
+    p.xf(sk.a,sk.hip.x,sk.hip.y);
+    const sob=P.sob?-1.2:0;
+    p.F(M.dress[1]); p.poly([[-9,1],[8,1],[8.6,-8],[7.6,-16],[8.4,-22+sob],[5,-26.6+sob],[-2,-27.4+sob],[-7.6,-24+sob],[-9.6,-16],[-9.4,-7]]);
+    p.F(M.dress[2]); p.rect(-6,-20,1,14); p.rect(2,-18,1,12);
+    p.F(M.skin[1]); p.poly([[-1,-27+sob],[4.6,-26.4+sob],[2.4,-23+sob]]);
+    p.F(M.dirt[1]); p.ell(4,-10,1.8,1.2); p.ell(-5,-4,1.6,1);
+    p.id();
+  }
+  function drawHead(p,M,sk,P){
+    p.xf(sk.ha,sk.neck.x,sk.neck.y);
+    p.F(M.skin[1]); p.cap(P2(0,3),P2(1,-6),4.6,4.2); p.ell(2,-14,7.6,8.4); p.poly([[-1,-8],[9.6,-9.4],[10.6,-6],[3,-4.4]]);
+    p.id();
+  }
+  function drawHairBack(p,M,sk,P,form){
+    const H=sk.H; p.id(); p.F(M.hair[1]);
+    if(form!=='furia'){ const a=H(-8,-12), sw=P.sob?1:0;
+      p.poly([[H(-9,-18).x,H(-9,-18).y],[H(4,-24.6).x,H(4,-24.6).y],[H(10,-20).x,H(10,-20).y],[H(6,-8).x,H(6,-8).y],[a.x+6+sw,a.y+30],[a.x-4+sw,a.y+34],[a.x-7,a.y+12]]);
+    } else {
+      for(let k=0;k<9;k++){ const ang=-170+k*20, base=H(2+Math.cos(rad(ang))*6,-15+Math.sin(rad(ang))*6), L=13+(k%3)*6, w=-Math.PI/2+rad((k-4)*15);
+        p.cap(base,{x:base.x+Math.cos(w)*L+(k%2?2:-2), y:base.y+Math.sin(w)*L},4.4,1.2); }
+    }
+  }
+  function drawHairFront(p,M,sk,P,form){
+    p.xf(sk.ha,sk.neck.x,sk.neck.y); p.F(M.hair[1]);
+    const L=form==='furia'?-4:2;
+    p.poly([[-9,-17],[-5,-23.6],[3,-24.4],[9.4,-21],[12,-14],[12,L],[9.6,L+3],[7.4,L],[5.6,-12],[0,-11],[-6,-7]]);
+    p.F(M.hair[0]); p.rect(1,-23,1,8); p.rect(10,-16,0.9,10);
+    p.id();
+  }
+  function drawEyes(p,M,sk,P){
+    p.xf(sk.ha,sk.neck.x,sk.neck.y);
+    p.F(M.skin[0]); p.poly([[6.4,-17.2],[9.4,-17.6],[9.6,-7],[6.8,-7.4]]);
+    p.F(M.eye[1]); p.ell(8,-14,1.5,1.1);
+    p.F(M.tear[1]); p.rect(7.4,-12.8,0.9,5.6); p.rect(8.8,-12.6,0.8,4);
+    p.id();
+  }
+  function drawSmear(p,M,sk,P){
+    p.id(); p.F(M.eye[0]);
+    const sh=P.smear===1?sk.shF:sk.shF, w=sk.wrF; const a0=P.smear===1?190:170;
+    const cur=Math.atan2(w.x-sh.x,w.y-sh.y)*180/Math.PI, r1=Math.hypot(w.x-sh.x,w.y-sh.y)+12, r0=r1-8, pts=[];
+    for(let k=0;k<=8;k++){ const a=a0+(cur-a0)*k/8; pts.push([sh.x+Math.sin(rad(a))*r1, sh.y+Math.cos(rad(a))*r1]); }
+    for(let k=8;k>=0;k--){ const a=a0+(cur-a0)*k/8; pts.push([sh.x+Math.sin(rad(a))*(r0+(1-k/8)*5), sh.y+Math.cos(rad(a))*(r0+(1-k/8)*5)]); }
+    p.poly(pts);
+  }
+  const cache=new Map();
+  function frame(form,anim,fi,step=5){
+    const K=PIX.getK(), key=form+anim+fi+step+'@'+K; if(cache.has(key)) return cache.get(key);
+    const P=poseOf(anim,fi), M=mats(form), sk=skeleton(P);
+    const parts=[
+      {draw:(c,u)=>drawHairBack(mkPen(c,u),M,sk,P,form)},
+      {back:true, draw:(c,u)=>drawArm(mkPen(c,u),M,sk.shB,sk.elB,sk.wrB,P)},
+      {back:true, draw:(c,u)=>drawLeg(mkPen(c,u),M,sk.hipB,sk.kneeB,sk.ankleB)},
+      {draw:(c,u)=>drawLeg(mkPen(c,u),M,sk.hipF,sk.kneeF,sk.ankleF)},
+      {draw:(c,u)=>drawTorso(mkPen(c,u),M,sk,P)},
+      {draw:(c,u)=>drawDress(mkPen(c,u),M,sk,P)},
+      {draw:(c,u)=>drawHead(mkPen(c,u),M,sk,P)},
+      {draw:(c,u)=>drawHairFront(mkPen(c,u),M,sk,P,form)},
+      {draw:(c,u)=>drawEyes(mkPen(c,u),M,sk,P)},
+    ];
+    if(P.smear) parts.push({noShade:true,smear:true,draw:(c,u)=>drawSmear(mkPen(c,u),M,sk,P)});
+    parts.push({draw:(c,u)=>drawArm(mkPen(c,u),M,sk.shF,sk.elF,sk.wrF,P)});
+    const cv=compose({FW:Math.round(FW*K),FH:Math.round(FH*K),GROUND:GROUND*K,parts,M,step,flash:P.flash,rim:RIM[form]});
+    const sc=q=>({x:q.x*K,y:q.y*K}); cv._eye=sc(sk.eye); cv._hand=sc(sk.wrF); cv._head=sc(sk.H(2,-24)); cv._hip=sc(sk.hip);
+    cache.set(key,cv); return cv;
+  }
+  return {FW,FH,GROUND,AX,ANIMS,NAMES,RIM,mats,poseOf,frame};
+})();
+
+(function(){
+'use strict';
+const SW=240, SH=150, SGROUND=140, FW=CHOR.FW, FH=CHOR.FH, GROUND=CHOR.GROUND;
+/* ---------- stage background (pixel) ---------- */
+const BGP={
+  comum:{sky:['#0e0a26','#1c1440','#2e1f58','#46307a'], moon:'#f3eed6', moonD:'#cfc6a6', bld:'#23183f', bld2:'#2f2152', win:'#ffd86a', lamp:'rgba(255,214,120,', ground:['#5a4a5a','#4a3c4c','#3a2e3e'], dot:'rgba(160,190,255,.18)'},
+  enluarado:{sky:['#140a2c','#24124a','#3a1d6a','#5a2f92'], moon:'#efe0ff', moonD:'#c4a8f0', bld:'#26163f', bld2:'#352058', win:'#d6b8ff', lamp:'rgba(210,180,255,', ground:['#544468','#463858','#382c48'], dot:'rgba(210,180,255,.2)'},
+  plenilunar:{sky:['#1a0408','#3a0812','#64101e','#8e1a2a'], moon:'#ff4a3a', moonD:'#c42020', bld:'#2a0a14', bld2:'#3a1020', win:'#ff8a5a', lamp:'rgba(255,120,80,', ground:['#5a3438','#4a2a2e','#3a2024'], dot:'rgba(255,120,90,.2)'}
+};
+function hsh(n){ n=Math.sin(n*127.1)*43758.5453; return n-Math.floor(n); }
+function drawBG(g,form,scroll,t){
+  const B=BGP[form];
+  const bands=[0,34,62,86,SGROUND];
+  for(let b=0;b<4;b++){ g.fillStyle=B.sky[b]; g.fillRect(0,bands[b],SW,bands[b+1]-bands[b]);
+    if(b<3){ g.fillStyle=B.sky[b+1]; for(let y=bands[b+1]-4;y<bands[b+1];y++) for(let x=(y%2);x<SW;x+=2) if(y>=bands[b+1]-2 || (x+y)%4===0) g.fillRect(x,y,1,1); } }
+  for(let i=0;i<40;i++){ g.fillStyle=hsh(i)>.6?'#fff':'#9a8ac8'; g.fillRect(Math.floor(hsh(i*3)*SW),Math.floor(hsh(i*7)*60),1,1); }
+  // halftone ring around moon
+  const mx=152, my=30, mr=17;
+  g.fillStyle=B.dot; for(let y=my-34;y<my+34;y+=3) for(let x=mx-34;x<mx+34;x+=3){ const d=Math.hypot(x-mx,y-my); if(d>mr+2 && d<34 && hsh(x*13+y)>(d-mr)/18) g.fillRect(x,y,1,1); }
+  for(let y=-mr;y<=mr;y++){ const w=Math.floor(Math.sqrt(mr*mr-y*y)); g.fillStyle=B.moon; g.fillRect(mx-w,my+y,w*2+1,1); }
+  g.fillStyle=B.moonD; [[-6,-5,4],[5,3,3],[-2,8,2],[8,-8,2]].forEach(([dx,dy,r])=>{ for(let y=-r;y<=r;y++){ const w=Math.floor(Math.sqrt(r*r-y*y)); g.fillRect(mx+dx-w,my+dy+y,w*2+1,1); } });
+  // far casario (scroll 0.3)
+  const o1=Math.floor(scroll*0.3);
+  for(let i=-1;i<9;i++){ const bi=Math.floor(o1/30)+i; const x=bi*30-o1; const h=40+Math.floor(hsh(bi)*24);
+    g.fillStyle=B.bld; g.fillRect(x,SGROUND-h,29,h); g.fillRect(x+2,SGROUND-h-3,25,3);
+    if(hsh(bi+5)>.5){ g.fillRect(x+11,SGROUND-h-9,7,6); g.fillRect(x+13,SGROUND-h-12,3,3); }
+    for(let wy=0;wy<3;wy++) for(let wx=0;wx<3;wx++){ const lit=hsh(bi*11+wx+wy*5)>.72; g.fillStyle=lit?B.win:B.bld2; g.fillRect(x+4+wx*8,SGROUND-h+6+wy*11,4,6); } }
+  // lamps (scroll 0.7)
+  const o2=Math.floor(scroll*0.7);
+  for(let i=-1;i<3;i++){ const li=Math.floor(o2/110)+i; const x=li*110-o2+60;
+    g.fillStyle='#120a1c'; g.fillRect(x,SGROUND-58,2,58); g.fillRect(x,SGROUND-58,10,2); g.fillRect(x+8,SGROUND-57,4,3);
+    const fl=0.16+Math.sin(t*3+li)*0.02; g.fillStyle=B.lamp+fl+')'; g.beginPath(); g.moveTo(x+8,SGROUND-54); g.lineTo(x-6,SGROUND); g.lineTo(x+26,SGROUND); g.closePath(); g.fill(); }
+  // ground: pedra portuguesa
+  const o3=Math.floor(scroll);
+  g.fillStyle=B.ground[0]; g.fillRect(0,SGROUND,SW,SH-SGROUND); g.fillStyle='#120a1c'; g.fillRect(0,SGROUND,SW,1);
+  g.fillStyle=B.ground[1]; for(let y=SGROUND+2;y<SH;y+=3) for(let x=0;x<SW;x++){ const wx=(x+o3)%24; if(Math.abs(Math.sin((wx/24)*Math.PI*2)*2+ (y-SGROUND)%6-3)<0.8) g.fillRect(x,y,1,1); }
+  g.fillStyle=B.ground[2]; for(let x=-(o3%9);x<SW;x+=9) g.fillRect(x,SGROUND+1,1,SH-SGROUND);
+}
+
+
+const S={form:'normal', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, tears:[], ghosts:[], zz:0};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+let last=performance.now(), T=0;
+const HITS={2:1,5:1};
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=CHOR.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); updStrip(); } }
+  if(S.anim==='walk' && S.playing){ S.scroll+=dt*(S.slow?20:40); S.zz+=dt*(S.slow?2:4); }
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+function draw(dt){
+  drawBG(g,S.form==='furia'?'plenilunar':'comum',S.scroll,T);
+  const cv=CHOR.frame(S.form,S.anim,S.fi,S.step), zy=S.anim==='walk'?Math.round(Math.sin(S.zz)*5):0, X=Math.round(SW/2-CHOR.AX-20), Y=SGROUND-GROUND+zy;
+  if(S.form==='furia' && S.anim==='walk' && S.playing && Math.random()<0.5) S.ghosts.push({cv,x:X-6,y:Y,t:0});
+  S.ghosts.forEach(gh=>{ gh.t+=dt; gh.x-=dt*40; g.save(); g.globalAlpha=Math.max(0,0.35-gh.t*0.8); g.filter='sepia(1) saturate(10) hue-rotate(-38deg) brightness(.9)'; g.drawImage(gh.cv,Math.round(gh.x),gh.y); g.restore(); }); S.ghosts=S.ghosts.filter(gh=>gh.t<0.45);
+  if(S.form==='furia' && S.anim==='walk'){ g.fillStyle='rgba(200,20,40,.55)'; for(let x=0;x<X+CHOR.AX;x+=2) if(Math.sin(x*0.7+S.scroll)>-.3) g.fillRect(x,SGROUND+1+Math.round(Math.sin(x*0.13+S.zz)*2),2,2); }
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-2;y<=2;y++){ const w=Math.floor(Math.sqrt(1-(y/3)**2)*(S.anim==='idle'?24:18)); g.fillRect(X+CHOR.AX-w+4,SGROUND+y+1,w*2,1); }
+  g.drawImage(cv,X,Y);
+  const e=cv._eye;
+  if(S.step>=5) glow(X+e.x,Y+e.y,6,S.form==='furia'?'rgba(255,40,40,.75)':'rgba(220,240,255,.6)');
+  if(S.anim==='idle' && S.playing && Math.random()<0.12) S.tears.push({x:X+e.x+(Math.random()-.5)*2,y:Y+e.y+4,v:0});
+  S.tears.forEach(t=>{ t.v+=dt*120; t.y+=t.v*dt; g.fillStyle=S.form==='furia'?'#8a0a14':'#1a1a2e'; g.fillRect(Math.round(t.x),Math.round(t.y),1,2); }); S.tears=S.tears.filter(t=>t.y<SGROUND);
+  if(S.anim==='attack' && HITS[S.fi] && S.step>=3){ const h=cv._hand; g.fillStyle='#fff'; for(let k=0;k<3;k++) for(let r=0;r<18;r++) g.fillRect(Math.round(X+h.x-4+r*0.6+k*4),Math.round(Y+h.y-10+r),1,1); }
+  if(S.anim==='idle' && (S.fi===1||S.fi===4)) setFx('bubble','snif…',X+e.x+14,Y+e.y-22);
+  else if(S.anim==='rise' && S.fi>=1 && S.fi<=2) setFx('bubble','!',X+e.x+12,Y+e.y-20);
+  else if(S.anim==='attack' && HITS[S.fi]) setFx('burst','SHRRK!',X+cv._hand.x+16,Y+cv._hand.y-14);
+  else if(S.anim==='hurt' && S.fi<=1) setFx('burst','KYAAA!',X+44,Y+30);
+  else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${CHOR.ANIMS[S.anim].n} · ${CHOR.ANIMS[S.anim].dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,128,128); r1.drawImage(cv,0,0);
+  const r2=document.getElementById('r2').getContext('2d'); r2.clearRect(0,0,90,90); PIX.setK(0.7); r2.drawImage(CHOR.frame(S.form,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(CHOR.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('anims','anim',S.anim); buildStrip(); });
+document.querySelectorAll('#forms button').forEach(b=>b.onclick=()=>{ S.form=b.dataset.form; press('forms','form',S.form); buildStrip(); buildRamps(); after(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%CHOR.ANIMS[S.anim].n; updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=CHOR.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(CHOR.frame(S.form,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms${S.anim==='attack'&&HITS[i]?' ✦':''}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=CHOR.mats(S.form); document.getElementById('formName').textContent=S.form==='furia'?'Fúria':'Normal';
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(CHOR.NAMES).map(k=>`<div class="ramp"><span>${CHOR.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('')+
+  `<div class="ramp"><span>Contorno · Lua</span><i style="background:${PIX.OUTLINE}"></i><i style="background:${CHOR.RIM[S.form]}"></i><span></span><span></span></div>`; }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(CHOR.frame(S.form,'walk',0,5),0,0); }
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>

@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bestiário da Lua de Sangue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Livro de couro escuro; cartas de papel envelhecido em grade; vermelho-sangue como acento, prata (Enluarado) e ouro (Plenilunar) para as variantes */
+  --bg:#140b0d;
+  --leather:#241319;
+  --leather-2:#321b23;
+  --paper:#e4d9c3;
+  --ink:#2a1b1b;
+  --text:#efe4d6;
+  --muted:#ab9a91;
+  --blood:#d3283d;
+  --moon:#a9cdea;
+  --gold:#e5b443;
+  --line:rgba(239,228,214,.13);
+  --f-display:"Pixelify Sans","Courier New",monospace;
+  --f-body:"Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:var(--f-body);font-size:16px;line-height:1.45;transition:background .6s}
+body.moon{background:radial-gradient(ellipse at 50% -10%,#4a0d16 0,#1c0a0d 55%,#120708 100%) fixed}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,.card:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 16px 60px;display:flex;flex-direction:column;gap:18px}
+
+/* Cabeçalho */
+.head{display:flex;flex-wrap:wrap;align-items:center;gap:14px;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px}
+.moonic{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 38% 35%,#ff7a6a,#b0142a 60%,#5a0812);box-shadow:0 0 18px #d3283d88;flex:none}
+h1{font-family:var(--f-display);font-weight:700;font-size:28px;line-height:1;margin:0;letter-spacing:.5px;text-wrap:balance}
+.brand p{margin:3px 0 0;color:var(--muted);font-size:14px}
+.wallet{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:flex;align-items:center;gap:6px;background:var(--leather);border:1px solid var(--line);border-radius:999px;padding:4px 10px 4px 6px;font-size:14px;font-variant-numeric:tabular-nums}
+.chip i{width:16px;height:16px;border-radius:4px;display:inline-block;flex:none}
+.chip b{font-weight:600}
+.chip.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.15);border-color:var(--gold)}}
+
+/* Progresso */
+.book{background:linear-gradient(180deg,var(--leather-2),var(--leather));border:1px solid var(--line);border-radius:14px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
+.prog-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.prog-top h2{font-family:var(--f-display);font-size:18px;margin:0;font-weight:600}
+.prog-top span{color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums}
+.bar{position:relative;height:12px;background:#0d0607;border-radius:6px;border:1px solid var(--line);margin-bottom:34px}
+.bar .fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#8a1424,var(--blood));border-radius:6px;transition:width .6s}
+.mile{position:absolute;top:-5px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;width:84px}
+.mile .pin{width:20px;height:20px;border-radius:50%;background:#0d0607;border:2px solid var(--muted);display:grid;place-items:center;font-size:11px;font-family:var(--f-display)}
+.mile.got .pin{background:var(--gold);border-color:var(--gold);color:#2a1b1b}
+.mile small{font-size:11px;line-height:1.15;color:var(--muted);text-align:center}
+.mile.got small{color:var(--gold)}
+.mile:last-child{transform:translateX(-80%)}
+.know{font-size:14px;color:var(--muted)}
+.know b{color:var(--text);font-weight:600}
+
+/* Abas */
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.tab{position:relative;background:var(--leather);border:1px solid var(--line);border-radius:10px 10px 4px 4px;padding:7px 12px;font-size:15px;font-weight:600;display:flex;gap:7px;align-items:center}
+.tab span{color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums}
+.tab[aria-selected="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.tab[aria-selected="true"] span{color:#6b5a52}
+.tab .dot{width:8px;height:8px;border-radius:50%;background:var(--blood);box-shadow:0 0 6px var(--blood)}
+
+/* Grade de cartas */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:16px;perspective:1000px}
+.sec-title{grid-column:1/-1;font-family:var(--f-display);font-size:16px;color:var(--muted);margin:6px 0 -4px;display:flex;gap:8px;align-items:center}
+.sec-title::after{content:"";flex:1;height:1px;background:var(--line)}
+.card{position:relative;aspect-ratio:5/7.4;border-radius:12px;background:var(--paper);color:var(--ink);padding:8px;display:flex;flex-direction:column;gap:4px;box-shadow:0 2px 0 #0007,0 10px 20px #0008;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:pan-y;transition:transform .14s ease-in}
+.card::before{content:"";position:absolute;inset:4px;border:1px solid rgba(42,27,27,.3);border-radius:9px;pointer-events:none}
+.card.flip-out{transform:rotateY(90deg)}
+.card.flip-in{transform:rotateY(-90deg);transition:none}
+.card.v-plenilunar{box-shadow:0 0 0 2px var(--gold),0 0 22px var(--glow),0 10px 20px #0008;animation:plen 2.4s ease-in-out infinite}
+.card.v-enluarado{box-shadow:0 0 0 2px var(--glow),0 0 16px var(--glow),0 10px 20px #0008}
+.card.v-furia{box-shadow:0 0 0 2px var(--blood),0 0 18px #d3283d88,0 10px 20px #0008}
+@keyframes plen{50%{box-shadow:0 0 0 2px var(--gold),0 0 34px var(--glow),0 10px 20px #0008}}
+.corner{position:absolute;font-family:var(--f-display);font-size:12px;line-height:1;display:flex;flex-direction:column;align-items:center;gap:1px;z-index:2}
+.corner i{font-style:normal;color:var(--blood);font-size:13px}
+.corner.tl{top:9px;left:10px}
+.corner.br{bottom:9px;right:10px;transform:rotate(180deg)}
+.ribbon{align-self:center;margin-top:2px;font-family:var(--f-display);font-size:11px;letter-spacing:.8px;text-transform:uppercase;padding:2px 9px;border-radius:999px;background:#cbbfa6;color:#4a3a33}
+.v-enluarado .ribbon{background:var(--bg2);color:#fff}
+.v-plenilunar .ribbon{background:var(--bg1);color:var(--gold)}
+.v-furia .ribbon{background:var(--blood);color:#fff}
+.portrait{position:relative;flex:1;min-height:0;margin:0 8px;border-radius:8px;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,#d3c7ac,#a3967a)}
+.portrait img{height:92%;max-width:100%;image-rendering:pixelated;position:relative;z-index:1}
+.f-enluarado{background:radial-gradient(circle at 74% 18%,#ffffff 0 6%,var(--glow) 7%,transparent 15%),linear-gradient(var(--bg1),var(--bg2))}
+.f-enluarado img{filter:drop-shadow(0 0 4px var(--glow))}
+.f-enluarado::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 35%,#ffffff40 50%,transparent 65%);background-size:250% 100%;animation:shim 3s linear infinite;z-index:2;pointer-events:none}
+@keyframes shim{from{background-position:120% 0}to{background-position:-130% 0}}
+.f-plenilunar{background:radial-gradient(circle at 72% 20%,#ff3b3b 0 9%,var(--glow) 10%,transparent 19%),linear-gradient(var(--bg1),var(--bg2))}
+.f-plenilunar img{filter:drop-shadow(0 0 5px var(--glow)) drop-shadow(0 0 1px var(--gold))}
+.f-furia{background:linear-gradient(#330909,#7c1a12)}
+.f-furia img{filter:drop-shadow(0 0 4px #ff5a3a)}
+.f-unk{background:linear-gradient(#5f544a,#3b322c)}
+.f-unk img{filter:none;opacity:.95}
+.qmark{position:absolute;z-index:3;font-family:var(--f-display);font-size:42px;color:#e4d9c3cc;text-shadow:0 2px 0 #0008}
+.card h3{margin:0;text-align:center;font-family:var(--f-display);font-weight:600;font-size:17px;line-height:1.1;text-wrap:balance}
+.meta{display:flex;justify-content:center;align-items:center;gap:8px;font-size:12px;color:#6b5a52;font-variant-numeric:tabular-nums}
+.dots{display:flex;gap:4px}
+.dots span{width:9px;height:9px;border-radius:50%;border:1.5px solid #8d7d70;background:transparent}
+.dots span.on{background:#6b5a52;border-color:#6b5a52}
+.dots span.new{background:var(--blood);border-color:var(--blood)}
+.dots span.cur{outline:1.5px solid var(--ink);outline-offset:1px}
+.read{margin:2px 8px 18px;border:0;border-radius:7px;background:var(--ink);color:var(--paper);font-weight:600;font-size:13px;padding:5px 6px}
+.read:hover{background:#4a2a2c}
+.badge-new{position:absolute;top:-7px;right:-7px;z-index:4;background:var(--blood);color:#fff;font-family:var(--f-display);font-size:11px;letter-spacing:1px;padding:3px 7px;border-radius:999px;box-shadow:0 0 0 2px var(--bg),0 0 12px #d3283d;animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.seal{position:absolute;z-index:4;top:-9px;left:-9px;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle,#f2cf6a,#b8861e);color:#3a2408;display:grid;place-items:center;text-align:center;font-family:var(--f-display);font-size:8px;line-height:1.05;letter-spacing:.3px;transform:rotate(-14deg);box-shadow:0 0 0 2px var(--bg),0 4px 10px #0009}
+.seal b{display:block;font-size:15px}
+.card.unknown h3{color:#7d6d64}
+
+/* Painel de teste */
+.lab{background:#0f0809;border:1px dashed #5a4048;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.lab h2{font-family:var(--f-display);font-size:17px;margin:0;font-weight:600}
+.lab p{margin:0;color:var(--muted);font-size:14px;max-width:68ch}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{background:var(--leather-2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-weight:600;font-size:14px}
+.btn:hover{border-color:var(--muted)}
+.btn.warn{color:#ff8d98}
+.tog{display:flex;align-items:center;gap:7px;font-size:15px;background:var(--leather);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+.tog input{accent-color:var(--blood);width:16px;height:16px}
+.log{list-style:none;margin:0;padding:0;font-size:14px;display:flex;flex-direction:column;gap:3px;color:var(--muted);font-variant-numeric:tabular-nums}
+.log li b{color:var(--text);font-weight:600}
+.log li em{font-style:normal;color:var(--blood);font-weight:600}
+
+/* Modal (página do livro) */
+.overlay{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:14px;z-index:50}
+.overlay.open{display:flex}
+.sheet{position:relative;background:var(--paper);color:var(--ink);border-radius:14px;max-width:860px;width:100%;max-height:100%;overflow:auto;display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);box-shadow:0 20px 60px #000}
+.sheet::before{content:"";position:absolute;left:calc(min(300px,40%));top:14px;bottom:14px;width:1px;background:rgba(42,27,27,.2)}
+.pg{padding:18px;display:flex;flex-direction:column;gap:10px}
+.pg.left .portrait{flex:none;aspect-ratio:4/5;margin:0}
+.ftabs{display:flex;gap:6px;flex-wrap:wrap}
+.ftab{flex:1;min-width:76px;border:1.5px solid #b3a58c;background:transparent;border-radius:8px;padding:5px 6px;font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center;gap:5px;color:var(--ink)}
+.ftab[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.ftab .nd{width:7px;height:7px;border-radius:50%;background:var(--blood)}
+.ftab.unk{color:#8a7a70}
+.kills{font-size:14px;color:#6b5a52;text-align:center;font-variant-numeric:tabular-nums}
+.eyebrow{margin:0;font-size:13px;color:#7a6a60;font-weight:600;letter-spacing:.5px;text-transform:uppercase;font-variant-numeric:tabular-nums}
+.sheet h2{margin:0;font-family:var(--f-display);font-size:30px;line-height:1.05;font-weight:700;text-wrap:balance}
+.subt{margin:-4px 0 0;color:#8a1a28;font-weight:600}
+.desc{margin:0;font-size:17px;max-width:62ch}
+.facts{display:grid;grid-template-columns:max-content 1fr;gap:5px 12px;margin:0;font-size:15px}
+.facts dt{font-weight:700;color:#5a4840}
+.facts dd{margin:0}
+.stats{display:grid;grid-template-columns:max-content 1fr;gap:4px 10px;align-items:center;font-size:14px}
+.segs{display:flex;gap:3px}
+.segs i{width:18px;height:8px;border-radius:2px;background:#cbbfa6}
+.segs i.on{background:var(--ink)}
+.box{border-radius:10px;padding:9px 12px;font-size:15px;border:1.5px solid #c6b89e;display:flex;flex-direction:column;gap:3px}
+.box b{font-weight:700}
+.box.enl{background:var(--bg1);color:#fff;border-color:var(--glow)}
+.box.plen{background:var(--bg1);color:#f3d9a0;border-color:var(--gold)}
+.box.fur{background:#5a1010;color:#ffe2dc;border-color:var(--blood)}
+.box.rew{background:#efe6d3}
+.box.rew.got{background:#2a1b1b;color:var(--gold);border-color:#2a1b1b;animation:pop .45s}
+@keyframes pop{0%{transform:scale(.9)}60%{transform:scale(1.04)}}
+.box.done{background:#f3e0a6;border-color:var(--gold)}
+.close{position:absolute;top:10px;right:10px;z-index:3;border:0;background:var(--ink);color:var(--paper);border-radius:8px;padding:5px 10px;font-weight:600;font-size:14px}
+.sim{align-self:flex-start;border:1.5px dashed #8a7a70;background:transparent;border-radius:8px;padding:6px 10px;font-weight:600;font-size:14px;color:var(--ink)}
+
+/* Toasts */
+.toasts{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);display:flex;flex-direction:column;gap:6px;align-items:center;z-index:80;pointer-events:none;width:min(92vw,420px)}
+.toast{background:#1b0e11;border:1px solid var(--gold);color:var(--text);border-radius:10px;padding:8px 14px;font-size:15px;box-shadow:0 8px 24px #000a;animation:tin .3s ease-out;text-align:center}
+.toast b{color:var(--gold)}
+.toast.red{border-color:var(--blood)}
+.toast.out{opacity:0;transform:translateY(8px);transition:.3s}
+@keyframes tin{from{opacity:0;transform:translateY(12px) scale(.96)}}
+
+@media (max-width:640px){
+  .sheet{grid-template-columns:1fr}
+  .sheet::before{display:none}
+  .pg.left{padding-bottom:0}
+  .pg.left .portrait{aspect-ratio:16/11}
+  h1{font-size:24px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .mile small{font-size:10px}
+  .mile{width:70px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <div class="brand">
+      <div class="moonic" aria-hidden="true"></div>
+      <div>
+        <h1>Bestiário da Lua de Sangue</h1>
+        <p>Toque na carta para trocar a forma. Ler um registro novo dá recompensa.</p>
+      </div>
+    </div>
+    <div class="wallet" id="wallet" aria-label="Recursos"></div>
+  </header>
+
+  <section class="book" aria-labelledby="prog-h">
+    <div class="prog-top">
+      <h2 id="prog-h">Livro preenchido</h2>
+      <span id="prog-txt"></span>
+    </div>
+    <div class="bar" id="bar"><div class="fill" id="fill"></div></div>
+    <div class="know" id="know"></div>
+  </section>
+
+  <nav class="tabs" role="tablist" id="tabs" aria-label="Categorias"></nav>
+  <main class="grid" id="grid"></main>
+
+  <section class="lab" aria-labelledby="lab-h">
+    <h2 id="lab-h">Painel de teste</h2>
+    <p>Simula abates para ver o livro enchendo. Chance por zumbi comum: Enluarado 2% fora da lua; na Lua de Sangue, Enluarado 8% e Plenilunar 3%. Chefes registram as formas Normal e Fúria juntas.</p>
+    <div class="row">
+      <label class="tog"><input type="checkbox" id="moon"> Lua de Sangue ativa</label>
+      <label class="tog"><input type="checkbox" id="boost"> Chances ×10</label>
+    </div>
+    <div class="row">
+      <button class="btn" id="k10">Derrotar 10 zumbis comuns</button>
+      <button class="btn" id="kmini">Derrotar um mini boss</button>
+      <button class="btn" id="kboss">Derrotar um boss</button>
+      <button class="btn" id="restore">Voltar ao exemplo</button>
+      <button class="btn warn" id="wipe">Zerar livro</button>
+    </div>
+    <ol class="log" id="log" aria-live="polite"></ol>
+  </section>
+</div>
+
+<div class="overlay" id="ov" role="dialog" aria-modal="true" aria-labelledby="m-name">
+  <div class="sheet" id="sheet"></div>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+/* ---------- Dados ---------- */
+const BONE='#efe6cf', BONED='#b9ad92', RUNE='#ff4a3a', SHADOW='#0b0606';
+const FORMS={comum:['comum','enluarado','plenilunar'],mini:['normal','furia'],boss:['normal','furia']};
+const FL={comum:'Comum',enluarado:'Enluarado',plenilunar:'Plenilunar',normal:'Normal',furia:'Fúria'};
+const CAT={comum:{label:'Comum',plural:'Zumbis comuns',suit:'☠'},mini:{label:'Mini boss',plural:'Mini bosses',suit:'✶'},boss:{label:'Boss',plural:'Bosses',suit:'☾'}};
+
+const SP=[
+ {id:'errante',num:'001',cat:'comum',name:'Errante',refs:'Zumbi clássico (Resident Evil, filmes de Romero)',
+  desc:'O morto comum. Anda em bando, devagar, atrás de qualquer barulho. Sozinho é fácil; em grupo, cerca você.',
+  comp:'Persegue o herói a 60% da velocidade dele e vai até a origem de qualquer barulho (VAS-06).',
+  fraq:'Golpes em sequência. Só reage a som e a visão.',onde:'Todas as regiões',stats:[2,2,2],
+  plen:'Coroa de ossos e costelas para fora, como armadura.',pal:{}},
+ {id:'rastejante',num:'002',cat:'comum',name:'Rastejante',refs:'Crawler (Resident Evil, RE7)',
+  desc:'Perdeu as pernas, mas não a fome. Fica deitado entre carros e lixo como se fosse só mais um corpo.',
+  comp:'Finge de morto até o herói passar a 1 tile; aí agarra o tornozelo e prende por 1 s.',
+  fraq:'É baixo e lento para virar: o golpe sempre pega.',onde:'Ruas com carros, lixões, escombros',stats:[1,2,1],
+  plen:'Espinhos de osso nas costas e uma corrente arrastando.',pal:{cloth:'#5c5045'}},
+ {id:'corredor',num:'003',cat:'comum',name:'Corredor',refs:'Crimson Head (RE Remake), infectados de Dying Light',
+  desc:'Recém-transformado, o corpo ainda funciona. Corre tanto quanto você.',
+  comp:'Corre direto no herói. Depois de errar o ataque, para 0,6 s para se recuperar.',
+  fraq:'Pouca vida. Desvie e acerte enquanto ele se recupera.',onde:'Campos abertos e avenidas',stats:[1,2,5],
+  plen:'Garras compridas e a pele em carne viva.',pal:{cloth:'#3f5a7a',clothD:'#2c3f57',skin:'#97ab7c'}},
+ {id:'cuspidor',num:'004',cat:'comum',name:'Cuspidor',refs:'Spitter (Left 4 Dead 2)',
+  desc:'O pescoço inchou de ácido. Prefere ficar longe e deixar o chão fazer o trabalho.',
+  comp:'Mantém 4 tiles de distância e cospe uma bola que vira poça de ácido por 4 s. Quem pisa fica envenenado (HP-09).',
+  fraq:'Não aguenta corpo a corpo. Feche a distância.',onde:'Telhados, píer, praças',stats:[2,3,2],
+  plen:'Bolsas de ácido brilhando no pescoço; cospe 3 bolas em leque.',pal:{cloth:'#5e4a63',clothD:'#40324a'}},
+ {id:'gritador',num:'005',cat:'comum',name:'Gritador',refs:'Screamer (Left 4 Dead, cortado), Snitch (Back 4 Blood), Screamer (State of Decay)',
+  desc:'Ainda veste a camisa de força do hospital. Não luta: chama quem luta.',
+  comp:'Foge do herói. A cada 6 s grita: 3 zumbis entram pelas bordas da região e todos ficam alertas.',
+  fraq:'Pouca vida e foge devagar. Mate primeiro.',onde:'Hospitais, prédios, regiões de horda',stats:[1,1,3],
+  plen:'Boca rasgada até o peito; o grito também atordoa o herói por 0,5 s.',pal:{cloth:'#d6cfbd',clothD:'#a59c87',skin:'#a2ad86'}},
+ {id:'barrigudo',num:'006',cat:'comum',name:'Barrigudo',refs:'Boomer (Left 4 Dead), Bloater (The Last of Us)',
+  desc:'Inchado de gás e podridão. Estourar ele perto de você é má ideia; perto dos outros, ótima.',
+  comp:'Anda devagar. Ao morrer explode: 15 de dano num raio de 1,5 tile e mata os zumbis comuns no raio.',
+  fraq:'Ataque de longe, ou espere ele entrar no meio do bando antes de matar.',onde:'Mercados, cozinhas, esgoto',stats:[3,4,1],
+  plen:'Runas pulsando na barriga; a explosão solta 3 bolhas que estouram em sequência.',pal:{cloth:'#b3a98f',clothD:'#8a8169',skin:'#93a46c',skinD:'#6a7a4c'}},
+ {id:'estalador',num:'007',cat:'comum',name:'Estalador',refs:'Clicker (The Last of Us), Licker (Resident Evil 2)',
+  desc:'Fungos tomaram os olhos. É cego, mas ouve tudo e acha você pelo estalo.',
+  comp:'Ignora o herói parado ou andando devagar. Vasculhar, errar um baú ou correr perto atrai na hora. O agarrão tira 35.',
+  fraq:'Silêncio. Chegue por trás devagar e ataque primeiro.',onde:'Prédios escuros, regiões de escuridão (CAM-09)',stats:[3,5,3],
+  plen:'As placas de fungo viram chifres; ouve o dobro da distância.',pal:{cloth:'#4b4237',clothD:'#332c25',skin:'#8a9468'}},
+ {id:'blindado',num:'008',cat:'comum',name:'Blindado',refs:'Riot (Left 4 Dead 2), tropa de choque de Dying Light',
+  desc:'Era da tropa de choque. O equipamento ainda funciona melhor do que ele.',
+  comp:'De frente o escudo bloqueia os golpes. Só toma dano por trás, ou depois de 3 golpes no escudo, que cai.',
+  fraq:'Dê a volta. Barril explosivo arranca o escudo.',onde:'Esplanada, delegacias, barreiras',stats:[4,2,2],
+  plen:'Placas douradas com runas no colete e no escudo; o escudo aguenta 5 golpes.',pal:{cloth:'#2f3640',clothD:'#20252c',pants:'#2a2f38'}},
+ {id:'saltador',num:'009',cat:'comum',name:'Saltador',refs:'Hunter (Left 4 Dead), Jockey (Left 4 Dead 2)',
+  desc:'Fica agachado nas sombras e salta de longe. Quando cai em cima, não solta.',
+  comp:'Agacha 0,8 s (aviso), salta até 4 tiles e prende o herói. Aperte a ação várias vezes para se soltar.',
+  fraq:'Fica exposto depois de um salto errado.',onde:'Becos, telhados, mata fechada',stats:[2,3,4],
+  plen:'O capuz rasgado vira uma juba de osso; salta duas vezes seguidas.',pal:{cloth:'#56603f',clothD:'#3d452c'}},
+ {id:'brutamonte',num:'M01',cat:'mini',name:'Brutamonte',refs:'Tank (Left 4 Dead), Tyrant (Resident Evil)',
+  desc:'Músculo empilhado sobre músculo. Derruba paredes, carros e qualquer um no caminho.',
+  comp:'Investida em linha reta com aviso de 0,8 s e arremesso de entulho a cada 5 s.',
+  fraq:'Se errar a investida, bate na parede e fica atordoado 1,5 s.',onde:'Regiões de mini boss (a porta tranca)',stats:[5,5,2],
+  furia:'Veias vermelhas e vapor; a investida encadeia duas vezes.',pal:{skin:'#7f9364',skinD:'#5a6b45',pants:'#3b3f4c'}},
+ {id:'chorona',num:'M02',cat:'mini',name:'A Chorona',refs:'Witch (Left 4 Dead)',
+  desc:'Sentada no escuro, chorando. Não ataca ninguém, até alguém incomodar.',
+  comp:'Lanterna, barulho ou chegar a 2 tiles a acordam. Acordada, persegue só o herói, muito rápida, com garras de 30 de dano.',
+  fraq:'Dá para evitar passando longe e em silêncio. Se for lutar, acerte antes de ela levantar (dano dobrado).',onde:'Regiões de escuridão e prédios abandonados',stats:[3,5,5],
+  furia:'O cabelo se ergue, o choro vira grito e ela deixa um rastro vermelho.',pal:{cloth:'#d3cdbd',clothD:'#a8a190',skin:'#b9c2a4',skinD:'#8d977a',hair:'#151313'}},
+ {id:'acougueiro',num:'B01',cat:'boss',name:'O Açougueiro',title:'Senhor da Lua de Sangue',refs:'Boss da demo (BOSS-01 a 13); Executioner (Resident Evil 5)',
+  desc:'Ninguém sabe de onde veio. Só aparece quando a lua fica vermelha.',
+  comp:'Pancada a cada 2,5 s: círculo de aviso de 0,8 s, depois 20 de dano num raio de 2,2 tiles. Fica 0,6 s vulnerável.',
+  fraq:'Ataque logo depois da Pancada.',onde:'Arena do boss',stats:[5,4,2],
+  furia:'Abaixo de 30% da vida: tinta vermelha, vapor, +50% de velocidade e Pancada de 25 (BOSS-10).',pal:{apron:'#cfc5ae',skin:'#8c9a6e'}},
+ {id:'estivador',num:'B02',cat:'boss',name:'O Estivador',title:'Boss do Marco Zero',refs:'Mapa Marco Zero; Nemesis (Resident Evil 3)',
+  desc:'Trabalhou a vida inteira no cais do Recife. Ainda carrega peso; agora, gente.',
+  comp:'O gancho de carga puxa o herói a até 4 tiles. Arremessa caixotes que ficam no chão como obstáculo.',
+  fraq:'Use os caixotes como cobertura; quebrados, soltam loot.',onde:'Arena no cais do Marco Zero',stats:[5,4,3],
+  furia:'Rasga a camisa e o gancho pega fogo; puxa duas vezes seguidas.',pal:{cloth:'#3e6b8a',clothD:'#2a4c64'}}
+];
+const BYID=Object.fromEntries(SP.map(s=>[s.id,s]));
+
+const REW={comum:{xp:10,sucata:1},enluarado:{xp:30,bronze:1},plenilunar:{xp:80,prata:1},
+  mini_normal:{xp:100,prata:1},mini_furia:{xp:60,pecas:3},boss_normal:{xp:250,ouro:1},boss_furia:{xp:150,frag:1}};
+const rewardOf=(sp,f)=>sp.cat==='comum'?REW[f]:REW[sp.cat+'_'+f];
+const ITEM={xp:'XP',sucata:'Sucata',pecas:'Peças',bronze:'Chave de bronze',prata:'Chave de prata',ouro:'Chave de ouro',frag:'Fragmento lunar',amuleto:'Amuleto do Bestiário'};
+const fmtRew=r=>Object.entries(r).map(([k,v])=>k==='xp'?`+${v} XP`:`+${v} ${ITEM[k]}`).join(' · ');
+const MILES=[{p:25,r:{prata:1},t:'Chave de prata'},{p:50,r:{ouro:1},t:'Chave de ouro'},{p:75,r:{frag:2},t:'2 Fragmentos'},{p:100,r:{amuleto:1},t:'Amuleto'}];
+const WALLET=[['xp','XP','#d3283d'],['sucata','Sucata','#8d8a84'],['pecas','Peças','#6e7c8c'],['bronze','Bronze','#b8733a'],['prata','Prata','#cfd6de'],['ouro','Ouro','#e5b443'],['frag','Fragmento','#ff5a6a']];
+const TOTAL=SP.reduce((n,s)=>n+FORMS[s.cat].length,0);
+
+/* ---------- Pixel art (32×40) ---------- */
+const DEF={skin:'#86a06d',skinD:'#5d7550',cloth:'#6a5440',clothD:'#463729',pants:'#3c4456',pantsD:'#2c3241',hair:'#2d2420',eye:'#e9d77d',sock:'#1d1414',mouth:'#3b0d10',blood:'#7d1d1f',shoe:'#1b1412',acid:'#9bd13a',acidD:'#5f8a1c',metal:'#7e8792',metalD:'#4d545e',visor:'#1f2d38',fungus:'#a68a5c',fungusD:'#6d5636',pus:'#d6c25a',apron:'#c9c0aa',sack:'#8c7752',hat:'#e0a325',rope:'#b49662',stripe:'#d9d3c4'};
+const ENL={skin:'#b6cde2',skinD:'#7f99b3',cloth:'#4b6787',clothD:'#344a63',pants:'#2c3849',pantsD:'#1f2835',hair:'#e3edf6',eye:'#ffffff',mouth:'#2a3b52',blood:'#6d8fb5',acid:'#a8efff',acidD:'#5fb6d6',metal:'#cfdeec',metalD:'#8ea4ba',fungus:'#d7e4f0',fungusD:'#97adc2',pus:'#e9f6ff',visor:'#2b4a66',stripe:'#e6f2ff'};
+const PLEN={skin:'#93363a',skinD:'#5d1d23',cloth:'#2d1618',clothD:'#1b0c0e',pants:'#241112',pantsD:'#170a0b',hair:'#0f0707',eye:'#ffd54d',mouth:'#140404',blood:'#ff3d3d',acid:'#ff6a3a',acidD:'#b8321c',metal:'#e2b041',metalD:'#9a6c1b',fungus:'#5b1c20',fungusD:'#3a0f12',pus:'#ffb84a',visor:'#3a0c0c',stripe:'#e2b041'};
+const FUR={skin:'#a8473f',skinD:'#6d2622',eye:'#ff2b2b',blood:'#ff3d3d'};
+/* Cada espécie tem a sua cor de Enluarado (qualquer tom, diferente do comum)
+   e a sua paleta de Plenilunar (puxa para o escuro/avermelhado, mas varia).
+   bg1/bg2 = fundo do retrato, glow = brilho da carta. */
+const ENLV={
+ errante:{skin:'#b9a3d6',skinD:'#8670a8',cloth:'#4b3a6b',clothD:'#33284c',hair:'#efe6ff',blood:'#7a5aa8',bg1:'#1e1433',bg2:'#4a3570',glow:'#c9a8ff'},
+ rastejante:{skin:'#8fd6c4',skinD:'#5ea392',cloth:'#2f5b57',clothD:'#20403d',hair:'#d9fff5',blood:'#3f8f80',bg1:'#0d2622',bg2:'#2c5c55',glow:'#8ff5dc'},
+ corredor:{skin:'#f0c27a',skinD:'#c08f4a',cloth:'#7a3f8f',clothD:'#552c63',hair:'#fff0c9',stripe:'#ffe9a8',blood:'#b9772e',bg1:'#2e1a08',bg2:'#6b4416',glow:'#ffd27a'},
+ cuspidor:{bg1:'#17233a',bg2:'#3b5476',glow:'#bfe3ff'},
+ gritador:{skin:'#f0b6cf',skinD:'#c07f9c',cloth:'#fbe9f1',clothD:'#d6aec1',hair:'#fff0f6',mouth:'#5a2140',blood:'#c0638c',metal:'#f7d6e5',bg1:'#33122a',bg2:'#7a3462',glow:'#ffb3d9'},
+ barrigudo:{skin:'#e6d86a',skinD:'#b0a23e',cloth:'#5d6b2a',clothD:'#424d1c',hair:'#fffbd0',pus:'#fff7c2',blood:'#a8952a',bg1:'#26240a',bg2:'#5f5a1a',glow:'#fff27a'},
+ estalador:{skin:'#ecebe4',skinD:'#b9b6aa',cloth:'#3d4a5c',clothD:'#2a3442',fungus:'#7fb8ff',fungusD:'#4a7fc4',hair:'#ffffff',blood:'#8aa3c4',bg1:'#111a2a',bg2:'#34465f',glow:'#9fd0ff'},
+ blindado:{skin:'#a7b39a',skinD:'#7b8770',metal:'#6fae7a',metalD:'#447a50',visor:'#123a22',cloth:'#2b3d2f',clothD:'#1d2a20',bg1:'#0c1f12',bg2:'#2a5236',glow:'#8cf0a0'},
+ saltador:{skin:'#7fe0e8',skinD:'#4fa9b3',cloth:'#1f3f6b',clothD:'#152c4c',hair:'#e0fbff',blood:'#3a8fa0',bg1:'#071d2e',bg2:'#155070',glow:'#7ff3ff'}
+};
+const PLV={
+ errante:{bg1:'#24060b',bg2:'#64101b',glow:'#ff5a4a'},
+ rastejante:{skin:'#b0532a',skinD:'#73321a',cloth:'#2e1a12',clothD:'#1c0f0a',blood:'#ff7a2a',metal:'#c9c3b8',metalD:'#7d776c',eye:'#ffe27a',bg1:'#250d04',bg2:'#6a2a0e',glow:'#ff8a3a'},
+ corredor:{skin:'#c23a3a',skinD:'#7d1e22',cloth:'#1a1a1f',clothD:'#0f0f12',stripe:'#ff4a4a',eye:'#ffffff',bg1:'#1d0405',bg2:'#5e0d10',glow:'#ff3b3b'},
+ cuspidor:{skin:'#8a2e5c',skinD:'#561b3a',cloth:'#1e0e1a',clothD:'#120810',acid:'#ff4fd1',acidD:'#a12384',eye:'#ffe27a',bg1:'#1f0617',bg2:'#5c1446',glow:'#ff5ad8'},
+ gritador:{skin:'#3a2a2e',skinD:'#22181b',cloth:'#5c1a1f',clothD:'#3a0f13',mouth:'#000000',eye:'#ff3b3b',blood:'#ff2a2a',metal:'#e2b041',bg1:'#0c0607',bg2:'#3a0c10',glow:'#ff2a2a'},
+ barrigudo:{skin:'#c4562a',skinD:'#86361a',cloth:'#2a1208',clothD:'#1a0b05',pus:'#ffcf3a',eye:'#fff2a0',bg1:'#2a0c02',bg2:'#7a2a08',glow:'#ffa53a'},
+ estalador:{skin:'#5a2a4a',skinD:'#3a1a30',cloth:'#1e0f1a',clothD:'#120910',fungus:'#a0204a',fungusD:'#6a1030',eye:'#ffd54d',bg1:'#160612',bg2:'#4a1238',glow:'#e0407a'},
+ blindado:{skin:'#6b3a3a',skinD:'#452222',cloth:'#141010',clothD:'#0a0808',pants:'#161212',bg1:'#120a06',bg2:'#3e2a0c',glow:'#ffc94a'},
+ saltador:{skin:'#7a1f2a',skinD:'#4a1018',cloth:'#2a0e2e',clothD:'#1a081c',eye:'#ffffff',bg1:'#18061a',bg2:'#4e1236',glow:'#ff4a8a'}
+};
+function vstyle(id,f){const v=f==='enluarado'?ENLV[id]:f==='plenilunar'?PLV[id]:null;return v?`--bg1:${v.bg1};--bg2:${v.bg2};--glow:${v.glow}`:'';}
+function palette(sp,f){
+  const base={...DEF,...sp.pal};
+  if(f==='enluarado')return {...base,...ENL,...(ENLV[sp.id]||{})};
+  if(f==='plenilunar')return {...base,...PLEN,...(PLV[sp.id]||{})};
+  if(f==='furia')return {...base,...FUR};
+  return base;
+}
+const R=(x,X,Y,w,h,c)=>{x.fillStyle=c;x.fillRect(X,Y,w,h);};
+const px=(x,pts,c)=>pts.forEach(([a,b,w=1,h=1])=>R(x,a,b,w,h,c));
+function face(x,p,hx,hy,hw,hh){R(x,hx+1,hy+3,2,2,p.sock);R(x,hx+hw-3,hy+3,2,2,p.sock);R(x,hx+2,hy+4,1,1,p.eye);R(x,hx+hw-3,hy+4,1,1,p.eye);R(x,hx+2,hy+hh-3,hw-4,1,p.mouth);}
+function body(x,p,o={}){
+  const hx=o.hx??12,hy=o.hy??6,hw=o.hw??8,hh=o.hh??8,tx=o.tx??11,ty=o.ty??14,tw=o.tw??10,th=o.th??11,al=o.al??10;
+  if(o.legs!==false){const ly=ty+th;R(x,tx+1,ly,3,37-ly,p.pants);R(x,tx+tw-4,ly,3,37-ly,p.pants);R(x,tx+1,ly,1,37-ly,p.pantsD);R(x,tx,37,4,2,p.shoe);R(x,tx+tw-4,37,4,2,p.shoe);}
+  R(x,tx-3,ty+1,3,al,p.skin);R(x,tx+tw,ty+1,3,al,p.skin);R(x,tx-3,ty+1,3,3,p.cloth);R(x,tx+tw,ty+1,3,3,p.cloth);R(x,tx-3,ty+al,3,1,p.skinD);R(x,tx+tw,ty+al,3,1,p.skinD);
+  R(x,tx,ty,tw,th,p.cloth);R(x,tx,ty+th-3,tw,3,p.clothD);
+  R(x,hx+2,hy+hh,hw-4,ty-hy-hh,p.skinD);
+  R(x,hx,hy,hw,hh,p.skin);R(x,hx,hy+hh-2,hw,2,p.skinD);R(x,hx,hy,hw,2,p.hair);R(x,hx,hy+2,1,2,p.hair);
+  face(x,p,hx,hy,hw,hh);
+}
+const crown=(x,hx,hy,hw)=>{R(x,hx,hy-1,hw,1,BONE);for(let i=0;i<hw;i+=2){const t=i%4===0?3:2;R(x,hx+i,hy-1-t,1,t,BONE);} R(x,hx,hy,hw,1,BONED);};
+const runes=(x,pts)=>px(x,pts,RUNE);
+const steam=(x,pts)=>px(x,pts,'#d9cfcc');
+
+const DRAW={
+ errante(x,p,f){
+  body(x,p,{});
+  R(x,21,15,3,13,p.skin);R(x,21,15,3,3,p.cloth);R(x,21,27,3,1,p.skinD);
+  px(x,[[13,17,2,2],[18,19,1,4],[12,23,2,1]],p.blood);
+  if(f==='plenilunar'){crown(x,12,6,8);px(x,[[12,16,8,1],[12,18,8,1],[12,20,8,1]],BONE);runes(x,[[15,22],[16,23],[17,22]]);}
+ },
+ rastejante(x,p,f){
+  R(x,18,35,13,2,p.blood);R(x,24,34,4,1,p.blood);
+  R(x,11,29,14,7,p.cloth);R(x,11,34,14,2,p.clothD);R(x,25,30,3,5,p.blood);R(x,25,31,2,2,p.skinD);
+  R(x,1,33,9,2,p.skin);R(x,0,33,2,3,p.skinD);R(x,3,29,6,2,p.skin);R(x,2,29,2,3,p.skinD);
+  R(x,6,26,7,7,p.skin);R(x,6,31,7,2,p.skinD);R(x,6,26,7,2,p.hair);
+  R(x,7,28,2,2,p.sock);R(x,10,28,2,2,p.sock);R(x,8,29,1,1,p.eye);R(x,10,29,1,1,p.eye);R(x,8,31,3,1,p.mouth);
+  if(f==='plenilunar'){px(x,[[14,25,1,4],[17,24,1,5],[20,25,1,4],[23,26,1,3]],BONE);px(x,[[26,36,2,1],[29,37,2,1],[31,36,1,1]],p.metal);runes(x,[[14,31],[18,32],[22,31]]);}
+ },
+ corredor(x,p,f){
+  R(x,12,24,3,7,p.pants);R(x,9,30,3,7,p.pants);R(x,8,37,4,2,p.shoe);
+  R(x,17,24,3,6,p.pants);R(x,19,29,3,8,p.pants);R(x,19,37,4,2,p.shoe);
+  body(x,p,{hx:13,hy:5,hw:8,hh:8,tx:12,ty:13,tw:8,th:11,al:9,legs:false});
+  R(x,15,15,2,6,p.stripe);
+  if(f==='plenilunar'){px(x,[[9,23,1,3],[11,23,1,3],[20,23,1,3],[22,23,1,3],[9,26,1,1],[22,26,1,1]],BONE);px(x,[[9,16,1,4],[22,17,1,4],[14,9,1,2]],p.blood);runes(x,[[13,18],[18,20]]);}
+ },
+ cuspidor(x,p,f){
+  body(x,p,{hy:2,ty:16,th:10,al:9});
+  R(x,14,10,4,6,p.skin);R(x,14,10,1,6,p.skinD);
+  const s=f==='plenilunar'?[[11,10,3,6],[18,10,3,6]]:[[12,11,2,4],[18,11,2,4]];
+  px(x,s,p.acid);px(x,[[12,14,2,1],[18,14,2,1]],p.acidD);
+  R(x,16,7,1,5,p.acid);R(x,16,12,1,1,p.acidD);
+  if(f==='plenilunar'){px(x,[[12,11],[19,11]],'#ffe1a0');px(x,[[4,10,2,2],[26,10,2,2],[15,0,2,2]],p.acid);runes(x,[[14,19],[16,21],[18,19]]);}
+ },
+ gritador(x,p,f){
+  body(x,p,{al:4});
+  R(x,10,18,12,3,p.cloth);R(x,10,20,12,1,p.clothD);
+  px(x,[[11,15,10,1],[11,23,10,1]],p.clothD);px(x,[[20,15],[20,23]],p.metal);
+  R(x,14,10,4,5,p.mouth);px(x,[[14,10],[16,10],[15,14],[17,14]],BONE);
+  if(f==='plenilunar'){R(x,15,15,2,5,p.mouth);px(x,[[14,15,1,5],[17,15,1,5]],p.blood);px(x,[[15,16],[16,18]],BONE);runes(x,[[12,17],[19,17],[12,21],[19,21]]);px(x,[[5,8,1,3],[3,7,1,5],[26,8,1,3],[28,7,1,5]],RUNE);}
+ },
+ barrigudo(x,p,f){
+  R(x,10,29,4,8,p.pants);R(x,18,29,4,8,p.pants);R(x,9,37,5,2,p.shoe);R(x,18,37,5,2,p.shoe);
+  R(x,8,14,16,16,p.skin);R(x,7,16,18,12,p.skin);R(x,6,18,20,8,p.skin);R(x,8,27,16,3,p.skinD);R(x,6,24,20,2,p.skinD);
+  R(x,10,13,12,5,p.cloth);R(x,10,17,12,1,p.clothD);
+  R(x,3,16,3,11,p.skin);R(x,26,16,3,11,p.skin);R(x,3,26,3,1,p.skinD);R(x,26,26,3,1,p.skinD);
+  px(x,[[9,20,2,2],[21,19,2,2],[14,23,2,2],[19,25,2,2],[11,25,2,2]],p.pus);px(x,[[9,20],[21,19],[14,23]],'#fff6c8');
+  R(x,13,6,6,7,p.skin);R(x,13,11,6,2,p.skinD);R(x,13,6,6,1,p.hair);
+  px(x,[[14,8],[17,8]],p.eye);R(x,14,11,4,1,p.mouth);R(x,16,12,1,2,p.pus);
+  if(f==='plenilunar'){runes(x,[[10,19],[12,17],[16,16],[20,17],[22,20],[22,23],[20,26],[16,27],[12,26],[9,23],[16,21,1,3],[15,22,3,1]]);px(x,[[2,9,2,2],[28,7,2,2],[5,4,1,1],[26,3,1,1]],p.blood);crown(x,13,6,6);}
+ },
+ estalador(x,p,f){
+  body(x,p,{al:11});
+  R(x,11,4,4,5,p.fungus);R(x,15,3,3,6,p.fungus);R(x,18,4,3,5,p.fungus);R(x,12,8,8,3,p.fungusD);R(x,11,6,1,3,p.fungusD);R(x,20,7,1,3,p.fungusD);
+  px(x,[[13,5],[17,4],[19,6]],p.fungusD);R(x,14,11,4,2,p.mouth);R(x,21,14,3,2,p.fungus);R(x,8,16,2,2,p.fungus);
+  if(f==='plenilunar'){px(x,[[10,0,2,5],[20,0,2,5],[9,0,1,2],[22,0,1,2],[15,0,2,3]],BONE);runes(x,[[14,17],[17,17],[15,19,2,1]]);}
+ },
+ blindado(x,p,f){
+  body(x,p,{});
+  R(x,10,14,12,10,p.metal);R(x,10,21,12,3,p.metalD);R(x,12,16,8,1,p.metalD);
+  R(x,11,4,10,7,p.metal);R(x,11,4,10,1,p.metalD);R(x,12,8,8,3,p.visor);px(x,[[13,9],[18,9]],p.eye);
+  R(x,1,13,9,21,p.metalD);R(x,2,14,7,19,p.metal);R(x,3,16,5,3,p.visor);R(x,2,30,7,1,p.metalD);
+  if(f==='plenilunar'){runes(x,[[4,22],[5,23],[6,22],[5,25],[4,27],[6,27],[15,18],[16,19],[17,18]]);crown(x,11,4,10);}
+ },
+ saltador(x,p,f){
+  R(x,9,30,6,4,p.pants);R(x,17,30,6,4,p.pants);R(x,8,34,4,3,p.pants);R(x,20,34,4,3,p.pants);R(x,7,37,5,2,p.shoe);R(x,20,37,5,2,p.shoe);
+  R(x,10,19,12,12,p.cloth);R(x,10,27,12,3,p.clothD);
+  R(x,6,20,3,16,p.skin);R(x,23,20,3,16,p.skin);R(x,6,20,3,4,p.cloth);R(x,23,20,3,4,p.cloth);R(x,5,35,4,2,p.skinD);R(x,23,35,4,2,p.skinD);
+  R(x,10,9,12,11,p.cloth);R(x,11,8,10,1,p.cloth);R(x,12,12,8,6,SHADOW);px(x,[[13,14],[18,14]],p.eye);R(x,10,18,12,2,p.clothD);
+  if(f==='plenilunar'){px(x,[[9,6,1,5],[11,4,1,5],[14,3,1,5],[17,3,1,5],[20,4,1,5],[22,6,1,5]],BONE);runes(x,[[14,23],[16,24],[18,23]]);}
+ },
+ brutamonte(x,p,f){
+  R(x,10,27,5,10,p.pants);R(x,17,27,5,10,p.pants);R(x,9,37,6,2,p.shoe);R(x,17,37,6,2,p.shoe);
+  R(x,8,13,16,15,p.skin);R(x,8,24,16,4,p.skinD);
+  R(x,4,9,24,7,p.skin);R(x,4,14,24,2,p.skinD);
+  R(x,1,12,7,18,p.skin);R(x,24,12,7,18,p.skin);R(x,1,26,7,2,p.skinD);R(x,24,26,7,2,p.skinD);
+  R(x,0,29,8,6,p.skinD);R(x,24,29,8,6,p.skinD);R(x,9,25,14,3,p.pants);
+  R(x,13,4,6,6,p.skin);R(x,13,8,6,2,p.skinD);px(x,[[14,6],[17,6]],p.eye);R(x,14,9,4,1,p.mouth);
+  px(x,[[11,17,1,4],[20,15,1,3],[5,18,1,3]],p.blood);
+  if(f==='furia'){px(x,[[3,14,1,8],[27,15,1,8],[12,15,1,6],[19,16,1,6],[10,20,3,1]],'#ff3b3b');steam(x,[[5,6],[6,4],[7,2],[25,5],[26,3],[24,1]]);}
+ },
+ chorona(x,p,f){
+  R(x,7,26,18,12,p.cloth);R(x,6,33,20,5,p.cloth);R(x,6,36,20,2,p.clothD);
+  R(x,11,18,10,9,p.cloth);
+  R(x,8,22,3,10,p.skin);R(x,21,22,3,10,p.skin);
+  px(x,[[7,32,1,4],[9,32,1,4],[11,32,1,3],[20,32,1,3],[22,32,1,4],[24,32,1,4]],BONE);
+  R(x,10,8,12,18,p.hair);R(x,11,7,10,1,p.hair);R(x,15,12,2,6,p.skin);
+  if(f==='furia'){px(x,[[10,3,1,5],[13,2,1,6],[16,1,1,7],[19,2,1,6],[21,3,1,5]],p.hair);px(x,[[13,13,2,1],[17,13,2,1]],'#ff2b2b');R(x,0,37,6,1,p.blood);R(x,26,37,6,1,p.blood);}
+  else px(x,[[14,15],[17,16]],'#cfe3ea');
+ },
+ acougueiro(x,p,f){
+  R(x,10,31,5,6,p.pants);R(x,17,31,5,6,p.pants);R(x,9,37,6,2,p.shoe);R(x,17,37,6,2,p.shoe);
+  R(x,3,13,5,16,p.skin);R(x,24,13,5,12,p.skin);R(x,3,27,5,2,p.skinD);
+  R(x,7,12,18,20,p.skin);R(x,8,14,16,18,p.apron);R(x,8,29,16,3,'#9d927c');
+  px(x,[[10,18,3,4],[17,22,4,3],[13,26,2,4],[20,16,2,2]],p.blood);
+  R(x,11,2,10,10,p.sack);R(x,12,11,8,1,p.rope);
+  R(x,13,5,2,2,SHADOW);R(x,17,5,2,2,SHADOW);px(x,[[13,6],[18,6]],p.eye);
+  R(x,26,24,2,6,'#3a2414');R(x,25,15,6,10,p.metal);R(x,25,15,6,1,p.metalD);R(x,30,16,1,8,'#eef0f2');R(x,25,22,2,2,p.blood);
+  if(f==='furia'){px(x,[[4,15,1,10],[9,13,1,4]],'#ff3b3b');steam(x,[[9,1],[8,0],[22,1],[23,0],[2,10],[29,10]]);}
+ },
+ estivador(x,p,f){
+  R(x,10,28,5,9,p.pants);R(x,17,28,5,9,p.pants);R(x,9,37,6,2,p.shoe);R(x,17,37,6,2,p.shoe);
+  R(x,3,14,5,14,p.skin);R(x,24,14,5,13,p.skin);R(x,3,14,5,4,p.cloth);R(x,24,14,5,4,p.cloth);
+  R(x,8,13,16,16,p.cloth);R(x,8,25,16,4,p.clothD);
+  if(f==='furia'){R(x,11,14,10,9,p.skin);px(x,[[11,14,1,9],[20,14,1,9]],p.clothD);}
+  px(x,[[9,14,2,1],[11,15,2,1],[13,16,2,1],[15,17,2,1],[17,18,2,1],[19,19,2,1],[21,20,2,1]],p.rope);
+  R(x,12,5,8,8,p.skin);R(x,12,11,8,2,p.skinD);face(x,p,12,5,8,8);
+  R(x,10,3,12,3,p.hat);R(x,9,5,14,1,p.hat);R(x,12,2,8,1,p.hat);
+  const hk=f==='furia'?'#ff8a2a':p.metal;
+  R(x,4,28,2,5,hk);R(x,1,32,5,2,hk);R(x,1,29,2,3,hk);
+  if(f==='furia'){px(x,[[0,27],[2,26],[6,26]],'#ffd27a');steam(x,[[8,1],[23,1],[24,0]]);}
+ }
+};
+function sparkles(x,c){[[3,5],[27,11],[5,30],[26,32]].forEach(([a,b])=>{R(x,a,b,1,1,'#ffffff');px(x,[[a-1,b],[a+1,b],[a,b-1],[a,b+1]],c);});}
+const IMG={};
+function sprite(id,f,sil){
+  const k=id+f+(sil?1:0);if(IMG[k])return IMG[k];
+  const c=document.createElement('canvas');c.width=32;c.height=40;const x=c.getContext('2d');
+  DRAW[id](x,palette(BYID[id],f),f);
+  if(f==='enluarado'&&!sil)sparkles(x,(ENLV[id]||{}).glow||'#cfe8ff');
+  if(sil){x.globalCompositeOperation='source-in';x.fillStyle='#120a0c';x.fillRect(0,0,32,40);}
+  return IMG[k]=c.toDataURL();
+}
+
+/* ---------- Estado ---------- */
+const KEY='bestiario-lua-v1';
+function blank(){const e={};SP.forEach(s=>{e[s.id]={};FORMS[s.cat].forEach(f=>e[s.id][f]={st:'u',k:0});});return e;}
+function example(){
+  const e=blank();const set=(id,f,st,k)=>e[id][f]={st,k};
+  set('errante','comum','s',143);set('errante','enluarado','n',1);
+  set('rastejante','comum','s',37);set('corredor','comum','n',4);
+  set('cuspidor','comum','s',22);set('cuspidor','enluarado','s',2);set('cuspidor','plenilunar','s',1);
+  set('gritador','comum','n',1);set('barrigudo','comum','s',12);
+  set('brutamonte','normal','n',1);set('brutamonte','furia','n',1);
+  return {e,w:{xp:420,sucata:6,pecas:2,bronze:1,prata:1,ouro:0,frag:0,amuleto:0},m:{25:true},moon:false,boost:false,log:[]};
+}
+let S;
+try{S=JSON.parse(localStorage.getItem(KEY));if(!S||!S.e||!SP.every(s=>S.e[s.id]))S=null;}catch(_){S=null}
+if(!S)S=example();
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(_){}};
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const st=(id,f)=>S.e[id][f].st;
+const known=id=>FORMS[BYID[id].cat].some(f=>st(id,f)!=='u');
+const hasNew=id=>FORMS[BYID[id].cat].some(f=>st(id,f)==='n');
+const complete=id=>FORMS[BYID[id].cat].every(f=>st(id,f)==='s');
+const regCount=(filter)=>SP.filter(s=>!filter||s.cat===filter).reduce((n,s)=>n+FORMS[s.cat].filter(f=>st(s.id,f)!=='u').length,0);
+const totalOf=cat=>SP.filter(s=>s.cat===cat).reduce((n,s)=>n+FORMS[s.cat].length,0);
+
+const cur={};
+SP.forEach(s=>{const fs=FORMS[s.cat];const i=fs.findIndex(f=>st(s.id,f)==='n');cur[s.id]=i<0?0:i;});
+let tab='todos';
+
+/* ---------- Render ---------- */
+const $=id=>document.getElementById(id);
+function renderWallet(bump){
+  $('wallet').innerHTML=WALLET.map(([k,l,c])=>`<span class="chip${bump&&bump[k]?' bump':''}" title="${l}"><i style="background:${c}"></i>${l} <b>${S.w[k]||0}</b></span>`).join('')+(S.w.amuleto?`<span class="chip"><i style="background:linear-gradient(135deg,#e5b443,#d3283d)"></i><b>Amuleto</b></span>`:'');
+}
+function renderProgress(){
+  const n=regCount(),pct=n/TOTAL*100;
+  $('prog-txt').textContent=`${n} de ${TOTAL} registros · ${Math.floor(pct)}%`;
+  $('fill').style.width=pct+'%';
+  const bar=$('bar');bar.querySelectorAll('.mile').forEach(m=>m.remove());
+  MILES.forEach(m=>{const d=document.createElement('div');d.className='mile'+(S.m[m.p]?' got':'');d.style.left=m.p+'%';d.innerHTML=`<span class="pin">${S.m[m.p]?'✓':''}</span><small>${m.p}%<br>${m.t}</small>`;bar.appendChild(d);});
+  const ks=SP.filter(s=>complete(s.id));
+  $('know').innerHTML=ks.length?`Conhecimento ativo: <b>+10% de dano</b> contra ${ks.map(s=>s.name).join(', ')}.`:'Complete todas as formas de uma criatura para ganhar +10% de dano contra ela.';
+}
+function renderTabs(){
+  const t=[['todos','Todos',regCount(),TOTAL,SP.some(s=>hasNew(s.id))]].concat(['comum','mini','boss'].map(c=>[c,CAT[c].plural,regCount(c),totalOf(c),SP.some(s=>s.cat===c&&hasNew(s.id))]));
+  $('tabs').innerHTML=t.map(([k,l,a,b,nw])=>`<button class="tab" role="tab" data-tab="${k}" aria-selected="${tab===k}">${l} <span>${a}/${b}</span>${nw?'<i class="dot" aria-label="tem registro novo"></i>':''}</button>`).join('');
+}
+function cardInner(sp){
+  const fs=FORMS[sp.cat],f=fs[cur[sp.id]],s=st(sp.id,f),kn=known(sp.id),unk=s==='u';
+  const fcls=unk?'f-unk':'f-'+f;
+  const label=FL[f]+(unk?' ?':'');
+  return `<div class="corner tl"><span>${sp.num}</span><i>${CAT[sp.cat].suit}</i></div>
+  <div class="corner br"><span>${sp.num}</span><i>${CAT[sp.cat].suit}</i></div>
+  ${hasNew(sp.id)?'<span class="badge-new">NOVO</span>':''}
+  ${complete(sp.id)?'<span class="seal"><span><b>✓</b>COMPLETO</span></span>':''}
+  <span class="ribbon">${label}</span>
+  <div class="portrait ${fcls}"><img alt="" src="${sprite(sp.id,f,unk)}">${unk?'<span class="qmark">?</span>':''}</div>
+  <h3>${kn?sp.name:'???'}</h3>
+  <div class="meta"><span class="dots">${fs.map((g,i)=>`<span class="${st(sp.id,g)==='n'?'new':st(sp.id,g)==='s'?'on':''}${i===cur[sp.id]?' cur':''}"></span>`).join('')}</span><span>${unk?'não registrado':'×'+S.e[sp.id][f].k}</span></div>
+  <button class="read" data-read="${sp.id}">Ler registro</button>`;
+}
+function cardClass(sp){const f=FORMS[sp.cat][cur[sp.id]];const u=st(sp.id,f)==='u';return 'card'+(u?'':' v-'+f)+(known(sp.id)?'':' unknown');}
+function renderGrid(){
+  const g=$('grid');let html='';
+  ['comum','mini','boss'].forEach(c=>{
+    if(tab!=='todos'&&tab!==c)return;
+    if(tab==='todos')html+=`<h2 class="sec-title">${CAT[c].suit} ${CAT[c].plural}</h2>`;
+    SP.filter(s=>s.cat===c).forEach(s=>{html+=`<article class="${cardClass(s)}" style="${vstyle(s.id,FORMS[s.cat][cur[s.id]])}" data-id="${s.id}" tabindex="0" aria-label="${known(s.id)?s.name:'Criatura desconhecida'}, forma ${FL[FORMS[s.cat][cur[s.id]]]}">${cardInner(s)}</article>`;});
+  });
+  g.innerHTML=html;
+}
+function paintCard(id){const el=$('grid').querySelector(`[data-id="${id}"]`);if(!el)return;const sp=BYID[id];el.className=cardClass(sp);el.setAttribute('style',vstyle(id,FORMS[sp.cat][cur[id]]));el.innerHTML=cardInner(sp);el.setAttribute('aria-label',`${known(id)?sp.name:'Criatura desconhecida'}, forma ${FL[FORMS[sp.cat][cur[id]]]}`);}
+function renderLog(){$('log').innerHTML=S.log.slice(0,8).map(l=>`<li>${l}</li>`).join('');}
+function renderAll(bump){renderWallet(bump);renderProgress();renderTabs();renderGrid();renderLog();$('moon').checked=S.moon;$('boost').checked=S.boost;document.body.classList.toggle('moon',S.moon);}
+
+/* ---------- Ações ---------- */
+function toast(html,red){const t=document.createElement('div');t.className='toast'+(red?' red':'');t.innerHTML=html;$('toasts').appendChild(t);setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),320);},2800);}
+function give(r){const b={};Object.entries(r).forEach(([k,v])=>{S.w[k]=(S.w[k]||0)+v;b[k]=1;});return b;}
+function checkMiles(){
+  const pct=regCount()/TOTAL*100;let b={};
+  MILES.forEach(m=>{if(pct>=m.p&&!S.m[m.p]){S.m[m.p]=true;Object.assign(b,give(m.r));toast(`Marco de <b>${m.p}%</b> do livro: ${fmtRew(m.r)}`);}});
+  return b;
+}
+function kill(id,f){
+  const sp=BYID[id],fs=sp.cat==='comum'?[f]:FORMS[sp.cat];let fresh=false;
+  fs.forEach(g=>{const e=S.e[id][g];if(e.st==='u'){e.st='n';fresh=true;}e.k++;});
+  const name=sp.name+(sp.cat==='comum'&&f!=='comum'?' '+FL[f]:'');
+  S.log.unshift(`<b>${name}</b> derrotado${fresh?' · <em>novo registro</em>':''}`);S.log=S.log.slice(0,20);
+  if(fresh){toast(`Novo registro no bestiário: <b>${name}</b>`,true);if(!hasNewOther(id))cur[id]=FORMS[sp.cat].indexOf(sp.cat==='comum'?f:'normal');}
+  return fresh;
+}
+const hasNewOther=()=>false;
+function claim(id,f){
+  const e=S.e[id][f];if(e.st!=='n')return null;
+  e.st='s';const r=rewardOf(BYID[id],f);const b=give(r);
+  toast(`Registro lido: <b>${fmtRew(r)}</b>`);
+  if(complete(id))toast(`<b>${BYID[id].name}</b> completo! +10% de dano contra ele.`);
+  return {r,b};
+}
+function cycle(id,dir){
+  const sp=BYID[id],n=FORMS[sp.cat].length;cur[id]=(cur[id]+dir+n)%n;
+  const el=$('grid').querySelector(`[data-id="${id}"]`);
+  if(reduce||!el){paintCard(id);return;}
+  el.classList.add('flip-out');
+  setTimeout(()=>{paintCard(id);el.classList.add('flip-in');requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.remove('flip-in')));},140);
+}
+
+/* ---------- Modal ---------- */
+let mId=null,mF=null,lastFocus=null,justGot=null;
+function segs(n){n=Math.max(1,Math.min(5,n));return `<span class="segs">${[1,2,3,4,5].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</span>`;}
+function adj(sp,f){const [v,d,s]=sp.stats;if(f==='enluarado')return [v+1,d,s];if(f==='plenilunar')return [v+2,d+1,s];if(f==='furia')return [v,d+1,s+1];return [v,d,s];}
+function renderModal(){
+  const sp=BYID[mId],fs=FORMS[sp.cat],f=mF,s=st(mId,f),kn=known(mId),unk=s==='u';
+  const r=rewardOf(sp,f);
+  let vbox='';
+  if(f==='enluarado')vbox=`<div class="box enl"><b>Enluarado: tingido pela luz da lua.</b><span>Só muda a cor. +50% de vida · XP ×3 · 1 item incomum garantido.${unk?' Aparece a qualquer hora: 2% fora da lua, 8% na Lua de Sangue.':''}</span></div>`;
+  if(f==='plenilunar')vbox=`<div class="box plen"><b>Plenilunar: transformado pela lua cheia.</b><span>${kn?sp.plen+' ':''}+150% de vida, +25% de dano, +10% de velocidade · XP ×8 · 1 item raro garantido.${unk?' Só nasce durante a Lua de Sangue (3%).':''}</span></div>`;
+  if(f==='furia')vbox=`<div class="box fur"><b>Fúria</b><span>${kn?sp.furia:'Forma que aparece quando a vida dele fica baixa.'}</span></div>`;
+  let rbox;
+  if(justGot&&justGot===f)rbox=`<div class="box rew got"><b>Recompensa recebida</b><span>${fmtRew(r)}</span></div>`;
+  else if(s==='s')rbox=`<div class="box rew"><b>Recompensa já resgatada</b><span>${fmtRew(r)}</span></div>`;
+  else rbox=`<div class="box rew"><b>Ao registrar esta forma</b><span>${fmtRew(r)}</span></div>`;
+  const kbox=complete(mId)?`<div class="box done"><b>Espécie completa</b><span>Conhecimento: +10% de dano contra ${sp.name}.</span></div>`:(kn?`<div class="box rew"><span>Leia todas as ${fs.length} formas para ganhar +10% de dano contra ${sp.name}.</span></div>`:'');
+  const [v,d,sp2]=adj(sp,f);
+  $('sheet').setAttribute('style',vstyle(mId,f));
+  $('sheet').innerHTML=`<button class="close" id="mclose">Fechar</button>
+  <div class="pg left">
+    <div class="portrait ${unk?'f-unk':'f-'+f}"><img alt="${kn?sp.name:'Silhueta'} ${FL[f]}" src="${sprite(mId,f,unk)}">${unk?'<span class="qmark">?</span>':''}</div>
+    <div class="ftabs" role="tablist" aria-label="Formas">${fs.map(g=>`<button class="ftab${st(mId,g)==='u'?' unk':''}" role="tab" data-f="${g}" aria-selected="${g===f}">${FL[g]}${st(mId,g)==='n'?'<i class="nd" aria-label="novo"></i>':''}</button>`).join('')}</div>
+    <div class="kills">${unk?'Ainda não derrotado nesta forma':'Abatidos nesta forma: '+S.e[mId][f].k}</div>
+    ${unk?`<button class="sim" id="msim">Simular abate (teste)</button>`:''}
+  </div>
+  <div class="pg right">
+    <p class="eyebrow">#${sp.num} · ${CAT[sp.cat].label} · ${FL[f]}</p>
+    <h2 id="m-name">${kn?sp.name:'???'}</h2>
+    ${kn&&sp.title?`<p class="subt">${sp.title}</p>`:''}
+    <p class="desc">${kn?sp.desc:'Você ainda não derrotou esta criatura. Derrote uma para registrar.'}</p>
+    ${kn?`<dl class="facts"><dt>Comportamento</dt><dd>${sp.comp}</dd><dt>Fraqueza</dt><dd>${sp.fraq}</dd><dt>Onde aparece</dt><dd>${sp.onde}</dd><dt>Inspirado em</dt><dd>${sp.refs}</dd></dl>
+    <div class="stats"><span>Vida</span>${segs(v)}<span>Dano</span>${segs(d)}<span>Velocidade</span>${segs(sp2)}</div>`:`<dl class="facts"><dt>Pista</dt><dd>${sp.onde}</dd></dl>`}
+    ${vbox}${rbox}${kbox}
+  </div>`;
+}
+function openModal(id,f){
+  lastFocus=document.activeElement;mId=id;mF=f;justGot=null;
+  const got=claim(id,f);let b={};if(got){justGot=f;b=got.b;}
+  renderModal();$('ov').classList.add('open');$('mclose').focus();
+  if(got){save();renderWallet(b);renderProgress();renderTabs();paintCard(id);}
+}
+function closeModal(){$('ov').classList.remove('open');mId=null;if(lastFocus)lastFocus.focus();}
+$('ov').addEventListener('click',e=>{
+  if(e.target===$('ov')||e.target.id==='mclose'){closeModal();return;}
+  const t=e.target.closest('.ftab');
+  if(t){mF=t.dataset.f;justGot=null;const got=claim(mId,mF);let b={};if(got){justGot=mF;b=got.b;save();}cur[mId]=FORMS[BYID[mId].cat].indexOf(mF);renderModal();renderWallet(b);renderProgress();renderTabs();paintCard(mId);return;}
+  if(e.target.id==='msim'){kill(mId,mF);const b=checkMiles();save();renderModal();renderAll(b);}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&mId)closeModal();});
+
+/* ---------- Interação com as cartas ---------- */
+const grid=$('grid');let sx=null,swiped=false;
+grid.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;swiped=false;},{passive:true});
+grid.addEventListener('touchend',e=>{const c=e.target.closest('.card');if(!c||sx===null)return;const dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>35){swiped=true;cycle(c.dataset.id,dx<0?1:-1);}},{passive:true});
+grid.addEventListener('click',e=>{
+  const rb=e.target.closest('[data-read]');
+  if(rb){const id=rb.dataset.read;openModal(id,FORMS[BYID[id].cat][cur[id]]);return;}
+  const c=e.target.closest('.card');if(!c)return;
+  if(swiped){swiped=false;return;}
+  cycle(c.dataset.id,1);
+});
+grid.addEventListener('keydown',e=>{
+  const c=e.target.closest('.card');if(!c||e.target!==c)return;
+  if(e.key==='ArrowRight'){e.preventDefault();cycle(c.dataset.id,1);}
+  if(e.key==='ArrowLeft'){e.preventDefault();cycle(c.dataset.id,-1);}
+  if(e.key==='Enter'||e.key===' '){e.preventDefault();const id=c.dataset.id;openModal(id,FORMS[BYID[id].cat][cur[id]]);}
+});
+$('tabs').addEventListener('click',e=>{const t=e.target.closest('.tab');if(!t)return;tab=t.dataset.tab;renderTabs();renderGrid();});
+
+/* ---------- Painel de teste ---------- */
+$('moon').addEventListener('change',e=>{S.moon=e.target.checked;document.body.classList.toggle('moon',S.moon);save();toast(S.moon?'<b>A Lua de Sangue nasceu.</b> Plenilunares podem aparecer.':'A lua voltou ao normal.',S.moon);});
+$('boost').addEventListener('change',e=>{S.boost=e.target.checked;save();});
+$('k10').addEventListener('click',()=>{
+  const comuns=SP.filter(s=>s.cat==='comum');const m=S.boost?10:1;
+  for(let i=0;i<10;i++){const sp=comuns[Math.random()*comuns.length|0];const r=Math.random();
+    const pP=S.moon?0.03*m:0,pE=(S.moon?0.08:0.02)*m;
+    const f=r<pP?'plenilunar':r<pP+pE?'enluarado':'comum';kill(sp.id,f);}
+  const b=checkMiles();save();renderAll(b);
+});
+$('kmini').addEventListener('click',()=>{const l=SP.filter(s=>s.cat==='mini');kill(l[Math.random()*l.length|0].id,'normal');const b=checkMiles();save();renderAll(b);});
+$('kboss').addEventListener('click',()=>{const l=SP.filter(s=>s.cat==='boss');kill(l[Math.random()*l.length|0].id,'normal');const b=checkMiles();save();renderAll(b);});
+let wipeArm=false;
+$('wipe').addEventListener('click',e=>{
+  if(!wipeArm){wipeArm=true;e.target.textContent='Toque de novo para zerar';setTimeout(()=>{wipeArm=false;e.target.textContent='Zerar livro';},3000);return;}
+  wipeArm=false;e.target.textContent='Zerar livro';
+  S={e:blank(),w:{xp:0,sucata:0,pecas:0,bronze:0,prata:0,ouro:0,frag:0,amuleto:0},m:{},moon:S.moon,boost:S.boost,log:[]};
+  SP.forEach(s=>cur[s.id]=0);save();renderAll();toast('Livro zerado.');
+});
+$('restore').addEventListener('click',()=>{S=example();SP.forEach(s=>{const fs=FORMS[s.cat];const i=fs.findIndex(f=>st(s.id,f)==='n');cur[s.id]=i<0?0:i;});save();renderAll();toast('Exemplo restaurado.');});
+
+renderAll();
+</script>
+</body>
+</html>

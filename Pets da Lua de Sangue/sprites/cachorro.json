@@ -1,0 +1,127 @@
+{
+  "id": "cachorro",
+  "nome": "Cachorro",
+  "sub": "vira-lata caramelo",
+  "conceito": "Um vira-lata caramelo leal e destemido que sobreviveu às ruas antes mesmo da Lua de Sangue: orelhas semicaídas, focinho creme, língua de fora e rabo sempre abanando. Usa uma bandana vermelha surrada com uma plaquinha de metal no pescoço — late ao menor sinal de zumbi e morde junto com o golpe do herói.",
+  "partes": [
+    {
+      "parte": "Cabeça",
+      "descricao": "Crânio oval de ~23x21 px, caramelo (#c98a3e) com bochecha creme e pescoço grosso. Gira em torno do pescoço: baixa no rosnado, sobe no latido e tomba no desmaio."
+    },
+    {
+      "parte": "Olhos",
+      "descricao": "Um olho visível (perfil 3/4) de raio 2 px, íris castanha (#4a2a14), pupila escura e brilho branco de 1–2 px no canto superior esquerdo; pinta clara de 'sobrancelha' acima. Fecha (traço) no dano, vira espiral no tonteio e X no desmaio; sobrancelha brava no ataque."
+    },
+    {
+      "parte": "Orelhas",
+      "descricao": "Triangulares e semicaídas (ponta dobrada para a frente), ~9 px; a de cá caramelo com interior marrom-avermelhado (#8a4a2a), a de lá mais escura atrás da cabeça. Animam por interpolação até ficarem totalmente em pé (alerta) no especial e no ataque."
+    },
+    {
+      "parte": "Focinho e boca",
+      "descricao": "Focinho alongado creme (#f0d6a4) de ~16x8 px com sombreado bege no dorso, trufa preta (#2a1a1c) com reflexo cinza. Mandíbula separada gira até ~30° mostrando boca escura, dois dentinhos brancos e a língua rosa (#e2707c) com sulco central."
+    },
+    {
+      "parte": "Corpo / tronco",
+      "descricao": "Três elipses fundidas (garupa, barriga, peito) formando um tronco de ~60x24 px, peito alto e barriga creme; faixa dorsal mais escura. Leve 'squash' na respiração do idle e inclinação no bote."
+    },
+    {
+      "parte": "Pernas e patas",
+      "descricao": "Quatro pernas: dianteiras retas com cotovelo, traseiras com coxa grossa, joelho para a frente e jarrete para trás (IK de 2 ossos). As do lado de lá são marrom-escuras (#7d4a20). Patas ovais creme ('meias') pisam em y=112; alternam em diagonal na caminhada."
+    },
+    {
+      "parte": "Rabo",
+      "descricao": "Rabo em cadeia de 5 segmentos afunilando de 7 a 3 px, curvado para cima como foice, com ponta creme. Abana no idle e na caminhada, ergue-se no latido e cai entre as patas no dano/desmaio."
+    },
+    {
+      "parte": "Pelagem e marcas",
+      "descricao": "Pelo curto caramelo com pontilhado de textura (~20%), luz de lua no alto-esquerda e sombra roxa noturna embaixo-direita; peito, focinho, ponta do rabo e meias em creme — o padrão clássico do caramelo."
+    },
+    {
+      "parte": "Acessório",
+      "descricao": "Bandana vermelha surrada (#b3263a / #7c1626) amarrada no pescoço com a ponta triangular caindo sobre o peito e dois pontinhos de desgaste, mais uma plaquinha de metal (#cfc6b0) com brilho branco pendurada de lado — lembrança de um antigo dono antes da Lua de Sangue."
+    },
+    {
+      "parte": "Silhueta / pose",
+      "descricao": "Perfil 3/4 virado para a direita, ~80 px do rabo à trufa e ~55 px de altura até a ponta da orelha; postura alerta com peito para a frente e cabeça alta, sombra oval no chão. Lê-se como cachorro mesmo a 1x pelo focinho longo, orelhas e rabo curvado."
+    }
+  ],
+  "paleta": [
+    {
+      "nome": "Caramelo",
+      "hex": "#c98a3e"
+    },
+    {
+      "nome": "Caramelo escuro",
+      "hex": "#9c5f28"
+    },
+    {
+      "nome": "Marrom (lado de lá)",
+      "hex": "#7d4a20"
+    },
+    {
+      "nome": "Creme",
+      "hex": "#f0d6a4"
+    },
+    {
+      "nome": "Interior da orelha",
+      "hex": "#8a4a2a"
+    },
+    {
+      "nome": "Trufa",
+      "hex": "#2a1a1c"
+    },
+    {
+      "nome": "Língua",
+      "hex": "#e2707c"
+    },
+    {
+      "nome": "Bandana",
+      "hex": "#b3263a"
+    },
+    {
+      "nome": "Bandana sombra",
+      "hex": "#7c1626"
+    },
+    {
+      "nome": "Plaquinha",
+      "hex": "#cfc6b0"
+    }
+  ],
+  "animacoes": {
+    "idle": "4 quadros: respiração (corpo sobe 1 px e estufa), boca abre com a língua de fora nos quadros 1–2, rabo abana de 0° a 14° e a orelha mexe levemente.",
+    "walk": "8 quadros de trote: patas em pares diagonais (dianteira de cá + traseira de lá) avançam e levantam até 4 px, corpo balança 1–2 px, cabeça acompanha, rabo abana em ritmo duplo e a língua fica de fora.",
+    "attack": "0: posição de briga, sobrancelha brava. 1: antecipação — recua 5 px, abaixa o peito, rosna ('RR'). 2: bote — salta para a frente com a dianteira no ar, boca bem aberta, linhas de velocidade atrás. 3: impacto — mandíbula fecha, estrela de impacto na frente do focinho. 4: segura e puxa com a cabeça. 5: volta à posição com a língua de fora.",
+    "hurt": "0: clarão branco (tinta 'flash') com olho fechado. 1: recuo de 6 px, cabeça jogada para trás, orelhas sobem, patinha dianteira levanta, rabo entre as pernas, faíscas. 2: ainda encolhido. 3: recupera e abre o olho.",
+    "death": "Desmaio: 0 clarão branco. 1: cambaleia com olhos em espiral e língua de fora. 2: as pernas cedem e o corpo afunda. 3: tomba no chão com as patas esticadas e poeira. 4: quica de leve. 5: deitado, olho em X, língua de fora e três estrelinhas girando sobre a cabeça (segura 600 ms).",
+    "special": "Latido de alerta: 0: orelhas se erguem, '!' amarelo. 1: abaixa e enche o peito, orelhas totalmente em pé, rabo erguido. 2: late 'AU!' com balão e ondas de som. 3: segundo latido mais forte, ondas brancas e amarelas, pata dianteira levantada. 4: fim do latido. 5: relaxa, rabo ainda alto e língua de fora."
+  },
+  "especial": "Latido de Alerta",
+  "eventos": {
+    "idle": {
+      "0": "respira"
+    },
+    "walk": {
+      "0": "passo",
+      "4": "passo"
+    },
+    "attack": {
+      "1": "rosnado",
+      "2": "bote",
+      "3": "mordida"
+    },
+    "hurt": {
+      "0": "dano",
+      "1": "ganido"
+    },
+    "death": {
+      "0": "dano",
+      "1": "ganido",
+      "3": "queda"
+    },
+    "special": {
+      "0": "alerta",
+      "2": "latido",
+      "3": "latido"
+    }
+  }
+}

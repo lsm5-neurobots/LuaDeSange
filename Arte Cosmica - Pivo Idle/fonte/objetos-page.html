@@ -1,0 +1,101 @@
+<title>Objetos de Vasculhar</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:240/150;object-fit:contain!important}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.ocard{background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:10px;display:grid;gap:6px;cursor:pointer}
+.ocard[aria-pressed="true"]{border-color:var(--moon)}
+.ocard canvas{width:100%;height:150px;object-fit:contain;image-rendering:pixelated;background:repeating-conic-gradient(#1a1030 0 25%, #221640 0 50%) 0 0/12px 12px;border-radius:6px}
+.ocard b{font-family:var(--f-pix);font-size:14px} .ocard span{font-size:13px;color:var(--muted)}
+.prog{height:8px;background:#2a1b46;border:1px solid #000;border-radius:2px;overflow:hidden} .prog i{display:block;height:100%;background:linear-gradient(#fff2a0,#ffb020)}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Objetos · Vasculhar · Direção de arte cósmica</div>
+    <h1>Vasculhar <small>10 objetos</small></h1>
+    <p class="lede">Os contêineres que o squad revista entre uma luta e outra, na mesma arte hi-bit dos personagens: contorno seletivo, 4 tons e luz de lua. Cada objeto tem <b>3 estados</b>: fechado, vasculhando (4 quadros tremendo e abrindo) e vasculhado (aberto e vazio). O tempo de busca vem da ficha dos objetos. Os 5 primeiros seguem a ficha original; os outros 5 foram criados pras áreas novas da fase.</p>
+  </header>
+
+  <section class="show" aria-label="Objeto sendo vasculhado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="240" height="150" role="img" aria-label="Objeto sendo vasculhado no Recife Antigo"></canvas>
+      <div class="tagfx" id="tagfx">—</div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Objeto</span><div class="seg" id="kinds"></div></div>
+      <div class="grp"><span class="lbl">Busca</span><div class="prog"><i id="pbar" style="width:0%"></i></div><p class="note" id="pinfo"></p></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Escala no jogo (70%)</span><div class="real"><canvas id="r2" width="100" height="80"></canvas></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Catálogo</small>Os 10 objetos nos 3 estados</h2>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="box">
+    <h2><small>Tabela</small>Onde aparece, o que dá e quanto demora</h2>
+    <div class="tbl"><table id="tbl"></table></div>
+    <p class="note" style="margin-top:8px">No automático, o recruta só vasculha com a arena limpa. Durante a busca ele fica parado e vulnerável: se um zumbi aparecer, a busca é interrompida e recomeça do zero.</p>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{OBJ}}
+(function(){
+'use strict';
+const SW=240, SH=150, SGROUND=140;
+{{BG}}
+const AREA={ponte:'Ponte',alfandega:'Alfândega',feira:'Bom Jesus I',bomjesus:'Bom Jesus II',apolo:'Apolo',moeda:'Moeda',arsenal:'Arsenal',riobranco:'Rio Branco',marco:'Marco Zero',sertao:'Armazéns',travessia:'Barco',molhe:'Molhe'};
+const LOOTC={moeda:'#ffd23f',sucata:'#8a8a94',pano:'#c84a4a',comida:'#d84a3a',pilha:'#3ab0ff','antídoto':'#5ad85a',madeira:'#9a6a3c',pregos:'#c8ccd4',corda:'#d8b860',fita:'#b8bcc4','munição':'#e8a030','peças':'#7a8a9a',gasolina:'#e83a3a',bateria:'#3a3a44','água':'#7ad8ff',atadura:'#f0ece0','kit médico':'#ff4a5a',borracha:'#34323a'};
+const S={kind:'lixeira',step:5,t:0,phase:'fechado',items:[],glows:[]};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+function lootIcon(c,x,y,name){ const col=LOOTC[name]||'#fff'; c.fillStyle='#170b1c'; c.fillRect(x-4,y-4,8,8); c.fillStyle=col; c.fillRect(x-3,y-3,6,6); c.fillStyle='rgba(255,255,255,.6)'; c.fillRect(x-3,y-3,6,1); c.fillRect(x-3,y-3,1,6);
+  if(name==='kit médico'||name==='antídoto'){ c.fillStyle='#fff'; c.fillRect(x-1,y-2,2,4); c.fillRect(x-2,y-1,4,2); }
+  if(name==='munição'){ c.fillStyle='#7a4a10'; c.fillRect(x-2,y,1,3); c.fillRect(x,y,1,3); c.fillRect(x+2,y,1,3); } }
+let last=performance.now(), T=0;
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; tick(dt); draw(dt); requestAnimationFrame(loop); }
+function tick(dt){ const K=OBJ.KINDS[S.kind]; S.t+=dt;
+  if(S.phase==='fechado' && S.t>1.2){ S.phase='vasculhando'; S.t=0; }
+  else if(S.phase==='vasculhando' && S.t>=K.tempo){ S.phase='vasculhado'; S.t=0; const n=1+Math.floor(Math.random()*2.6);
+    for(let i=0;i<n;i++) S.items.push({name:K.loot[Math.floor(Math.random()*K.loot.length)],x:0,y:0,vx:(Math.random()-.3)*50,vy:-60-Math.random()*30,t:0});
+    S.items.push({name:'moeda',x:0,y:0,vx:(Math.random()-.5)*40,vy:-70,t:0}); }
+  else if(S.phase==='vasculhado' && S.t>2.4){ S.phase='fechado'; S.t=0; S.items=[]; } }
+function draw(dt){
+  drawBG(g,'comum',0,T);
+  const K=OBJ.KINDS[S.kind], fi=S.phase==='vasculhando'?Math.min(3,Math.floor(S.t/K.tempo*4)):0;
+  const cv=OBJ.frame(S.kind,S.phase,fi,S.step), A=OBJ.ANCHOR(S.kind), ox=Math.round(SW/2-A.ax), oy=SGROUND-A.gy;
+  g.fillStyle='rgba(10,4,16,.5)'; g.fillRect(ox+A.ax-cv.width*0.42,SGROUND,cv.width*0.84,3);
+  if(S.phase==='vasculhando'){ const a=0.25+0.15*Math.sin(T*12), gr=g.createRadialGradient(ox+cv._cx,SGROUND-6,0,ox+cv._cx,SGROUND-6,cv.width*0.7); gr.addColorStop(0,'rgba(255,220,120,'+a+')'); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(0,0,SW,SH); g.restore(); }
+  g.drawImage(cv,ox,oy);
+  if(S.phase==='vasculhando'){ const cx=ox+cv._cx, cy=oy+cv._top-8, p=S.t/K.tempo; g.strokeStyle='#170b1c'; g.lineWidth=3; g.beginPath(); g.arc(cx,cy,6,0,Math.PI*2); g.stroke(); g.strokeStyle='#ffd23f'; g.lineWidth=2; g.beginPath(); g.arc(cx,cy,6,-Math.PI/2,-Math.PI/2+p*Math.PI*2); g.stroke();
+    if(S.t<0.35){ g.fillStyle='#fff'; g.fillRect(cx-1,cy-14,2,6); g.fillRect(cx-1,cy-6,2,2); } }
+  S.items.forEach(it=>{ it.t+=dt; if(it.t<0.9){ it.vy+=180*dt; it.x+=it.vx*dt; it.y+=it.vy*dt; if(it.y>0){ it.y=0; it.vy*=-0.35; it.vx*=0.6; } }
+    const x=ox+cv._cx+it.x, y=SGROUND-6+it.y; lootIcon(g,Math.round(x),Math.round(y),it.name);
+    if(it.name==='moeda' && Math.floor(T*6)%2){ g.fillStyle='#fff'; g.fillRect(Math.round(x)+3,Math.round(y)-5,1,1); } });
+  document.getElementById('tagfx').innerHTML=`<b>${K.nome}</b> · ${S.phase}${S.phase==='vasculhando'?' '+(fi+1)+'/4':''}`;
+  document.getElementById('pbar').style.width=(S.phase==='vasculhando'?S.t/K.tempo*100:S.phase==='vasculhado'?100:0)+'%';
+  document.getElementById('pinfo').textContent=`Busca de ${String(K.tempo).replace('.',',')} s · loot: ${K.loot.join(', ')}`;
+  PIX.setK(0.7); const c2=OBJ.frame(S.kind,S.phase,fi,5); PIX.setK(1); const r2=document.getElementById('r2'); r2.width=c2.width; r2.height=c2.height; r2.getContext('2d').drawImage(c2,0,0);
+  drawGrid();
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' [data-'+attr+']').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+function pick(k){ S.kind=k; S.phase='fechado'; S.t=0; S.items=[]; press('kinds','k',k); press('grid','k',k); }
+document.getElementById('kinds').innerHTML=Object.entries(OBJ.KINDS).map(([k,v])=>`<button data-k="${k}" aria-pressed="${k===S.kind}">${({lixeira:'Lixeira',caixa:'Feira',carro:'Carro',geladeira:'Geladeira',armario:'Armário',mochila:'Mochila',papelao:'Papelão',pneus:'Pneus',caixote:'Porto',carrinho:'Carrinho'})[k]}</button>`).join('');
+document.querySelectorAll('#kinds button').forEach(b=>b.onclick=()=>pick(b.dataset.k));
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); });
+document.getElementById('grid').innerHTML=Object.entries(OBJ.KINDS).map(([k,v])=>`<article class="ocard" data-k="${k}" tabindex="0" aria-pressed="${k===S.kind}"><canvas data-g="${k}"></canvas><b>${v.nome}</b><span>${String(v.tempo).replace('.',',')} s · ${v.areas.map(a=>AREA[a]).join(', ')}</span></article>`).join('');
+document.querySelectorAll('#grid .ocard').forEach(el=>{ el.onclick=()=>pick(el.dataset.k); el.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(el.dataset.k); } }; });
+const SEQ=[['fechado',0],['fechado',0],['vasculhando',0],['vasculhando',1],['vasculhando',2],['vasculhando',3],['vasculhado',0],['vasculhado',0]];
+let gi=-1;
+function drawGrid(){ const i=Math.floor(T*4)%SEQ.length; if(i===gi) return; gi=i; const [st,f]=SEQ[i];
+  document.querySelectorAll('[data-g]').forEach(c=>{ const cv=OBJ.frame(c.dataset.g,st,f,5); if(c.width!==cv.width){ c.width=cv.width; c.height=cv.height; } const x=c.getContext('2d'); x.clearRect(0,0,c.width,c.height); x.drawImage(cv,0,0); }); }
+document.getElementById('tbl').innerHTML=`<thead><tr><th>Objeto</th><th>Áreas da fase</th><th>Loot</th><th>Busca</th></tr></thead><tbody>`+Object.values(OBJ.KINDS).map(v=>`<tr><td>${v.nome}</td><td>${v.areas.map(a=>AREA[a]).join(', ')}</td><td>${v.loot.join(', ')}</td><td>${String(v.tempo).replace('.',',')} s</td></tr>`).join('')+`</tbody>`;
+draw(0); requestAnimationFrame(loop);
+})();
+</script>

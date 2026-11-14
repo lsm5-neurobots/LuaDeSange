@@ -1,0 +1,220 @@
+{"grupo": "especiais_golpe", "titulo": "Rasengan, Getsuga e Chidori", "ordem": 8,
+ "resumo": "Efeitos dos três golpes especiais de carregar e soltar do herói: a esfera giratória de corpo a corpo (ciano), o corte que dispara uma lua crescente (preto e vermelho-lua) e a estocada elétrica (branco-azulado). Todos em camadas nítidas de pixel art (halo, corpo, núcleo branco), sem degradê liso.",
+ "itens": [
+  {"id": "rsg_esfera", "nome": "Esfera giratória (carga e cheia)", "categoria": "Especial: Rasengan",
+   "mecanica": "Rasengan (RSG-01 Gather, RSG-02 Rings)",
+   "conceito": "Bola de energia ciano que o herói junta na palma aberta enquanto segura a tela. Nasce como um ponto de 3 px e cresce até 13 px de diâmetro; por dentro giram três braços de espiral branca, como um redemoinho de vento preso numa bolha. Em volta, três anéis finos em eixos diferentes viram em 3D (a metade de trás passa por trás da esfera e fica mais escura, a da frente passa por cima e brilha). Enquanto carrega, partículas ciano chegam em espiral de fora e são sugadas para o centro. Lê no jogo como um farol azul na mão do herói no meio da noite vermelha.",
+   "partes": [
+    {"parte": "Halo", "descricao": "brilho ciano em degraus (glow quantizado), raio ~2,4× o raio da esfera, alpha até 150"},
+    {"parte": "Corpo", "descricao": "disco de 3 a 13 px de diâmetro em 5 faixas concêntricas deslocadas para cima-esquerda: azul profundo #1a6fd8 na borda, #2f9cff, #6fd0ff, #c4f2ff e núcleo branco; contorno de 1 px #0c2c66"},
+    {"parte": "Espirais internas", "descricao": "3 braços brancos (#ffffff/#dff8ff) e 3 contra-braços azul-escuros girando 30° por quadro, recortados dentro do corpo"},
+    {"parte": "Anéis", "descricao": "3 anéis de raio ~1,6× a esfera, 1 px, inclinações 15°/75°/135°, cada um girando no próprio eixo (achata e abre); metade de trás #2a8fe0 escura, metade da frente #d8fbff com pontos brancos"},
+    {"parte": "Partículas", "descricao": "riscos de 2-5 px com cabeça branca e cauda #3fb8ff, em espiral entrando para o centro (quadros 9-10)"}
+   ],
+   "paleta": [{"nome": "Azul profundo", "hex": "#1a6fd8"}, {"nome": "Azul", "hex": "#2f9cff"}, {"nome": "Ciano", "hex": "#6fd0ff"}, {"nome": "Ciano claro", "hex": "#c4f2ff"}, {"nome": "Halo", "hex": "#3fb8ff"}, {"nome": "Contorno", "hex": "#0c2c66"}, {"nome": "Núcleo", "hex": "#ffffff"}],
+   "arquivo": "sprites/rsg_esfera.png", "fw": 64, "fh": 64, "cols": 10,
+   "quadros": ["crescendo 3 px", "crescendo 6 px", "crescendo 9 px", "crescendo 13 px (cheia)", "rotação 1", "rotação 2", "rotação 3", "rotação 4", "partículas sugadas 1", "partículas sugadas 2"],
+   "anims": [{"nome": "carga", "quadros": [0, 1, 2, 3], "dur": [200, 200, 200, 200], "loop": false},
+             {"nome": "girando", "quadros": [4, 5, 6, 7], "dur": [60, 60, 60, 60], "loop": true},
+             {"nome": "partículas", "quadros": [8, 9], "dur": [90, 90], "loop": true}],
+   "uso": "Pivô no centro do quadro (32,32) preso à palma do herói, camada de efeitos acima do herói. O quadro de crescimento é escolhido pela carga (0,3-1,2 s); as partículas sobrepõem a esfera durante a carga. Rotação extra e escala fina são em tempo real. Desligado (RSG-02): usar só o corpo sem anéis (quadro 0-3 escalado)."},
+
+  {"id": "rsg_gigante", "nome": "Esfera gigante", "categoria": "Especial: Rasengan",
+   "mecanica": "Rasengan (RSG-07 Giant orb, RSG-02)",
+   "conceito": "Quando a carga passa de 2,4 s a esfera incha até 33 px de diâmetro e vira uma bola de vento comprimido maior que a cabeça do herói. As espirais internas ficam grossas (2 px) e visíveis, com contra-faixas azul-escuras dando volume, e os três anéis viram faixas largas que giram em 3D em volta. Faíscas brancas e ciano escapam da superfície e um halo forte em degraus ilumina o chão em volta. É o mesmo desenho da esfera normal, só que com mais detalhe e peso.",
+   "partes": [
+    {"parte": "Halo", "descricao": "glow ciano raio ~50 px em degraus + anel externo de pontos claros"},
+    {"parte": "Corpo", "descricao": "disco de 33 px em 6 faixas (#1a6fd8 → branco) deslocadas para cima-esquerda, contorno #0c2c66, brilho especular branco 3×2 em cima-esquerda e reflexo ciano embaixo-direita"},
+    {"parte": "Espirais", "descricao": "3 braços brancos de 2 px afinando para fora, 3 contra-braços #1a5fc8, giram 22° por quadro"},
+    {"parte": "Anéis", "descricao": "3 anéis de raio ~27 px, 2 px de espessura, metade de trás escura atrás do corpo, metade da frente clara com núcleo branco"},
+    {"parte": "Faíscas", "descricao": "6-8 cruzes e riscos brancos/ciano de 3-7 px ao redor, mudam a cada quadro"}
+   ],
+   "paleta": [{"nome": "Azul profundo", "hex": "#1a6fd8"}, {"nome": "Ciano", "hex": "#6fd0ff"}, {"nome": "Ciano claro", "hex": "#c4f2ff"}, {"nome": "Anel de trás", "hex": "#2a8fe0"}, {"nome": "Anel da frente", "hex": "#d8fbff"}, {"nome": "Contorno", "hex": "#0c2c66"}],
+   "arquivo": "sprites/rsg_gigante.png", "fw": 128, "fh": 128, "cols": 4,
+   "quadros": ["rotação 1", "rotação 2", "rotação 3", "rotação 4"],
+   "anims": [{"nome": "girando", "quadros": [0, 1, 2, 3], "dur": [70, 70, 70, 70], "loop": true}],
+   "uso": "Pivô (64,64) na mão/à frente do herói; aparece com 'ding' e tremor (tempo real). Pode crescer do quadro cheio de rsg_esfera com escala em tempo real antes de trocar para este sprite."},
+
+  {"id": "rsg_rush", "nome": "Imagem residual e poeira do avanço", "categoria": "Especial: Rasengan",
+   "mecanica": "Rasengan (RSG-03 Rush, RSG-09)",
+   "conceito": "Durante o avanço o herói deixa para trás cópias de si mesmo em ciano translúcido, a cada 25 ms, que somem rapidamente. A silhueta é genérica (corredor inclinado para frente, braço esticado segurando a esfera, pernas em passada), para servir com qualquer roupa. Tem linhas horizontais de varredura (uma linha sim, uma mais fraca) e borda clara, como um rastro de velocidade. Nos pés levanta poeira marrom-acinzentada do asfalto do Marco Zero.",
+   "partes": [
+    {"parte": "Silhueta", "descricao": "corredor de ~54 px de altura virado para a direita, corpo inclinado 15°, preenchimento #4ad8ff alpha 110 com linhas alternadas alpha 60, borda 1 px #bff4ff alpha 200, núcleo branco na mão da frente"},
+    {"parte": "Riscos de velocidade", "descricao": "3-5 riscos horizontais ciano de 6-14 px atrás da silhueta"},
+    {"parte": "Poeira", "descricao": "nuvens de 4-9 px #9c8a70 com contorno #3a3024, sombreadas, + pedrinhas de 1 px; quadro 2 mais aberta e baixa"}
+   ],
+   "paleta": [{"nome": "Ciano residual", "hex": "#4ad8ff"}, {"nome": "Borda", "hex": "#bff4ff"}, {"nome": "Poeira", "hex": "#9c8a70"}, {"nome": "Poeira escura", "hex": "#6e6250"}],
+   "arquivo": "sprites/rsg_rush.png", "fw": 64, "fh": 64, "cols": 4,
+   "quadros": ["imagem residual 1", "imagem residual 2", "poeira dos pés 1", "poeira dos pés 2"],
+   "anims": [{"nome": "residual", "quadros": [0, 1], "dur": [50, 50], "loop": true},
+             {"nome": "poeira", "quadros": [2, 3], "dur": [90, 120], "loop": false}],
+   "uso": "Imagem residual: pivô nos pés (32,60), espelhar em tempo real conforme a direção, alpha cai a 0 em ~150 ms (tempo real). Com 'reduzir flashes' não desenhar. Poeira: pivô (32,58) nos pés, camada do chão."},
+
+  {"id": "rsg_grind", "nome": "Faíscas da trituração e explosão final", "categoria": "Especial: Rasengan",
+   "mecanica": "Rasengan (RSG-04 Grind, RSG-06 Explosão final)",
+   "conceito": "Quando a esfera encosta num zumbi ela tritura como um esmeril: um leque de faíscas brancas, ciano e algumas laranja (atrito com o corpo e as roupas) espirra para a frente a partir do ponto de contato, com uma estrela de impacto no centro. No fim a esfera estoura: um flash branco, uma bola de vento ciano que se abre, um anel de choque achatado em perspectiva que corre pelo chão até ~42 px e se quebra em fragmentos, poeira e fiapos de fumaça.",
+   "partes": [
+    {"parte": "Leque de faíscas", "descricao": "14-20 riscos de 3-14 px num leque de ~110° para a direita, cabeça branca, corpo #8fe8ff, cauda #2f9cff; 20% laranja #ffb347; estrela de impacto branca de 7 px com borda ciano em (40,64)"},
+    {"parte": "Flash", "descricao": "quadro 4: disco branco r=14 com halo ciano r=30 em degraus"},
+    {"parte": "Bola de vento", "descricao": "quadro 5: disco em faixas #2f9cff → branco r=26 com 4 braços de espiral abrindo"},
+    {"parte": "Anel de choque", "descricao": "elipse (ry = 0,55 rx) com 3 camadas: halo #3fb8ff alpha 90, corpo #8fe8ff, fio branco; rx 34 → 46 → 58; no último quadro quebrado em arcos"},
+    {"parte": "Detritos", "descricao": "pedrinhas cinza #6b6a66 e poeira #9c8a70 voando nos quadros 6-7, fumaça #5a5868"}
+   ],
+   "paleta": [{"nome": "Faísca", "hex": "#8fe8ff"}, {"nome": "Faísca quente", "hex": "#ffb347"}, {"nome": "Azul", "hex": "#2f9cff"}, {"nome": "Halo", "hex": "#3fb8ff"}, {"nome": "Pedra", "hex": "#6b6a66"}, {"nome": "Fumaça", "hex": "#5a5868"}],
+   "arquivo": "sprites/rsg_grind.png", "fw": 128, "fh": 128, "cols": 7,
+   "quadros": ["faíscas 1", "faíscas 2", "faíscas 3", "explosão flash", "explosão bola", "explosão anel", "explosão anel quebrado"],
+   "anims": [{"nome": "triturando", "quadros": [0, 1, 2], "dur": [70, 70, 70], "loop": true},
+             {"nome": "explosão", "quadros": [3, 4, 5, 6], "dur": [50, 80, 100, 140], "loop": false}],
+   "uso": "Faíscas: pivô no ponto de contato (40,64), girar na direção do avanço em tempo real. Explosão: pivô no centro (64,64) no ponto final; para a gigante escalar 2,2× em tempo real (raio 95). 'Reduzir flashes' pula o quadro 3."},
+
+  {"id": "rsg_cicatriz", "nome": "Marca em espiral e cratera", "categoria": "Especial: Rasengan",
+   "mecanica": "Rasengan (RSG-05 Scar)",
+   "conceito": "O vento comprimido raspa o asfalto e deixa uma marca de redemoinho no chão por onde a esfera passou, e no ponto final a trituração cava uma cratera rasa com sulcos em espiral, borda de cascalho e rachaduras. Logo que nasce, os sulcos brilham ciano; em 1,5 s viram fuligem preta-acinzentada e com o tempo esmaecem até 30%. Vista de cima em 3/4, as espirais são achatadas (elipses).",
+   "partes": [
+    {"parte": "Marca de avanço", "descricao": "espiral de 2,5 voltas ~70×38 px, sulco de 1-3 px #1c1a22 com borda clara de asfalto raspado #6a6672, e mancha de fuligem #2a2228 alpha 120 por baixo; brilhando: sulco ciano #6fd0ff com núcleo branco e halo #3fb8ff"},
+    {"parte": "Cratera", "descricao": "elipse ~84×46 px: fundo #26222c, parede de cima escura e de baixo-direita mais clara (luz da lua), 3 sulcos em espiral, borda de cascalho com 14-20 pedrinhas #5a5662/#77736e sombreadas, 6 rachaduras pretas radiais de 6-14 px"},
+    {"parte": "Estados", "descricao": "brilhando (azul), fuligem (frio), esmaecida (fuligem com alpha 30%)"}
+   ],
+   "paleta": [{"nome": "Sulco", "hex": "#1c1a22"}, {"nome": "Asfalto raspado", "hex": "#6a6672"}, {"nome": "Fuligem", "hex": "#2a2228"}, {"nome": "Cascalho", "hex": "#5a5662"}, {"nome": "Brilho ciano", "hex": "#6fd0ff"}],
+   "arquivo": "sprites/rsg_cicatriz.png", "fw": 128, "fh": 96, "cols": 6,
+   "quadros": ["marca brilhando", "marca fuligem", "marca esmaecida 30%", "cratera brilhando", "cratera fuligem", "cratera esmaecida 30%"],
+   "uso": "Decalque de chão (camada abaixo de tudo), pivô no centro (64,48). Marca carimbada a cada ~40 px do avanço, girada na direção (tempo real). Brilho → fuligem em 1,5 s (cross-fade em tempo real entre quadros 0→1 / 3→4), depois alpha até 30% em 60 s (quadros 2/5 de referência)."},
+
+  {"id": "gts_aura", "nome": "Aura de carga do corte", "categoria": "Especial: Getsuga",
+   "mecanica": "Getsuga (GTS-01 Charge, GTS-02)",
+   "conceito": "Enquanto o herói segura, uma aura em labaredas vermelha e preta sobe do chão e envolve o corpo, com uma língua comprida subindo pela lâmina erguida atrás do ombro. A camada de fora é quase preta (fumaça de sangue), a do meio vermelho-lua e a borda de dentro vermelho claro, como fogo frio. Partículas escuras com borda vermelha chegam de fora e são sugadas, e faíscas vermelhas com cabeça branca sobem. Pulsa em 3 tempos (encolhe, normal, estoura).",
+   "partes": [
+    {"parte": "Labareda do corpo", "descricao": "silhueta ~56×88 px com 6-7 línguas pontudas no topo, base elíptica no chão (gy 112); fora #1a0a12 alpha 200, faixa #c8323a 3 px, borda interna #ff5a5a 1 px, miolo vazio com véu #c8323a alpha 50"},
+    {"parte": "Língua da lâmina", "descricao": "chama diagonal de ~10×46 px saindo do ombro direito para cima-esquerda, mesmas camadas"},
+    {"parte": "Partículas escuras", "descricao": "8-10 quadradinhos 2×2 #120a10 com 1 px #c8323a, a 30-55 px do centro, indo para dentro"},
+    {"parte": "Faíscas", "descricao": "6-8 riscos verticais de 2-4 px #ff5a5a com cabeça branca subindo"}
+   ],
+   "paleta": [{"nome": "Fumaça de sangue", "hex": "#1a0a12"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Vermelho claro", "hex": "#ff5a5a"}, {"nome": "Vinho", "hex": "#7a1020"}, {"nome": "Núcleo", "hex": "#ffe8e0"}],
+   "arquivo": "sprites/gts_aura.png", "fw": 128, "fh": 128, "cols": 3,
+   "quadros": ["pulso 1 (encolhida)", "pulso 2", "pulso 3 (estourando)"],
+   "anims": [{"nome": "carga", "quadros": [0, 1, 2, 1], "dur": [90, 90, 90, 90], "loop": true}],
+   "uso": "Pivô nos pés (64,112), mesma âncora do herói; a parte de fora vai atrás do herói e o véu é leve, então pode ir na camada de efeitos acima também. Escala com a carga em tempo real; vibração da tela é do jogo."},
+
+  {"id": "gts_lua", "nome": "Lua crescente (onda do corte)", "categoria": "Especial: Getsuga",
+   "mecanica": "Getsuga (GTS-04 Onda, GTS-02 Sharpen)",
+   "conceito": "A onda do corte é uma lua crescente de energia preta voando para a direita, com o lado convexo na frente. A borda tem uma faixa vermelho-lua e, por dentro dela, um fio branco finíssimo que dá o gume; o miolo é preto com veios vinho correndo. Atrás deixa um rastro vermelho em faixas horizontais que somem em degraus, com fiapos pretos. Sem o afiar ela sai gorda e de pontas rombudas; afiada (sharpen) fica fina e de pontas compridas como foice.",
+   "partes": [
+    {"parte": "Crescente", "descricao": "círculo r=40 menos círculo deslocado; normal: espessura ~20 px no meio; afinada: ~11 px com pontas alongadas. Miolo #120a10 com veios #4a0e1a"},
+    {"parte": "Borda", "descricao": "faixa #c8323a 2-3 px no lado convexo, fio branco #fff0ea 1 px por dentro dela, contorno #3a0610; borda côncava fina #7a1020"},
+    {"parte": "Halo", "descricao": "2 degraus: #ff3a40 alpha 110 (2 px), #7a1020 alpha 60 (4 px)"},
+    {"parte": "Rastro", "descricao": "8-12 faixas horizontais de 1-3 px saindo das costas para a esquerda, 20-60 px, #ff3a40 em 3 degraus de alpha; fiapos #1a0a12; faíscas vermelhas"}
+   ],
+   "paleta": [{"nome": "Preto da lua", "hex": "#120a10"}, {"nome": "Veio", "hex": "#4a0e1a"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Rastro", "hex": "#ff3a40"}, {"nome": "Fio branco", "hex": "#fff0ea"}],
+   "arquivo": "sprites/gts_lua.png", "fw": 128, "fh": 128, "cols": 6,
+   "quadros": ["voo 1", "voo 2", "voo 3", "afinada voo 1", "afinada voo 2", "afinada voo 3"],
+   "anims": [{"nome": "voo", "quadros": [0, 1, 2], "dur": [60, 60, 60], "loop": true},
+             {"nome": "voo afinada", "quadros": [3, 4, 5], "dur": [60, 60, 60], "loop": true}],
+   "uso": "Pivô no centro da lua (72,64); girar em tempo real para a direção da mira (desenhada indo para a direita). Camada de efeitos, blend aditivo opcional só no rastro. Hitbox: arco da crescente."},
+
+  {"id": "gts_lua_gigante", "nome": "Lua gigante", "categoria": "Especial: Getsuga",
+   "mecanica": "Getsuga (GTS-07 Giant moon)",
+   "conceito": "A carga máxima solta uma lua crescente de raio 64 px que parece cortar a própria noite. Atrás dela aparece um halo de lua cheia pálida, um disco creme-acinzentado translúcido com crateras, que lembra a lua do céu antes de ficar vermelha. A crescente tem o mesmo desenho da normal mas com borda mais grossa, fio branco duplo, veios vermelhos e faíscas soltas; o rastro é largo e pesado. Escurece a tela (tempo real) e faz tremer.",
+   "partes": [
+    {"parte": "Halo de lua cheia", "descricao": "disco r=72 #e8dccc alpha 60 + glow em degraus, 5 crateras #c8bca8 alpha 70, borda 1 px #f4ece0 alpha 110"},
+    {"parte": "Crescente", "descricao": "r=64, espessura ~30 px, miolo #120a10 com veios #4a0e1a e #7a1020, faixa vermelha 4 px, fio branco 1 px + segundo fio pontilhado"},
+    {"parte": "Rastro", "descricao": "14-18 faixas de 2-4 px até 90 px para a esquerda, 3 degraus de alpha, fiapos pretos, brasas"}
+   ],
+   "paleta": [{"nome": "Lua pálida", "hex": "#e8dccc"}, {"nome": "Cratera", "hex": "#c8bca8"}, {"nome": "Preto da lua", "hex": "#120a10"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Fio branco", "hex": "#fff0ea"}],
+   "arquivo": "sprites/gts_lua_gigante.png", "fw": 256, "fh": 256, "cols": 3,
+   "quadros": ["voo 1", "voo 2", "voo 3"],
+   "anims": [{"nome": "voo", "quadros": [0, 1, 2], "dur": [70, 70, 70], "loop": true}],
+   "uso": "Pivô no centro da crescente (140,128); girar para a mira em tempo real. O halo pálido pode ser desenhado com alpha reduzido sobre o escurecimento de tela."},
+
+  {"id": "gts_impacto", "nome": "Impact frame e linha de corte", "categoria": "Especial: Getsuga",
+   "mecanica": "Getsuga (GTS-03 Impact frame, GTS-05 Split it, GTS-09)",
+   "conceito": "No instante do corte a tela congela: uma faixa preta diagonal com borda branca atravessa o quadro e linhas de velocidade radiais (pretas e brancas) apontam para o centro, como um quadro de quadrinho. O segundo quadro inverte os tons (faixa branca com borda preta) para o efeito de negativo. Depois, sobre cada zumbi partido, fica a linha branca de corte diagonal com halo vermelho que afina, fica pontilhada e some.",
+   "partes": [
+    {"parte": "Faixa diagonal", "descricao": "faixa de 22 px a 30° atravessando o quadro, #0a0608 com bordas brancas de 2 px (quadro 2 invertido: #fff8f0 com bordas pretas)"},
+    {"parte": "Linhas de velocidade", "descricao": "28-36 cunhas finas de 1-2 px saindo de r=26 até a borda, alternando branco/preto"},
+    {"parte": "Linha de corte", "descricao": "diagonal de ~80 px a -35°: 3 px branco + halo #ff5a5a e #c8323a (quadro 3); 1 px branco + halo fino (quadro 4); pontilhada com 3 faíscas (quadro 5)"}
+   ],
+   "paleta": [{"nome": "Preto", "hex": "#0a0608"}, {"nome": "Branco", "hex": "#fff8f0"}, {"nome": "Halo", "hex": "#ff5a5a"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}],
+   "arquivo": "sprites/gts_impacto.png", "fw": 128, "fh": 128, "cols": 5,
+   "quadros": ["impact frame", "impact frame negativo", "corte cheio", "corte afinando", "corte sumindo"],
+   "anims": [{"nome": "impact", "quadros": [0, 1], "dur": [45, 45], "loop": false},
+             {"nome": "split", "quadros": [2, 3, 4], "dur": [160, 170, 170], "loop": false}],
+   "uso": "Impact frame: escalar para cobrir a tela inteira (NEAREST) no congelamento de 0,09 s; o negativo da imagem é pós-processo do jogo e é desligado em 'reduzir flashes' (usar só quadro 0). Linha de corte: pivô (64,64) no centro do zumbi, girar para o ângulo do corte; as metades do zumbi são o sprite dele recortado em tempo real."},
+
+  {"id": "gts_sulco", "nome": "Sulco do corte e corte na parede", "categoria": "Especial: Getsuga",
+   "mecanica": "Getsuga (GTS-06 Scar, GTS-07)",
+   "conceito": "A lua rasga o asfalto e deixa um sulco escuro e reto com bordas incandescentes vermelhas, cascalho levantado nos lados e fumacinha. Em 1,6 s a borda apaga (vermelho vinho, depois fuligem) e em 60 s o sulco esmaece até 30%. A lua gigante deixa um sulco 3× mais largo, com paredes visíveis e brasas. Na parede do fundo fica um corte horizontal fundo, com reboco lascado e rachaduras.",
+   "partes": [
+    {"parte": "Sulco", "descricao": "tira horizontal de 116×6 px afinando nas pontas, fundo #120c10, parede de cima #2e2228, lábio de baixo iluminado #5a5262; borda #ff5a5a/#c8323a com pontos #ffd0a0 (aceso)"},
+    {"parte": "Sulco largo", "descricao": "116×18 px, mesmas cores, 2 paredes internas, brasas laranja, pedrinhas maiores"},
+    {"parte": "Cascalho", "descricao": "pedrinhas 1-3 px #5a5662 e #77736e sombreadas nas bordas"},
+    {"parte": "Corte na parede", "descricao": "fenda 100×4 px #0a0608 com bordas vermelhas, reboco lascado #8e8a84 em volta, 6 rachaduras pretas"},
+    {"parte": "Estados", "descricao": "aceso (halo vermelho em degraus + brasas), apagando (borda #7a1020, fumaça), esmaecido (frio a 30%)"}
+   ],
+   "paleta": [{"nome": "Fundo do sulco", "hex": "#120c10"}, {"nome": "Parede", "hex": "#2e2228"}, {"nome": "Brasa", "hex": "#ff5a5a"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Vinho", "hex": "#7a1020"}, {"nome": "Reboco", "hex": "#8e8a84"}],
+   "arquivo": "sprites/gts_sulco.png", "fw": 128, "fh": 64, "cols": 8,
+   "quadros": ["sulco aceso", "sulco apagando", "sulco esmaecido 30%", "sulco largo aceso", "sulco largo apagando", "sulco largo esmaecido 30%", "corte na parede aceso", "corte na parede frio"],
+   "uso": "Decalque de chão (camada abaixo dos personagens), pivô (64,32), girado na direção da onda e repetido/esticado ao longo do caminho em tempo real. Apagar: cross-fade 0→1 em 1,6 s, depois alpha até 30%. Corte na parede: na parede do fundo onde a onda bateu."},
+
+  {"id": "chd_mao", "nome": "Crepitar na mão", "categoria": "Especial: Chidori",
+   "mecanica": "Chidori (CHD-01 Crackle)",
+   "conceito": "Uma esfera branco-azulada de eletricidade cresce na mão do herói de 5 para 14 px, cuspindo arcos de raio em zigue-zague para todos os lados, para o braço e para o chão. Os arcos mudam a cada quadro (4 formas) para dar o crepitar nervoso. O núcleo é branco puro, o corpo azul claro e o halo azul em degraus. Na carga cheia um flash em cruz e um anel marcam o 'ding'.",
+   "partes": [
+    {"parte": "Esfera", "descricao": "disco 5 → 9 → 14 px: núcleo #ffffff, corpo #bfe4ff, borda #4a8fe0, contorno #10204a; halo #4a8fe0 em degraus até 2,5×"},
+    {"parte": "Arcos", "descricao": "5-8 zigue-zagues de 8-26 px com 1 ramo, núcleo branco 1 px, corpo #8fd0ff, halo #3f7fff alpha 80; pelo menos 1 apontando para baixo"},
+    {"parte": "Faíscas", "descricao": "pontos e cruzes brancas de 1-3 px"},
+    {"parte": "Carga cheia", "descricao": "cruz de luz branca 4 pontas de 24 px + anel 1 px #bfe4ff r=20"}
+   ],
+   "paleta": [{"nome": "Núcleo", "hex": "#ffffff"}, {"nome": "Azul claro", "hex": "#bfe4ff"}, {"nome": "Corpo do arco", "hex": "#8fd0ff"}, {"nome": "Azul raro", "hex": "#4a8fe0"}, {"nome": "Halo", "hex": "#3f7fff"}, {"nome": "Contorno", "hex": "#10204a"}],
+   "arquivo": "sprites/chd_mao.png", "fw": 64, "fh": 64, "cols": 8,
+   "quadros": ["crescendo 5 px", "crescendo 9 px", "crescendo 14 px", "arcos 1", "arcos 2", "arcos 3", "arcos 4", "carga cheia"],
+   "anims": [{"nome": "carga", "quadros": [0, 1, 2], "dur": [300, 300, 300], "loop": false},
+             {"nome": "crepitar", "quadros": [3, 4, 5, 6], "dur": [50, 50, 50, 50], "loop": true},
+             {"nome": "cheia", "quadros": [7], "dur": [120], "loop": false}],
+   "uso": "Pivô (32,32) na mão do herói, camada de efeitos. Escolher quadro de crescimento pela carga e alternar arcos aleatoriamente; com 'reduzir flashes' trocar menos vezes os arcos e pular o quadro 7."},
+
+  {"id": "chd_rastro", "nome": "Rastro de raio do dash", "categoria": "Especial: Chidori",
+   "mecanica": "Chidori (CHD-03 Trail, CHD-05 Afterglow)",
+   "conceito": "Segmento horizontal de raio que o jogo repete ao longo da linha do dash. Um zigue-zague branco de 1-2 px com corpo azul e halo azul de 10 px de altura, com um ou dois ramos curtos. As pontas ficam na mesma altura (y=16) para encaixar lado a lado sem emenda. Depois do dash o rastro fica brilhando: o núcleo vira azul, o halo enfraquece e sobram faíscas soltas, até ficar só um traço tracejado.",
+   "partes": [
+    {"parte": "Raio", "descricao": "zigue-zague de 128 px com picos de ±6 px, núcleo #ffffff 2 px, corpo #8fd0ff 1 px de cada lado"},
+    {"parte": "Halo", "descricao": "#3f7fff em 2 degraus (alpha 110 e 50), altura total 10 px"},
+    {"parte": "Ramos", "descricao": "1-2 ramos de 6-12 px, 1 px branco/azul"},
+    {"parte": "Afterglow", "descricao": "quadro 4: núcleo #8fd0ff, halo alpha 60, 4 faíscas; quadro 5: traço #4a8fe0 tracejado alpha 120 + 2 faíscas"}
+   ],
+   "paleta": [{"nome": "Núcleo", "hex": "#ffffff"}, {"nome": "Corpo", "hex": "#8fd0ff"}, {"nome": "Halo", "hex": "#3f7fff"}, {"nome": "Azul", "hex": "#4a8fe0"}],
+   "arquivo": "sprites/chd_rastro.png", "fw": 128, "fh": 32, "cols": 5,
+   "quadros": ["raio 1", "raio 2", "raio 3", "afterglow 1", "afterglow 2"],
+   "anims": [{"nome": "crepitando", "quadros": [0, 1, 2], "dur": [40, 40, 40], "loop": true},
+             {"nome": "esmaecendo", "quadros": [3, 4], "dur": [700, 1100], "loop": false}],
+   "uso": "Tileável na horizontal: pivô na ponta esquerda (0,16), girar para o ângulo do dash e repetir até cobrir a distância. Alpha cai em 1,8 s (tempo real). Desligado: sem rastro."},
+
+  {"id": "chd_trovao", "nome": "Trovão do céu", "categoria": "Especial: Chidori",
+   "mecanica": "Chidori (CHD-06 Thunder, CHD-08)",
+   "conceito": "0,3 s depois do dash um raio cai do topo da tela no ponto final e em cada zumbi perfurado. É um raio vertical em 3 camadas: halo azul largo, corpo azul claro e núcleo branco, em zigue-zague com ramos laterais. Três quadros mostram o golpe cheio, um re-golpe com outra forma e o raio afinando. Ao tocar o chão sai um flash branco com estrela de faíscas, e fica uma marca de queimado preta com rachaduras e brasas azuis.",
+   "partes": [
+    {"parte": "Raio", "descricao": "de y=0 a y=178, zigue-zague de segmentos 8-14 px com desvio ±7 px; núcleo branco 3 px, corpo #8fd0ff, halo #3f7fff alpha 90 (±6 px) e #2a4fd0 alpha 45 (±10 px); 3-4 ramos de 10-24 px"},
+    {"parte": "Flash no chão", "descricao": "quadro 4: elipse branca 30×10 em y=180 com halo azul em degraus, 8 raios de faísca e pedrinhas voando"},
+    {"parte": "Marca de queimado", "descricao": "quadro 5: elipse #16121a 34×12 px com borda fuligem #2a2228, 7 rachaduras radiais, 4 brasas #8fd0ff e fumacinha #5a5868"}
+   ],
+   "paleta": [{"nome": "Núcleo", "hex": "#ffffff"}, {"nome": "Corpo", "hex": "#8fd0ff"}, {"nome": "Halo", "hex": "#3f7fff"}, {"nome": "Halo externo", "hex": "#2a4fd0"}, {"nome": "Queimado", "hex": "#16121a"}, {"nome": "Fuligem", "hex": "#2a2228"}],
+   "arquivo": "sprites/chd_trovao.png", "fw": 64, "fh": 192, "cols": 5,
+   "quadros": ["raio 1", "raio 2 (re-golpe)", "raio 3 (afinando)", "flash no chão", "marca de queimado"],
+   "anims": [{"nome": "trovão", "quadros": [0, 1, 0, 2, 3], "dur": [40, 40, 30, 60, 90], "loop": false}],
+   "uso": "Pivô no ponto de impacto no chão (32,180); esticar verticalmente em tempo real até o topo da tela. Quadro 4 é decalque de chão que fica alguns segundos. 'Reduzir flashes' pula o quadro 3 e reduz alpha do halo."},
+
+  {"id": "chd_eletrificado", "nome": "Eletrificado, halo do herói e acerto", "categoria": "Especial: Chidori",
+   "mecanica": "Chidori (CHD-04 Pierce, CHD-05 Afterglow)",
+   "conceito": "Overlay posto sobre o zumbi atingido: arcos de raio curtos que correm colados ao contorno de um corpo humano (cabeça, ombros, braços, pernas), faíscas pulando e pequenos estalos azuis, em 3 formas diferentes para piscar. O herói depois do dash fica envolto num halo elétrico: um contorno crepitante oval em volta do corpo e um anel no chão. No acerto aparece um símbolo de raio grande, branco-azulado com contorno escuro, para ler de longe.",
+   "partes": [
+    {"parte": "Arcos no corpo", "descricao": "6-9 zigue-zagues de 8-20 px seguindo a silhueta de um zumbi de ~80 px (cabeça em (64,40), pés em y 112), núcleo branco, corpo #8fd0ff, halo #3f7fff"},
+    {"parte": "Faíscas", "descricao": "cruzes 3-5 px e pontos brancos/azuis ao redor"},
+    {"parte": "Halo do herói", "descricao": "oval 44×86 px de arcos tracejados #8fd0ff/branco + anel no chão elíptico 50×10 #3f7fff, 2 variações"},
+    {"parte": "Símbolo de acerto", "descricao": "raio em Z de ~26×40 px, #f4fbff com faixa #8fd0ff, contorno 1 px #10204a, sombra #2a4fd0 deslocada 2 px, 4 faíscas em volta"}
+   ],
+   "paleta": [{"nome": "Núcleo", "hex": "#ffffff"}, {"nome": "Corpo", "hex": "#8fd0ff"}, {"nome": "Halo", "hex": "#3f7fff"}, {"nome": "Contorno", "hex": "#10204a"}, {"nome": "Sombra do símbolo", "hex": "#2a4fd0"}],
+   "arquivo": "sprites/chd_eletrificado.png", "fw": 128, "fh": 128, "cols": 6,
+   "quadros": ["eletrificado 1", "eletrificado 2", "eletrificado 3", "halo do herói 1", "halo do herói 2", "símbolo de acerto"],
+   "anims": [{"nome": "eletrificado", "quadros": [0, 1, 2], "dur": [60, 60, 60], "loop": true},
+             {"nome": "halo", "quadros": [3, 4], "dur": [70, 70], "loop": true}],
+   "uso": "Overlay com pivô nos pés (64,112), mesma âncora do zumbi/herói, camada de efeitos acima. O tremor e o piscar branco do zumbi são tempo real (tint 'flash'). Símbolo: pivô (64,40), sobe e some em 0,5 s."}
+ ]}

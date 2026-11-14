@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Abrigo · preview</title>
+<style>
+  html, body { margin: 0; background: #000; overflow: hidden }
+  canvas { display: block; width: 960px; height: 540px; image-rendering: pixelated }
+</style>
+<script src="../art/art-hub.js"></script>
+</head>
+<body>
+<canvas id="c" width="960" height="540"></canvas>
+<script>
+// Uso: /tools/abrigo.html?n=1..5 (todos os slots nesse nível; 0 = vazios) &cam=<x lógico> &lua=1 &fogo=0..1 &mur=<nível muralha>
+//      &fog=<nível fogueira> &t=<tempo fixo> &anim=1 (anima) &pan=1 (câmera andando) &s=id:n,id:n (níveis por slot)
+const q = new URLSearchParams(location.search);
+const AB = window.ART_HUB.ABRIGO, RS = AB.RS || 2.5;
+const n = +(q.get('n') ?? 3);
+const estruturas = {};
+for (const s of AB.SLOTS) if (s.id !== 'fogueira' && n > 0) estruturas[s.id] = n;
+estruturas.fogueira = +(q.get('fog') ?? Math.max(1, n));
+estruturas.muralha = +(q.get('mur') ?? n);
+for (const kv of (q.get('s') || '').split(',').filter(Boolean)) { const [id, v] = kv.split(':'); estruturas[id] = +v; }
+const state = { estruturas, fogo: +(q.get('fogo') ?? 1), noite: true, lua: q.get('lua') === '1', obra: null };
+let cam = +(q.get('cam') ?? 900);
+const cv = document.getElementById('c'), g = cv.getContext('2d'); g.imageSmoothingEnabled = false;
+const drawActors = (gg, c) => { if (q.get('actors') !== '1') return; gg.fillStyle = '#ffd23f'; for (const x of [1150, 1200, 1250]) gg.fillRect(x - c - 8, 188 - 50, 16, 50); };
+function frame(t) { g.setTransform(RS, 0, 0, RS, 0, 0); g.clearRect(0, 0, 384, 216); AB.draw(g, cam, state, t, { drawActors }); }
+const t0 = performance.now(); frame(+(q.get('t') ?? 1.3)); console.log('primeiro quadro ms', (performance.now() - t0).toFixed(0));
+document.title = 'ok';
+if (q.get('anim') || q.get('pan')) { let last = performance.now(); const loop = (now) => { if (q.get('pan')) cam = (cam + (now - last) / 1000 * 60) % (AB.WORLD - 384); last = now; frame(now / 1000); requestAnimationFrame(loop); }; requestAnimationFrame(loop); }
+</script>
+</body>
+</html>

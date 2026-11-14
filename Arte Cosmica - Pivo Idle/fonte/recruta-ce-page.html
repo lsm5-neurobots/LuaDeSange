@@ -1,0 +1,125 @@
+<title>{{TITLE}}</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>.wrap>*{min-width:0} .stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:230/170;object-fit:contain!important} .fr canvas{width:{{FW}}px;height:150px} .seg.forms button[aria-pressed="true"]{background:var(--moon)}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">{{EYEBROW}}</div>
+    <h1>{{H1}} <small>Recruta</small></h1>
+    <p class="lede">{{LEDE}}</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="230" height="170" role="img" aria-label="{{H1}} animado no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Tom de pele (sorteado no recrutamento)</span><div class="seg forms" id="skins"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real</span>
+        <div class="real"><div><canvas id="r1" width="{{FW}}" height="150"></canvas><span>ficha (100%)</span></div><div><canvas id="r2" width="{{FW70}}" height="105"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">Na ficha o quadro tem {{FW}}×150 px. No jogo entra a 70%, como o Vigia e os zumbis, pra ficar menor que as portas do mapa.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">{{NOTE_STRIP}}</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><canvas id="beforeCv" width="128" height="128"></canvas><figcaption>Atual · 1º quadro da folha recrutas/{{ID}}.png</figcaption></figure>
+        <figure><canvas id="afterCv" width="{{FW}}" height="150"></canvas><figcaption>Novo · 4 tons, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor</h2>
+      <div class="ramps" id="ramps"></div>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Combate</small>Como luta no automático</h2>
+    <div class="tbl"><table><thead><tr><th>Ação</th><th>Quadros</th><th>O que faz</th></tr></thead><tbody>{{TABLE_COMBAT}}</tbody></table></div>
+  </section>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>O que foi mantido da ficha</h2>
+    <ul class="rules">{{LIST_FICHA}}</ul>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{FACTORY}}
+(function(){
+'use strict';
+const F={{FACNAME}};
+const SW=230, SH=170, SGROUND=160, FW=F.FW, FH=F.FH, GROUND=F.GROUND;
+{{BG}}
+const S={skin:'media', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, parts:[]};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+let last=performance.now(), T=0, shake=0;
+const ox=()=>Math.round(SW/2-F.AX-10), oy=()=>SGROUND-GROUND;
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+const FX={{FX}};
+function onFrame(){ const P=F.poseOf(S.anim,S.fi); if(P.impact) shake=0.18; FX.frame(S,P,F.frame(S.skin,S.anim,S.fi,5),ox(),oy()); }
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=F.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); onFrame(); updStrip(); } }
+  if(S.anim==='walk' && S.playing) S.scroll+=dt*(S.slow?10:20);
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function draw(dt){
+  const sx=shake>0?Math.round((Math.random()-.5)*4):0; shake=Math.max(0,shake-dt);
+  g.save(); g.translate(sx,0);
+  drawBG(g,'comum',S.scroll,T);
+  const cv=F.frame(S.skin,S.anim,S.fi,S.step), X=ox(), Y=oy(), P=F.poseOf(S.anim,S.fi);
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-2;y<=2;y++){ const w=Math.floor(Math.sqrt(1-(y/3)**2)*20); g.fillRect(X+F.AX-w+2,SGROUND+y+1,w*2,1); }
+  g.drawImage(cv,X,Y);
+  S.parts.forEach(p=>{ p.t+=dt; p.x+=(p.vx||0)*dt; p.y+=(p.vy||-20)*dt; FX.part(g,p,glow); }); S.parts=S.parts.filter(p=>p.t<(p.life||1.2));
+  const txt=FX.text(S,P,cv,X,Y); if(txt) setFx(txt[0],txt[1],txt[2],txt[3]); else clearFx();
+  if(P.impact && S.step>=3){ const t=cv._tip; g.fillStyle='#fff'; for(let k=0;k<8;k++){ const a=k/8*Math.PI*2; for(let r=5;r<12;r++) g.fillRect(Math.round(X+t.x+Math.cos(a)*r),Math.round(Y+t.y+Math.sin(a)*r),1,1); } }
+  g.restore();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${F.ANIMS[S.anim].n} · ${F.ANIMS[S.anim].dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,FW,FH); r1.drawImage(cv,0,0);
+  const r2=document.getElementById('r2').getContext('2d'); r2.clearRect(0,0,FW,FH); PIX.setK(0.7); r2.drawImage(F.frame(S.skin,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+const mkSeg=(id,attr,obj,label,cur,cb)=>{ document.getElementById(id).innerHTML=Object.keys(obj).map(k=>`<button data-${attr}="${k}" aria-pressed="${k===cur}">${label(obj[k],k)}</button>`).join(''); document.querySelectorAll('#'+id+' button').forEach(b=>b.onclick=()=>{ cb(b.dataset[attr]); press(id,attr,b.dataset[attr]); }); };
+mkSeg('anims','anim',F.ANIMS,a=>a.nome,'idle',v=>{ S.anim=v; S.fi=0; S.acc=0; buildStrip(); });
+mkSeg('skins','skin',F.SKINS,s=>s.nome,'media',v=>{ S.skin=v; buildStrip(); after(); buildRamps(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%F.ANIMS[S.anim].n; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=F.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(F.frame(S.skin,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms${A.hits&&A.hits[i]?' ✦':''}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=F.mats(S.skin);
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(F.NAMES).map(k=>`<div class="ramp"><span>${F.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join(''); }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(F.frame(S.skin,'guard',0,5),0,0); }
+const old=new Image(); old.onload=()=>{ const c=document.getElementById('beforeCv').getContext('2d'); c.imageSmoothingEnabled=false; c.drawImage(old,0,0,128,128,0,0,128,128); }; old.src='data:image/png;base64,{{OLDPNG}}';
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>

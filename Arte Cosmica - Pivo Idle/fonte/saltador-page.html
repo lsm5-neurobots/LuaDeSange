@@ -1,0 +1,154 @@
+<title>Saltador Nº 009</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>.show{background:var(--panel)!important;align-items:start} .stagewrap{min-height:0!important;display:block;align-self:start} #stage{height:auto!important;aspect-ratio:260/150;object-fit:contain!important} .fr canvas{width:128px;height:110px}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#5ac8e0} .seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:#8a3a6a;color:#fff}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bestiário · Zumbis comuns · Direção de arte cósmica</div>
+    <h1>Saltador <small>Nº 009</small></h1>
+    <p class="lede">Zumbi de pernas compridas que vive agachado, pronto pro bote, com o rosto escondido num capuz. <b>Agacha 0,8 s, salta 4 tiles em arco e prende o herói.</b> A silhueta é de sapo: tronco quase na horizontal, joelhos acima da cintura e as mãos no chão entre os pés.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="260" height="150" role="img" aria-label="Saltador animado no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Forma</span>
+        <div class="seg forms" id="forms"><button data-form="comum" aria-pressed="true">Comum</button><button data-form="enluarado" aria-pressed="false">Enluarado</button><button data-form="plenilunar" aria-pressed="false">Plenilunar</button></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real no jogo</span>
+        <div class="real"><div><canvas id="r1" width="128" height="110"></canvas><span>ficha (100%)</span></div><div><canvas id="r2" width="90" height="77"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">Agachado ele tem só ~60 px de altura: fica abaixo da linha dos outros zumbis e some no meio da horda até saltar.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">No Salto, os 4 primeiros quadros somam 800 ms: é o "se encolhe por 0,8 s e treme" da ficha, o aviso pro herói sair da faixa. Os quadros 6 e 7 são o voo (o palco faz o arco de 4 tiles) e o 8 é a aterrissagem com impacto em cima do herói.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><img alt="Sprite atual do Saltador, 128 px" src="data:image/png;base64,{{OLDPNG}}"><figcaption>Atual · pixel chunky, contorno uniforme, 2 tons</figcaption></figure>
+        <figure><canvas id="afterCv" width="128" height="110"></canvas><figcaption>Novo · capuz com rosto na sombra, olhos acesos</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor da forma <span id="formName">Comum</span></h2>
+      <div class="ramps" id="ramps"></div>
+      <p class="note" style="margin-top:10px">O capuz é quase todo cinza-escuro, pra que só os olhos acesos e os dentes chamem atenção. A fita adesiva prateada no peito é o único ponto claro do corpo.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead>
+      <tbody>
+        <tr><td>Cabeça</td><td>Capuz cinza-escuro puxado, rosto na sombra. Só aparecem os olhos brilhando e a boca aberta com dentes.</td><td>Capuz grande com borda clara em volta da abertura, interior quase preto, dois olhos verdes acesos (com brilho aditivo no palco) e uma fileira de dentes que abre mais no salto. Cordões do capuz pendurados.</td></tr>
+        <tr><td>Tronco</td><td>Moletom com capuz rasgado nos cotovelos e nas costas, fita adesiva no peito. Tronco quase na horizontal.</td><td>Moletom com bolso canguru e rasgos nas costas mostrando a pele. Faixa de fita prateada com tiras. O tronco fica inclinado 66–78°.</td></tr>
+        <tr><td>Braços</td><td>Compridos, mãos no chão entre os pés, como um sapo. Dedos longos com garras.</td><td>Braços com cinemática inversa: as mãos ficam plantadas no chão entre os pés e no voo vão pra frente. Cotovelo rasgado e 3 dedos longos com garra clara.</td></tr>
+        <tr><td>Pernas</td><td>Calça de moletom rasgada, pernas muito dobradas, joelhos acima da cintura. Descalço, dedos agarrando o chão.</td><td>Coxa de 25 px apontando pra cima, com o joelho rasgado aparecendo ao lado do capuz. Pés descalços longos com unhas.</td></tr>
+        <tr><td>Movimento</td><td>Fica agachado e balança. Antes do salto se encolhe 0,8 s e treme. Salta 4 tiles em arco e, se acertar, fica preso em cima do herói.</td><td>Parado balança o corpo. No Salto treme 4 quadros (com "grrr"), estica as pernas, voa num arco de 4 tiles com rastro e aterrissa com poeira, "TUM!" e a tag "PRESO".</td></tr>
+        <tr><td>Enluarado</td><td>Pele ciano e olhos brancos.</td><td>Pele ciano, olhos brancos acesos e luz de lua ciano.</td></tr>
+        <tr><td>Plenilunar</td><td>Pele vinho-roxo e salto duplo.</td><td>Pele vinho-roxo, olhos rosados e salto duplo: dois arcos seguidos, com poeira no meio do caminho.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{SALT}}
+(function(){
+'use strict';
+const SW=260, SH=150, SGROUND=140, FW=SALT.FW, FH=SALT.FH, GROUND=SALT.GROUND, JUMP=112;
+{{BG}}
+const S={form:'comum', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, dust:[], jx:0, tick:0};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+const EYE={comum:'rgba(160,255,100,',enluarado:'rgba(230,250,255,',plenilunar:'rgba(255,110,170,'};
+let last=performance.now(), T=0;
+function dust(x,n){ for(let k=0;k<n;k++) S.dust.push({x:x+(Math.random()-.5)*10,y:SGROUND-1,vx:(Math.random()-.5)*60,vy:-10-Math.random()*25,t:0}); }
+const A=()=>SALT.ANIMS.attack;
+function airOffset(){ // posição no arco durante os quadros de voo
+  if(S.anim!=='attack') return {x:0,y:0};
+  const a=A(); const f=S.fi, d=a.dur(f);
+  if(f<a.air[0]) return {x:0,y:0};
+  if(f>a.air[1]) return {x:JUMP,y:0};
+  const tot=a.dur(a.air[0])+a.dur(a.air[1]); const el=(f===a.air[0]?0:a.dur(a.air[0]))+S.acc; const t=Math.min(1,el/tot);
+  if(S.form==='plenilunar'){ const h=t<0.5?t*2:(t-0.5)*2; return {x:JUMP*t, y:-Math.sin(h*Math.PI)*26}; }
+  return {x:JUMP*t, y:-Math.sin(t*Math.PI)*40};
+}
+function onFrame(){ const a=A(); if(S.anim!=='attack') return; const X=18+SALT.AX;
+  if(S.fi===a.air[0]) dust(X,8);
+  if(S.fi===a.land) dust(X+JUMP,16);
+  if(S.fi===0) S.jx=0; }
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const AN=SALT.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=AN.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%AN.n; d=AN.dur(S.fi); onFrame(); updStrip(); }
+    if(S.anim==='attack' && S.form==='plenilunar'){ const a=A(); if(S.fi===a.air[1] && S.acc<20 && !S._mid){ S._mid=true; dust(18+SALT.AX+JUMP/2,10); } if(S.fi!==a.air[1]) S._mid=false; } }
+  if(S.anim==='walk' && S.playing) S.scroll+=dt*(S.slow?9:18);
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+function draw(dt){
+  drawBG(g,S.form,S.scroll,T);
+  const cv=SALT.frame(S.form,S.anim,S.fi,S.step), P=SALT.poseOf(S.anim,S.fi), off=airOffset();
+  const X=Math.round(18+off.x+(P.shake?P.shake:0)), Y=Math.round(SGROUND-GROUND+off.y);
+  // alvo: canela do herói no ponto de pouso
+  if(S.anim==='attack'){ const hx=18+SALT.AX+JUMP+8; g.fillStyle='#170b1c'; g.fillRect(hx-1,SGROUND-50,10,51); g.fillStyle='#2e3a5e'; g.fillRect(hx,SGROUND-50,8,40); g.fillStyle='#6a3e22'; g.fillRect(hx-1,SGROUND-10,14,9); }
+  const shw=Math.max(8,22+off.y*0.25); g.fillStyle='rgba(10,4,16,.55)'; for(let y=-1;y<=1;y++) g.fillRect(Math.round(18+off.x+SALT.AX-shw+6),SGROUND+y+1,Math.round(shw*2),1);
+  if(off.y<-4 && S.step>=5){ for(let k=1;k<5;k++){ g.globalAlpha=0.25-k*0.05; g.drawImage(cv,X-k*6,Y+k*3); } g.globalAlpha=1; }
+  g.drawImage(cv,X,Y);
+  if(S.step>=5){ const warn=S.anim==='attack'&&S.fi<=3; const a=warn?0.7+0.3*Math.sin(T*30):0.45; glow(X+cv._eye.x,Y+cv._eye.y,warn?8:5,EYE[S.form]+a+')'); glow(X+cv._eye2.x,Y+cv._eye2.y,warn?6:4,EYE[S.form]+a+')'); }
+  g.fillStyle='#b8a8a0'; S.dust.forEach(d=>{ d.t+=dt; d.x+=d.vx*dt; d.y+=d.vy*dt; d.vy+=40*dt; g.globalAlpha=Math.max(0,1-d.t*2); g.fillRect(Math.round(d.x),Math.round(d.y),2,2); }); g.globalAlpha=1; S.dust=S.dust.filter(d=>d.t<0.5);
+  const a=A();
+  if(S.anim==='attack' && S.fi<=3) setFx('bubble','grrr…',X+cv._eye.x+10,Y+cv._eye.y-22);
+  else if(S.anim==='attack' && S.fi===a.land) setFx('burst','TUM!',X+cv._mouth.x+14,Y+cv._mouth.y-20);
+  else if(S.anim==='attack' && S.fi>a.land) setFx('bubble','PRESO!',X+cv._mouth.x+24,Y+cv._mouth.y-26);
+  else if(S.anim==='hurt' && S.fi<=1) setFx('burst','CRAU!',X+40,Y+30);
+  else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${SALT.ANIMS[S.anim].n} · ${SALT.ANIMS[S.anim].dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,128,110); r1.drawImage(cv,0,0);
+  const r2=document.getElementById('r2').getContext('2d'); r2.clearRect(0,0,90,77); PIX.setK(0.7); r2.drawImage(SALT.frame(S.form,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(SALT.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('anims','anim',S.anim); buildStrip(); });
+document.querySelectorAll('#forms button').forEach(b=>b.onclick=()=>{ S.form=b.dataset.form; press('forms','form',S.form); buildStrip(); buildRamps(); after(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%SALT.ANIMS[S.anim].n; S.acc=0; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const AN=SALT.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<AN.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(SALT.frame(S.form,S.anim,i,S.step),0,0);
+    const mark=AN.warn&&AN.warn.includes(i)?' ⚠':AN.air&&AN.air.includes(i)?' ↗':AN.land===i?' ✦':'';
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${AN.dur(i)} ms${mark}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=SALT.mats(S.form); document.getElementById('formName').textContent={comum:'Comum',enluarado:'Enluarado',plenilunar:'Plenilunar'}[S.form];
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(SALT.NAMES).map(k=>`<div class="ramp"><span>${SALT.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('')+
+  `<div class="ramp"><span>Contorno · Lua</span><i style="background:${PIX.OUTLINE}"></i><i style="background:${SALT.RIM[S.form]}"></i><span></span><span></span></div>`; }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(SALT.frame(S.form,'idle',0,5),0,0); }
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>

@@ -1,0 +1,170 @@
+{
+ "titulo": "Zumbi Garimpeiro - figurino, ferramentas e materiais",
+ "pasta": "zumbis-amazonia/garimpeiro",
+ "secoes": [
+  {
+   "nome": "Garimpeiro (fotos de epoca e atuais)",
+   "n": 12,
+   "busca": [
+    "garimpeiro",
+    "garimpeiro Amazonia",
+    "Serra Pelada garimpeiros",
+    "gold miner Brazil",
+    "garimpeiro lama",
+    "garimpeiro bateia rio",
+    "artisanal gold miner Amazon"
+   ],
+   "cats": [
+    "Garimpeiros",
+    "Serra Pelada"
+   ]
+  },
+  {
+   "nome": "Bateia e lavagem de ouro",
+   "n": 10,
+   "busca": [
+    "bateia garimpeiro",
+    "gold panning pan",
+    "gold pan sluice",
+    "bateia ouro",
+    "panning for gold river",
+    "gold pan sediment"
+   ],
+   "cats": [
+    "Gold panning"
+   ]
+  },
+  {
+   "nome": "Picareta, pa e ferramentas de cava",
+   "n": 8,
+   "busca": [
+    "picareta",
+    "pickaxe old rusty",
+    "pick axe mining",
+    "enxada pa garimpo",
+    "shovel mud mining",
+    "pickaxe miner"
+   ],
+   "cats": [
+    "Pickaxes"
+   ]
+  },
+  {
+   "nome": "Lama, barro e cava (clareira)",
+   "n": 10,
+   "busca": [
+    "garimpo lama",
+    "mud pit mine Brazil",
+    "cava de garimpo",
+    "gold mine mud pit workers",
+    "muddy clearing deforested Amazon",
+    "lamacal garimpo"
+   ]
+  },
+  {
+   "nome": "Mercurio (poca prateada)",
+   "n": 8,
+   "busca": [
+    "mercury liquid droplets",
+    "mercurio garimpo",
+    "mercury gold mining",
+    "liquid mercury puddle",
+    "mercury amalgam gold",
+    "quicksilver"
+   ],
+   "cats": [
+    "Mercury (element)"
+   ]
+  },
+  {
+   "nome": "Dragas e balsas de garimpo",
+   "n": 8,
+   "busca": [
+    "balsa de garimpo",
+    "draga garimpo rio",
+    "gold dredge barge river",
+    "balsas garimpo Madeira",
+    "dredge Amazon river mining"
+   ]
+  },
+  {
+   "nome": "Roupa e botas: bermuda, camiseta, chapeu",
+   "n": 10,
+   "busca": [
+    "miner shirtless mud",
+    "bermuda trabalhador lama",
+    "rubber boots miner",
+    "tank top worker dirty",
+    "chapeu de palha garimpo",
+    "hard hat miner muddy"
+   ]
+  },
+  {
+   "nome": "Pepitas, ouro e fio de ouro",
+   "n": 4,
+   "busca": [
+    "gold nugget",
+    "pepita de ouro",
+    "gold dust",
+    "native gold specimen"
+   ],
+   "cats": [
+    "Gold nuggets"
+   ]
+  },
+  {
+   "nome": "Barraco, lona e acampamento",
+   "n": 6,
+   "busca": [
+    "barraco garimpo",
+    "tent tarp camp jungle",
+    "acampamento garimpeiro",
+    "lona preta barraco",
+    "makeshift camp mine"
+   ]
+  },
+  {
+   "nome": "Escavacao: tuneis e buracos",
+   "n": 6,
+   "busca": [
+    "Serra Pelada cava",
+    "open pit mine terraces ladders",
+    "mine ladders mud",
+    "tunnel mine timber old",
+    "mining ladder workers"
+   ]
+  },
+  {
+   "nome": "Anatomia: torso, bracos musculosos, esqueleto",
+   "n": 6,
+   "busca": [
+    "human torso muscle anatomy",
+    "muscular back laborer",
+    "human skeleton arm",
+    "human skull teeth",
+    "human hand anatomy bones"
+   ]
+  },
+  {
+   "nome": "Corrupcao: barro, raizes, fungos",
+   "n": 6,
+   "busca": [
+    "tree roots growing through",
+    "mud caked skin",
+    "moss growth",
+    "fungus growing on wood",
+    "roots exposed soil"
+   ]
+  },
+  {
+   "nome": "Movimento: cavar e emergir",
+   "n": 6,
+   "busca": [
+    "digging hole mud person",
+    "man emerging from mud",
+    "worker swinging pickaxe",
+    "man climbing out of pit mud"
+   ]
+  }
+ ]
+}

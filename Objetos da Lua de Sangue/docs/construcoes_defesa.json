@@ -1,0 +1,144 @@
+{
+ "grupo": "construcoes_defesa",
+ "titulo": "Construções: moradia, energia e defesa",
+ "ordem": 12,
+ "resumo": "Barraca (moradia dos recrutas), gerador (energia), barricada, muralha e portão do abrigo. Cada um sobe a escada de materiais (lona e sucata → madeira → pedra → tijolo e metal → Lua de Sangue) e tem visual de intacta, danificada e destruída — a muralha e o portão são a primeira linha de defesa na invasão.",
+ "itens": [
+  {
+   "id": "con_barraca",
+   "nome": "Barraca / Alojamento",
+   "categoria": "Construção",
+   "mecanica": "Abrigo (ABR-03, ABR-06..09), Evolução (EVO-01, EVO-09), Grupo (GRP-01, GRP-09, GRP-14), Invasão (INV-06, INV-09)",
+   "conceito": "Onde os recrutas dormem e moram: cada nível dá mais camas (GRP-01) e é para cá que o recruta cansado anda para dormir (GRP-09). Começa como uma barraca de lona verde remendada, armada com estacas tortas e cordas, com uma lona azul jogada por cima e um colchonete saindo pela porta. Vira uma cabana de tábuas com uma rede nordestina listrada na varanda, depois uma casinha de pedra com telha de barro e chaminé, um alojamento de tijolo com faixas de metal, chapa ondulada, caixa-d'água, beliche à vista na janela e lâmpada acesa, e por fim uma casa lunar de pedra escura com ardósia preta, cumeeira dourada, runas vermelhas e bandeira. Em todos os níveis há uma cama visível (colchonete, rede, cama, beliche, leito lunar) para a função ser lida de longe. Ocupa 2×1 tiles e o tamanho na grade nunca muda.",
+   "partes": [
+    {"parte": "Paredes / corpo", "descricao": "Faixa frontal de ~200 px de largura. N1: a própria lona da barraca (duas águas até o chão, dobras verticais, remendos costurados). N2: tábuas verticais de 7 px com frestas escuras e pregos. N3: blocos de pedra com argamassa. N4: tijolo vermelho com duas faixas de metal rebitadas. N5: pedra escura com frisos dourados em cima e embaixo e runas vermelhas brilhando."},
+    {"parte": "Telhado", "descricao": "N1: lona azul caída por cima, presa com cordas em estacas. N2: ripas horizontais de madeira, duas águas. N3: telha de barro em fileiras com chaminé de pedra soltando fumacinha. N4: chapa de metal ondulada com ferrugem e caixa-d'água em cima. N5: ardósia preta em escamas com cumeeira e beirais dourados."},
+    {"parte": "Cama (função)", "descricao": "N1: colchonete listrado com travesseiro saindo pela abertura. N2: rede listrada vermelha/amarela entre dois postes da varanda. N3: cama com cobertor vermelho vista pela janela. N4: beliche de metal na janela iluminada. N5: leito com manta vermelha atrás de janela de vitral vermelho."},
+    {"parte": "Porta e janelas", "descricao": "Aba de lona aberta (N1); porta de tábua (N2); porta de madeira com dobradiças e janela com venezianas verdes (N3); porta de metal rebitada com lâmpada amarela acesa e brilho (N4); porta em arco com moldura dourada e lua vermelha (N5)."},
+    {"parte": "Props", "descricao": "N1: caixote, lata, estacas e cordas no chão. N2: barril de madeira e banco de tronco. N3: cisterna pequena / jarro e vaso. N4: caixa-d'água, cano e varal de fios. N5: mastro com bandeira vermelha e braseiro com fogo vermelho."},
+    {"parte": "Danificada", "descricao": "Rachaduras pretas, manchas de fuligem #2a2228, uma peça solta caída (tábua, telha, tijolo ou chapa), buraco no telhado, fumaça cinza e um foguinho laranja pequeno."},
+    {"parte": "Destruída", "descricao": "Tocos de parede do material do nível, monte de escombros (lona rasgada / tábuas quebradas / blocos / tijolos e chapas / pedra escura e dourado), vigas queimadas #2a1a12 cruzadas, a cama destruída ainda visível e colunas de fumaça."}
+   ],
+   "paleta": [
+    {"nome": "Lona verde", "hex": "#5f7a4a"}, {"nome": "Lona verde escura", "hex": "#4a6139"}, {"nome": "Remendo", "hex": "#8a7a52"},
+    {"nome": "Lona azul", "hex": "#3f6a8c"}, {"nome": "Corda", "hex": "#b59a62"}, {"nome": "Estaca", "hex": "#8a6a42"},
+    {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Tábua 2", "hex": "#7d5430"}, {"nome": "Madeira escura", "hex": "#5a3a22"}, {"nome": "Prego", "hex": "#c9c3b0"}, {"nome": "Ripa", "hex": "#8b5e34"},
+    {"nome": "Pedra", "hex": "#8e8a84"}, {"nome": "Argamassa", "hex": "#b8b0a0"}, {"nome": "Telha", "hex": "#b5562e"}, {"nome": "Telha escura", "hex": "#8f3f22"},
+    {"nome": "Tijolo", "hex": "#a5432e"}, {"nome": "Rejunte", "hex": "#c9b8a0"}, {"nome": "Metal", "hex": "#7d848c"}, {"nome": "Chapa", "hex": "#8d969c"}, {"nome": "Lâmpada", "hex": "#ffd36a"},
+    {"nome": "Pedra lunar", "hex": "#2e2836"}, {"nome": "Ardósia", "hex": "#1c1822"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Runa", "hex": "#c8323a"}, {"nome": "Brilho runa", "hex": "#ff5a5a"},
+    {"nome": "Fuligem", "hex": "#2a2228"}, {"nome": "Viga queimada", "hex": "#2a1a12"}
+   ],
+   "arquivo": "sprites/con_barraca.png", "fw": 256, "fh": 192, "cols": 5,
+   "quadros": ["N1 intacta", "N2 intacta", "N3 intacta", "N4 intacta", "N5 intacta",
+               "N1 danificada", "N2 danificada", "N3 danificada", "N4 danificada", "N5 danificada",
+               "N1 destruída", "N2 destruída", "N3 destruída", "N4 destruída", "N5 destruída"],
+   "uso": "Âncora no centro da base: x = 128, y = gy = 180 (chão). Ocupa 2×1 tiles (256 px). Camada de construções, ordenada por y da base. Queda (ABR-06), squash/stretch (EVO-08) e pulinho de vizinhança (ABR-09) são transformações em tempo real do sprite, não quadros. O 💤 do recruta dormindo é emote da UI."
+  },
+  {
+   "id": "con_gerador",
+   "nome": "Gerador",
+   "categoria": "Construção",
+   "mecanica": "Abrigo (ABR-03, ABR-10 Gerador + Serralheria, ABR-14), Evolução (EVO-01, EVO-09, EVO-13), Invasão (INV-06, INV-09)",
+   "conceito": "Gerador a gasolina que dá energia para as outras construções (e deixa a Serralheria 2× mais rápida quando fica ao lado). No nível 1 é um motor velho de cortador de grama/bomba d'água amarrado com corda num estrado de madeira, com galão vermelho de gasolina e fios soltos enrolados no chão. No 2 o motor ganha uma casinha de tábuas com telhado de ripas e o escapamento sai pelo teto; no 3 fica numa base de pedra com meia-parede coroada de telhas e escapamento alto de ferro; no 4 vira um gabinete de metal rebitado com painel de relógios e chaves, lâmpadas acesas em cima e fios esticados até um poste; no 5 é um gerador lunar de pedra escura e ouro com um núcleo vermelho pulsando atrás de uma janela redonda. Sempre solta fumaça do escapamento (cinza escura no início, avermelhada no 5), o que o identifica de longe.",
+   "partes": [
+    {"parte": "Motor", "descricao": "Bloco do motor ~40×26 px cinza-ferrugem com aletas de resfriamento, tanque de combustível vermelho desbotado por cima, puxador de partida com corda e filtro de ar redondo. Presente em todos os níveis (dentro da casinha, sobre a base ou dentro do gabinete)."},
+    {"parte": "Base / abrigo do motor", "descricao": "N1 estrado de madeira e cordas amarrando o motor. N2 casinha de tábuas aberta na frente com telhado de ripas. N3 pedestal e meia-parede de pedra coroada por uma fileira de telhas de barro. N4 gabinete de chapa com rebites, grade de ventilação e painel (2 relógios, chaves, luz verde/vermelha) em base de tijolo. N5 caixa de pedra escura com frisos dourados, janela redonda mostrando o núcleo vermelho e runas."},
+    {"parte": "Escapamento e fumaça", "descricao": "Cano de 4 px subindo à direita (curto no N1, atravessando o teto no N2, alto de ferro no N3/N4, dourado no N5). Fumaça em 3-4 bolotas subindo, cinza #8a8494 / #6a6474; no N5 com brasas vermelhas."},
+    {"parte": "Fios e energia", "descricao": "N1 fios soltos enrolados no chão; N2/N3 fio saindo pela lateral; N4 fios esticados até um poste com 2 lâmpadas amarelas acesas; N5 cabos com brilho vermelho e faíscas."},
+    {"parte": "Combustível", "descricao": "Galão vermelho de gasolina (N1-N3), tambor de metal (N4), cristal/fragmento lunar (N5)."},
+    {"parte": "Danificada / destruída", "descricao": "Danificada: rachaduras, fuligem, uma tábua/chapa solta, fumaça mais densa e foguinho. Destruída: motor tombado e retorcido no meio dos escombros do material do nível, vigas queimadas e fumaça preta."}
+   ],
+   "paleta": [
+    {"nome": "Ferro do motor", "hex": "#5c5a58"}, {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Tanque vermelho", "hex": "#a8392e"}, {"nome": "Sucata", "hex": "#6b6a66"},
+    {"nome": "Estaca / estrado", "hex": "#8a6a42"}, {"nome": "Corda", "hex": "#b59a62"}, {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Ripa", "hex": "#8b5e34"},
+    {"nome": "Pedra", "hex": "#8e8a84"}, {"nome": "Telha", "hex": "#b5562e"}, {"nome": "Metal", "hex": "#7d848c"}, {"nome": "Chapa", "hex": "#8d969c"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Lâmpada", "hex": "#ffd36a"},
+    {"nome": "Pedra lunar", "hex": "#2e2836"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Núcleo vermelho", "hex": "#c8323a"}, {"nome": "Brilho", "hex": "#ff5a5a"},
+    {"nome": "Fumaça", "hex": "#8a8494"}, {"nome": "Fuligem", "hex": "#2a2228"}
+   ],
+   "arquivo": "sprites/con_gerador.png", "fw": 128, "fh": 160, "cols": 5,
+   "quadros": ["N1 intacta", "N2 intacta", "N3 intacta", "N4 intacta", "N5 intacta",
+               "N1 danificada", "N2 danificada", "N3 danificada", "N4 danificada", "N5 danificada",
+               "N1 destruída", "N2 destruída", "N3 destruída", "N4 destruída", "N5 destruída"],
+   "uso": "Âncora x = 64, y = gy = 148. 1×1 tile; a sobra de cima (≈30 px) é para escapamento e fumaça. Vibração do motor ligado = tremor de 1 px em tempo real; a fumaça pode ganhar partículas extras no jogo. Andaime da obra (EVO-07) é um overlay separado."
+  },
+  {
+   "id": "con_barricada",
+   "nome": "Barricada",
+   "categoria": "Construção",
+   "mecanica": "Abrigo (ABR-03), Evolução (EVO-01, EVO-09), Invasão (INV-02, INV-05, INV-06, INV-09)",
+   "conceito": "Obstáculo de defesa barato que segura a horda quando ela entra no abrigo. No nível 1 é uma pilha de pneus velhos, uma porta de geladeira, chapas de sucata e um carrinho de supermercado amassado, amarrados com corda. No 2 vira um cavalete de estacas de madeira apontadas em X (cavalo de frisa) com tábuas pregadas. No 3, sacos de areia empilhados com blocos de pedra. No 4, uma chapa de metal rebitada escorada, com rolo de arame farpado em cima e placa de perigo. No 5, um bloco de pedra escura com pontas douradas apontando para fora e runa vermelha brilhando. Sempre baixa e larga, lida de longe como 'não passa'.",
+   "partes": [
+    {"parte": "Corpo", "descricao": "Bloco de ~100×50 px apoiado em gy. N1 3 pneus empilhados + chapa de sucata enferrujada + porta branca suja; N2 estacas de 6 px cruzadas em X com pontas claras e duas tábuas horizontais pregadas; N3 3 fileiras de sacos de areia bege com costura e blocos de pedra nas pontas; N4 chapa de metal com rebites e faixas amarelas/pretas, escoras atrás; N5 pedra lunar com frisos dourados."},
+    {"parte": "Topo / pontas", "descricao": "N1 vergalhões tortos e corda; N2 pontas de estaca afiadas; N3 bloco de pedra em cima; N4 rolo de arame farpado (laços cinza com farpas); N5 pontas douradas em leque."},
+    {"parte": "Sangue e marcas", "descricao": "Arranhões e sangue seco #5a1a1a nos níveis baixos (já segurou zumbis), marcas de mãos."},
+    {"parte": "Danificada / destruída", "descricao": "Danificada: rachaduras, fuligem, uma peça tombada, fumaça e foguinho. Destruída: monte esparramado do material (pneus soltos, estacas quebradas, sacos rasgados com areia, chapa dobrada, pedra escura e pontas douradas quebradas), vigas queimadas e fumaça."}
+   ],
+   "paleta": [
+    {"nome": "Pneu", "hex": "#2b2a2e"}, {"nome": "Sucata", "hex": "#6b6a66"}, {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Corda", "hex": "#b59a62"},
+    {"nome": "Estaca", "hex": "#8a6a42"}, {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Prego", "hex": "#c9c3b0"},
+    {"nome": "Saco de areia", "hex": "#b8a47a"}, {"nome": "Pedra", "hex": "#8e8a84"},
+    {"nome": "Chapa", "hex": "#8d969c"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Faixa de perigo", "hex": "#e0b52a"},
+    {"nome": "Pedra lunar", "hex": "#2e2836"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Runa", "hex": "#c8323a"}, {"nome": "Sangue seco", "hex": "#5a1a1a"}
+   ],
+   "arquivo": "sprites/con_barricada.png", "fw": 128, "fh": 128, "cols": 5,
+   "quadros": ["N1 intacta", "N2 intacta", "N3 intacta", "N4 intacta", "N5 intacta",
+               "N1 danificada", "N2 danificada", "N3 danificada", "N4 danificada", "N5 danificada",
+               "N1 destruída", "N2 destruída", "N3 destruída", "N4 destruída", "N5 destruída"],
+   "uso": "Âncora x = 64, y = gy = 116. 1×1 tile. Tremor ao levar golpe (INV-05) é em tempo real."
+  },
+  {
+   "id": "con_muralha",
+   "nome": "Muralha (segmentos)",
+   "categoria": "Construção / Defesa",
+   "mecanica": "Invasão (INV-03, INV-04, INV-05, INV-06, INV-09), Evolução (EVO-14: 300 → 600 → 1000 → 1600 → 2500 HP)",
+   "conceito": "A muralha que cerca o abrigo e segura a Lua de Sangue, montada com segmentos de 1 tile que se emendam lado a lado (textura repete a cada 128 px, sem contorno nas bordas laterais). Nível 1: cerca improvisada de estacas tortas com chapas de sucata, lona verde e lona azul amarradas com corda. Nível 2: paliçada de troncos apontados com travessas pregadas. Nível 3: muro de pedra com argamassa, passarela e ameias. Nível 4: muro de tijolo com faixas de metal rebitadas, tampa de chapa, rolo de arame farpado e lâmpada acesa. Nível 5: pedra escura com frisos dourados, ameias com pontas douradas e runas vermelhas brilhando. Cada nível tem o trecho reto intacto, o reto rachado (HP baixo), o canto (a muralha vira para trás com um pilar reforçado) e a brecha aberta quando um trecho cede na invasão (INV-05), com escombros e poeira no vão.",
+   "partes": [
+    {"parte": "Face frontal", "descricao": "Ocupa x 0..127 inteiro. Altura cresce por nível (≈50 / 60 / 66 / 70 / 74 px acima de gy=148). Material da escada: estacas+sucata+lonas / troncos / blocos de pedra / tijolo e metal / pedra lunar."},
+    {"parte": "Topo", "descricao": "N1 cordas e pontas de chapa; N2 pontas afiadas dos troncos; N3 passarela de pedra vista de cima e ameias (merlões de 14 px); N4 tampa de chapa com rolo de arame farpado e poste com lâmpada amarela; N5 passarela escura, ameias com pontas douradas."},
+    {"parte": "Rachado", "descricao": "Rachaduras pretas ramificadas, fuligem #2a2228, um pedaço do topo faltando, uma peça caída no pé, poeira/fumacinha."},
+    {"parte": "Canto", "descricao": "Metade esquerda é face frontal; no centro um pilar mais largo e alto; a muralha segue para trás (para cima no quadro) como o topo visto de cima, até a borda superior."},
+    {"parte": "Brecha", "descricao": "Dois tocos nas laterais com quebra irregular, vão no meio com monte de escombros do material, vigas/pedaços caídos e nuvens de poeira."}
+   ],
+   "paleta": [
+    {"nome": "Estaca", "hex": "#8a6a42"}, {"nome": "Sucata", "hex": "#6b6a66"}, {"nome": "Lona verde", "hex": "#5f7a4a"}, {"nome": "Lona azul", "hex": "#3f6a8c"}, {"nome": "Corda", "hex": "#b59a62"},
+    {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Madeira escura", "hex": "#5a3a22"},
+    {"nome": "Pedra", "hex": "#8e8a84"}, {"nome": "Argamassa", "hex": "#b8b0a0"},
+    {"nome": "Tijolo", "hex": "#a5432e"}, {"nome": "Rejunte", "hex": "#c9b8a0"}, {"nome": "Metal", "hex": "#7d848c"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Lâmpada", "hex": "#ffd36a"},
+    {"nome": "Pedra lunar", "hex": "#2e2836"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Runa", "hex": "#c8323a"}, {"nome": "Fuligem", "hex": "#2a2228"}
+   ],
+   "arquivo": "sprites/con_muralha.png", "fw": 128, "fh": 160, "cols": 5,
+   "quadros": ["N1 reto", "N2 reto", "N3 reto", "N4 reto", "N5 reto",
+               "N1 rachado", "N2 rachado", "N3 rachado", "N4 rachado", "N5 rachado",
+               "N1 canto", "N2 canto", "N3 canto", "N4 canto", "N5 canto",
+               "N1 brecha", "N2 brecha", "N3 brecha", "N4 brecha", "N5 brecha"],
+   "uso": "Cada segmento ocupa 1 tile; âncora no canto inferior esquerdo (x = 0, y = gy = 148) e se emenda com o vizinho a cada 128 px. O 'rachado' entra quando o HP da muralha cai abaixo de ~50%; a 'brecha' substitui o trecho que cedeu (INV-05). Tremor ao levar golpe e guardas em cima (INV-04) são em tempo real. O canto pode ser espelhado horizontalmente para o lado direito."
+  },
+  {
+   "id": "con_portao",
+   "nome": "Portão da muralha",
+   "categoria": "Construção / Defesa",
+   "mecanica": "Invasão (INV-03, INV-05, INV-06, INV-09), Grupo (GRP-02: a expedição sai pelo portão), Evolução (EVO-14)",
+   "conceito": "Portão de 2 tiles por onde o herói e os recrutas saem para a expedição (GRP-02) e por onde a horda tenta entrar. Dois pilares seguram duas folhas e tocos de muralha nas bordas emendam com os segmentos da muralha do mesmo nível. Nível 1: pilares de tambores e pneus empilhados, folhas de chapa de sucata com lona sobre armação de pau, dobradiças de corda. Nível 2: pilares de tronco com folhas de tábuas com travessa em Z e pregos. Nível 3: pilares de pedra com arco e folhas de madeira grossa com ferragens. Nível 4: pilares de tijolo com faixas de metal, folhas de chapa rebitada, lâmpadas nos pilares e arame farpado. Nível 5: pilares de pedra escura com capitéis dourados, folhas escuras com lua vermelha e runas e braseiros vermelhos. Aberto mostra o caminho de terra saindo; fechado mostra a tranca; danificado tem folha torta, rachaduras, fuligem, fumaça e foguinho.",
+   "partes": [
+    {"parte": "Pilares", "descricao": "2 pilares de ~30 px de largura em x≈36 e x≈220, mais altos que a muralha do nível (+12 px), com capitel/tampa do material."},
+    {"parte": "Folhas", "descricao": "Fechado: duas folhas de ~76 px cada se encontrando no centro, com tranca/barra horizontal. Aberto: folhas abertas para dentro, vistas de lado como faixas estreitas encostadas nos pilares, e o chão de terra/pedra do caminho visível no vão."},
+    {"parte": "Tocos de muralha", "descricao": "Da borda do quadro até o pilar, mesma altura/material de con_muralha do nível, para emendar."},
+    {"parte": "Detalhes por nível", "descricao": "N1 cordas e tambores; N2 pregos e travessa Z; N3 arco de pedra e ferragens pretas; N4 lâmpadas amarelas acesas e arame farpado; N5 braseiros com fogo vermelho, lua vermelha na folha, pontas douradas."},
+    {"parte": "Danificado", "descricao": "Folha arrombada/torta (uma caída para dentro), rachaduras nos pilares, fuligem, uma peça solta no chão, fumaça e foguinho."}
+   ],
+   "paleta": [
+    {"nome": "Tambor", "hex": "#6a7a6a"}, {"nome": "Pneu", "hex": "#2b2a2e"}, {"nome": "Sucata", "hex": "#6b6a66"}, {"nome": "Lona verde", "hex": "#5f7a4a"}, {"nome": "Corda", "hex": "#b59a62"},
+    {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Prego", "hex": "#c9c3b0"}, {"nome": "Pedra", "hex": "#8e8a84"}, {"nome": "Ferragem", "hex": "#2e2a2a"},
+    {"nome": "Tijolo", "hex": "#a5432e"}, {"nome": "Chapa", "hex": "#8d969c"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Lâmpada", "hex": "#ffd36a"},
+    {"nome": "Pedra lunar", "hex": "#2e2836"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Runa", "hex": "#c8323a"}, {"nome": "Terra do caminho", "hex": "#6a5640"}
+   ],
+   "arquivo": "sprites/con_portao.png", "fw": 256, "fh": 192, "cols": 5,
+   "quadros": ["N1 aberto", "N2 aberto", "N3 aberto", "N4 aberto", "N5 aberto",
+               "N1 fechado", "N2 fechado", "N3 fechado", "N4 fechado", "N5 fechado",
+               "N1 danificado", "N2 danificado", "N3 danificado", "N4 danificado", "N5 danificado"],
+   "anims": [{"nome": "abrir N1", "quadros": [5, 0], "dur": [300, 600], "loop": false},
+             {"nome": "abrir N5", "quadros": [9, 4], "dur": [300, 600], "loop": false}],
+   "uso": "Âncora no canto inferior esquerdo (x = 0, y = gy = 180), 2 tiles; emenda com con_muralha do mesmo nível (mesma altura de face e topo). Fica aberto quando a expedição sai/volta (GRP-02) e fechado na invasão. Destruído usa a 'brecha' da muralha do nível."
+  }
+ ]
+}

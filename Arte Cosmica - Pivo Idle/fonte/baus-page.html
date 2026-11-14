@@ -1,0 +1,125 @@
+<title>Baús e Puzzles</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:240/150;object-fit:contain!important}
+.chests{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.chest{background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:8px;align-content:start}
+.chest .row{display:flex;gap:10px;align-items:flex-end;justify-content:center;background:#0d0818;border:1px solid var(--line);border-radius:8px;padding:8px}
+.chest canvas{image-rendering:pixelated}
+.chest h3{font-family:var(--f-display);font-weight:400;font-size:17px;margin:0}
+.chest .chip{display:inline-block;font-family:var(--f-pix);font-size:12px;padding:1px 8px;border-radius:3px;color:#120a1f;font-weight:700}
+.chest ul{margin:0;padding-left:18px;color:var(--muted);font-size:14px}
+.chest .st{font-family:var(--f-pix);font-size:11px;color:var(--muted);text-align:center}
+.log{font-family:var(--f-pix);font-size:13px;color:var(--muted);background:#0d0818;border:1px solid var(--line);border-radius:6px;padding:8px;margin:0;list-style:none;max-height:140px;overflow:auto}
+.log b{color:var(--moon)}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Objetos · Vasculhar · Direção de arte cósmica</div>
+    <h1>Baús <small>chaves e puzzles</small></h1>
+    <p class="lede">Os 4 baús da expedição, cada um com a <b>sua chave</b>. Se o squad tem a chave certa, usa sozinho e abre na hora. Sem chave, aparece um <b>puzzle de 5 s</b> (8 s com o papagaio no squad). Se ninguém responder a tempo, o baú é <b>pulado</b> e o loot se perde. A chave rara não se compra: só cai.</p>
+  </header>
+
+  <section class="show" aria-label="Teste de baú">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="240" height="150" role="img" aria-label="Vigia chegando num baú no Recife Antigo"></canvas>
+      <div class="tagfx" id="tagfx">pronto</div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Baú</span><div class="seg" id="tipos"></div></div>
+      <div class="grp"><span class="lbl">Situação do squad</span><div class="seg" id="modos"><button data-m="chave" aria-pressed="false">Tem a chave</button><button data-m="semchave" aria-pressed="true">Sem chave (5 s)</button><button data-m="papagaio" aria-pressed="false">Sem chave + papagaio (8 s)</button></div></div>
+      <div class="grp"><span class="lbl">Puzzle</span><div class="seg" id="pzs"><button data-p="rand" aria-pressed="true">Sorteado</button><button data-p="fio" aria-pressed="false">Fios</button><button data-p="num" aria-pressed="false">Código</button><button data-p="sym" aria-pressed="false">Símbolos</button></div></div>
+      <div class="grp"><span class="lbl">Quem responde</span><div class="seg" id="quem"><button data-q="voce" aria-pressed="true">Você</button><button data-q="auto" aria-pressed="false">Squad sozinho (expedição auto)</button></div></div>
+      <div class="grp"><div class="seg"><button id="bGo" aria-pressed="false">▶ Chegar no baú</button></div></div>
+      <div class="grp"><span class="lbl">Resultado</span><ul class="log" id="log"></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Objetos</small>Os 4 baús e as chaves</h2>
+    <div class="chests" id="chests"></div>
+  </section>
+
+  <section class="box">
+    <h2><small>Regras</small>Como funciona na expedição</h2>
+    <ul class="rules">
+      <li><b>Chave específica:</b> comum, médica e militar são compradas no acampamento. A rara só cai de chefe, mini-chefe ou baú raro.</li>
+      <li><b>Com a chave:</b> o recruta mais perto usa a chave sozinho (ícone sobe, "CLIC"), a tampa abre em 5 quadros e o loot sobe brilhando.</li>
+      <li><b>Sem a chave:</b> o baú treme trancado e abre o puzzle. Fios (ligar 3 cores), código (3 dígitos com pista) ou símbolos (tocar 4 na ordem).</li>
+      <li><b>Skip:</b> se ninguém responde em 5 s, o puzzle fecha sozinho com "PULOU" e a expedição segue. No modo automático, o squad tenta sozinho e acerta em ~55% das vezes.</li>
+      <li><b>Papagaio:</b> com ele no squad, o tempo do puzzle vai a 8 s.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{BATON}}
+{{VIGIA}}
+{{BAU}}
+{{PUZZLE}}
+(function(){
+'use strict';
+const SW=240, SH=150, SGROUND=140;
+{{BG}}
+const S={tipo:'comum',modo:'semchave',pz:'rand',quem:'voce',phase:'idle',vx:-30,t:0,fi:0,state:'fechado',pop:null,lootT:0,keyT:-1,fade:0};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'), tag=document.getElementById('tagfx'), logEl=document.getElementById('log');
+const CHX=150;
+function log(t){ const li=document.createElement('li'); li.innerHTML=t; logEl.prepend(li); while(logEl.children.length>12) logEl.lastChild.remove(); }
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('tipos').innerHTML=Object.entries(BAU.TIPOS).map(([k,t])=>`<button data-t="${k}" aria-pressed="${k==='comum'}">${t.nome.replace('Baú ','')}</button>`).join('');
+document.querySelectorAll('#tipos button').forEach(b=>b.onclick=()=>{ S.tipo=b.dataset.t; press('tipos','t',S.tipo); reset(); });
+document.querySelectorAll('#modos button').forEach(b=>b.onclick=()=>{ S.modo=b.dataset.m; press('modos','m',S.modo); });
+document.querySelectorAll('#pzs button').forEach(b=>b.onclick=()=>{ S.pz=b.dataset.p; press('pzs','p',S.pz); });
+document.querySelectorAll('#quem button').forEach(b=>b.onclick=()=>{ S.quem=b.dataset.q; press('quem','q',S.quem); });
+let pz=null;
+function reset(){ if(pz) pz.cancel(); pz=null; S.phase='idle'; S.vx=-30; S.state='fechado'; S.fi=0; S.lootT=0; S.keyT=-1; S.fade=0; tag.textContent='pronto'; }
+document.getElementById('bGo').onclick=()=>{ reset(); S.phase='walk'; tag.textContent='squad chegando…'; };
+let last=performance.now(), T=0, acc=0;
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; update(dt); draw(); requestAnimationFrame(loop); }
+function update(dt){
+  if(S.phase==='walk'){ S.vx+=48*dt; if(S.vx>=CHX-44){ S.vx=CHX-44; arrive(); } }
+  if(S.phase==='key'){ S.keyT+=dt; if(S.keyT>0.7){ S.phase='opening'; S.fi=0; acc=0; S.state='abrindo'; } }
+  if(S.phase==='opening'){ acc+=dt; if(acc>0.09){ acc=0; S.fi++; if(S.fi>4){ S.state='aberto'; S.phase='open'; S.lootT=0; } } }
+  if(S.phase==='open'){ S.lootT+=dt; }
+  if(S.phase==='locked'){ acc+=dt; if(acc>0.07){ acc=0; S.fi=(S.fi+1)%3; } }
+  if(S.phase==='skipped'){ S.fade=Math.min(1,S.fade+dt*0.8); }
+}
+function arrive(){
+  const T0=BAU.TIPOS[S.tipo];
+  if(S.modo==='chave'){ S.phase='key'; S.keyT=0; tag.textContent='usando '+T0.chave.replace('_',' '); log(`<b>${T0.nome}</b>: tinha a chave, abriu na hora`); return; }
+  S.phase='locked'; S.state='trancado'; S.fi=0; tag.textContent='trancado: puzzle!';
+  const tipo=S.pz==='rand'?['fio','num','sym'][Math.floor(Math.random()*3)]:S.pz, tempo=S.modo==='papagaio'?8:5;
+  pz=PUZZLE.mount(sw,{tipo,tempo,bau:S.tipo,auto:S.quem==='auto',onDone:r=>{ pz=null;
+    if(r.ok){ S.phase='opening'; S.state='abrindo'; S.fi=0; acc=0; tag.textContent='abriu!'; log(`<b>${T0.nome}</b>: puzzle ${tipo} resolvido em ${(r.ms/1000).toFixed(1)} s`); }
+    else { S.phase='skipped'; S.state='fechado'; S.fi=0; tag.textContent='pulou: loot perdido'; log(`<b>${T0.nome}</b>: ${r.skip?'pulou após '+tempo+' s':'errou'}, loot perdido`); } }});
+}
+function draw(){
+  drawBG(g,'comum',0,T);
+  const K=PIX.getK();
+  // baú
+  const cv=BAU.frame(S.tipo,S.state,S.fi), A=BAU.ANCHOR(S.tipo), bx=CHX-A.ax, by=SGROUND-A.gy+2;
+  g.fillStyle='rgba(10,4,16,.5)'; g.fillRect(CHX-28,SGROUND,56,3);
+  g.save(); if(S.phase==='skipped') g.globalAlpha=1-S.fade*0.55; g.drawImage(cv,bx,by); g.restore();
+  if(cv._glow){ const gl=cv._glow, gr=g.createRadialGradient(bx+gl.x,by+gl.y,0,bx+gl.x,by+gl.y,gl.r*1.6); gr.addColorStop(0,'rgba(255,226,122,.55)'); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(bx+gl.x-gl.r*2,by+gl.y-gl.r*2,gl.r*4,gl.r*4); g.restore(); }
+  if(S.phase==='open'){ for(let k=0;k<6;k++){ const a=T*2+k, y=by+18-((S.lootT*30+k*9)%40); g.fillStyle=k%2?'#ffe27a':'#fff'; g.fillRect(Math.round(CHX-14+k*6+Math.sin(a)*2),Math.round(y),1,1); } }
+  // vigia
+  const anim=S.phase==='walk'?'walk':'idle', A2=VIGIA.ANIMS[anim], fi=Math.floor(T*1000/A2.dur(0))%A2.n;
+  PIX.setK(0.78); const vc=VIGIA.frame('media','comum',anim,fi); PIX.setK(1);
+  g.fillStyle='rgba(10,4,16,.5)'; g.fillRect(Math.round(S.vx)-12,SGROUND,28,3);
+  g.drawImage(vc,Math.round(S.vx-VIGIA.AX*0.78),Math.round(SGROUND-VIGIA.GROUND*0.78));
+  if(S.phase==='key'){ const kc=BAU.chave(S.tipo), y=SGROUND-118+Math.max(0,1-S.keyT*3)*10; g.drawImage(kc,Math.round(S.vx+10),Math.round(y)); if(S.keyT>0.45){ g.fillStyle='#fff'; g.font='bold 9px "Pixelify Sans",monospace'; g.fillText('CLIC',CHX-10,by+6); } }
+  if(S.phase==='skipped'){ g.fillStyle='#ff4a5a'; g.font='bold 10px "Pixelify Sans",monospace'; g.fillText('PULOU',CHX-14,by+4); }
+}
+// galeria
+document.getElementById('chests').innerHTML=Object.entries(BAU.TIPOS).map(([k,t])=>`<article class="chest"><div class="row"><div><canvas width="${BAU.FW*2}" height="${BAU.FH*2}" data-c="${k}" style="width:${BAU.FW*2}px;height:${BAU.FH*2}px"></canvas><div class="st" data-s="${k}">fechado</div></div><div><canvas width="56" height="56" data-k="${k}" style="width:56px;height:56px"></canvas><div class="st">${t.chave.replace('_',' ')}</div></div></div>
+  <h3>${t.nome}</h3><span><span class="chip" style="background:${t.cor}">${t.chave.replace('_',' ')}</span> <span style="color:var(--muted);font-size:13px">${t.preco}</span></span><ul>${t.loot.map(l=>`<li>${l}</li>`).join('')}</ul></article>`).join('');
+document.querySelectorAll('[data-k]').forEach(c=>{ const x=c.getContext('2d'); x.imageSmoothingEnabled=false; x.drawImage(BAU.chave(c.dataset.k),0,0,56,56); });
+const CYC=[['fechado',0,700],['trancado',0,90],['trancado',1,90],['trancado',2,90],['trancado',0,90],['trancado',1,90],['abrindo',0,90],['abrindo',1,90],['abrindo',2,90],['abrindo',3,90],['abrindo',4,90],['aberto',0,900]];
+let ci=0; function gal(){ const [st,fi,d]=CYC[ci]; document.querySelectorAll('[data-c]').forEach(c=>{ const x=c.getContext('2d'); x.imageSmoothingEnabled=false; x.clearRect(0,0,c.width,c.height); x.drawImage(BAU.frame(c.dataset.c,st,fi),0,0,c.width,c.height); }); document.querySelectorAll('[data-s]').forEach(s=>s.textContent=st); ci=(ci+1)%CYC.length; setTimeout(gal,d); }
+gal(); reset(); requestAnimationFrame(loop);
+})();
+</script>

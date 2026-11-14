@@ -1,0 +1,231 @@
+{"grupo": "explosivos", "titulo": "Barril, bomba e explosões", "ordem": 10,
+ "resumo": "Tudo que faz BUM: o barril vermelho de 200 L (EXP), a bomba de ferro da serralharia (BMB), a bola de fogo com impact frame, destroços, fumaça em camadas, marca queimada, círculo de perigo, anel de choque, muros rachados que só abrem com explosão e o caixote que quebra.",
+ "itens": [
+  {"id": "exp_barril", "nome": "Barril explosivo", "categoria": "Explosivos",
+   "mecanica": "Barril explosivo (EXP-01..03, EXP-06, EXP-09, EXP-10)",
+   "conceito": "Tambor de aço de 200 litros que sobrou dos postos de gasolina e do porto do Recife, ainda cheio de combustível velho. Pintado de vermelho com uma faixa amarela de perigo listrada de preto e uma etiqueta em losango com o símbolo de chama, ele lê de longe como 'não bata aqui perto'. A tinta está lascada, com ferrugem escorrendo dos aros, amassados de pancada e um trapo de pano enfiado no bocal servindo de pavio. Um golpe acende o trapo; o barril chia, pisca branco cada vez mais rápido, incha e balança antes de virar uma bola de fogo. Depois sobra só a base retorcida e chamuscada, que não volta na mesma expedição.",
+   "partes": [
+    {"parte": "Corpo cilíndrico", "descricao": "52 px de largura (x 39..89) por ~64 px de altura (topo y 46, fundo y 106 + elipse ry 7). Vermelho #a8262c com faixa clara vertical à esquerda #cf4a3e/#e27a5c (luz da lua) e faixa escura à direita #741a22/#4e1219, dando volume de cilindro. Textura pontilhada leve."},
+    {"parte": "Aros de rolagem", "descricao": "2 aros salientes de 3 px em y 58 e y 94, curvos seguindo a perspectiva (arco de elipse ry 7), vermelho mais escuro com linha de brilho no topo e ferrugem #8a4e2e escorrendo para baixo."},
+    {"parte": "Faixa de perigo", "descricao": "Faixa amarela #e8b830 de 14 px (y 67..81) com listras diagonais pretas #1e1a1c de 4 px; curvatura igual à dos aros; borda inferior #b8861a."},
+    {"parte": "Etiqueta de chama", "descricao": "Losango de 18×18 px centrado em x 60, y 74, branco sujo #e8e0cc com borda preta e uma chama vermelha #c8323a com miolo laranja #f08a3e; canto rasgado."},
+    {"parte": "Tampa e bocais", "descricao": "Elipse do topo 50×14 px com aro (chime) #b83a36 e miolo rebaixado #7a1e24; bocal grande com rosca cinza #9a9a94 em x 75 e bujão pequeno fechado em x 52."},
+    {"parte": "Pavio de pano", "descricao": "Trapo bege sujo #cdbf9a/#a89870 com manchas de óleo #6a5a40 de ~12 px saindo do bocal e caindo pela borda. Aceso: chama em 4 camadas nítidas (vermelho, laranja, amarelo, branco) de 8–12 px que alterna de forma entre 2 quadros, com faíscas de 1 px amarelas e brancas."},
+    {"parte": "Desgaste", "descricao": "Manchas de ferrugem irregulares (#8a4e2e, #6a3a22, #b0683a) na base e nos aros, 3 amassados (elipse escura com crescente claro), lascas de tinta mostrando metal #6b6a66, escorrido de combustível escuro."},
+    {"parte": "Destruído", "descricao": "Só a base até y ~86 com a borda superior rasgada em pétalas dobradas para fora, carbonizada (#2a1a1c, #3a2226) com restos de tinta vermelha embaixo, interior preto, brasas laranja e fiapo de fumaça."},
+    {"parte": "Marca no chão", "descricao": "Decalque de queimado 96×36 px no chão (degraus escuros + rachaduras) com brasas, para ficar onde o barril estava."}
+   ],
+   "paleta": [
+    {"nome": "Vermelho barril", "hex": "#a8262c"}, {"nome": "Vermelho luz", "hex": "#cf4a3e"}, {"nome": "Brilho", "hex": "#e27a5c"},
+    {"nome": "Vermelho sombra", "hex": "#741a22"}, {"nome": "Sombra funda", "hex": "#4e1219"},
+    {"nome": "Amarelo perigo", "hex": "#e8b830"}, {"nome": "Amarelo escuro", "hex": "#b8861a"}, {"nome": "Listra preta", "hex": "#1e1a1c"},
+    {"nome": "Etiqueta", "hex": "#e8e0cc"}, {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Ferrugem escura", "hex": "#6a3a22"},
+    {"nome": "Metal exposto", "hex": "#6b6a66"}, {"nome": "Pano", "hex": "#cdbf9a"}, {"nome": "Carvão", "hex": "#2a1a1c"},
+    {"nome": "Fogo amarelo", "hex": "#ffd84a"}, {"nome": "Fogo laranja", "hex": "#f58a2a"}
+   ],
+   "arquivo": "sprites/exp_barril.png", "fw": 128, "fh": 128, "cols": 10,
+   "quadros": ["normal", "pavio aceso 1", "pavio aceso 2", "piscando branco fraco", "piscando branco forte",
+               "inchado 115% (balança esq.)", "inchado 115% (balança dir.)", "inspira (branco total)", "destruído", "marca queimada no chão"],
+   "anims": [
+    {"nome": "pavio aceso", "quadros": [1, 2], "dur": [90, 90], "loop": true},
+    {"nome": "antecipação 0,9 s", "quadros": [1, 3, 2, 4, 1, 3, 4, 5, 4, 6, 3, 5, 4, 6, 7], "dur": [120, 90, 90, 70, 60, 50, 50, 50, 40, 40, 40, 40, 40, 40, 60], "loop": false},
+    {"nome": "estouro → destruído", "quadros": [7, 8], "dur": [60, 800], "loop": false}
+   ],
+   "uso": "Pivô na base (64, 110); gy = 110, sombra incluída. Objeto sólido do mapa. O piscar acelerado da antecipação é a sequência dos quadros 3/4 (o jogo pode também aplicar tint branco em tempo real). O inchaço já está desenhado a 115% nos quadros 5–7, mas o balanço contínuo pode ser rotação em tempo real. No estouro o jogo troca para exp_explosao + exp_destrocos + exp_fumaca + exp_perigo (anel) e deixa o quadro 8 (ou 9, se o barril sumir) no chão. O círculo vermelho de raio vem de exp_perigo."},
+
+  {"id": "exp_explosao", "nome": "Bola de fogo e impact frame", "categoria": "Explosivos",
+   "mecanica": "Explosão (EXP-04, EXP-06, EXP-12, BMB-04)",
+   "conceito": "A bola de fogo que nasce do barril ou da bomba e cresce até o raio de dano em 0,15 s. É uma couve-flor de fogo em camadas nítidas: núcleo branco que cega, anel amarelo, labaredas laranja e bordas vermelhas, terminando numa nuvem de fumaça escura com brasas. Cada camada é um degrau de cor sólido com pontilhado nas transições, nada de degradê liso. Os 2 quadros de impact frame são o 'flash' da Lua de Sangue: primeiro o mundo vira branco com a silhueta preta da explosão e dos estilhaços, depois tudo preto com a bola branca, como nos animes de luta.",
+   "partes": [
+    {"parte": "Núcleo (q0)", "descricao": "Bola de ~52 px: branco #fffbe8 ocupando 70%, aro amarelo #ffd84a e borda laranja #f58a2a; 12 raios curtos de luz em volta e brilho quantizado."},
+    {"parte": "Amarelo (q1)", "descricao": "Couve-flor de ~100 px: borda laranja, corpo amarelo, núcleo branco deslocado para cima; lóbulos de 14–20 px de raio; pontilhado amarelo/laranja na transição."},
+    {"parte": "Laranja (q2)", "descricao": "~144 px: borda vermelha #d8402a com contorno #6a1414, corpo laranja, miolo amarelo pequeno, labaredas pontiagudas saindo para cima e lados, primeiros tufos de fumaça no topo."},
+    {"parte": "Vermelho (q3)", "descricao": "~168 px: fogo vermelho e vermelho-escuro #8a2020 quebrado em manchas, fumaça escura #3a3038 envolvendo por cima, poucos pontos laranja ainda acesos."},
+    {"parte": "Fumaça (q4)", "descricao": "Nuvem escura #3a3038/#554a52 com destaque frio #6e646c no topo-esquerdo, rasgada, subindo, com brasas laranja soltas."},
+    {"parte": "Impact frame (q5, q6)", "descricao": "Quadro inteiro opaco. q5: fundo branco puro com silhueta preta da explosão estrelada e de estilhaços voando. q6: fundo preto com a bola branca (mesma silhueta, menor) e anel branco fino."}
+   ],
+   "paleta": [
+    {"nome": "Branco núcleo", "hex": "#fffbe8"}, {"nome": "Amarelo", "hex": "#ffd84a"}, {"nome": "Laranja", "hex": "#f58a2a"},
+    {"nome": "Vermelho fogo", "hex": "#d8402a"}, {"nome": "Vermelho escuro", "hex": "#8a2020"}, {"nome": "Contorno fogo", "hex": "#5a1010"},
+    {"nome": "Fumaça escura", "hex": "#3a3038"}, {"nome": "Fumaça média", "hex": "#554a52"}, {"nome": "Fumaça luz", "hex": "#6e646c"},
+    {"nome": "Impact preto", "hex": "#0c080a"}
+   ],
+   "arquivo": "sprites/exp_explosao.png", "fw": 192, "fh": 192, "cols": 7,
+   "quadros": ["núcleo branco", "amarelo", "laranja", "vermelho", "fumaça escura", "impact: branco com silhueta preta", "impact: preto com bola branca"],
+   "anims": [
+    {"nome": "explosão", "quadros": [5, 6, 0, 1, 2, 3, 4], "dur": [40, 40, 40, 50, 60, 120, 260], "loop": false},
+    {"nome": "explosão (reduzir flashes)", "quadros": [0, 1, 2, 3, 4], "dur": [40, 50, 60, 120, 260], "loop": false}
+   ],
+   "uso": "Centro da bola em (96, 104); o ponto de chão fica em y ~150. Escalar em tempo real para casar com o raio (2,5 tiles barril, 2,2 tiles bomba). Os quadros de impact (5, 6) cobrem a tela: o jogo estica o quadro para a tela inteira ou usa como máscara e congela 80–90 ms. Com 'reduzir flashes' (EXP-12) pule 5 e 6 e use um flash laranja suave."},
+
+  {"id": "exp_destrocos", "nome": "Destroços voando", "categoria": "Explosivos",
+   "mecanica": "Destroços (EXP-06, BMB-06, BMB-09, HAM-06)",
+   "conceito": "Pedaços que a explosão joga para todo lado. Do barril voam chapas de aço pintadas de vermelho, dobradas e com um pedaço da faixa amarela, que giram em 4 quadros. Do caixote e das barricadas saem lascas e tábuas com pregos. Da bomba no chão saem torrões de terra e pedras de calçamento, e de tudo sobem brasas acesas. Cada peça é pequena mas legível: contorno escuro, luz de cima-esquerda, ferrugem e farpas.",
+   "partes": [
+    {"parte": "Chapa de metal (q0–q3)", "descricao": "Placa curva de ~30×16 px, face vermelha #a8262c com faixa amarela #e8b830 listrada, verso de metal cinza #6b6a66 com ferrugem, borda rasgada em dente. Desenhada em 0°, 90°, 180°, 270° e com a face alternando frente/verso."},
+    {"parte": "Madeira (q4–q5)", "descricao": "Tábua quebrada de ~28×8 px #9a6a3c/#7d5430 com veio escuro #5a3a22, ponta em farpa e um prego #c9c3b0 torto; lasca menor junto; 2 rotações."},
+    {"parte": "Torrão e pedra (q6–q7)", "descricao": "Torrão de terra marrom #6a4a30 com grama verde #5f7a4a por cima e pedra de paralelepípedo cinza #8e8a84 de ~12 px; 2 rotações."},
+    {"parte": "Brasas (q8–q9)", "descricao": "Grupo de 5–7 brasas de 2–4 px: miolo amarelo #ffd84a, borda laranja #f58a2a/vermelha #d8402a, com brilho quantizado; pisca entre 2 quadros."}
+   ],
+   "paleta": [
+    {"nome": "Vermelho barril", "hex": "#a8262c"}, {"nome": "Amarelo perigo", "hex": "#e8b830"}, {"nome": "Metal", "hex": "#6b6a66"},
+    {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Tábua escura", "hex": "#5a3a22"},
+    {"nome": "Terra", "hex": "#6a4a30"}, {"nome": "Grama", "hex": "#5f7a4a"}, {"nome": "Pedra", "hex": "#8e8a84"},
+    {"nome": "Brasa", "hex": "#f58a2a"}
+   ],
+   "arquivo": "sprites/exp_destrocos.png", "fw": 64, "fh": 64, "cols": 10,
+   "quadros": ["chapa 0°", "chapa 90°", "chapa 180°", "chapa 270°", "madeira 1", "madeira 2", "torrão/pedra 1", "torrão/pedra 2", "brasas 1", "brasas 2"],
+   "anims": [
+    {"nome": "chapa girando", "quadros": [0, 1, 2, 3], "dur": [60, 60, 60, 60], "loop": true},
+    {"nome": "madeira girando", "quadros": [4, 5], "dur": [80, 80], "loop": true},
+    {"nome": "torrão girando", "quadros": [6, 7], "dur": [80, 80], "loop": true},
+    {"nome": "brasas", "quadros": [8, 9], "dur": [100, 100], "loop": true}
+   ],
+   "uso": "Partícula com pivô no centro (32, 32). O jogo move em arco, gira em tempo real entre os quadros, faz quicar (30–35%) e desenha a sombra elíptica no chão separada (a sombra muda com a altura z). Escala 0,6–1,2 para variar. Brasas sobem balançando e somem com alpha."},
+
+  {"id": "exp_fumaca", "nome": "Fumaça de explosão", "categoria": "Explosivos",
+   "mecanica": "Fumaça (EXP-06, BMB-06)",
+   "conceito": "Fumaça de pixel art em camadas duras, como num beat'em up dos anos 90. A nuvem redonda nasce cinza-escura, cresce, sobe e clareia até se desfazer. As lufadas escuras são rápidas e esticadas para o lado, com rastro de velocidade, empurradas pela onda de choque. As colunas cinzas sobem devagar, empilhando bolos de fumaça e afinando no topo. Cada bolo tem 3 tons sólidos (sombra roxa embaixo-direita, corpo, destaque frio da lua em cima-esquerda) e pontilhado na transição.",
+   "partes": [
+    {"parte": "Nuvem crescendo (q0–q3)", "descricao": "Cacho de 5–9 bolos: raio total 16 → 26 → 36 → 44 px, sobe 0 → 24 px; cor #3a3038 → #554a52 → #6e646c → #8a8290; o último fica rasgado e com buracos (some)."},
+    {"parte": "Lufada lateral (q4–q6)", "descricao": "Bolos escuros #2e262e/#3a3038 esticados 2:1 para a direita, de 40 a 96 px de comprimento, com 3–5 riscos de velocidade na traseira; afina e abre no último quadro."},
+    {"parte": "Coluna (q7–q9)", "descricao": "Pilha vertical de bolos cinza #6e646c/#8a8290 de 20–30 px de largura, subindo de 40 a 100 px de altura, ondulando para os lados; topo se desfaz em fiapos."}
+   ],
+   "paleta": [
+    {"nome": "Fumaça preta", "hex": "#2e262e"}, {"nome": "Fumaça escura", "hex": "#3a3038"}, {"nome": "Fumaça média", "hex": "#554a52"},
+    {"nome": "Fumaça cinza", "hex": "#6e646c"}, {"nome": "Fumaça clara", "hex": "#8a8290"}, {"nome": "Destaque lua", "hex": "#a49cac"},
+    {"nome": "Contorno fumaça", "hex": "#1e1820"}
+   ],
+   "arquivo": "sprites/exp_fumaca.png", "fw": 128, "fh": 128, "cols": 10,
+   "quadros": ["nuvem 1", "nuvem 2", "nuvem 3", "nuvem 4 (some)", "lufada 1", "lufada 2", "lufada 3", "coluna 1", "coluna 2", "coluna 3"],
+   "anims": [
+    {"nome": "nuvem sobe", "quadros": [0, 1, 2, 3], "dur": [250, 350, 400, 450], "loop": false},
+    {"nome": "lufada", "quadros": [4, 5, 6], "dur": [200, 250, 350], "loop": false},
+    {"nome": "coluna", "quadros": [7, 8, 9], "dur": [600, 700, 800], "loop": false}
+   ],
+   "uso": "Pivô na base (64, 112). Instâncias múltiplas (~10 nuvens, 9 lufadas, 7 colunas), com escala, espelho horizontal (lufada para a esquerda) e alpha decrescendo em tempo real. Camada acima dos personagens."},
+
+  {"id": "exp_marca", "nome": "Marca queimada (scorch)", "categoria": "Explosivos",
+   "mecanica": "Scorch (EXP-06, BMB-08)",
+   "conceito": "O decalque que a explosão deixa no chão e que fica até a próxima Lua de Sangue. Uma elipse de queimado em degraus (fuligem marrom por fora, preto no meio, cinza de cinza no centro) com 7 rachaduras irregulares que saem do centro. Nas rachaduras ficam brasas acesas que piscam por 4 s. Em mapas de grama, a grama em volta fica seca e preta, com tufos amarelados. Com o tempo a marca esmaece até 35%.",
+   "partes": [
+    {"parte": "Degraus de queimado", "descricao": "Elipse 104×60 px (perspectiva 0,58) em 4 degraus de borda irregular: #3a2e2a (alpha 120), #2a2024 (170), #1a1418 (220) e centro #120c10 com salpicos de cinza #6a6264."},
+    {"parte": "Rachaduras", "descricao": "7 rachaduras em zigue-zague de 1–2 px #0a0608, de 18 a 44 px, com borda clara de 1 px #4a4044 no lado de cima e ramificações."},
+    {"parte": "Brasas", "descricao": "8–10 brasas de 1–3 px laranja #f58a2a / amarelo #ffd84a dentro das rachaduras, com brilho quantizado; alternam quais estão acesas entre os quadros 0 e 1."},
+    {"parte": "Grama queimada", "descricao": "Anel de 30 tufos de grama: perto da marca pretos/marrons #2a2018, #5a4428, mais longe amarelados #a08a48, com pontas chamuscadas."}
+   ],
+   "paleta": [
+    {"nome": "Fuligem", "hex": "#3a2e2a"}, {"nome": "Queimado", "hex": "#2a2024"}, {"nome": "Carvão", "hex": "#1a1418"},
+    {"nome": "Centro", "hex": "#120c10"}, {"nome": "Cinza", "hex": "#6a6264"}, {"nome": "Rachadura", "hex": "#0a0608"},
+    {"nome": "Brasa", "hex": "#f58a2a"}, {"nome": "Brasa viva", "hex": "#ffd84a"}, {"nome": "Grama seca", "hex": "#a08a48"}, {"nome": "Grama preta", "hex": "#2a2018"}
+   ],
+   "arquivo": "sprites/exp_marca.png", "fw": 128, "fh": 96, "cols": 5,
+   "quadros": ["brasas acesas 1", "brasas acesas 2", "apagada", "esmaecida 35%", "com grama queimada em volta"],
+   "anims": [{"nome": "brasas piscando (4 s)", "quadros": [0, 1], "dur": [160, 160], "loop": true}],
+   "uso": "Decalque de chão, centro em (64, 50), desenhado ABAIXO de tudo. 4 s de brasas (0/1), depois quadro 2 e o jogo esmaece o alpha até 35% em 60 s (o quadro 3 é a referência do estado final). Em mapas de grama use o quadro 4 por baixo. Escala com o raio."},
+
+  {"id": "exp_perigo", "nome": "Círculo de perigo e anel de choque", "categoria": "Explosivos",
+   "mecanica": "Aviso de raio e shockwave (EXP-03, EXP-07, BMB-03, BMB-05)",
+   "conceito": "Os avisos e ondas desenhados no chão. O círculo de perigo é uma elipse tracejada vermelho-lua com preenchimento translúcido, anel interno de pontos e mira central que pulsam, mostrando o raio para o jogador fugir. O anel de choque nasce no centro e corre para fora em elipse (perspectiva 0,6), branco quente com borda laranja, ficando mais fino ao crescer. O anel de refração é a faixa clara que o jogo usa para distorcer a cena (borda clara por dentro, escura por fora, miolo transparente).",
+   "partes": [
+    {"parte": "Círculo de perigo (q0–q1)", "descricao": "Elipse 112×64 px de traços de 4 px com 3 px de espaço, #c8323a com contorno #5a0e14; preenchimento #c8323a alpha 40/70; anel interno de pontos a 72% do raio e mira central; q1 2 px maior e mais forte."},
+    {"parte": "Anel de choque (q2–q4)", "descricao": "Elipse de raio 22 → 40 → 58 px, espessura 6 → 4 → 2 px, branco #fff4e0 por dentro, laranja #f58a2a por fora, alpha caindo; poeira nos pontos da borda."},
+    {"parte": "Anel com refração (q5)", "descricao": "Faixa de 6 px: linha clara #fff4e0 (alpha 200) por dentro, faixa transparente branca (alpha 60) no meio e linha escura #2a2030 (alpha 110) por fora."}
+   ],
+   "paleta": [
+    {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Contorno perigo", "hex": "#5a0e14"}, {"nome": "Branco quente", "hex": "#fff4e0"},
+    {"nome": "Laranja", "hex": "#f58a2a"}, {"nome": "Borda escura", "hex": "#2a2030"}
+   ],
+   "arquivo": "sprites/exp_perigo.png", "fw": 128, "fh": 96, "cols": 6,
+   "quadros": ["perigo pulso 1", "perigo pulso 2", "anel de choque 1", "anel de choque 2", "anel de choque 3", "anel com refração"],
+   "anims": [
+    {"nome": "perigo pulsando", "quadros": [0, 1], "dur": [160, 160], "loop": true},
+    {"nome": "anel de choque", "quadros": [2, 3, 4], "dur": [80, 110, 160], "loop": false}
+   ],
+   "uso": "Decalque de chão centrado em (64, 48). Escalar em tempo real para o raio (2,5 tiles barril / 2,2 bomba; o anel vai até 2,2× o raio). O quadro 5 serve de máscara para o shader de refração (6–10%) ou como anel simples sem shader."},
+
+  {"id": "bmb_bomba", "nome": "Bomba de ferro da serralharia", "categoria": "Explosivos",
+   "mecanica": "Bomba (BMB-01..04, BMB-09)",
+   "conceito": "Escolha: bomba redonda de ferro gasta, feita na serralharia do abrigo com uma boia de ferro de sucata cheia de pólvora, soldada e amarrada com uma cinta de fita silver tape e pregos para estilhaçar. Redonda para quicar e rolar bem no chão (BMB-02). Tem gargalo de latão rosqueado com pavio trançado que encurta e solta faíscas; a pintura preta está gasta mostrando ferro e ferrugem, e há um X de tinta vermelha da Lua marcado na frente. No aviso ela pisca vermelho, pulsa e no último instante fica branca e incha até 135%.",
+   "partes": [
+    {"parte": "Esfera", "descricao": "Raio 12 px (24 px de diâmetro) centrada em (32, 42); ferro preto-azulado #2e2c34 com faixa de luz #4a4856, brilho especular de 3 px #9a98a8 no topo-esquerdo e sombra roxa; ferrugem #8a4e2e e ferro exposto #6b6a66."},
+    {"parte": "Cinta de fita", "descricao": "Faixa de 4 px de silver tape #9a9a94/#c9c3b0 dando volta na esfera em curva, com 3 cabeças de prego #c9c3b0 espetadas e ponta descolada."},
+    {"parte": "Marca vermelha", "descricao": "X de tinta vermelho-lua #c8323a de 6 px pintado à mão abaixo da fita."},
+    {"parte": "Gargalo e pavio", "descricao": "Gargalo de latão #b8861a/#f2c230 de 6×4 px no topo; pavio trançado bege #b59a62 com 14/9/4 px de comprimento (longo/médio/curto), ponta acesa com faíscas em estrela amarelas/brancas."},
+    {"parte": "Mão (erguida)", "descricao": "Mão do herói em pele #b07a52 segurando por baixo, dedos de 3 px com contorno, manga vermelha #c8323a do herói."},
+    {"parte": "Contador HUD", "descricao": "No quadro de item, número 'x8' em fonte 3×5 ×2 branca com contorno no canto inferior-direito."}
+   ],
+   "paleta": [
+    {"nome": "Ferro", "hex": "#2e2c34"}, {"nome": "Ferro luz", "hex": "#4a4856"}, {"nome": "Brilho", "hex": "#9a98a8"},
+    {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Fita silver", "hex": "#9a9a94"}, {"nome": "Prego", "hex": "#c9c3b0"},
+    {"nome": "Latão", "hex": "#b8861a"}, {"nome": "Pavio", "hex": "#b59a62"}, {"nome": "Vermelho-lua", "hex": "#c8323a"},
+    {"nome": "Faísca", "hex": "#ffd84a"}, {"nome": "Pele", "hex": "#b07a52"}
+   ],
+   "arquivo": "sprites/bmb_bomba.png", "fw": 64, "fh": 64, "cols": 9,
+   "quadros": ["item HUD (x8)", "chão pavio longo", "chão pavio médio", "chão pavio curto", "piscando vermelho fraco", "piscando vermelho forte",
+               "branca inchada 135% (último aviso)", "squash ao quicar", "sendo erguida (na mão)"],
+   "anims": [
+    {"nome": "pavio queimando 1,8 s", "quadros": [1, 4, 2, 5, 3, 5, 3, 5, 6], "dur": [500, 120, 400, 100, 200, 80, 120, 60, 220], "loop": false},
+    {"nome": "quique", "quadros": [7, 2], "dur": [60, 100], "loop": false}
+   ],
+   "uso": "Pivô na base (32, 56), gy = 56, sombra incluída nos quadros de chão. Voo em arco e rotação de rolagem são em tempo real; o pulso até 108% é escala em tempo real; os quadros 4/5 alternam com 1–3 no bipe (intervalo 0,32 → 0,05 s). Quadro 8 é desenhado sobre a mão do herói por 0,16 s antes do arremesso. Quadro 0 é o ícone do inventário."},
+
+  {"id": "bmb_hud", "nome": "Ícone HUD de bombas", "categoria": "Explosivos",
+   "mecanica": "Inventário de bombas (BMB-01)",
+   "conceito": "O contador de bombas do HUD: uma pilha de bombas de ferro (as mesmas da serralharia) sobre um selo escuro, com o número grande no canto. Com o estoque cheio aparecem 3 bombas empilhadas e o número em dourado; com poucas a pilha diminui e o número fica branco; com zero sobra só a silhueta vazia e o número em vermelho-lua, para avisar que acabou. Precisa ler bem pequeno no canto da tela.",
+   "partes": [
+    {"parte": "Selo de fundo", "descricao": "Círculo de 52 px #1c1822 com aro #3c3446 e borda de 2 px, leve brilho em cima."},
+    {"parte": "Pilha", "descricao": "3 bombas de raio 9 px (2 embaixo, 1 em cima) com pavio e faísca na de cima; com 3 bombas: 2 bombas; com 0: silhueta tracejada cinza #4a4458."},
+    {"parte": "Número", "descricao": "Dígito 3×5 em escala 3 (9×15 px) com contorno preto de 1 px no canto inferior-direito: 8 dourado #f2c230, 3 branco #fff4e0, 0 vermelho #c8323a."}
+   ],
+   "paleta": [
+    {"nome": "Selo", "hex": "#1c1822"}, {"nome": "Aro", "hex": "#3c3446"}, {"nome": "Ferro", "hex": "#2e2c34"},
+    {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Branco", "hex": "#fff4e0"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}
+   ],
+   "arquivo": "sprites/bmb_hud.png", "fw": 64, "fh": 64, "cols": 3,
+   "quadros": ["8 bombas (cheio)", "3 bombas", "0 bombas (vazio)"],
+   "uso": "Ícone fixo do HUD (canto). Para outros números o jogo pode desenhar o dígito por cima do quadro 1 (pilha média); o quadro 2 é o estado sem bombas. Sem sombra de chão."},
+
+  {"id": "bmb_parede", "nome": "Muro rachado (passagem secreta)", "categoria": "Explosivos",
+   "mecanica": "Paredes rachadas (BMB-10, HAM-08)",
+   "conceito": "Muros de 1 tile que escondem passagens, baús e atalhos, no estilo Zelda: a rachadura é grande, clara e reconhecível para o jogador saber que ali dá para explodir. A versão principal é de blocos de pedra cinza com argamassa; quando a bomba ou barril estoura ao lado ela racha mais e solta poeira, e depois abre num buraco escuro com blocos caídos na frente. Há também a versão de tijolo vermelho com reboco caído e a de concreto pichado, típica das ruas do Recife, com tags e a lua vermelha.",
+   "partes": [
+    {"parte": "Muro (pedra)", "descricao": "Face frontal 120×100 px (x 4..124, y 48..148) com topo de 12 px visto de cima; blocos de 24×14 px #8e8a84/#77736e com argamassa #b8b0a0, musgo #5f7a4a na base, manchas de umidade."},
+    {"parte": "Rachadura (estilo Zelda)", "descricao": "Rachadura central em raio de 5 braços em zigue-zague, 2–3 px de largura preta #120c10 com borda clara #c9c2b4, de ~70×60 px, blocos deslocados 1 px em volta; marca em X branca de giz opcional."},
+    {"parte": "Rachando (q1, q2)", "descricao": "Rachaduras ficam mais largas e com novos ramos; nuvens de poeira bege #9c8a70 e pedrinhas soltando; q2 com lascas no ar."},
+    {"parte": "Aberto (q3)", "descricao": "Buraco irregular de ~64×76 px até o chão, interior em 3 degraus escuros #0e0a10/#1c1622/#2a2230 revelando passagem com chão e frestas mal iluminadas; borda quebrada com blocos soltos, 5–7 blocos caídos e poeira na base."},
+    {"parte": "Tijolo (q4, q5)", "descricao": "Tijolos 16×8 px #a5432e/#86351f com rejunte #c9b8a0, reboco #c8bca8 caindo em placas; rachado e aberto."},
+    {"parte": "Concreto pichado (q6, q7)", "descricao": "Placas de concreto #8f8c86/#7a7772 com juntas, pichação: lua vermelha #c8323a, tags pretas e brancas, seta amarela e escorridos; rachado e aberto com ferro de armadura #8a4e2e saindo."}
+   ],
+   "paleta": [
+    {"nome": "Pedra", "hex": "#8e8a84"}, {"nome": "Pedra escura", "hex": "#77736e"}, {"nome": "Argamassa", "hex": "#b8b0a0"},
+    {"nome": "Tijolo", "hex": "#a5432e"}, {"nome": "Tijolo escuro", "hex": "#86351f"}, {"nome": "Rejunte", "hex": "#c9b8a0"},
+    {"nome": "Concreto", "hex": "#8f8c86"}, {"nome": "Rachadura", "hex": "#120c10"}, {"nome": "Passagem", "hex": "#0e0a10"},
+    {"nome": "Poeira", "hex": "#9c8a70"}, {"nome": "Musgo", "hex": "#5f7a4a"}, {"nome": "Pichação lua", "hex": "#c8323a"}
+   ],
+   "arquivo": "sprites/bmb_parede.png", "fw": 128, "fh": 160, "cols": 8,
+   "quadros": ["pedra: rachado (intacto)", "pedra: rachando 1 (poeira)", "pedra: rachando 2 (poeira)", "pedra: aberto (passagem)",
+               "tijolo: rachado", "tijolo: aberto", "concreto pichado: rachado", "concreto pichado: aberto"],
+   "anims": [{"nome": "abrindo", "quadros": [0, 1, 2, 3], "dur": [80, 90, 110, 600], "loop": false}],
+   "uso": "Tile de muro 1×1 (128×160), base em gy = 148, sombra incluída. Sólido até abrir; ao abrir (explosão de bomba/barril no raio, ou martelo HAM-08) vira passável e mostra o quadro aberto. Para tijolo/concreto o jogo pula direto do rachado ao aberto, com exp_destrocos e poeira por cima."},
+
+  {"id": "exp_caixa_quebra", "nome": "Caixote de madeira quebrável", "categoria": "Explosivos",
+   "mecanica": "Caixas quebráveis (HAM-06, BMB-09)",
+   "conceito": "Caixote de feira/porto de ripas de madeira com cantoneiras de metal, espalhado nos mapas como obstáculo e loot pequeno. Tem estêncil desbotado de 'frágil', pregos enferrujados e tábuas manchadas de umidade. O martelo (shockwave) ou uma explosão no raio racha e depois estoura o caixote em tábuas e lascas, soltando madeira. A leitura é clara: inteiro, rachado (aguenta mais um), quebrando, e o monte de tábuas no chão.",
+   "partes": [
+    {"parte": "Caixote", "descricao": "Cubo em 3/4: frente 64×44 px (x 32..96, y 66..110) e topo 64×18 px; 4 ripas horizontais de 11 px #9a6a3c/#7d5430 com frestas escuras #3a2414, travessa diagonal em X, cantoneiras de metal #7d848c com rebites #c9ced4."},
+    {"parte": "Detalhes", "descricao": "Estêncil vermelho desbotado #8a3a2a com seta para cima, pregos #c9c3b0 com ferrugem, veios #5a3a22, manchas de umidade escuras, uma farpa levantada."},
+    {"parte": "Rachado", "descricao": "2 ripas partidas com rachadura preta em zigue-zague, uma ripa solta inclinada, cantoneira torta, lascas no chão."},
+    {"parte": "Quebrando", "descricao": "Caixote abrindo para fora: tábuas voando inclinadas, lascas e poeira #9c8a70, estrela de impacto."},
+    {"parte": "Quebrado", "descricao": "Monte de 7–9 tábuas quebradas cruzadas no chão com pregos à mostra, 2 cantoneiras soltas, serragem."}
+   ],
+   "paleta": [
+    {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Tábua sombra", "hex": "#7d5430"}, {"nome": "Tábua escura", "hex": "#5a3a22"},
+    {"nome": "Fresta", "hex": "#3a2414"}, {"nome": "Metal", "hex": "#7d848c"}, {"nome": "Rebite", "hex": "#c9ced4"},
+    {"nome": "Prego", "hex": "#c9c3b0"}, {"nome": "Estêncil", "hex": "#8a3a2a"}, {"nome": "Poeira", "hex": "#9c8a70"}
+   ],
+   "arquivo": "sprites/exp_caixa_quebra.png", "fw": 128, "fh": 128, "cols": 4,
+   "quadros": ["inteiro", "rachado", "quebrando", "quebrado (tábuas no chão)"],
+   "anims": [{"nome": "quebrar", "quadros": [1, 2, 3], "dur": [60, 90, 600], "loop": false}],
+   "uso": "Objeto sólido de mapa, base em gy = 112, sombra incluída. 1º golpe/explosão → rachado; 2º (ou explosão direta) → quebrando → quebrado (passável). Solta madeira e lança exp_destrocos (madeira) junto."}
+ ]}

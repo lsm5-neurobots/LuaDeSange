@@ -1,0 +1,83 @@
+{
+ "titulo": "O Maquinista do Bonde (chefe) - bonde, uniforme e materiais",
+ "pasta": "zumbis-rio/maquinista",
+ "secoes": [
+  {
+   "nome": "Bonde de Santa Teresa (carro)",
+   "n": 20,
+   "cats": [
+    "Santa Teresa Tram"
+   ],
+   "busca": [
+    "bonde Santa Teresa amarelo",
+    "Santa Teresa tram car"
+   ]
+  },
+  {
+   "nome": "Bondes antigos do Rio",
+   "n": 14,
+   "busca": [
+    "bonde antigo Rio de Janeiro",
+    "Rio de Janeiro tram 1900",
+    "bonde Light Rio"
+   ]
+  },
+  {
+   "nome": "Motorneiro e condutor - uniforme",
+   "n": 8,
+   "busca": [
+    "motorneiro bonde",
+    "tram driver uniform vintage",
+    "condutor de bonde",
+    "tram conductor cap uniform",
+    "tram conductor uniform 1900",
+    "motorman tram vintage",
+    "bonde motorneiro uniforme",
+    "tram operator cap uniform vintage",
+    "streetcar motorman"
+   ]
+  },
+  {
+   "nome": "Controles: manivela, freio, sino",
+   "n": 2,
+   "busca": [
+    "tram controller handle",
+    "tramway brake wheel",
+    "tram bell",
+    "tram driver cab interior vintage",
+    "tram brake handle",
+    "tram controller handle vintage"
+   ]
+  },
+  {
+   "nome": "Trilhos, catenaria e trole",
+   "n": 14,
+   "busca": [
+    "tram trolley pole",
+    "catenaria bonde",
+    "tram tracks cobblestone",
+    "tram overhead wire"
+   ]
+  },
+  {
+   "nome": "Arcos da Lapa com bonde",
+   "n": 12,
+   "busca": [
+    "bonde sobre os Arcos da Lapa",
+    "tram Arcos da Lapa"
+   ]
+  },
+  {
+   "nome": "Ferrugem, metal pintado e madeira do bonde",
+   "n": 4,
+   "busca": [
+    "rusty tram",
+    "abandoned tram rust",
+    "old wooden tram bench",
+    "abandoned tram rusty",
+    "rusted tram car old",
+    "rusty tram rails overgrown"
+   ]
+  }
+ ]
+}

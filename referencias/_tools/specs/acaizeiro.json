@@ -1,0 +1,119 @@
+{
+ "titulo": "Zumbi Acaizeiro (Ver-o-Peso) - paneiro, acai e ribeirinho",
+ "pasta": "zumbis-veropeso/acaizeiro",
+ "secoes": [
+  {
+   "nome": "Carregador de acai com paneiro",
+   "n": 14,
+   "busca": [
+    "açaí paneiro",
+    "açaí carregador",
+    "açaí harvest basket",
+    "peconheiro açaí",
+    "açaí vendor Belém",
+    "acai berries basket carrying"
+   ],
+   "depth": 0,
+   "cats": [
+    "Açaí palm",
+    "Açaí"
+   ]
+  },
+  {
+   "nome": "Paneiro, cesto de aruma e cipo",
+   "n": 12,
+   "busca": [
+    "paneiro",
+    "cesto de arumã",
+    "basket woven Amazon",
+    "wicker basket carrying head",
+    "cestaria ribeirinha",
+    "basketry Pará"
+   ],
+   "depth": 0,
+   "cats": [
+    "Baskets of Brazil"
+   ]
+  },
+  {
+   "nome": "Cacho de acai, caroco e suco roxo",
+   "n": 12,
+   "busca": [
+    "açaí bunch",
+    "açaí fruit purple",
+    "açaí pulp",
+    "açaí batedor",
+    "purple juice stain",
+    "açaí berries"
+   ],
+   "depth": 0,
+   "cats": [
+    "Açaí"
+   ]
+  },
+  {
+   "nome": "Peconha, escalada de palmeira",
+   "n": 10,
+   "busca": [
+    "açaí palm climbing",
+    "peconha",
+    "climbing palm tree rope",
+    "palm climbing Amazon",
+    "palmeira açaí coleta"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Ribeirinho: roupa, bermuda, camisa e chapeu",
+   "n": 12,
+   "busca": [
+    "ribeirinho",
+    "ribeirinhos Amazônia",
+    "caboclo ribeirinho",
+    "Amazon riverside man",
+    "straw hat Amazon man",
+    "camisa surrada trabalhador"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Feira do Acai e docas de Belem",
+   "n": 16,
+   "busca": [
+    "Feira do Açaí Belém",
+    "Ver-o-Peso açaí",
+    "Belém docas açaí barcos",
+    "Ver-o-Peso boats açaí",
+    "açaí barco descarregando"
+   ],
+   "depth": 0,
+   "cats": [
+    "Ver-o-Peso"
+   ]
+  },
+  {
+   "nome": "Poses: agachado, rasteira, carga pesada nas costas",
+   "n": 12,
+   "busca": [
+    "man carrying heavy load back",
+    "porter carrying basket on back",
+    "worker crouching with basket",
+    "carregador carga costas",
+    "man sweeping leg kick"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Lama, rio e barcos regionais",
+   "n": 12,
+   "busca": [
+    "mud river bank Belém",
+    "barco regional Amazônia",
+    "Guajará bay boats",
+    "wooden boat Pará",
+    "maré lama Belém"
+   ],
+   "depth": 0
+  }
+ ]
+}

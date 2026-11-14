@@ -1,0 +1,129 @@
+{
+  "id": "capivara",
+  "nome": "Capivara",
+  "sub": "da beira do rio",
+  "conceito": "A capivara é calma demais para o apocalipse: anda num gingado lento, olhos meio fechados, e nem os zumbis comuns se dão ao trabalho de atacá-la. Tem corpo de barril marrom, cabeça quadradona de focinho largo, uma mexerica equilibrada no cocuruto e uma bolsinha de primeiros socorros a tiracolo — por isso cura o herói só de ficar por perto.",
+  "partes": [
+    {
+      "parte": "Cabeça",
+      "descricao": "Bloco quadradão de ~35x26 px virado para a direita, topo reto (y≈63) e frente cortada reta; contorno separado do corpo. Gira em torno do pescoço (80,82): abaixa na cabeçada, sobe no susto e encosta no chão no desmaio."
+    },
+    {
+      "parte": "Olhos",
+      "descricao": "Olhinhos pequenos (5 px) bem no alto da cabeça, íris marrom quase preta com brilho branco de 1 px. Uma pálpebra de pelo cobre a metade de cima, dando o olhar preguiçoso de 'tô de boa'. Viram traço curvo sereno no especial, ^-fechado no dano, espiral e depois X no desmaio."
+    },
+    {
+      "parte": "Orelhas",
+      "descricao": "Duas orelhinhas redondas de ~7 px no topo de trás da cabeça; a de trás em marrom escuro, a da frente com miolo #4a2c1c. Balançam alguns graus: abaixam para trás na antecipação e no susto, dão um tique no idle."
+    },
+    {
+      "parte": "Focinho e nariz",
+      "descricao": "Focinho largo e rombudo ocupando os ~10 px da frente, em marrom mais escuro (#5c3a24). Narina horizontal de 3x2 px no topo, boca em traço quebrado embaixo e três pontinhos de bigode. No desmaio aparece a pontinha da língua rosada."
+    },
+    {
+      "parte": "Corpo",
+      "descricao": "Barril largo (~62x33 px) formado por três elipses: anca alta e redonda atrás, tronco e ombro mais baixo na frente. Barriga em marrom claro, sombra roxa da noite embaixo à direita e luz da lua no dorso."
+    },
+    {
+      "parte": "Pernas e patas",
+      "descricao": "Quatro pernas curtas e grossas (~14 px de altura, 8–10 px de largura) com joelho em IK; as do lado de lá em marrom escuro. Patas achatadas de 8x4 px em marrom quase preto. Na caminhada os pares diagonais alternam com passo de ±6 px e erguem até 3 px."
+    },
+    {
+      "parte": "Traseiro (sem rabo)",
+      "descricao": "Anca redonda e alta que termina sem rabo visível — a silhueta acaba numa curva lisa à esquerda, típica de capivara. A coxa traseira forma um volume próprio sobre a pata de trás."
+    },
+    {
+      "parte": "Pelo e marcas",
+      "descricao": "Pelo grosso com pontilhado de textura (~28% dos pixels escurecidos) e riscos curtos de 3 px nas costas imitando tufos ásperos. Bochecha em marrom claro (#a87648) e contorno escuro de 1 px puxando para o marrom."
+    },
+    {
+      "parte": "Mexerica",
+      "descricao": "Mexerica laranja de ~10x9 px com cabinho e folhinha verde, equilibrada no topo da cabeça entre a orelha e o olho (meme brasileiro). Gira levemente com o gingado, quase cai na cabeçada e voa longe no desmaio, rolando para o chão na frente do focinho."
+    },
+    {
+      "parte": "Bolsinha de primeiros socorros",
+      "descricao": "Bolsa de lona verde-oliva (~17x14 px) no flanco, aba mais escura com botãozinho e etiqueta bege com cruz vermelha de 6x6 px, presa por uma alça de couro escuro que cruza o corpo na diagonal — o acessório de sobrevivência que explica a cura."
+    },
+    {
+      "parte": "Silhueta e pose",
+      "descricao": "Perfil 3/4 baixo e comprido (~82 px de largura, ~50 de altura), cabeça grande à direita, pés no chão em y=112 e sombra oval roxa embaixo. Pose sempre relaxada; só no ataque o corpo se inclina para a frente."
+    }
+  ],
+  "paleta": [
+    {
+      "nome": "Pelo marrom",
+      "hex": "#8c5c36"
+    },
+    {
+      "nome": "Pelo sombra",
+      "hex": "#6b4428"
+    },
+    {
+      "nome": "Pelo claro",
+      "hex": "#a87648"
+    },
+    {
+      "nome": "Focinho",
+      "hex": "#5c3a24"
+    },
+    {
+      "nome": "Patas",
+      "hex": "#4a3020"
+    },
+    {
+      "nome": "Mexerica",
+      "hex": "#f08a1c"
+    },
+    {
+      "nome": "Folha",
+      "hex": "#4f9a3a"
+    },
+    {
+      "nome": "Lona da bolsa",
+      "hex": "#6e6a3a"
+    },
+    {
+      "nome": "Cruz vermelha",
+      "hex": "#d8373a"
+    },
+    {
+      "nome": "Aura de cura",
+      "hex": "#6fdc7a"
+    }
+  ],
+  "animacoes": {
+    "idle": "4 quadros: 0 neutro; 1–2 o barril infla 2–3% e a cabeça sobe meio pixel (respiração), no 2 a orelha dá um tique para trás; 3 volta e pisca devagar.",
+    "walk": "8 quadros de gingado lento: pares diagonais de patas alternam (passo de ±6 px, erguendo até 3 px), o corpo sobe e desce 1 px e balança ±2°, a cabeça compensa o balanço e a mexerica bamboleia junto.",
+    "attack": "Cabeçada: 0 neutro; 1 antecipação longa — recua 5 px, agacha, abaixa a cabeça, orelhas para trás, bufo pelo nariz e poeirinha atrás; 2 investida curta com linhas de velocidade; 3 impacto: cabeça à frente, olhos fechados e estouro impact() no focinho, mexerica quase cai; 4 recua com brilho; 5 volta à pose.",
+    "hurt": "0 flash branco com olhos arregalados; 1 empurrada 5 px para trás, corpo inclinado, cabeça para cima, olhos apertados e estrelinha; 2 ainda recuada se ajeitando; 3 volta quase ao lugar com o olhar preguiçoso.",
+    "death": "Desmaio: 0 flash com olhos arregalados; 1 cambaleia para trás com olhos em espiral e a mexerica escorregando; 2 cambaleia para a frente e a mexerica voa pelo ar; 3 desaba de barriga com poeira e olhos em X; 4 estirada no chão, queixo no chão, linguinha de fora, mexerica caída na frente; 5 (600 ms) mesma pose com três estrelinhas girando sobre a cabeça.",
+    "special": "Aura de cura: 0 neutro; 1 fecha os olhos serena, primeira cruzinha verde e anel verde surgindo no chão; 2–4 o anel cresce, cruzes plus() verdes e corações sobem pelo ar com brilhos enquanto ela respira fundo; 5 o anel desbota e sobra um coração no alto."
+  },
+  "especial": "Aura da Calmaria",
+  "eventos": {
+    "idle": {
+      "0": "respira"
+    },
+    "walk": {
+      "0": "passo",
+      "4": "passo"
+    },
+    "attack": {
+      "1": "bufo",
+      "3": "impacto"
+    },
+    "hurt": {
+      "0": "dano"
+    },
+    "death": {
+      "0": "dano",
+      "2": "mexerica",
+      "3": "queda"
+    },
+    "special": {
+      "1": "suspiro",
+      "2": "cura",
+      "4": "brilho"
+    }
+  }
+}

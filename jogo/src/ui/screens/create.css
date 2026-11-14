@@ -1,0 +1,33 @@
+.cr .criar { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 420px); gap: 18px; align-items: start }
+.cr .preview { border: 3px solid var(--line); border-radius: 12px; overflow: hidden; background: #000; position: sticky; top: 12px }
+.cr .preview canvas { aspect-ratio: 240 / 170 }
+.cr .opts { background: var(--panel); border: 2px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 12px; min-width: 0 }
+.cr .og { display: grid; gap: 6px }
+.cr .seg { display: flex; flex-wrap: wrap; gap: 6px }
+.cr .seg button { font-size: 13px; padding: 6px 10px; border-radius: 5px; border: 2px solid var(--line); background: var(--panel2); color: var(--ink) }
+.cr .seg button[aria-pressed="true"] { background: var(--moon); color: #1a0d00; border-color: #000 }
+.cr .sw { display: flex; flex-wrap: wrap; gap: 5px }
+.cr .sw button { width: 28px; height: 28px; border-radius: 5px; border: 2px solid #000; padding: 0 }
+.cr .sw button[aria-pressed="true"] { outline: 3px solid var(--moon); outline-offset: 1px }
+.cr .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; margin-top: 16px }
+@media (max-width: 860px) {
+  .cr .criar { grid-template-columns: 1fr }
+  .cr .preview { position: static; max-width: 420px; width: 100%; margin: 0 auto }
+  .cr .actions .btn.big { width: 100%; padding-inline: 12px }
+}
+
+
+/* ===== tela cheia (jogo): abrigo no breu + painel de personalização dentro do jogo ===== */
+.cr { position: fixed; inset: 0; overflow: hidden; background: #000; --g: max(10px, env(safe-area-inset-left, 0px)) }
+.cr .sh-stage { position: absolute; inset: 0; overflow: hidden }
+.cr-title { position: absolute; left: var(--g); top: var(--g); z-index: 3; font-family: var(--f-display); font-size: clamp(18px, 3vw, 32px); color: #fff; text-shadow: 3px 3px 0 #000; pointer-events: none }
+.cr-title small { display: block; font-family: var(--f-pix); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--blood); text-shadow: none }
+.cr-panel { position: absolute; z-index: 4; right: var(--g); top: var(--g); bottom: var(--g); width: min(400px, 46vw); display: grid; grid-template-rows: 1fr auto; gap: 10px;
+  background: rgba(18, 10, 31, .86); backdrop-filter: blur(3px); border: 2px solid rgba(61, 42, 98, .95); border-radius: 12px; padding: 12px; box-shadow: 6px 6px 0 rgba(0, 0, 0, .5) }
+.cr-panel .opts { overflow: auto; background: none; border: 0; padding: 0 4px 0 0 }
+.cr-actions { display: flex; gap: 8px; justify-content: space-between; flex-wrap: wrap }
+.cr-actions .btn.big { flex: 1; font-size: clamp(15px, 2.2vw, 22px); padding: 10px 14px }
+@media (orientation: portrait) {
+  .cr-panel { left: var(--g); right: var(--g); top: auto; width: auto; height: 50vh }
+  .cr-title { font-size: 20px }
+}

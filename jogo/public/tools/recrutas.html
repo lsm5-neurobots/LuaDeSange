@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Recrutas</title>
+<style>
+  body { margin: 0; background: #2a2d36; color: #eee; font: 12px monospace }
+  canvas { display: block; image-rendering: pixelated }
+</style>
+<script src="../art/art-hub.js"></script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+// Uso: /tools/recrutas.html?f=SERRALHEIRO[&skin=media][&k=1.25][&anims=idle,walk][&z=1]
+//      /tools/recrutas.html?cmp=1[&anim=idle&fi=0][&z=2]  → HEROI, VIGIA e os 4 recrutas lado a lado (mesma escala)
+const q = new URLSearchParams(location.search);
+const A = window.ART_HUB, K = +(q.get('k') || 1.25), Z = +(q.get('z') || 1), skin = q.get('skin') || 'media';
+A.PIX.setK(K);
+const TOOLED = { SERRALHEIRO: 1, PEDREIRA: 1, LENHADOR: 1 };
+function call(n, anim, fi) {
+  const F = A[n];
+  if (n === 'HEROI') return F.frame({ ...F.DEFAULT, nome: 'x', arma: 'bastao', tier: 'comum' }, anim, fi);
+  if (n === 'VIGIA') return F.frame(skin, 'comum', anim, fi);
+  if (TOOLED[n]) return F.frame(skin, null, anim, fi);
+  return F.frame(skin, anim, fi);
+}
+const c = document.getElementById('c'), g = c.getContext('2d');
+try {
+  let rows;
+  if (q.get('cmp')) {
+    const names = ['HEROI', 'VIGIA', 'SERRALHEIRO', 'PEDREIRA', 'LENHADOR', 'CATA'];
+    const anims = (q.get('anims') || 'idle,guard,combo').split(',');
+    const fis = (q.get('fis') || '0,0,10').split(',').map(Number);
+    rows = anims.map((a, j) => ({ a: a + ' ' + fis[j], cvs: names.map((n) => { const F = A[n]; const an = F.ANIMS[a] ? a : 'idle'; const cv = call(n, an, Math.min(fis[j], F.ANIMS[an].n - 1)); cv._F = F; return cv; }) }));
+  } else {
+    const n = q.get('f') || 'SERRALHEIRO', F = A[n];
+    const anims = q.get('anims') ? q.get('anims').split(',') : Object.keys(F.ANIMS);
+    rows = anims.map((a) => ({ a, cvs: Array.from({ length: F.ANIMS[a].n }, (_, i) => { try { const cv = call(n, a, i); cv._F = F; return cv; } catch (e) { console.error(a, i, e); return null; } }) }));
+  }
+  const all = rows.flatMap((r) => r.cvs.filter(Boolean));
+  const cellW = Math.max(...all.map((v) => v.width)) * Z + 6, cellH = Math.max(...all.map((v) => v.height)) * Z + 16;
+  const cols = Math.max(...rows.map((r) => r.cvs.length));
+  c.width = 70 + cols * cellW; c.height = rows.length * cellH + 8;
+  g.imageSmoothingEnabled = false;
+  rows.forEach((r, y) => {
+    const oy = 4 + y * cellH;
+    g.fillStyle = '#ffd23f'; g.fillText(r.a, 4, oy + 12);
+    r.cvs.forEach((cv, x) => {
+      const ox = 70 + x * cellW;
+      g.fillStyle = (x + y) % 2 ? '#30343f' : '#343845'; g.fillRect(ox, oy, cellW - 3, cellH - 3);
+      if (!cv) { g.fillStyle = '#f44'; g.fillText('ERRO', ox + 4, oy + 20); return; }
+      // alinha pelo chão (GROUND) na base da célula
+      const F = cv._F, gy = F.GROUND * (cv.height / F.FH), dy = oy + cellH - 10 - gy * Z;
+      g.drawImage(cv, ox + 2, dy, cv.width * Z, cv.height * Z);
+      g.fillStyle = 'rgba(62,212,255,.55)'; g.fillRect(ox, dy + gy * Z, cellW - 3, 1);
+      g.fillStyle = 'rgba(255,90,90,.6)'; g.fillRect(ox, dy + (gy - 130) * Z, 6, 1);
+    });
+  });
+  document.title = 'ok';
+} catch (e) { document.title = 'erro ' + e.message; console.error(e); }
+</script>
+</body>
+</html>

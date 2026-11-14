@@ -1,0 +1,174 @@
+{
+  "id": "vigia",
+  "nome": "Vigia",
+  "tipo": "recruta",
+  "corpo": "m",
+  "aptidoes": {
+    "principal": "Defesa",
+    "secundaria": "Combate",
+    "contraria": "Horta"
+  },
+  "conceito": "Ex-vigilante noturno de condomínio que nunca tirou o uniforme: camisa social azul-marinho passada (mesmo no fim do mundo), quepe com distintivo, crachá ainda pendurado no bolso e o cassetete de borracha na cinta. Postura de guarita, peito estufado, bigode cerrado e cara de quem já barrou entregador sem crachá. Cuida do posto de guarda e da muralha durante a invasão; na horta é um desastre.",
+  "partes": [
+    {
+      "parte": "Cabeça/rosto",
+      "descricao": "Cabeça grande do esqueleto (crânio elipse 15x15 px + queixo 12x9 puxado p/ direita), pele sorteada (4 tons). Sombra de barba por fazer no queixo (6 pontinhos de pele escurecida com a cor do cabelo), vinco do nariz à boca (1 px). Gira com hrot em todos os quadros; no hurt joga 2 px para trás."
+    },
+    {
+      "parte": "Quepe",
+      "descricao": "Quepe de vigilante, copa azul-marinho #22345a com luz #34497a e sombra roxa, ~31 px de largura x 15 px de altura, levemente inclinada para a frente; faixa preta #15161c de 5 px com costura cinza; aba preta envernizada #141418 com reflexo #5a5e6a projetando 7 px para a direita (à frente do rosto); distintivo escudo dourado #d8b040/#8a6a18 de 5x5 px no centro da faixa com ponto prateado. Acompanha a cabeça; no death (quadro 3) voa e nos quadros 4-5 fica caído no chão atrás do corpo."
+    },
+    {
+      "parte": "Cabelo",
+      "descricao": "Corte máquina 2 aparecendo só abaixo do quepe: nuca e costeleta (faixa de ~11x7 px atrás da orelha e na têmpora), cor sorteada (5 tons), textura pontilhada. Não mexe por si, segue a cabeça."
+    },
+    {
+      "parte": "Olhos/sobrancelhas",
+      "descricao": "Olhos do esqueleto (esclera 5-6x5 px, íris castanha olhando para a direita, brilho branco 1 px). Sobrancelhas GROSSAS de 2 px na cor do cabelo escurecida, retas e baixas (cara séria) no idle/walk; inclinadas para o nariz (bravo) no ataque e no especial; erguidas no quadro 'wide' do especial (avistou algo). Pisca no idle quadro 2. Olhos em X na morte."
+    },
+    {
+      "parte": "Boca/bigode/expressão",
+      "descricao": "Bigode de vigilante, chevron grosso ~14x4 px na cor do cabelo (2 tons + contorno), cobre o lábio de cima; boca reta 'line' por baixo (seriedade). Ataque: dentes cerrados/aberto gritando. Especial: apito prateado na boca nos quadros 3-4 com bochecha corada."
+    },
+    {
+      "parte": "Orelhas/nariz",
+      "descricao": "Orelha 7x10 px na lateral esquerda da cabeça, visível abaixo do quepe; nariz triangular 5x6 px apontando para a direita com luz. Seguem a cabeça."
+    },
+    {
+      "parte": "Pescoço/gola",
+      "descricao": "Pescoço grosso 9 px. Gola social de 2 pontas em azul clareado (#41618f (azul-claro da camisa)) com contorno, aberta em V mostrando a pele; o cordão amarelo #d8b040 do apito sai da gola e desce até o peito, onde o apito prateado fica pendurado (exceto quando está na boca)."
+    },
+    {
+      "parte": "Tronco/camisa",
+      "descricao": "Camisa social azul-marinho #2f4a7a (luz #4a6aa0, sombra #1f3256 + roxo), tronco ~32x31 px, textura de tecido. Carcela com linha escura e 4 botões claros; dois bolsos com lapela e botão (o da esquerda com o crachá); dragonas escuras nos ombros com botão; tarja preta 'SEG' em pixels amarelos acima do bolso; remendo quadrado mais claro com pontos de costura no lado do quadril (desgaste); camisa enfiada na calça. Cinto tático preto #18181c de 4 px com fivela prateada. Gira com lean (ataque inclina p/ frente, hurt p/ trás)."
+    },
+    {
+      "parte": "Braços",
+      "descricao": "Mangas compridas dobradas logo abaixo do cotovelo (barra dobrada 3 px mais clara), antebraço de pele à mostra. Manga da frente tem emblema-escudo 'SEGURANÇA' (escudo 5x6 px amarelo com centro azul e faixa branca). Braço de trás mais escuro (distância). Braço da frente sobe e desce o cassetete no ataque, aponta a lanterna no especial."
+    },
+    {
+      "parte": "Mãos",
+      "descricao": "Mãos de pele (círculo r=4), fechadas em punho quando seguram ferramenta: o punho é redesenhado por cima do cabo do cassetete/lanterna com 1 px de dedo escuro."
+    },
+    {
+      "parte": "Pernas/calça",
+      "descricao": "Calça de tergal azul quase preta #232838 com vinco claro na perna da frente e remendo no joelho (quadrado #2e3448 com costura pontilhada). Barra enfiada no coturno. Movimento padrão do esqueleto (passo, ajoelhar no death)."
+    },
+    {
+      "parte": "Pés/coturno",
+      "descricao": "Coturno preto #1c1a1e de cano alto (cano 10 px de largura cobrindo metade da canela), bico arredondado 14x7 px, sola cinza #4a4448 de 2 px, cadarço em cruz (pixels cinza #6a6670) no cano. Pisa firme na caminhada."
+    },
+    {
+      "parte": "Ferramenta (cassetete)",
+      "descricao": "Cassetete de borracha preta #1a1a1e com reflexo cinza #5a5a66, 24 px de comprimento x 4 px, empunhadura com 3 anéis e cordão de pulso. No idle/walk/hurt/death/special fica preso no passador do cinto do lado da frente (pendurado vertical, parcialmente atrás do braço). No ataque sai para a mão e golpeia de cima para baixo com rastro branco e impacto."
+    },
+    {
+      "parte": "Acessórios",
+      "descricao": "Rádio comunicador (HT) preto #26262c 5x8 px preso na dragona do ombro esquerdo, antena de 6 px, LED verde #6fdc7a que pisca no idle; crachá branco #f0ece0 6x8 px com faixa azul #2f6db5 e fotinho, preso ao bolso por clipe prateado; lanterna tática cinza #3a3c44 no coldre do cinto (lado de trás) — no especial vai para a mão; apito prateado #d0d4dc com cordão amarelo."
+    },
+    {
+      "parte": "Silhueta/postura",
+      "descricao": "Reto como poste de guarita: ombros quadrados, quepe dando altura extra (~6 px acima da cabeça), aba apontando para a frente, coturnos pesados. Lê-se de longe pela forma do quepe + camisa azul + cinto preto."
+    }
+  ],
+  "paleta": [
+    {
+      "nome": "camisa azul-marinho",
+      "hex": "#2f4a7a"
+    },
+    {
+      "nome": "camisa luz",
+      "hex": "#4a6aa0"
+    },
+    {
+      "nome": "camisa sombra",
+      "hex": "#1f3256"
+    },
+    {
+      "nome": "copa do quepe",
+      "hex": "#22345a"
+    },
+    {
+      "nome": "faixa/aba do quepe",
+      "hex": "#141418"
+    },
+    {
+      "nome": "distintivo dourado",
+      "hex": "#d8b040"
+    },
+    {
+      "nome": "prata (fivela, botões, apito)",
+      "hex": "#c8ccd4"
+    },
+    {
+      "nome": "calça",
+      "hex": "#232838"
+    },
+    {
+      "nome": "coturno",
+      "hex": "#1c1a1e"
+    },
+    {
+      "nome": "sola",
+      "hex": "#4a4448"
+    },
+    {
+      "nome": "cinto/cassetete",
+      "hex": "#18181c"
+    },
+    {
+      "nome": "crachá",
+      "hex": "#f0ece0"
+    },
+    {
+      "nome": "faixa do crachá",
+      "hex": "#2f6db5"
+    },
+    {
+      "nome": "LED do rádio",
+      "hex": "#6fdc7a"
+    },
+    {
+      "nome": "feixe da lanterna",
+      "hex": "#fff0a0"
+    }
+  ],
+  "ferramenta": "Cassetete de borracha (preso no cinto; na mão só no ataque)",
+  "fala": "Ninguém passa do portão.",
+  "especial": "Ronda/alerta: saca a lanterna, varre a escuridão com o feixe, avista algo e apita forte (balão '!' e ondas de som).",
+  "animacoes": {
+    "idle": "4 quadros: respiração leve do esqueleto, postura reta; quadro 2 pisca; LED verde do rádio aceso nos quadros 0-1 e apagado nos 2-3 (fica aceso direto no ataque e no especial).",
+    "walk": "8 quadros: passo de ronda com coturno, braços balançando, cassetete balança no cinto junto com o quadril.",
+    "attack": "6 quadros: 0 saca e ergue o cassetete; 1 ergue atrás da cabeça (sobrancelha brava, dentes cerrados); 2 desce com rastro; 3 impacto na frente (estrela branca/vermelha); 4 acompanha para baixo; 5 recolhe.",
+    "hurt": "4 quadros: 0 flash branco; 1 tinta vermelha, joga a cabeça para trás, olhos fechados; 2 recupera; 3 volta à postura.",
+    "death": "6 quadros: 0 flash; 1 cambaleia; 2 cai de joelhos; 3 tomba e o quepe voa; 4 deitado, quepe caído no chão atrás; 5 estrelinhas.",
+    "special": "6 quadros: 0 tira a lanterna do coldre (coldre fica vazio na linha toda); 1 liga e aponta para a direita (feixe amarelo em cone, olhar desconfiado); 2 varre o feixe para baixo, arregala os olhos e brilha um ponto no escuro; 3 apito na boca (bochecha corada), balão '!' ao lado da aba do quepe e 3 ondas de som; 4 apita mais forte (4 ondas, balão sobe); 5 baixa a lanterna, cara séria."
+  },
+  "eventos": {
+    "idle": {
+      "0": "radio_chiado"
+    },
+    "walk": {
+      "0": "passo_coturno",
+      "4": "passo_coturno"
+    },
+    "attack": {
+      "1": "cassetete_ergue",
+      "3": "cassetete_golpe"
+    },
+    "hurt": {
+      "0": "grunhido"
+    },
+    "death": {
+      "0": "grito_curto",
+      "3": "quepe_cai",
+      "4": "queda"
+    },
+    "special": {
+      "0": "lanterna_saca",
+      "1": "lanterna_clique",
+      "3": "apito",
+      "4": "apito"
+    }
+  }
+}

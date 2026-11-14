@@ -1,0 +1,142 @@
+{
+ "titulo": "Zumbi Peao Pantaneiro - figurino e materiais",
+ "pasta": "zumbis-pantanal/peao",
+ "secoes": [
+  {
+   "nome": "Chapeu pantaneiro e de couro",
+   "n": 12,
+   "busca": [
+    "chapeu pantaneiro",
+    "Pantanal cowboy hat",
+    "chapeu de couro aba larga",
+    "leather hat cowboy",
+    "chapeu de palha peao",
+    "gaucho hat",
+    "sombrero hat leather"
+   ]
+  },
+  {
+   "nome": "Peao pantaneiro, comitiva e retratos",
+   "n": 12,
+   "busca": [
+    "peao pantaneiro",
+    "Pantanal cowboy",
+    "pantaneiro man",
+    "comitiva pantaneira",
+    "boiadeiro Pantanal",
+    "vaqueiro Brasil retrato",
+    "Pantanal ranch worker"
+   ]
+  },
+  {
+   "nome": "Laco de couro trancado e nos",
+   "n": 10,
+   "busca": [
+    "laco de couro",
+    "lasso rope leather",
+    "rawhide lasso",
+    "lariat",
+    "laco peao",
+    "braided rawhide rope",
+    "lasso throwing cowboy"
+   ]
+  },
+  {
+   "nome": "Berrante de chifre",
+   "n": 10,
+   "busca": [
+    "berrante",
+    "berrante chifre boi",
+    "cow horn instrument",
+    "berrante boiadeiro",
+    "berrante Brasil",
+    "horn instrument cattle call"
+   ]
+  },
+  {
+   "nome": "Perneiras, botas e esporas",
+   "n": 10,
+   "busca": [
+    "perneira de couro",
+    "leather chaps",
+    "chaps cowboy",
+    "spurs riding boots",
+    "espora",
+    "botas de couro cowboy",
+    "vaqueiro perneira Nordeste"
+   ]
+  },
+  {
+   "nome": "Camisa xadrez e colete de couro",
+   "n": 8,
+   "busca": [
+    "plaid shirt worn",
+    "camisa xadrez",
+    "leather vest",
+    "colete de couro",
+    "flannel shirt old",
+    "denim trousers worn"
+   ]
+  },
+  {
+   "nome": "Faca pantaneira e bainha",
+   "n": 8,
+   "busca": [
+    "faca pantaneira",
+    "faca de peao",
+    "knife with leather sheath",
+    "facao bainha de couro",
+    "Pantanal knife",
+    "gaucho knife facon"
+   ]
+  },
+  {
+   "nome": "Lida com gado no curral",
+   "n": 12,
+   "busca": [
+    "curral cattle",
+    "cattle roundup Pantanal",
+    "boiada",
+    "boiada Pantanal",
+    "cattle corral",
+    "tocando boiada",
+    "cattle drive Brazil",
+    "rodeio laco",
+    "team roping"
+   ]
+  },
+  {
+   "nome": "Rosto e maos de trabalhador rural, pele curtida",
+   "n": 8,
+   "busca": [
+    "rural worker face weathered",
+    "mao calejada",
+    "weathered hands farmer",
+    "homem rural Brasil retrato",
+    "sertanejo retrato",
+    "old farmer portrait"
+   ]
+  },
+  {
+   "nome": "Couro envelhecido e mofado",
+   "n": 6,
+   "busca": [
+    "aged leather texture",
+    "old leather mold",
+    "weathered leather",
+    "worn leather hat",
+    "mildew leather"
+   ]
+  },
+  {
+   "nome": "Cavalo pantaneiro e sela",
+   "n": 4,
+   "busca": [
+    "cavalo pantaneiro",
+    "Pantaneiro horse",
+    "sela pantaneira",
+    "horse saddle Pantanal"
+   ]
+  }
+ ]
+}

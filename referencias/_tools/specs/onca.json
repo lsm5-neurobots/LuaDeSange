@@ -1,0 +1,174 @@
+{
+ "titulo": "A Onca-Pintada - Panthera onca anatomia e comportamento",
+ "pasta": "zumbis-amazonia/onca",
+ "secoes": [
+  {
+   "nome": "Onca-pintada retrato e corpo inteiro",
+   "n": 12,
+   "busca": [
+    "Panthera onca",
+    "jaguar",
+    "onca-pintada",
+    "jaguar portrait",
+    "jaguar full body",
+    "jaguar Amazon",
+    "jaguar rainforest"
+   ],
+   "cats": [
+    "Panthera onca",
+    "Jaguars"
+   ]
+  },
+  {
+   "nome": "Rosetas e pelagem (textura)",
+   "n": 8,
+   "busca": [
+    "jaguar rosettes fur",
+    "jaguar coat pattern spots",
+    "jaguar fur close up",
+    "pelagem onca rosetas",
+    "jaguar skin pattern"
+   ]
+  },
+  {
+   "nome": "Olhos e rosto (close)",
+   "n": 8,
+   "busca": [
+    "jaguar eyes",
+    "jaguar face close up",
+    "jaguar eye amber",
+    "jaguar stare",
+    "jaguar whiskers nose"
+   ]
+  },
+  {
+   "nome": "Dentes, mandibula e mordida",
+   "n": 8,
+   "busca": [
+    "jaguar teeth",
+    "jaguar skull",
+    "jaguar bite canines",
+    "jaguar open mouth",
+    "jaguar jaw",
+    "Panthera onca skull"
+   ],
+   "cats": [
+    "Panthera onca skulls"
+   ]
+  },
+  {
+   "nome": "Rugido e pose de ameaca",
+   "n": 8,
+   "busca": [
+    "jaguar roaring",
+    "jaguar snarling",
+    "jaguar growl",
+    "jaguar hissing",
+    "onca rugindo",
+    "jaguar aggressive pose"
+   ]
+  },
+  {
+   "nome": "Bote e salto (pose de ataque)",
+   "n": 10,
+   "busca": [
+    "jaguar pouncing",
+    "jaguar leaping",
+    "jaguar attack",
+    "jaguar jumping",
+    "jaguar hunting",
+    "jaguar running",
+    "jaguar lunge"
+   ]
+  },
+  {
+   "nome": "Espreita e emboscada (agachada)",
+   "n": 8,
+   "busca": [
+    "jaguar stalking",
+    "jaguar crouching",
+    "jaguar ambush",
+    "jaguar hiding vegetation",
+    "jaguar lying branch",
+    "jaguar waiting"
+   ]
+  },
+  {
+   "nome": "Patas, garras e musculatura",
+   "n": 8,
+   "busca": [
+    "jaguar paw",
+    "jaguar claws",
+    "jaguar paw print",
+    "jaguar muscles shoulder",
+    "jaguar paws close",
+    "jaguar legs walking"
+   ]
+  },
+  {
+   "nome": "Cauda e andar",
+   "n": 6,
+   "busca": [
+    "jaguar tail",
+    "jaguar walking",
+    "jaguar trotting",
+    "jaguar gait",
+    "jaguar walking forest path"
+   ]
+  },
+  {
+   "nome": "Onca na agua e nadando",
+   "n": 6,
+   "busca": [
+    "jaguar swimming",
+    "jaguar in water",
+    "jaguar river Pantanal",
+    "jaguar caiman hunting",
+    "jaguar drinking"
+   ]
+  },
+  {
+   "nome": "Onca melanica (pantera negra)",
+   "n": 4,
+   "busca": [
+    "melanistic jaguar",
+    "black jaguar",
+    "onca preta",
+    "black panther jaguar melanism"
+   ]
+  },
+  {
+   "nome": "Arvore e galho (subir)",
+   "n": 4,
+   "busca": [
+    "jaguar climbing tree",
+    "jaguar on branch",
+    "jaguar tree trunk",
+    "jaguar resting tree"
+   ]
+  },
+  {
+   "nome": "Esqueleto e anatomia",
+   "n": 5,
+   "busca": [
+    "jaguar skeleton",
+    "big cat skeleton",
+    "felid skeleton",
+    "jaguar anatomy",
+    "cat skeleton running"
+   ]
+  },
+  {
+   "nome": "Corrupcao: carcaca, musgo, pele exposta",
+   "n": 5,
+   "busca": [
+    "animal carcass jungle",
+    "mangy big cat",
+    "cat skull moss",
+    "mummified cat",
+    "big cat decomposition",
+    "decaying animal skin"
+   ]
+  }
+ ]
+}

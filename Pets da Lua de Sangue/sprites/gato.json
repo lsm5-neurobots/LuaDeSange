@@ -1,0 +1,130 @@
+{
+  "id": "gato",
+  "nome": "Gato",
+  "sub": "de telhado",
+  "conceito": "Um gato tabby cinza de rua, magro e esperto, que sobreviveu ao apocalipse pulando de telhado em telhado. Anda sempre à frente do herói com o rabo em gancho, some numa fumacinha e reaparece mais adiante como quem conhece todos os atalhos. Pelo cinza-azulado com listras escuras, meias creme nas patas da frente, orelha rasgada e uma bandana vermelha com plaquinha de lata no pescoço.",
+  "partes": [
+    {
+      "parte": "Cabeça",
+      "descricao": "Crânio redondo (~23x19 px) levemente achatado, com bochechas largas embaixo e um pequeno volume de focinho à frente. Na testa, o clássico 'M' tabby em três tracinhos escuros (#46424f) e duas listras horizontais na bochecha de trás. Inclina para trás no rosnado e para frente no golpe."
+    },
+    {
+      "parte": "Olhos",
+      "descricao": "Olho próximo grande (5x6 px) verde-limão (#c9d84a) com pupila em fenda vertical e brilho branco no canto superior; olho distante menor, perto do focinho. Viram traço fechado ao respirar e no dano, '^' feliz/piscadela no especial, sobrancelha franzida no ataque e X/espiral no desmaio."
+    },
+    {
+      "parte": "Orelhas",
+      "descricao": "Duas orelhas triangulares altas (~11 px) no topo da cabeça; a próxima tem interior rosado (#d98a92) e um pequeno rasgo na ponta (marca de briga de telhado), a distante é mais escura. Giram para trás (até -40°) quando o gato fica bravo, assustado ou desmaiado; dão uma tremidinha no idle."
+    },
+    {
+      "parte": "Focinho e boca",
+      "descricao": "Focinho creme (#ddd4c6) arredondado, nariz triangular rosa (#c86a78) de 3 px na ponta e boca em 'w' de pixels escuros. No ataque/dano a boca abre num sibilo vermelho-escuro com dois caninos brancos. Bigodes brancos de 1 px saem para frente e para trás."
+    },
+    {
+      "parte": "Corpo / tronco",
+      "descricao": "Tronco alongado (~55x22 px) feito de três elipses: peito fundo, barriga e anca. Peito creme, barriga mais clara (#a7a1a6) e cinco listras verticais escuras descendo do dorso. O corpo inclina para trás na antecipação e para frente no bote; balança 1–2 px na caminhada."
+    },
+    {
+      "parte": "Patas",
+      "descricao": "Patas finas de gato com IK: dianteiras quase retas com cotovelo para trás e meias creme até o pé; traseiras com coxa grossa, joelho para frente e jarrete para trás. Lado distante em cinza mais escuro (#5f5b69). Na patada a pata da frente sobe com três garras brancas à mostra."
+    },
+    {
+      "parte": "Rabo",
+      "descricao": "Rabo longo (~35 px) de 6 a 4 px de largura, sobe da anca e termina em gancho, com anéis escuros alternados e ponta escura. Balança no idle e na caminhada, fica eriçado e alto na antecipação, cai reto no chão no desmaio e se enrola bem alto na pose do especial."
+    },
+    {
+      "parte": "Pelagem e marcas",
+      "descricao": "Tabby cinza-azulado (#7c7884) com pontilhado de pelo, luz de lua no alto à esquerda e sombra roxa embaixo à direita; listras do dorso, da anca, da cabeça e do rabo em #46424f; peito, focinho e meias em creme."
+    },
+    {
+      "parte": "Acessório",
+      "descricao": "Bandana vermelho-sangue (#b3263a) amarrada no pescoço, com triângulo caído sobre o peito estampado de bolinhas claras, nó escuro (#7a1626) atrás com duas pontas que esvoaçam ao andar e uma plaquinha redonda de lata (#c8b27a) pendurada na ponta."
+    },
+    {
+      "parte": "Silhueta / pose",
+      "descricao": "Perfil 3/4 virado para a direita, ~75 px de largura do rabo ao bigode e ~60 px de altura até a ponta das orelhas. Postura alerta de gato de rua: cabeça alta à frente, costas retas, rabo em ponto de interrogação — lê-se como gato mesmo em 1x."
+    }
+  ],
+  "paleta": [
+    {
+      "nome": "Pelo cinza",
+      "hex": "#7c7884"
+    },
+    {
+      "nome": "Pelo sombra",
+      "hex": "#5f5b69"
+    },
+    {
+      "nome": "Listras tabby",
+      "hex": "#46424f"
+    },
+    {
+      "nome": "Creme",
+      "hex": "#ddd4c6"
+    },
+    {
+      "nome": "Orelha rosada",
+      "hex": "#d98a92"
+    },
+    {
+      "nome": "Nariz",
+      "hex": "#c86a78"
+    },
+    {
+      "nome": "Olho verde-limão",
+      "hex": "#c9d84a"
+    },
+    {
+      "nome": "Bandana",
+      "hex": "#b3263a"
+    },
+    {
+      "nome": "Bandana sombra",
+      "hex": "#7a1626"
+    },
+    {
+      "nome": "Plaquinha de lata",
+      "hex": "#c8b27a"
+    }
+  ],
+  "animacoes": {
+    "idle": "4 quadros: respiração lenta (corpo desce ~1 px e volta), rabo balança de um lado para o outro, no quadro 2 pisca os olhos e a orelha dá uma tremidinha; pontas da bandana mexem.",
+    "walk": "8 quadros: andar de gato em sequência lateral (traseira próxima, dianteira próxima, traseira distante, dianteira distante), cada pata sobe ~5 px e avança ~7 px; corpo quica 1,4 px duas vezes por ciclo, leve gangorra do tronco, rabo ondula e as pontas da bandana esvoaçam.",
+    "attack": "6 quadros: 0 guarda com orelhas baixas e olhar bravo; 1 antecipação longa — agacha para trás, orelhas coladas, boca aberta sibilando, rabo eriçado e pata dianteira erguida com garras; 2 bote para frente com a pata subindo em arco (rastro de arranhão); 3 impacto — pata desce à frente, três riscos de arranhão em arco e estouro de impacto; 4 recua com faíscas; 5 volta à guarda.",
+    "hurt": "4 quadros: 0 pisca branco (flash); 1 tranco para trás com corpo inclinado, olhos fechados, orelhas para trás, boca aberta e estrelinha; 2 ainda encolhido; 3 se recompõe de olhos abertos.",
+    "death": "6 quadros (desmaio): 0 flash; 1 cambaleia para trás com olhos em espiral e estrelinhas; 2 tropeça para frente com patas bambas; 3 desaba de barriga com as patas abertas e poeira; 4 assenta com olhos em X; 5 deitado desmaiado, rabo esticado no chão, boca aberta e três estrelinhas girando sobre a cabeça (segura 600 ms).",
+    "special": "6 quadros (Sumiço de Telhado): 0 piscadela marota com rabo em gancho; 1 nuvens de fumaça começam a cobrir o gato, que fica meio transparente; 2 só fumaça — o gato sumiu; 3 a fumaça se dissipa e brilhinhos surgem com a silhueta fantasma do gato; 4 reaparece quase sólido entre faíscas; 5 pose orgulhosa de olhos felizes e rabo bem alto."
+  },
+  "especial": "Sumiço de Telhado",
+  "eventos": {
+    "idle": {
+      "0": "respira",
+      "2": "pisca"
+    },
+    "walk": {
+      "0": "passo",
+      "4": "passo"
+    },
+    "attack": {
+      "1": "sibilo",
+      "2": "bote",
+      "3": "impacto"
+    },
+    "hurt": {
+      "0": "dano",
+      "1": "miado_dor"
+    },
+    "death": {
+      "0": "dano",
+      "1": "miado_tonto",
+      "3": "queda",
+      "5": "desmaio"
+    },
+    "special": {
+      "0": "ronrono",
+      "1": "puff",
+      "3": "brilho",
+      "4": "reaparece"
+    }
+  }
+}

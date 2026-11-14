@@ -1,0 +1,568 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Rastejante Nº 002</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Mesma ficha de fliperama do Errante: palco com o sprite vivo + painel; abaixo quadros, paleta, antes/depois, tradução da ficha. Tema escuro fixo. */
+:root{
+  color-scheme:dark;
+  --night:#120a1f; --panel:#1e1333; --panel2:#2a1b46; --line:#3d2a62;
+  --ink:#f5eefe; --muted:#ac9dca;
+  --blood:#ff2e4d; --moon:#ffd23f; --cosmic:#3ed4ff; --toxic:#8be35a; --mustard:#e0b84a;
+  --f-display:"Bungee", Impact, "Arial Black", sans-serif;
+  --f-pix:"Pixelify Sans", "Courier New", monospace;
+  --f-body:"Barlow", "Segoe UI", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:24px 64px;
+  background:radial-gradient(circle at 90% -10%, rgba(224,184,74,.22), transparent 40%), var(--night)}
+:focus-visible{outline:3px solid var(--moon);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:28px}
+.eyebrow{font-family:var(--f-pix);text-transform:uppercase;letter-spacing:.12em;color:var(--cosmic);font-size:13px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(36px,7vw,76px);line-height:.95;margin:4px 0 8px;
+  text-shadow:4px 4px 0 var(--blood),8px 8px 0 #000}
+h1 small{font-size:.38em;color:var(--moon);display:inline-block;vertical-align:.9em;margin-left:10px;text-shadow:3px 3px 0 #000}
+.lede{max-width:72ch;color:var(--muted);margin:0}
+.lede b{color:var(--ink)}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(20px,3vw,28px);margin:0 0 10px;text-wrap:balance}
+h2 small{display:block;font-family:var(--f-pix);font-size:13px;color:var(--blood);letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+
+.show{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0;border:3px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 0 0 6px #0b0614,10px 10px 0 6px rgba(224,184,74,.35);background:#000}
+.stagewrap{position:relative;min-width:0;background:#000;min-height:320px;overflow:hidden}
+#stage{display:block;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;max-width:100%}
+.fx{position:absolute;pointer-events:none;font-family:var(--f-display);color:#fff;transform:translate(-50%,-50%) rotate(-8deg);
+  text-shadow:3px 3px 0 #000;-webkit-text-stroke:1.5px #000;font-size:clamp(20px,4vw,40px);white-space:nowrap}
+.fx.burst{background:var(--moon);color:var(--blood);padding:4px 14px;clip-path:polygon(0 30%,12% 22%,8% 0,28% 14%,40% 0,52% 16%,70% 2%,74% 20%,100% 12%,88% 40%,100% 60%,84% 70%,96% 100%,70% 84%,56% 100%,44% 82%,24% 98%,22% 76%,0 84%,10% 58%);text-shadow:none}
+.fx.bubble{background:#fff;color:#000;-webkit-text-stroke:0;text-shadow:none;border:3px solid #000;border-radius:50%;padding:6px 14px;transform:translate(-50%,-50%) rotate(4deg)}
+.fx.timer{font-family:var(--f-pix);font-size:clamp(13px,2vw,18px);background:#000;color:var(--moon);-webkit-text-stroke:0;border:2px solid var(--moon);border-radius:4px;padding:2px 8px;transform:translate(-50%,-50%)}
+.tagfx{position:absolute;left:10px;top:10px;font-family:var(--f-pix);font-size:12px;background:rgba(10,5,20,.8);border:2px solid #000;border-radius:5px;padding:3px 8px;color:var(--muted)}
+.tagfx b{color:var(--moon)}
+.panel{background:var(--panel);border-left:2px solid var(--line);padding:14px;display:grid;gap:14px;align-content:start;font-family:var(--f-pix);min-width:0}
+.grp{display:grid;gap:6px}
+.lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font-family:var(--f-pix);font-weight:600;font-size:13px;cursor:pointer;padding:6px 10px;border-radius:5px;border:2px solid var(--line);background:var(--panel2);color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--moon);color:#1a0d00;border-color:#000;box-shadow:2px 2px 0 #000}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#7fe6d6}
+.seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:#d0602e;color:#fff}
+.real{display:flex;gap:12px;align-items:flex-end;background:#0d0818;border:1px solid var(--line);border-radius:6px;padding:8px;flex-wrap:wrap}
+.real canvas{image-rendering:pixelated;display:block}
+.real span{font-size:11px;color:var(--muted);display:block;text-align:center}
+.note{font-family:var(--f-body);font-size:13px;color:var(--muted);margin:0}
+
+.strip{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px}
+.fr{flex:0 0 auto;display:grid;gap:4px;justify-items:center;background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:6px;cursor:pointer;font-family:var(--f-pix);font-size:11px;color:var(--muted)}
+.fr.on{border-color:var(--moon);color:var(--ink)}
+.fr canvas{width:192px;height:114px;image-rendering:pixelated;background:repeating-conic-gradient(#1a1030 0 25%, #221640 0 50%) 0 0/12px 12px}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:start}
+.box{background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.ramps{display:grid;gap:8px}
+.ramp{display:grid;grid-template-columns:90px repeat(4,1fr);gap:4px;align-items:center;font-family:var(--f-pix);font-size:12px}
+.ramp i{display:block;height:26px;border:2px solid #000;border-radius:3px}
+.ramp .hx{font-size:10px;color:var(--muted);text-align:center;font-family:var(--f-pix)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ba figure{margin:0;display:grid;gap:6px;justify-items:center;align-content:end;background:#0d0818;border:1px solid var(--line);border-radius:8px;padding:10px}
+.ba img,.ba canvas{image-rendering:pixelated;width:100%;max-width:240px;height:auto}
+.ba figcaption{font-family:var(--f-pix);font-size:12px;color:var(--muted);text-align:center}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-pix);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td:first-child{font-family:var(--f-pix);color:var(--moon);white-space:nowrap}
+ul.rules{margin:0;padding-left:20px;display:grid;gap:6px}
+ul.rules b{color:#fff}
+.quote{border-left:4px solid var(--mustard);padding:6px 12px;margin:0 0 12px;color:#efe3c4;font-style:italic;max-width:72ch}
+@media (max-width:860px){ .stagewrap{min-height:0} #stage{height:auto;aspect-ratio:200/140} .show{grid-template-columns:1fr} .panel{border-left:0;border-top:2px solid var(--line)} }
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bestiário · Zumbis comuns · Direção de arte cósmica</div>
+    <h1>Rastejante <small>Nº 002</small></h1>
+    <p class="lede">Perdeu as pernas da cintura pra baixo e se arrasta pelo chão com os braços. Fica imóvel entre os escombros, parecendo um cadáver, e <b>agarra o tornozelo de quem passa perto (prende 1 s)</b>. Mesma pipeline hi-bit do Errante, agora com um corpo deitado: silhueta horizontal, braços longos que puxam o corpo em trancos e uma cabeça que vira de estalo.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="200" height="140" role="img" aria-label="Rastejante animado no chão de pedra portuguesa do Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b>/4</div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Forma</span>
+        <div class="seg forms" id="forms"><button data-form="comum" aria-pressed="true">Comum</button><button data-form="enluarado" aria-pressed="false">Enluarado</button><button data-form="plenilunar" aria-pressed="false">Plenilunar</button></div></div>
+      <div class="grp"><span class="lbl">Animação</span>
+        <div class="seg" id="anims"><button data-anim="idle" aria-pressed="true">Fingindo de morto</button><button data-anim="walk" aria-pressed="false">Rastejar</button><button data-anim="attack" aria-pressed="false">Bote no tornozelo</button><button data-anim="hurt" aria-pressed="false">Dano</button></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg" id="play"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real no jogo</span>
+        <div class="real"><div><canvas id="r1" width="128" height="76"></canvas><span>1× (tela 384×216)</span></div><div><canvas id="r2" width="128" height="76" style="width:64px;height:38px"></canvas><span>½× (horda)</span></div></div>
+        <p class="note">Quadro de 128×76 px. O corpo tem cerca de 84 px de comprimento e só ~30 px de altura: no meio da horda ele some na linha do chão, que é o que torna o bote uma surpresa.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">Clique num quadro pra pausar nele. No Rastejar, o chão só anda nos quadros de puxada (por isso o movimento sai em trancos). No Bote, o "Fingindo de morto" segura 260 ms, a cabeça vira em 70 ms e o braço dispara num quadro de borrão de 60 ms.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><img id="beforeImg" alt="Sprite atual do Rastejante, 128 px" src="data:image/png;base64,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"><figcaption>Atual · pixel chunky, contorno uniforme, 2 tons</figcaption></figure>
+        <figure><canvas id="afterCv" width="128" height="76"></canvas><figcaption>Novo · 4 tons por material, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor da forma <span id="formName">Comum</span></h2>
+      <div class="ramps" id="ramps"></div>
+      <p class="note" style="margin-top:10px">A pele é mais pálida que a do Errante, como pede a ficha. A camiseta mostarda é a única cor quente do corpo e serve de "alvo" pro olho achar o zumbi deitado no chão escuro.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <p class="quote">"Perdeu as pernas da cintura para baixo e se arrasta pelo chão com os braços. Fica imóvel entre os escombros, parecendo um cadáver, e agarra quem passa perto."</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead>
+      <tbody>
+        <tr><td>Cabeça</td><td>Crânio meio careca, pele cinza-esverdeada repuxada. Um olho afundado e o outro arregalado, sempre olhando pra cima. Boca sem lábio inferior, arcada de baixo à mostra. Cabeça erguida, pescoço esticado.</td><td>Crânio liso com 3 mechas finas atrás e reflexo de luz no topo. Olho da frente enorme e branco, com a pupila colada no alto. Olho de trás é só um buraco escuro com um pontinho. A mandíbula é peça separada: sem lábio, a fileira de dentes de baixo e a gengiva ficam sempre à vista. O pescoço é um tubo longo com tendão marcado, e a cabeça vira de estalo no bote.</td></tr>
+        <tr><td>Tronco</td><td>Só a parte de cima. Camiseta de malha mostarda, imunda, enrolada até as costelas. Na cintura a carne termina em tiras, ponta da coluna aparecendo, rastro escuro no chão.</td><td>Camiseta mostarda com a barra enrolada formando um rolo claro, manchas de sujeira e sangue. Abaixo dela a pele mostra 3 costelas. A cintura termina em tiras de carne serrilhadas, com a ponta da coluna (3 vértebras) espetada pra trás. O rastro é pintado no chão do cenário e anda junto quando ele se arrasta.</td></tr>
+        <tr><td>Braços</td><td>Compridos e magros, os dois apoiados à frente. Uma mão crava os dedos no chão, a outra se estica aberta pra agarrar. Unhas pretas, lascadas.</td><td>Braços de 34 px (mais longos que o corpo é alto), resolvidos por cinemática inversa: a mão fica plantada no chão e o cotovelo sobe. Dois formatos de mão: garra (dedos curvados cravando) e aberta (4 dedos espalhados + polegar). Unhas em preto puro.</td></tr>
+        <tr><td>Pernas</td><td>Não tem pernas. Restam tiras de calça cinza e o rastro de sangue seco.</td><td>Três tiras de calça cinza pendem da cintura até o chão. O rastro marrom-escuro fica no cenário, fora do sprite, pra não ganhar contorno.</td></tr>
+        <tr><td>Movimento</td><td>Puxa o corpo com um braço de cada vez, em trancos. Parado, fica de bruços sem mexer nada. Quando o herói chega perto, a cabeça vira de estalo e a mão dispara pro tornozelo.</td><td>Rastejar de 8 quadros: um braço alcança, crava, puxa (o chão anda só aí), depois o outro. "Fingindo de morto": rosto no chão, só um dedo treme num quadro. Bote de 7 quadros com a canela do herói entrando no palco: estalo da cabeça com "!", borrão do braço, "PEGOU!" e o contador "PRESO 1 s".</td></tr>
+        <tr><td>Paleta</td><td>Pele cinza-esverdeada mais pálida que a do Errante · camiseta mostarda suja · calça cinza · sangue marrom-escuro.</td><td>Mantida em rampas de 4 tons com hue shift. O sangue puxa mais pro marrom que o do Errante (é velho e seco).</td></tr>
+        <tr><td>Enluarado</td><td>Pele verde-água e olhos ciano claro.</td><td>Pele verde-água, luz de lua ciano na borda e olho ciano com brilho pulsando.</td></tr>
+        <tr><td>Plenilunar</td><td>Pele ferrugem, espinhos de osso saindo da coluna e uma corrente presa no pulso, arrastando atrás.</td><td>Pele ferrugem, 5 espinhos de osso rasgando a camiseta ao longo das costas, algema no pulso de trás e uma corrente de ferro que desce até o chão e arrasta atrás do corpo.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="box">
+    <h2><small>Regras de estilo</small>O que muda num zumbi deitado</h2>
+    <ul class="rules">
+      <li><b>Mesmas regras do Errante:</b> contorno seletivo, 4 tons por material, peças do fundo um tom mais escuras, sombra projetada e tempo de quadrinho nas animações.</li>
+      <li><b>Luz de lua também nas costas:</b> como o corpo está deitado, a luz colorida pega a borda de cima do tronco e da cabeça, além da borda de trás. É o que separa ele do chão.</li>
+      <li><b>Silhueta baixa e comprida:</b> a etapa 1 mostra que ele lê como "corpo no chão com braços longos", diferente de qualquer zumbi em pé.</li>
+      <li><b>Telegrafar o bote:</b> antes do golpe, a cabeça sobe e o olho grande aparece. O jogador (ou a IA do recruta) tem 290 ms pra reagir.</li>
+      <li><b>Cenário conta a história:</b> rastro de sangue e entulho ficam no chão, não no sprite. Assim o sprite fica limpo e o rastro pode crescer conforme ele anda.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+(function(){
+'use strict';
+const FW=128, FH=76, GROUND=70;
+const SW=200, SH=140, SGROUND=130;
+const OUTLINE='#170b1c';
+const RIM={comum:'#b8d4f0', enluarado:'#c4fbff', plenilunar:'#ffb070'};
+const rad=d=>d*Math.PI/180;
+
+/* ---------- materials ---------- */
+function mats(form){
+  const m={
+    skin:['#d6e0b4','#a7b78f','#738a73','#4a5d57'],
+    shirt:['#ecc96a','#bf973c','#86652c','#4f3a1f'],
+    pants:['#a6a4ae','#75737f','#4f4d5c','#302e3c'],
+    hair:['#5e5446','#3a3229','#262019','#16120e'],
+    blood:['#8a4a32','#5e2a1c','#3e1912','#260d0b'],
+    bone:['#fff6dc','#e3d4ae','#ae9a72','#6e5c44'],
+    teeth:['#f4e9b4','#d6c27c','#9a8650','#5e4e30'],
+    eye:['#ffffff','#eef0e2','#b9c0ad','#7c8676'],
+    mouth:['#8a3444','#4a1828','#2a0c18','#1a0610'],
+    nail:['#2a2226','#151014','#0e0a0d','#070507'],
+    iron:['#d6d6e6','#9494ac','#5e5e78','#36364c'],
+  };
+  if(form==='enluarado'){
+    m.skin=['#cdf6ea','#82d2c2','#4d9a94','#2d6064']; m.eye=['#ffffff','#d2fcff','#78e0f2','#2f9ab8'];
+    m.shirt=['#d8d07a','#a8a046','#6f7034','#424622']; m.pants=['#9aaeb6','#6a7e8a','#475a66','#2b3a46'];
+    m.blood=['#4a7a7a','#2e5458','#1e3a40','#12242a']; m.hair=['#465a56','#2c3c3a','#1c2826','#101816'];
+  }
+  if(form==='plenilunar'){
+    m.skin=['#f2a874','#c2643c','#863a24','#4e1e16']; m.eye=['#fffbe0','#ffe9a8','#e0a060','#a05a2a'];
+    m.shirt=['#d9a65a','#a5702e','#6e4620','#3e2614']; m.pants=['#9a8a90','#6c5c66','#483c46','#2c2228'];
+    m.blood=['#9a2e1e','#6a1a14','#44100e','#2a0808']; m.hair=['#4a2e22','#2e1c16','#1e120e','#120a08'];
+  }
+  return m;
+}
+const NAMES={skin:'Pele',shirt:'Camiseta',pants:'Calça',hair:'Cabelo',blood:'Sangue',bone:'Osso',teeth:'Dentes',eye:'Olho',mouth:'Gengiva',nail:'Unha',iron:'Corrente'};
+function hexRgb(h){ const n=parseInt(h.slice(1),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+
+/* ---------- poses ---------- */
+const G=GROUND;
+const REST={bx:0,tilt:6,nk:34,hd:8,jaw:6,hF:{x:96,y:G-7},hB:{x:88,y:G-7},oF:0,oB:0,smear:0,flash:0,ankle:0};
+const DEAD={tilt:1,nk:-16,hd:-8,jaw:3,hF:{x:94,y:G-6},hB:{x:84,y:G-7},oF:1,oB:0};
+const ANIMS={
+  idle:{n:4,dur:i=>[900,700,110,900][i],pose:i=>[
+    DEAD, DEAD, Object.assign({},DEAD,{oF:0.5,hB:{x:85,y:G-7}}), DEAD][i]},
+  walk:{n:8,dur:i=>[140,90,110,170,140,90,110,170][i],mv:[0,0,5,5,0,0,5,5],pose:i=>[
+    {hF:{x:97,y:G-15},oF:1,hB:{x:89,y:G-7},tilt:5,nk:36,hd:10,jaw:7},
+    {hF:{x:97,y:G-7},hB:{x:89,y:G-7},tilt:5,nk:36,hd:10,jaw:8},
+    {hF:{x:92,y:G-7},hB:{x:84,y:G-7},tilt:9,nk:30,hd:6,jaw:6,bx:1},
+    {hF:{x:87,y:G-7},hB:{x:89,y:G-14},oB:1,tilt:7,nk:28,hd:4,jaw:5,bx:2},
+    {hF:{x:87,y:G-7},hB:{x:99,y:G-16},oB:1,tilt:5,nk:34,hd:9,jaw:7,bx:1},
+    {hF:{x:87,y:G-7},hB:{x:99,y:G-7},tilt:5,nk:36,hd:10,jaw:8},
+    {hF:{x:82,y:G-7},hB:{x:94,y:G-7},tilt:9,nk:30,hd:6,jaw:6,bx:1},
+    {hF:{x:88,y:G-14},oF:1,hB:{x:89,y:G-7},tilt:7,nk:28,hd:4,jaw:5,bx:2}][i]},
+  attack:{n:7,dur:i=>[260,70,220,60,380,300,180][i],pose:i=>[
+    Object.assign({},DEAD,{ankle:1}),
+    Object.assign({},DEAD,{nk:40,hd:20,jaw:10,tilt:4,ankle:1}),
+    {nk:42,hd:16,jaw:12,tilt:6,hF:{x:80,y:G-13},oF:0,hB:{x:84,y:G-7},ankle:1},
+    {nk:30,hd:6,jaw:15,tilt:12,bx:4,hF:{x:100,y:G-17},oF:1,hB:{x:86,y:G-7},smear:1,ankle:1},
+    {nk:30,hd:4,jaw:15,tilt:11,bx:4,hF:{x:98,y:G-15},oF:0,hB:{x:86,y:G-7},ankle:2},
+    {nk:28,hd:2,jaw:13,tilt:10,bx:3,hF:{x:96,y:G-14},oF:0,hB:{x:85,y:G-7},ankle:2},
+    {nk:20,hd:0,jaw:8,tilt:5,bx:1,hF:{x:96,y:G-7},hB:{x:86,y:G-7},ankle:1}][i]},
+  hurt:{n:4,dur:i=>[80,110,130,160][i],pose:i=>[
+    {bx:-4,tilt:14,nk:58,hd:34,jaw:15,hF:{x:86,y:G-8},hB:{x:80,y:G-7},oF:1,oB:1,flash:1},
+    {bx:-3,tilt:12,nk:52,hd:28,jaw:13,hF:{x:86,y:G-7},hB:{x:80,y:G-7},oF:1,oB:1},
+    {bx:-1,tilt:8,nk:40,hd:14,jaw:9,hF:{x:90,y:G-7},hB:{x:84,y:G-7}},
+    {tilt:6,nk:34,hd:8,jaw:6}][i]},
+};
+function poseOf(anim,i){ return Object.assign({},REST,ANIMS[anim].pose(i)); }
+
+/* ---------- skeleton ---------- */
+const lerp=(a,b,t)=>({x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t});
+const L1=17, L2=17;
+function ik(S,W){
+  const dx=W.x-S.x, dy=W.y-S.y, d0=Math.hypot(dx,dy);
+  const d=Math.max(Math.abs(L1-L2)+0.5, Math.min(L1+L2-0.3, d0));
+  const base=Math.atan2(dy,dx), A=Math.acos(Math.max(-1,Math.min(1,(L1*L1+d*d-L2*L2)/(2*L1*d))));
+  const e1={x:S.x+Math.cos(base-A)*L1,y:S.y+Math.sin(base-A)*L1}, e2={x:S.x+Math.cos(base+A)*L1,y:S.y+Math.sin(base+A)*L1};
+  return {E:e1.y<e2.y?e1:e2, W:{x:S.x+Math.cos(base)*d, y:S.y+Math.sin(base)*d}};
+}
+function skeleton(P){
+  const W0={x:24+P.bx, y:G-8};
+  const a=-rad(P.tilt), c=Math.cos(a), s=Math.sin(a);
+  const T=(lx,ly)=>({x:W0.x+lx*c-ly*s, y:W0.y+lx*s+ly*c});
+  const shF=T(36,-5), shB=T(38,-10), nb=T(41,-8);
+  const na=rad(P.nk+P.tilt), N={x:nb.x+Math.cos(na)*9, y:nb.y-Math.sin(na)*9};
+  const ha=-rad(P.hd+P.tilt), hc=Math.cos(ha), hs=Math.sin(ha);
+  const H=(lx,ly)=>({x:N.x+lx*hc-ly*hs, y:N.y+lx*hs+ly*hc});
+  const F=ik(shF,P.hF), B=ik(shB,P.hB);
+  return {W0,a,T,shF,shB,nb,N,ha,H,elF:F.E,wrF:F.W,elB:B.E,wrB:B.W,eye:H(5,-6.5)};
+}
+
+/* ---------- drawing primitives ---------- */
+function mkPen(ctx,used){
+  const F=c=>{ ctx.fillStyle=c; used.add(c); };
+  const circle=(p,r)=>{ ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill(); };
+  const cap=(a,b,wa,wb)=>{ const dx=b.x-a.x, dy=b.y-a.y, L=Math.hypot(dx,dy)||1, nx=-dy/L, ny=dx/L;
+    ctx.beginPath(); ctx.moveTo(a.x+nx*wa/2,a.y+ny*wa/2); ctx.lineTo(b.x+nx*wb/2,b.y+ny*wb/2); ctx.lineTo(b.x-nx*wb/2,b.y-ny*wb/2); ctx.lineTo(a.x-nx*wa/2,a.y-ny*wa/2); ctx.closePath(); ctx.fill(); circle(a,wa/2); circle(b,wb/2); };
+  const poly=pts=>{ ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); ctx.fill(); };
+  const ell=(x,y,rx,ry,r=0)=>{ ctx.beginPath(); ctx.ellipse(x,y,rx,ry,r,0,Math.PI*2); ctx.fill(); };
+  const rect=(x,y,w,h)=>ctx.fillRect(x,y,w,h);
+  const xf=(a,ox,oy)=>{ const c=Math.cos(a), s=Math.sin(a); ctx.setTransform(c,s,-s,c,ox,oy); };
+  const id=()=>ctx.setTransform(1,0,0,1,0,0);
+  return {F,circle,cap,poly,ell,rect,xf,id};
+}
+const P2=(x,y)=>({x,y});
+
+function drawHand(p,M,wr,ang,open){
+  p.xf(ang,wr.x,wr.y);
+  if(open>=1){
+    p.F(M.skin[1]); p.poly([[0,-2.6],[4.4,-3],[4.8,3],[0,2.6]]);
+    p.cap(P2(1.6,-2.4),P2(3.6,-5.4),1.8,1.6); p.cap(P2(3.6,-5.4),P2(5.4,-6.4),1.6,1.4); p.F(M.nail[1]); p.ell(5.8,-6.6,0.8,0.8);
+    for(let k=0;k<4;k++){ const y0=-2.2+k*1.5, A=rad(-20+k*13), B=A+0.25;
+      const m1=P2(4.4+Math.cos(A)*3.6, y0+Math.sin(A)*3.6), t=P2(m1.x+Math.cos(B)*2.8, m1.y+Math.sin(B)*2.8);
+      p.F(M.skin[1]); p.cap(P2(4.2,y0),m1,1.7,1.5); p.cap(m1,t,1.5,1.3); p.F(M.nail[1]); p.ell(t.x+Math.cos(B)*0.6,t.y+Math.sin(B)*0.6,0.8,0.8); }
+  } else {
+    p.F(M.skin[1]); p.poly([[-0.6,-2.4],[3.8,-2.8],[4.6,2.6],[-0.6,2.4]]);
+    p.cap(P2(1.4,2.2),P2(3.4,4.6),1.7,1.5);
+    const curl=open>0?0.9:2.6;
+    for(let k=0;k<3;k++){ const y0=-1.8+k*1.8; p.F(M.skin[1]); p.cap(P2(4,y0),P2(6.8,y0+0.5),1.8,1.6); p.cap(P2(6.8,y0+0.5),P2(7.4,y0+0.5+curl),1.6,1.4);
+      p.F(M.nail[1]); p.ell(7.5,y0+1.1+curl,0.9,0.9); }
+  }
+  p.id();
+}
+function drawArm(ctx,used,M,sh,el,wr,open,front,form){
+  const p=mkPen(ctx,used); p.id();
+  p.F(M.skin[1]); p.cap(sh,el,4.6,4); p.cap(el,wr,3.8,3.1);
+  p.F(M.skin[2]); p.circle(el,1.2);
+  p.F(M.shirt[1]); p.cap(sh,lerp(sh,el,0.38),7.4,6.4);
+  p.F(M.shirt[2]); const sl=lerp(sh,el,0.4); p.circle(sl,1.2);
+  if(front){ p.F(M.blood[1]); const sc=lerp(el,wr,0.45); p.circle(sc,1.1); }
+  if(!front && form==='plenilunar'){ p.F(M.iron[1]); p.cap(lerp(el,wr,0.82),wr,4.6,4.6); p.F(M.iron[2]); p.circle(lerp(el,wr,0.9),0.8); }
+  drawHand(p,M,wr,Math.atan2(wr.y-el.y,wr.x-el.x),open);
+}
+function drawChain(ctx,used,M,sk){
+  const p=mkPen(ctx,used); p.id();
+  const pts=[sk.wrB, P2(sk.W0.x+40, G-1.2), P2(sk.W0.x+6, G-1.2), P2(-4, G-1.2)];
+  let alt=0;
+  for(let s=0;s<pts.length-1;s++){ const a=pts[s], b=pts[s+1], L=Math.hypot(b.x-a.x,b.y-a.y), n=Math.max(1,Math.floor(L/3.2)), ang=Math.atan2(b.y-a.y,b.x-a.x);
+    for(let k=0;k<n;k++){ const q=lerp(a,b,k/n); p.F(M.iron[alt%2?2:1]); if(alt%2) p.ell(q.x,q.y,1.9,0.8,ang); else p.ell(q.x,q.y,1.8,1.4,ang); alt++; } }
+}
+function drawTorso(ctx,used,M,sk,form){
+  const p=mkPen(ctx,used); p.xf(sk.a,sk.W0.x,sk.W0.y);
+  // tatters + spine stub (behind the body edge)
+  p.F(M.blood[1]); p.poly([[1,-9.5],[-3,-8.6],[-5.5,-7],[-8.5,-6],[-4.6,-4],[-7.6,-1.6],[-3.6,-0.6],[-6.6,2.6],[-1.6,2.2],[1,4.6]]);
+  p.F(M.mouth[1]); p.poly([[0.5,-7],[-2.4,-5],[-1.6,0.6],[0.6,2.4]]);
+  p.F(M.bone[1]); p.cap(P2(-1,-6.2),P2(-10,-7.6),2.8,2.2);
+  p.F(M.bone[2]); p.rect(-4.4,-7.6,1,2.4); p.rect(-7.4,-8.2,1,2.2);
+  // pants strips
+  p.F(M.pants[1]); p.poly([[-0.6,0.6],[-3.4,1],[-7,5.6],[-4.6,5.4]]); p.poly([[0.6,1.6],[-1.4,2.2],[-2.6,6],[-0.2,5.8]]); p.poly([[2.6,2],[1,2.6],[1.2,5.8],[3.6,5.4]]);
+  p.F(M.pants[2]); p.rect(-5.6,4,1,1);
+  // exposed skin with ribs
+  p.F(M.skin[1]); p.poly([[-0.6,3.6],[17,4.4],[17.5,-11.4],[8,-10.8],[0.6,-9.6],[-1.4,-4]]);
+  p.F(M.skin[2]); [4,7.6,11.2].forEach(x=>p.poly([[x,-8.4],[x+1.3,-8.6],[x+1.8,1.2],[x+0.5,1.4]]));
+  p.F(M.skin[0]); [5.3,8.9,12.5].forEach(x=>p.rect(x,-7.6,0.9,6.4));
+  p.F(M.bone[1]); p.rect(8.2,-4.6,1.4,2.6);
+  p.F(M.blood[2]); p.rect(2,1.4,3,1.2); p.rect(14,-2,1,2.4);
+  // shirt
+  p.F(M.shirt[1]); p.poly([[14,4.8],[40,4],[44.5,-1.4],[45.5,-9],[41.5,-15.4],[31,-16],[21,-14.2],[14.6,-12.6]]);
+  p.F(M.shirt[0]); p.poly([[13.2,-12.8],[17.6,-14],[18.6,4.8],[14,4.6]]);
+  p.F(M.shirt[2]); p.rect(15.6,-11,1,13); p.rect(25,-6,6,1); p.rect(33,-3,1,5);
+  p.F(M.shirt[3]); p.rect(28,0,1.2,1.2); p.rect(36,-8,1.2,1.2); p.rect(22,-11,1,1);
+  p.F(M.blood[1]); p.poly([[34,0],[40,-0.6],[42,2.6],[36,3.6]]); p.F(M.blood[2]); p.rect(20,1.4,2,2);
+  if(form==='plenilunar'){
+    p.F(M.bone[1]);
+    [3,10,17,25,33].forEach((x,k)=>{ const by=x<17?-9.4-x*0.12:-12.6-Math.min(3,(x-17)*0.2); const h=6+(k%2)*2.4;
+      p.poly([[x-2,by+1.6],[x+2.2,by+1.4],[x-2.6,by-h]]); });
+  }
+  p.id();
+}
+function drawHead(ctx,used,M,sk,form){
+  const p=mkPen(ctx,used); p.id();
+  p.F(M.skin[1]); p.cap(sk.nb,sk.N,5.6,4.8);
+  p.F(M.skin[2]); p.cap(lerp(sk.nb,sk.N,0.15),lerp(sk.nb,sk.N,0.85),1,1);
+  p.xf(sk.ha,sk.N.x,sk.N.y);
+  p.F(M.skin[1]); p.ell(2,-5.6,8,7.2);
+  p.poly([[2,-2],[10.4,-5],[11.8,-2.8],[11.4,0.4],[3,1.4]]);
+  p.ell(-3.2,-4.2,1.7,2.4);
+  p.F(M.skin[3]); p.ell(-3.2,-4.2,0.7,1.2);
+  p.F(M.mouth[1]); p.poly([[4.4,-3],[11.2,-3.4],[11.6,0.2],[4.4,0.4]]);
+  p.F(M.teeth[1]); p.rect(6,-3.4,1.4,1.9); p.rect(7.8,-3.5,1.4,2); p.rect(9.6,-3.6,1.4,1.8);
+  p.F(M.skin[2]); p.poly([[1.5,-3.6],[7,-3.2],[3.4,-1.8]]);
+  p.F(M.skin[3]); p.ell(5,-6.6,3.6,3.4);
+  p.F(M.eye[1]); p.ell(5,-6.6,2.9,2.7);
+  p.F(M.nail[1]); p.rect(4.6,-9,1.6,1.4);
+  p.F(M.skin[3]); p.ell(9.6,-6.8,1.5,1.8); p.ell(10.6,-3.6,0.8,0.7);
+  p.F(M.eye[2]); p.rect(9.4,-7.6,1,1);
+  p.F(M.hair[1]); p.poly([[-5.4,-10.4],[-2.4,-12.6],[0.6,-12.6],[-2.2,-11.6],[-4.6,-8.6]]); p.poly([[-5.8,-9.2],[-9.6,-6],[-6.2,-7.4]]); p.poly([[-1,-12.6],[-4.6,-14.6],[-2.6,-12]]);
+  if(form==='plenilunar'){ p.F(M.skin[2]); p.rect(-1,-11,4,1); }
+  p.id();
+}
+function drawJaw(ctx,used,M,sk){
+  const p=mkPen(ctx,used); const h=sk.H(0.5,-0.6);
+  p.xf(sk.ha+rad(sk.P.jaw),h.x,h.y);
+  p.F(M.skin[1]); p.poly([[-1,-0.4],[9.6,0.4],[10.4,2.2],[8.6,4.6],[2.4,5],[-1.6,2.4]]);
+  p.F(M.mouth[0]); p.rect(4.6,0.2,6.2,1.4);
+  p.F(M.teeth[1]); p.rect(5,-1.4,1.3,1.8); p.rect(6.8,-1.5,1.3,1.9); p.rect(8.6,-1.4,1.3,1.8); p.rect(10.2,-1,1.1,1.6);
+  p.F(M.skin[2]); p.rect(3,3.8,5,1);
+  p.F(M.blood[1]); p.rect(9.6,2.6,1,2);
+  p.id();
+}
+function drawSmear(ctx,used,M,sk){
+  const p=mkPen(ctx,used); p.id(); p.F(M.skin[0]);
+  const w=sk.wrF, e=sk.elF;
+  p.poly([[w.x+2,w.y-3],[e.x-6,e.y-6],[e.x-12,e.y+1],[w.x-2,w.y+3]]);
+}
+
+/* ---------- compositing ---------- */
+const tmp=document.createElement('canvas'); tmp.width=FW; tmp.height=FH; const tctx=tmp.getContext('2d',{willReadFrequently:true});
+function buildFrame(form,anim,fi,step){
+  const P=poseOf(anim,fi), M=mats(form), sk=skeleton(P); sk.P=P;
+  const cinfo=new Map(); Object.entries(M).forEach(([k,r])=>r.forEach((h,t)=>{ if(!cinfo.has(h)) cinfo.set(h,{ramp:k,tone:t}); }));
+  const parts=[];
+  if(form==='plenilunar') parts.push({draw:(c,u)=>drawChain(c,u,M,sk)});
+  parts.push({back:true, draw:(c,u)=>drawArm(c,u,M,sk.shB,sk.elB,sk.wrB,P.oB,false,form)});
+  parts.push({top:true, draw:(c,u)=>drawTorso(c,u,M,sk,form)});
+  parts.push({top:true, draw:(c,u)=>drawHead(c,u,M,sk,form)});
+  parts.push({draw:(c,u)=>drawJaw(c,u,M,sk)});
+  if(P.smear) parts.push({noShade:true, smear:true, draw:(c,u)=>drawSmear(c,u,M,sk)});
+  parts.push({draw:(c,u)=>drawArm(c,u,M,sk.shF,sk.elF,sk.wrF,P.oF,true,form)});
+  const N=FW*FH, col=new Array(N).fill(null), part=new Int8Array(N).fill(-1);
+  parts.forEach((pt,k)=>{
+    tctx.setTransform(1,0,0,1,0,0); tctx.clearRect(0,0,FW,FH); const used=new Set(); pt.draw(tctx,used);
+    const list=[...used].map(h=>[h,...hexRgb(h)]); const d=tctx.getImageData(0,0,FW,FH).data;
+    for(let i=0;i<N;i++){ if(d[i*4+3]<128) continue; let best=list[0][0], bd=1e9; const r=d[i*4],g=d[i*4+1],b=d[i*4+2];
+      for(const c of list){ const dd=(c[1]-r)**2+(c[2]-g)**2+(c[3]-b)**2; if(dd<bd){bd=dd;best=c[0];} }
+      col[i]=best; part[i]=k; }
+  });
+  const at=(x,y)=> (x<0||y<0||x>=FW||y>=FH)?-1:part[y*FW+x];
+  const out=new Array(N).fill(null);
+  for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){
+    const i=y*FW+x, c=col[i]; if(c===null) continue; const k=part[i];
+    if(step===1){ out[i]='#2a1d40'; continue; }
+    const info=cinfo.get(c); let oc=c;
+    if(step>=3 && info && !parts[k].noShade){
+      let tone=info.tone;
+      if(tone===1){ if(at(x-1,y)!==k||at(x,y+1)!==k||at(x,y+2)!==k) tone=2; else if(at(x+1,y)!==k||at(x,y-1)!==k) tone=0; }
+      const up2=at(x,y-2), ul=at(x+1,y-2); if((up2>k)||(ul>k)) tone=Math.min(3,tone+1);
+      if(step>=4){ const n=[at(x+1,y),at(x-1,y),at(x,y+1),at(x,y-1)]; if(n.some(q=>q>k && !parts[q].smear)) tone=3; }
+      if(parts[k].back) tone=Math.min(3,tone+1);
+      oc=M[info.ramp][tone];
+    }
+    if(P.flash && step>=3) oc='#ffffff';
+    out[i]=oc;
+  }
+  if(step>=5 && !P.flash){ for(let y=0;y<G-3;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]===null || parts[part[i]].noShade) continue;
+    if(at(x-1,y)===-1 || (parts[part[i]].top && at(x,y-1)===-1)) out[i]=RIM[form]; } }
+  const cv=document.createElement('canvas'); cv.width=FW; cv.height=FH; const g=cv.getContext('2d'); const img=g.createImageData(FW,FH);
+  const put=(i,h)=>{ const [r,gg,b]=hexRgb(h); img.data[i*4]=r; img.data[i*4+1]=gg; img.data[i*4+2]=b; img.data[i*4+3]=255; };
+  for(let i=0;i<N;i++) if(out[i]) put(i,out[i]);
+  if(step>=4){ for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]!==null) continue; if(at(x+1,y)>=0||at(x-1,y)>=0||at(x,y+1)>=0||at(x,y-1)>=0) put(i,OUTLINE); } }
+  g.putImageData(img,0,0);
+  cv._eye=sk.eye; cv._hand=sk.wrF; cv._head=sk.H(2,-12); cv._waist=sk.W0;
+  return cv;
+}
+const cache=new Map();
+function frame(form,anim,i,step){ const k=form+anim+i+step; if(!cache.has(k)) cache.set(k,buildFrame(form,anim,i,step)); return cache.get(k); }
+
+/* ---------- stage background (pixel) ---------- */
+const BGP={
+  comum:{sky:['#0e0a26','#1c1440','#2e1f58','#46307a'], moon:'#f3eed6', moonD:'#cfc6a6', bld:'#23183f', bld2:'#2f2152', win:'#ffd86a', lamp:'rgba(255,214,120,', ground:['#5a4a5a','#4a3c4c','#3a2e3e'], dot:'rgba(160,190,255,.18)', trail:'#2a1414', rub:['#7a6a78','#4a3c4c']},
+  enluarado:{sky:['#081a24','#0e2a3a','#164052','#22606e'], moon:'#e0fbff', moonD:'#a6dce6', bld:'#0e2230', bld2:'#163244', win:'#9ff0ff', lamp:'rgba(170,240,255,', ground:['#3e5458','#32464a','#26383c'], dot:'rgba(170,240,255,.2)', trail:'#14262a', rub:['#5e7a7e','#32464a']},
+  plenilunar:{sky:['#1a0408','#3a0812','#64101e','#8e1a2a'], moon:'#ff4a3a', moonD:'#c42020', bld:'#2a0a14', bld2:'#3a1020', win:'#ff8a5a', lamp:'rgba(255,120,80,', ground:['#5a3438','#4a2a2e','#3a2024'], dot:'rgba(255,120,90,.2)', trail:'#2a0808', rub:['#7a4a4a','#4a2a2e']}
+};
+function hsh(n){ n=Math.sin(n*127.1)*43758.5453; return n-Math.floor(n); }
+function drawBG(g,form,scroll,t){
+  const B=BGP[form];
+  const bands=[0,34,62,86,SGROUND];
+  for(let b=0;b<4;b++){ g.fillStyle=B.sky[b]; g.fillRect(0,bands[b],SW,bands[b+1]-bands[b]);
+    if(b<3){ g.fillStyle=B.sky[b+1]; for(let y=bands[b+1]-4;y<bands[b+1];y++) for(let x=(y%2);x<SW;x+=2) if(y>=bands[b+1]-2 || (x+y)%4===0) g.fillRect(x,y,1,1); } }
+  for(let i=0;i<40;i++){ g.fillStyle=hsh(i)>.6?'#fff':'#9a8ac8'; g.fillRect(Math.floor(hsh(i*3)*SW),Math.floor(hsh(i*7)*60),1,1); }
+  const mx=152, my=30, mr=17;
+  g.fillStyle=B.dot; for(let y=my-34;y<my+34;y+=3) for(let x=mx-34;x<mx+34;x+=3){ const d=Math.hypot(x-mx,y-my); if(d>mr+2 && d<34 && hsh(x*13+y)>(d-mr)/18) g.fillRect(x,y,1,1); }
+  for(let y=-mr;y<=mr;y++){ const w=Math.floor(Math.sqrt(mr*mr-y*y)); g.fillStyle=B.moon; g.fillRect(mx-w,my+y,w*2+1,1); }
+  g.fillStyle=B.moonD; [[-6,-5,4],[5,3,3],[-2,8,2],[8,-8,2]].forEach(([dx,dy,r])=>{ for(let y=-r;y<=r;y++){ const w=Math.floor(Math.sqrt(r*r-y*y)); g.fillRect(mx+dx-w,my+dy+y,w*2+1,1); } });
+  const o1=Math.floor(scroll*0.3);
+  for(let i=-1;i<9;i++){ const bi=Math.floor(o1/30)+i; const x=bi*30-o1; const h=40+Math.floor(hsh(bi)*24);
+    g.fillStyle=B.bld; g.fillRect(x,SGROUND-h,29,h); g.fillRect(x+2,SGROUND-h-3,25,3);
+    if(hsh(bi+5)>.5){ g.fillRect(x+11,SGROUND-h-9,7,6); g.fillRect(x+13,SGROUND-h-12,3,3); }
+    for(let wy=0;wy<3;wy++) for(let wx=0;wx<3;wx++){ const lit=hsh(bi*11+wx+wy*5)>.72; g.fillStyle=lit?B.win:B.bld2; g.fillRect(x+4+wx*8,SGROUND-h+6+wy*11,4,6); } }
+  const o2=Math.floor(scroll*0.7);
+  for(let i=-1;i<3;i++){ const li=Math.floor(o2/110)+i; const x=li*110-o2+60;
+    g.fillStyle='#120a1c'; g.fillRect(x,SGROUND-58,2,58); g.fillRect(x,SGROUND-58,10,2); g.fillRect(x+8,SGROUND-57,4,3);
+    const fl=0.16+Math.sin(t*3+li)*0.02; g.fillStyle=B.lamp+fl+')'; g.beginPath(); g.moveTo(x+8,SGROUND-54); g.lineTo(x-6,SGROUND); g.lineTo(x+26,SGROUND); g.closePath(); g.fill(); }
+  const o3=Math.floor(scroll);
+  g.fillStyle=B.ground[0]; g.fillRect(0,SGROUND,SW,SH-SGROUND); g.fillStyle='#120a1c'; g.fillRect(0,SGROUND,SW,1);
+  g.fillStyle=B.ground[1]; for(let y=SGROUND+2;y<SH;y+=3) for(let x=0;x<SW;x++){ const wx=(x+o3)%24; if(Math.abs(Math.sin((wx/24)*Math.PI*2)*2+ (y-SGROUND)%6-3)<0.8) g.fillRect(x,y,1,1); }
+  g.fillStyle=B.ground[2]; for(let x=-(o3%9);x<SW;x+=9) g.fillRect(x,SGROUND+1,1,SH-SGROUND);
+}
+// entulho (fica atrás do zumbi) — pedaços de tijolo e concreto presos ao chão
+function drawRubble(g,form,scroll,front){
+  const B=BGP[form], o3=Math.floor(scroll);
+  for(let i=-2;i<8;i++){ const ri=Math.floor(o3/40)+i, x=ri*40-o3+Math.floor(hsh(ri*5)*18); if((hsh(ri*9)>.5)!==front) continue;
+    const w=4+Math.floor(hsh(ri)*6), h=2+Math.floor(hsh(ri*3)*4), y=front?SGROUND+6+Math.floor(hsh(ri*2)*3):SGROUND-h+1;
+    g.fillStyle='#120a1c'; g.fillRect(x-1,y-1,w+2,h+2);
+    g.fillStyle=B.rub[1]; g.fillRect(x,y,w,h); g.fillStyle=B.rub[0]; g.fillRect(x,y,w,1); g.fillRect(x,y,1,h);
+    if(hsh(ri*7)>.5){ g.fillStyle='#8a4a3a'; g.fillRect(x+w+2,y+h-2,3,2); g.fillStyle='#120a1c'; g.fillRect(x+w+2,y+h,3,1); } }
+}
+// rastro de sangue: começa na cintura e vai até a borda esquerda
+function drawTrail(g,form,scroll,x0){
+  const B=BGP[form], o3=Math.floor(scroll);
+  g.fillStyle=B.trail;
+  for(let x=0;x<x0;x++){ const wx=x+o3; const top=SGROUND+1+(hsh(Math.floor(wx/3))>.6?1:0), h=3+(hsh(Math.floor(wx/5)*3)>.5?1:0)-(x<x0-60?1:0);
+    if(x<x0-70 && hsh(wx)>.6) continue; g.fillRect(x,top,1,h); }
+  g.fillStyle='rgba(0,0,0,.35)'; for(let x=0;x<x0;x+=2) if(hsh((x+o3)*1.7)>.7) g.fillRect(x,SGROUND+2,1,1);
+}
+// canela do herói entrando no bote
+function drawAnkle(g,x,grab,t){
+  const top=SGROUND-62, sh=grab===2?Math.round(Math.sin(t*40)):0;
+  g.fillStyle='#120a1c'; g.fillRect(x-1+sh,top,10,62);
+  g.fillStyle='#2e3a5e'; g.fillRect(x+sh,top,8,52); g.fillStyle='#46548a'; g.fillRect(x+sh,top,2,52); g.fillStyle='#1e2640'; g.fillRect(x+6+sh,top,2,52);
+  g.fillStyle='#120a1c'; g.fillRect(x-2+sh,SGROUND-11,16,12);
+  g.fillStyle='#6a3e22'; g.fillRect(x-1+sh,SGROUND-10,14,9); g.fillStyle='#8e5a32'; g.fillRect(x-1+sh,SGROUND-10,14,2); g.fillStyle='#3a2414'; g.fillRect(x-1+sh,SGROUND-2,14,2);
+}
+
+/* ---------- state & loop ---------- */
+const S={form:'comum', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, motes:[]};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw');
+const fxEls={};
+function setFx(slot,kind,text,x,y){
+  let el=fxEls[slot];
+  if(!el || el._k!==kind+text){ if(el) el.remove(); el=document.createElement('div'); el.className='fx '+kind; el.textContent=text; el._k=kind+text; sw.appendChild(el); fxEls[slot]=el; }
+  place(el,x,y);
+}
+function clearFx(slot){ const el=fxEls[slot]; if(el){ el.remove(); delete fxEls[slot]; } }
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+
+let last=performance.now(), T=0;
+function loop(now){
+  const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt;
+  const A=ANIMS[S.anim];
+  if(S.playing){ const k=dt*1000*(S.slow?0.5:1); S.acc+=k;
+    if(A.mv){ S.scroll+=A.mv[S.fi]*k/A.dur(S.fi); }
+    let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); updStrip(); } }
+  draw();
+  requestAnimationFrame(loop);
+}
+function draw(){
+  drawBG(g,S.form,S.scroll,T);
+  drawRubble(g,S.form,S.scroll,false);
+  const cv=frame(S.form,S.anim,S.fi,S.step);
+  const ox=Math.round(SW/2-FW/2-14), oy=SGROUND-GROUND;
+  const P=poseOf(S.anim,S.fi);
+  drawTrail(g,S.form,S.scroll,ox+cv._waist.x-6);
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-1;y<=2;y++){ const w=Math.floor(Math.sqrt(1-(y/3)**2)*42); g.fillRect(ox+60-w,SGROUND+y+1,w*2,1); }
+  if(P.ankle) drawAnkle(g,ox+94,P.ankle,T);
+  g.drawImage(cv,ox,oy);
+  drawRubble(g,S.form,S.scroll,true);
+  const ex=ox+cv._eye.x, ey=oy+cv._eye.y;
+  if(S.step>=5){
+    if(S.form==='enluarado'){ const a=0.45+0.3*Math.sin(T*3); glow(ex,ey,7,'rgba(150,245,255,'+a+')'); }
+    if(S.form==='plenilunar' && S.anim==='walk' && S.playing && Math.random()<0.2) S.motes.push({x:ox+20+Math.random()*30,y:SGROUND-1,v:4+Math.random()*6,t:0});
+  }
+  g.fillStyle=S.form==='plenilunar'?'#ffb040':'#a09080'; S.motes.forEach(e=>{ e.t+=1/60; e.y-=e.v/60; g.globalAlpha=Math.max(0,1-e.t*1.4); g.fillRect(Math.round(e.x),Math.round(e.y),1,1); }); g.globalAlpha=1; S.motes=S.motes.filter(e=>e.t<0.8);
+  // FX
+  const hx=ox+cv._hand.x, hy=oy+cv._hand.y;
+  if(S.anim==='hurt' && S.fi<=1) setFx("a","burst","CRAU!",ox+30,oy+10);
+  else if(S.anim==='attack' && (S.fi===1||S.fi===2)) setFx('a','bubble','!',ox+cv._head.x+6,oy+cv._head.y-10);
+  else if(S.anim==='attack' && S.fi===4) setFx('a','burst','PEGOU!',hx-4,hy-26);
+  else if(S.anim==='attack' && S.fi===5) setFx('a','timer','PRESO 1 s',hx-4,hy-26);
+  else clearFx('a');
+  if(S.anim==='hurt' && S.fi===0 && S.step>=3){ g.fillStyle='#fff'; const cx=ox+76, cy=oy+30; for(let k=0;k<8;k++){ const a=k/8*Math.PI*2; for(let r=6;r<13;r++) g.fillRect(Math.round(cx+Math.cos(a)*r),Math.round(cy+Math.sin(a)*r),1,1); } }
+  if(S.anim==='attack' && S.fi===4 && S.step>=3){ g.fillStyle='#fff'; for(let k=0;k<6;k++){ const a=-Math.PI/2+(k-2.5)*0.45; for(let r=8;r<13;r++) g.fillRect(Math.round(hx+Math.cos(a)*r),Math.round(hy+Math.sin(a)*r),1,1); } }
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${ANIMS[S.anim].n} · ${ANIMS[S.anim].dur(S.fi)} ms`;
+  ['r1','r2'].forEach(id=>{ const c=document.getElementById(id).getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(cv,0,0); });
+}
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+
+/* ---------- UI ---------- */
+function press(groupId,attr,val){ document.querySelectorAll('#'+groupId+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.querySelectorAll('#forms button').forEach(b=>b.onclick=()=>{ S.form=b.dataset.form; press('forms','form',S.form); buildStrip(); buildRamps(); after(); });
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('anims','anim',S.anim); buildStrip(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%ANIMS[S.anim].n; updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+
+const strip=document.getElementById('strip');
+function buildStrip(){
+  const A=ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(frame(S.form,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } };
+    strip.appendChild(d); }
+  updStrip();
+}
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){
+  const M=mats(S.form); document.getElementById('formName').textContent={comum:'Comum',enluarado:'Enluarado',plenilunar:'Plenilunar'}[S.form];
+  const order=['skin','shirt','pants','hair','blood','bone','teeth','eye','mouth','nail'].concat(S.form==='plenilunar'?['iron']:[]);
+  document.getElementById('ramps').innerHTML = `<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>` +
+    order.map(k=>`<div class="ramp"><span>${NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('') +
+    `<div class="ramp"><span>Contorno · Lua</span><i style="background:${OUTLINE}" title="${OUTLINE}"></i><i style="background:${RIM[S.form]}" title="${RIM[S.form]}"></i><span></span><span></span></div>`;
+}
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(frame(S.form,'walk',0,5),0,0); }
+
+buildStrip(); buildRamps(); after(); draw();
+requestAnimationFrame(loop);
+})();
+</script>
+
+</body></html>

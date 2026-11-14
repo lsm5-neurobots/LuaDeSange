@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>FX · folha</title>
+<style>
+  html, body { margin: 0; background: #120e1c; color: #d8d0e8; font: 11px monospace }
+  canvas { display: block; image-rendering: pixelated }
+</style>
+<script src="../art/art-exp.js"></script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+// Uso: /tools/fx.html[?k=1.25][&z=1][&kinds=impact,dust][&cor=#hex]
+// Desenha todos os kinds do FX × quadros na escala do jogo (px finais = tela 960×540), sobre fundo de cenário escuro,
+// com a âncora (cruz ciano = centro, magenta = chão), guia de personagem de 130 px e um painel do sangue (GORE).
+const q = new URLSearchParams(location.search);
+const A = window.ART_EXP, FX = A.FX, GORE = A.GORE;
+const K = +(q.get('k') || 1.25), Z = +(q.get('z') || 1);
+A.PIX.setK(K);
+const kinds = q.get('kinds') ? q.get('kinds').split(',') : FX.KINDS;
+const OPTS = { warnLane: { w: 110 }, warnCircle: { r: 30 } };
+const VW = Math.floor(innerWidth / Z), PAD = 8, GAP = 8;
+const cards = [];
+for (const k of kinds) {
+  const o = Object.assign({}, OPTS[k] || {}, q.get('cor') ? { cor: q.get('cor') } : {});
+  const fr = []; for (let i = 0; i < FX.N[k]; i++) fr.push(FX.frame(k, i, o));
+  const an = FX.ANCHOR(k, o);
+  const rep = k === 'laserBeam' ? 4 : 1; // feixe: mostra 4 segmentos encostados (testa o tile)
+  const fw = Math.max(...fr.map((c) => c.width)) * rep, fh = Math.max(...fr.map((c) => c.height));
+  cards.push({ k, o, fr, an, rep, fw, fh, w: fr.length * (fw + 6) - 6 + PAD * 2, h: fh + 26 });
+}
+if (!q.get('kinds')) cards.push({ gore: true, w: 600, h: 140 });
+// empacota em linhas
+let x = PAD, y = PAD, rowH = 0;
+for (const c of cards) { if (x + c.w > VW - PAD && x > PAD) { x = PAD; y += rowH + GAP; rowH = 0; } c.x = x; c.y = y; x += c.w + GAP; rowH = Math.max(rowH, c.h); }
+const cv = document.getElementById('c'); cv.width = VW; cv.height = y + rowH + PAD;
+cv.style.width = VW * Z + 'px'; cv.style.height = cv.height * Z + 'px';
+const g = cv.getContext('2d'); g.imageSmoothingEnabled = false;
+// fundo de cenário: céu noturno + muro + calçada
+function scene(x0, y0, w, h) {
+  const gr = g.createLinearGradient(0, y0, 0, y0 + h); gr.addColorStop(0, '#1c1630'); gr.addColorStop(.62, '#2a2238'); gr.addColorStop(.63, '#3a3040'); gr.addColorStop(1, '#2a2230');
+  g.fillStyle = gr; g.fillRect(x0, y0, w, h);
+  g.fillStyle = 'rgba(255,255,255,.035)'; for (let yy = y0 + 6; yy < y0 + h * .62; yy += 9) g.fillRect(x0, yy, w, 1);
+  g.fillStyle = 'rgba(0,0,0,.18)'; for (let xx = x0 + ((y0 * 7) % 23); xx < x0 + w; xx += 23) g.fillRect(xx, y0 + Math.round(h * .63), 1, h - Math.round(h * .63));
+}
+g.fillStyle = '#120e1c'; g.fillRect(0, 0, cv.width, cv.height);
+for (const c of cards) {
+  scene(c.x, c.y, c.w, c.h);
+  if (c.gore) { drawGore(c); continue; }
+  g.fillStyle = '#d8d0e8'; g.fillText(c.k + ' (' + c.fr.length + 'q) ' + c.fr[0].width + '×' + c.fr[0].height + 'px' + (c.an.ground ? ' · chão' : ''), c.x + 4, c.y + 11);
+  c.fr.forEach((f, i) => {
+    const bx = c.x + PAD + i * (c.fw + 6), by = c.y + 18 + (c.fh - f.height);
+    g.strokeStyle = 'rgba(255,255,255,.07)'; g.strokeRect(bx - .5, c.y + 17.5, c.fw + 1, c.fh + 1);
+    for (let r = 0; r < c.rep; r++) g.drawImage(f, bx + r * f.width, by);
+    const ax = bx + c.an.ax, ay = by + c.an.ay; g.fillStyle = c.an.ground ? '#ff4ad8' : '#4ae8ff'; g.fillRect(ax - 2, ay, 5, 1); g.fillRect(ax, ay - 2, 1, 5);
+  });
+}
+// painel do sangue: decalques, respingos na parede e gotas no ar (transformação RS=2,5 como o motor)
+function drawGore(c) {
+g.fillStyle = '#d8d0e8'; g.fillText('GORE: manchas (chão), respingos (parede), gotas (ar) · comum / enluarado / plenilunar', c.x + 4, c.y + 11);
+const RS = 2.5; g.save(); g.beginPath(); g.rect(c.x, c.y + 14, c.w, c.h - 14); g.clip(); g.setTransform(RS, 0, 0, RS, c.x, c.y);
+const COLS = [['#d8584a', '#a82a2a', '#5c1420'], ['#c88ae8', '#7a3a9a', '#3e1a5a'], ['#ffa060', '#ff5a2a', '#a81e14']];
+let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }; Math.random = rnd;
+COLS.forEach((col, i) => {
+  const bx = 14 + i * 74, gy = 48;
+  GORE.hit(bx, gy, gy - 30, 1, 1.4, col, true, 50); GORE.burst(bx + 34, gy + 2, gy - 25, col, true);
+  for (let s = 0; s < 5; s++) GORE.stain(bx + 8 + s * 10, gy + 7, 1.6 + s * 1.5, col);
+});
+for (let t = 0; t < 12; t++) GORE.update(0.03);
+GORE.drawWall(g, 0, 600); GORE.drawGround(g, 0, 600); GORE.drawAir(g, 0);
+g.restore();
+// guia de altura 130 px (personagem comum)
+g.fillStyle = 'rgba(74,232,255,.6)'; g.fillRect(c.x + c.w - 8, c.y + 8, 2, 130); g.fillText('130px', c.x + c.w - 44, c.y + 24);
+}
+document.title = 'ok';
+</script>
+</body>
+</html>

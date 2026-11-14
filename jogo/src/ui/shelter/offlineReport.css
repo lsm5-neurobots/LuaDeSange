@@ -1,0 +1,41 @@
+/* MODO LOOP: relatório offline, selo no abrigo, HUD e contagem na expedição */
+.or { display: grid; gap: 10px }
+.or-time { margin: 0 }
+.or-warn { background: rgba(255, 176, 48, .14); border: 2px solid var(--warn); border-radius: 8px; padding: 6px 10px; color: #ffd38a; font-size: 14px }
+.or-stop { background: rgba(255, 46, 77, .14); border: 2px solid var(--blood); border-radius: 8px; padding: 6px 10px; font-size: 14px }
+.or-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 6px }
+.or-stats > div { background: var(--panel2); border: 2px solid var(--line); border-radius: 8px; padding: 4px 10px; display: grid }
+.or-stats b { font-family: var(--f-display); font-weight: 400; font-size: 22px; line-height: 1.1; text-shadow: 2px 2px 0 #000 }
+.or-stats .ok b { color: var(--ok) }
+.or-stats .bad b { color: var(--blood) }
+.or-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px }
+.xr-loot.sm .lt { font-size: 13px }
+.xr-loot .lt.neg b { color: #ff9aa8 }
+.or-dim { color: var(--muted); margin: 0; font-size: 14px }
+.or-moon { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; max-height: 220px; overflow: auto }
+.or-moon li { background: rgba(255, 46, 77, .08); border-left: 4px solid var(--blood); border-radius: 6px; padding: 4px 10px; font-size: 14px }
+.or-moon li.ok { border-left-color: var(--ok); background: rgba(111, 220, 122, .07) }
+.or-moon small { display: block; color: var(--muted) }
+.or-roub img { vertical-align: middle }
+.or-actions { gap: 10px; flex-wrap: wrap }
+
+/* selo do loop no abrigo */
+.sh-loop { position: absolute; top: 96px; right: var(--g); z-index: 5 }
+.sh-loop:empty { display: none }
+.loop-badge { display: flex; align-items: center; gap: 8px; background: rgba(18, 10, 31, .9); border: 2px solid var(--cosmic); border-radius: 10px; padding: 6px 8px 6px 10px; box-shadow: 0 0 14px rgba(62, 212, 255, .35), 3px 3px 0 #000 }
+.loop-badge .lp-txt { display: grid; line-height: 1.15 }
+.loop-badge b { font-family: var(--f-display); font-weight: 400; font-size: 14px; color: var(--cosmic); letter-spacing: .04em }
+.loop-badge small { font-family: var(--f-pix); font-size: 12px; color: var(--muted) }
+.lp-dot { width: 12px; height: 12px; border-radius: 3px; background: var(--cosmic); animation: lpblink 1s steps(2) infinite }
+@keyframes lpblink { 50% { opacity: .25 } }
+
+/* HUD da expedição */
+.xps-loop { font-family: var(--f-display); font-size: 13px; color: #001a22; background: var(--cosmic); border: 2px solid #000; border-radius: 6px; padding: 3px 8px; box-shadow: 2px 2px 0 #000; white-space: nowrap }
+.xps-loop[hidden] { display: none }
+.xr-loopbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: rgba(62, 212, 255, .1); border: 2px solid var(--cosmic); border-radius: 8px; padding: 6px 10px }
+.xr-loopbar .cd { font-family: var(--f-display); font-size: 26px; color: var(--cosmic); min-width: 1.6em; text-align: center; text-shadow: 2px 2px 0 #000 }
+.xr-loopbar span { flex: 1 1 180px; font-size: 14px }
+
+@media (max-width: 720px) {
+  .sh-loop { top: 120px; left: var(--g); right: auto }
+}

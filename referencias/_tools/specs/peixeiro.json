@@ -1,0 +1,114 @@
+{
+ "titulo": "Zumbi Peixeiro (Ver-o-Peso) - avental, facao, peixes e feira",
+ "pasta": "zumbis-veropeso/peixeiro",
+ "secoes": [
+  {
+   "nome": "Peixeiro no balcao",
+   "n": 14,
+   "busca": [
+    "fishmonger",
+    "peixeiro Ver-o-Peso",
+    "fish seller market",
+    "fishmonger cutting fish",
+    "peixeiro feira Belém"
+   ],
+   "depth": 0,
+   "cats": [
+    "Fishmongers",
+    "Fish markets"
+   ]
+  },
+  {
+   "nome": "Avental e bota de borracha",
+   "n": 12,
+   "busca": [
+    "rubber apron",
+    "avental de borracha",
+    "rubber boots fisherman",
+    "bota de borracha pescador",
+    "oilskin apron worker",
+    "butcher apron"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Facao, faca de peixe e cutelo",
+   "n": 10,
+   "busca": [
+    "fish knife",
+    "machete",
+    "facão",
+    "cleaver butcher",
+    "fish fillet knife",
+    "cutting board fish"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Peixes da Amazonia (pirarucu, tambaqui, dourada)",
+   "n": 14,
+   "busca": [
+    "pirarucu",
+    "tambaqui",
+    "dourada fish",
+    "Amazon fish market",
+    "peixe amazônico",
+    "filhote fish Pará"
+   ],
+   "depth": 0,
+   "cats": [
+    "Fish of the Amazon basin"
+   ]
+  },
+  {
+   "nome": "Bancas, gelo, isopor e balanca",
+   "n": 12,
+   "busca": [
+    "fish stall ice",
+    "caixa de isopor",
+    "market scale hanging",
+    "balança de feira",
+    "fish market stall display"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Mercado Ver-o-Peso",
+   "n": 16,
+   "busca": [
+    "Ver-o-Peso",
+    "Ver-o-Peso mercado de peixe",
+    "Ver-o-Peso Belém",
+    "Mercado de Ferro Belém",
+    "Belém feira peixe"
+   ],
+   "depth": 0,
+   "cats": [
+    "Ver-o-Peso"
+   ]
+  },
+  {
+   "nome": "Poses: arremesso, corte e carregamento",
+   "n": 12,
+   "busca": [
+    "man throwing fish",
+    "man carrying fish basket",
+    "fish throwing market",
+    "worker lifting crate fish",
+    "man swinging machete"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Piso molhado, escamas e sangue de peixe",
+   "n": 10,
+   "busca": [
+    "wet market floor",
+    "fish scales close up",
+    "fish market wet floor drain",
+    "slippery wet floor market"
+   ],
+   "depth": 0
+  }
+ ]
+}

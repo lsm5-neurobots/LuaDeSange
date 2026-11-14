@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Olinda · preview</title>
+<style>
+  html, body { margin: 0; background: #000; overflow: hidden }
+  canvas { display: block; width: 960px; height: 540px; image-rendering: pixelated }
+</style>
+<script src="../art/art-exp.js"></script>
+</head>
+<body>
+<canvas id="c" width="960" height="540"></canvas>
+<script>
+// Uso: /tools/olinda.html?x=<cam lógico>&mode=noite|lua[&a=<id da área>&r=0..1][&tint=0|engine][&lights=0][&anim=1]
+// Desenha céu + mid + FG exatamente como o motor (src/expedition/render.ts): contextos com transform RS,
+// tinta do modo aplicada ao mid e ao FG (source-atop), janelas acesas em 'lighter'.
+const q = new URLSearchParams(location.search);
+const MAP = window.ART_EXP.OLINDA;
+const RS = 2.5, W = MAP.W, H = MAP.H;
+const mode = q.get('mode') || 'noite';
+let cam = +(q.get('x') || 0);
+if (q.get('a')) { const A = MAP.AID[q.get('a')]; cam = Math.round(A.x0 + (+(q.get('r') ?? 0.5)) * (A.len - W)); }
+const ENGINE_TINT = { noite: 'rgba(16,12,58,.56)', lua: 'rgba(78,6,20,.5)' };
+// tint=engine usa a tinta atual do render.ts; padrão = MAP.TINT (recomendada: o cenário já vem pintado de noite)
+const TINT = q.get('tint') === 'engine' ? ENGINE_TINT : (MAP.TINT || ENGINE_TINT);
+const useTint = q.get('tint') !== '0', useLights = q.get('lights') !== '0';
+const t0 = performance.now();
+MAP.build();
+const tb = performance.now() - t0;
+const mk = () => { const c = document.createElement('canvas'); c.width = W * RS; c.height = H * RS; const g = c.getContext('2d'); g.imageSmoothingEnabled = false; return [c, g]; };
+const cv = document.getElementById('c'), g = cv.getContext('2d'); g.imageSmoothingEnabled = false;
+const [bgCv, BG] = mk(), [fgCv, FG] = mk();
+const LG = (c) => c.setTransform(RS, 0, 0, RS, 0, 0);
+function frame(t) {
+  const c0 = Math.round(cam);
+  LG(g); LG(BG); LG(FG);
+  MAP.drawSky(g, mode, c0, t);
+  BG.clearRect(0, 0, W, H);
+  if (MAP.drawMid) MAP.drawMid(BG, c0); else BG.drawImage(MAP.mid, c0 * (MAP.RS || 1), 0, W * (MAP.RS || 1), H * (MAP.RS || 1), 0, 0, W, H);
+  if (useTint) { BG.globalCompositeOperation = 'source-atop'; BG.fillStyle = TINT[mode]; BG.fillRect(0, 0, W, H); BG.globalCompositeOperation = 'source-over'; }
+  g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(bgCv, 0, 0); LG(g);
+  g.save(); g.globalCompositeOperation = 'lighter';
+  for (const win of MAP.WINDOWS) { const x = win.x - c0; if (x < -20 || x > W + 20 || !win.lit) continue; g.fillStyle = mode === 'lua' ? 'rgba(255,90,60,.55)' : 'rgba(255,214,120,.55)'; g.fillRect(x, win.y, win.w, win.h); }
+  g.restore();
+  if (useLights && MAP.drawLights) MAP.drawLights(g, c0, mode, t);
+  FG.clearRect(0, 0, W, H); MAP.drawFG(FG, c0);
+  if (useTint) { FG.globalCompositeOperation = 'source-atop'; FG.fillStyle = TINT[mode]; FG.fillRect(0, 0, W, H); FG.globalCompositeOperation = 'source-over'; }
+  g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(fgCv, 0, 0); LG(g);
+}
+const tf = performance.now(); frame(0); const tr = performance.now() - tf;
+console.log('build ms', tb.toFixed(0), 'first frame ms', tr.toFixed(0));
+document.title = 'ok';
+if (q.get('anim')) { let last = performance.now(); const loop = (now) => { cam += (now - last) / 1000 * 64; last = now; frame(now / 1000); requestAnimationFrame(loop); }; requestAnimationFrame(loop); }
+</script>
+</body>
+</html>

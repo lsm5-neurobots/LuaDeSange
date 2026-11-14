@@ -1,0 +1,128 @@
+{
+  "id": "jabuti",
+  "nome": "Jabuti",
+  "sub": "piranga",
+  "conceito": "Um jabuti-piranga velho de guerra, teimoso e calmo, lento demais para andar sozinho: vai preso nas costas do herói por um arnês de couro e só desce para morder ou virar escudo. Casco alto em domo, quase preto, com placas de centro amarelo-ouro, e cabeça e patas escuras salpicadas de escamas vermelho-alaranjadas.",
+  "partes": [
+    {
+      "parte": "Cabeça",
+      "descricao": "Oval arredondada de ~16x13 px, pele marrom-quase-preta (#3a302b) com 5–6 escamas vermelho-alaranjadas e uma amarela no topo; inclina e balança no idle e no andar."
+    },
+    {
+      "parte": "Olhos",
+      "descricao": "Olho único visível de 4–5 px, íris âmbar-escura com pupila preta e ponto de brilho branco; pisca (meio fechado) no idle, fecha em traço no dano, vira X/espiral no desmaio e ^ feliz no fim do especial."
+    },
+    {
+      "parte": "Bico",
+      "descricao": "Bico córneo bege (#c7a16a) em gancho na ponta do focinho, narina de 1 px; a mandíbula inferior gira ~28° na dobradiça para abrir a boca rosada no bote."
+    },
+    {
+      "parte": "Pescoço",
+      "descricao": "Tubo enrugado de 10→8 px de largura (#4b3f38) com pintas laranja; estica até 1,5x no ataque e encolhe para dentro do casco no especial."
+    },
+    {
+      "parte": "Carapaça e placas",
+      "descricao": "Domo alto de ~62x31 px, placas escuras (#2c221d) separadas por sulcos de contorno: 9 marginais na borda com pinta amarela, 4 costais e 3 vertebrais com aréola amarela (#e3a92e) e brilho interno (#f5d36a)."
+    },
+    {
+      "parte": "Plastrão",
+      "descricao": "Faixa bege-amarelada (#d6b46c) de ~5 px sob a borda do casco, com dois sulcos escuros; aparece por cima quando ele cai de casco pra cima."
+    },
+    {
+      "parte": "Patas",
+      "descricao": "Quatro patas-coluna curtas de 7–9 px (de 'elefante'), as do lado de lá mais escuras; dianteiras cobertas de escamas vermelho-alaranjadas, pés ovais com 3 garras claras de 1 px."
+    },
+    {
+      "parte": "Rabo",
+      "descricao": "Rabinho cônico de 6→2 px saindo da traseira, com uma escama laranja."
+    },
+    {
+      "parte": "Textura e marcas",
+      "descricao": "Pontilhado leve nas placas e na pele, luz de lua no topo-esquerda e sombra roxa embaixo-direita; contraste preto + amarelo + vermelho típico do jabuti-piranga."
+    },
+    {
+      "parte": "Acessório: arnês de couro",
+      "descricao": "Cinta de couro marrom (#8a5530) de 4 px atravessando o casco de cima até a borda, com pespontos claros, fivela de metal (#c9c3b0) no meio e argola de engate no topo, onde o herói prende o jabuti na mochila."
+    },
+    {
+      "parte": "Silhueta e pose",
+      "descricao": "Corpo de ~80 px de largura, baixo e largo, casco em cúpula ocupando 3/4 da figura e cabeça saindo à direita; lê como jabuti mesmo em 1x pelo domo pontilhado de amarelo."
+    }
+  ],
+  "paleta": [
+    {
+      "nome": "Placa escura",
+      "hex": "#2c221d"
+    },
+    {
+      "nome": "Placa marginal",
+      "hex": "#3d2f26"
+    },
+    {
+      "nome": "Aréola amarela",
+      "hex": "#e3a92e"
+    },
+    {
+      "nome": "Brilho da aréola",
+      "hex": "#f5d36a"
+    },
+    {
+      "nome": "Pele escura",
+      "hex": "#3a302b"
+    },
+    {
+      "nome": "Escama piranga",
+      "hex": "#d9542b"
+    },
+    {
+      "nome": "Plastrão",
+      "hex": "#d6b46c"
+    },
+    {
+      "nome": "Bico",
+      "hex": "#c7a16a"
+    },
+    {
+      "nome": "Couro do arnês",
+      "hex": "#8a5530"
+    },
+    {
+      "nome": "Metal da fivela",
+      "hex": "#c9c3b0"
+    }
+  ],
+  "animacoes": {
+    "idle": "4 quadros: a cabeça sobe ~1 px e inclina levemente para trás enquanto o pescoço estica um pouco (respiração); no quadro 3 o olho fica meio fechado (piscada lenta).",
+    "walk": "8 quadros de passada lenta em diagonal (dianteira de cá + traseira de lá, depois o par oposto): pés sobem até 4 px e avançam, o casco afunda ~1 px a cada apoio e balança 1°, a cabeça sobe e desce em dobro do ritmo; poeirinha nos quadros 0 e 4.",
+    "attack": "0 pronto; 1 antecipação: recua o corpo, encolhe o pescoço, sobrancelha brava; 2 bote: pescoço estica 1,5x com boca aberta e linhas de velocidade; 3 impacto: bico fecha na frente com estrela de impacto; 4 segura e recolhe; 5 volta à pose.",
+    "hurt": "0 flash branco pálido; 1 empurrado ~5 px para trás, casco inclina, olho fechado, cabeça meio recolhida e estrelinha; 2 ainda inclinado; 3 recupera com olho meio aberto.",
+    "death": "0 flash; 1 tropeça e tomba 14° (compose rotate); 2 gira 62° para trás com olhos em X; 3 cai de casco pra baixo com poeira, plastrão para cima; 4 patinhas se mexendo no ar e olho em espiral com estrelas girando; 5 desmaiado de costas, olho X e estrelinhas (segura 600 ms).",
+    "special": "0 olha para cima de olhos arregalados; 1 recolhe cabeça e patas pela metade e abaixa; 2 totalmente dentro do casco, que fica dourado com brilhos; 3 auge do escudo: casco dourado e cúpula de luz em volta com faíscas; 4 brilho some, patas e cabeça começam a sair; 5 sai feliz (olho ^) com um coraçãozinho."
+  },
+  "especial": "Casco-Escudo",
+  "eventos": {
+    "idle": {
+      "0": "respira"
+    },
+    "walk": {
+      "0": "passo",
+      "4": "passo"
+    },
+    "attack": {
+      "1": "sibilo",
+      "3": "impacto"
+    },
+    "hurt": {
+      "0": "dano"
+    },
+    "death": {
+      "0": "dano",
+      "3": "queda"
+    },
+    "special": {
+      "1": "recolhe",
+      "3": "escudo",
+      "5": "sai"
+    }
+  }
+}

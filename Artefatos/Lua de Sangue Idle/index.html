@@ -1,0 +1,1319 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Lua de Sangue Idle</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: console de fliperama no topo (a demo é a tese), documento de design abaixo com índice lateral fixo no desktop.
+   Visual único, escuro, de quadrinho cósmico — tema fixo por escolha. */
+:root{
+  color-scheme:dark;
+  --night:#120a1f;      /* fundo */
+  --panel:#1e1333;      /* superfícies */
+  --panel2:#2a1b46;
+  --line:#3d2a62;
+  --ink:#f5eefe;        /* texto */
+  --muted:#ac9dca;
+  --blood:#ff2e4d;      /* acento: lua de sangue */
+  --moon:#ffd23f;       /* destaque quadrinho */
+  --cosmic:#3ed4ff;     /* informação / IA */
+  --toxic:#8be35a;      /* zumbi / sucesso */
+  --f-display:"Bungee", Impact, "Arial Black", sans-serif;
+  --f-pix:"Pixelify Sans", "Courier New", monospace;
+  --f-body:"Barlow", "Segoe UI", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:24px 64px;
+  background:
+    radial-gradient(circle at 85% -10%, rgba(255,46,77,.28), transparent 40%),
+    radial-gradient(circle at 0% 30%, rgba(62,212,255,.08), transparent 35%),
+    var(--night);
+  background-attachment:fixed}
+a{color:var(--cosmic)}
+:focus-visible{outline:3px solid var(--moon);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto}
+
+/* ---------- HERO ---------- */
+.hero{display:grid;gap:14px;margin-bottom:22px}
+.eyebrow{font-family:var(--f-pix);text-transform:uppercase;letter-spacing:.12em;color:var(--cosmic);font-size:13px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,6vw,68px);line-height:.95;margin:0;text-wrap:balance;
+  color:var(--ink);text-shadow:4px 4px 0 var(--blood), 8px 8px 0 #000}
+h1 em{font-style:normal;color:var(--moon)}
+.lede{max-width:70ch;color:var(--muted);margin:0;font-size:17px}
+.lede b{color:var(--ink)}
+
+/* ---------- CONSOLE ---------- */
+.console{background:#000;border:3px solid var(--line);border-radius:14px;box-shadow:0 0 0 6px #0b0614, 10px 10px 0 6px rgba(255,46,77,.35);overflow:hidden}
+.cbar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--panel);border-bottom:2px solid var(--line);font-family:var(--f-pix);font-size:13px}
+.cbar .grp{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;gap:6px;align-items:center;padding:2px 8px;border:1px solid var(--line);border-radius:4px;background:var(--panel2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip.red{border-color:var(--blood);color:#ffd0d8;background:rgba(255,46,77,.15)}
+.chip.on{animation:pulse 1s infinite alternate}
+@keyframes pulse{to{box-shadow:0 0 12px var(--blood)}}
+.screen{position:relative;min-height:440px;background:var(--night);font-family:var(--f-pix)}
+.view{padding:18px;display:grid;gap:14px;align-content:start}
+.view h2{font-family:var(--f-display);font-weight:400;font-size:24px;margin:0;color:var(--moon);text-shadow:2px 2px 0 #000}
+.view .sub{color:var(--muted);font-family:var(--f-body);margin:-6px 0 0}
+.btn{font-family:var(--f-pix);font-weight:700;font-size:15px;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;
+  border:2px solid #000;border-radius:6px;padding:10px 16px;background:var(--moon);color:#1a0d00;box-shadow:3px 3px 0 #000;transition:transform .08s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #000}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #000}
+.btn.red{background:var(--blood);color:#fff}
+.btn.ghost{background:var(--panel2);color:var(--ink);border-color:var(--line)}
+.btn.sm{font-size:12px;padding:6px 10px}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* title screen */
+.title-screen{position:absolute;inset:0;display:grid;place-items:center;text-align:center;overflow:hidden;cursor:pointer;
+  background:linear-gradient(#1a0820, #3a0c22 60%, #120a1f)}
+.title-screen .moon{position:absolute;width:220px;height:220px;border-radius:50%;top:8%;right:10%;
+  background:radial-gradient(circle at 35% 35%, #ff8a8a, #ff2e4d 45%, #8d0b22);box-shadow:0 0 80px #ff2e4d, 0 0 160px rgba(255,46,77,.5)}
+.title-screen .skyline{position:absolute;left:0;right:0;bottom:0;height:120px;background:
+  linear-gradient(90deg,#0b0614 0 8%,transparent 8% 10%,#0b0614 10% 22%,transparent 22% 23%,#0b0614 23% 40%,transparent 40% 42%,#0b0614 42% 61%,transparent 61% 62%,#0b0614 62% 80%,transparent 80% 81%,#0b0614 81%);
+  clip-path:polygon(0 40%,8% 40%,8% 10%,10% 10%,10% 30%,22% 30%,22% 55%,23% 55%,23% 20%,40% 20%,40% 45%,42% 45%,42% 0,48% 0,50% 12%,61% 12%,61% 50%,62% 50%,62% 25%,80% 25%,80% 35%,81% 35%,81% 15%,100% 15%,100% 100%,0 100%)}
+.title-screen .logo{position:relative;z-index:2}
+.title-screen .logo .big{font-family:var(--f-display);font-size:clamp(44px,9vw,96px);line-height:.9;color:#fff;
+  text-shadow:5px 5px 0 var(--blood),10px 10px 0 #000;transform:rotate(-4deg)}
+.title-screen .logo .tag{display:inline-block;margin-top:14px;background:var(--moon);color:#000;padding:4px 12px;font-family:var(--f-display);font-size:15px;transform:rotate(-4deg);box-shadow:4px 4px 0 #000}
+.blink{margin-top:30px;font-size:16px;letter-spacing:.2em;animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:8px;padding:12px;display:grid;gap:8px;align-content:start;position:relative}
+.card.pick{cursor:pointer;transition:transform .1s,border-color .1s}
+.card.pick:hover{transform:translateY(-3px);border-color:var(--moon)}
+.card.sel{border-color:var(--moon);box-shadow:0 0 0 2px var(--moon) inset}
+.card h3{margin:0;font-family:var(--f-display);font-weight:400;font-size:17px;color:var(--ink)}
+.card .role{font-size:12px;color:var(--cosmic);text-transform:uppercase;letter-spacing:.1em}
+.card p{margin:0;font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.pcan{width:100%;height:110px;image-rendering:pixelated;background:linear-gradient(#2c1a4a,#1a1030);border-radius:6px;border:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:auto 1fr;gap:3px 8px;font-size:12px;align-items:center}
+.bar{height:7px;background:#000;border:1px solid var(--line);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--toxic)}
+.bar.x i{background:var(--cosmic)}
+.badge{display:inline-block;font-size:11px;padding:1px 6px;border-radius:3px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.badge.ok{color:var(--toxic);border-color:var(--toxic)}
+.badge.warn{color:var(--moon);border-color:var(--moon)}
+.badge.bad{color:var(--blood);border-color:var(--blood)}
+.tip{font-family:var(--f-body);font-size:14px;background:rgba(62,212,255,.08);border:1px dashed var(--cosmic);border-radius:6px;padding:8px 12px;color:#cdefff}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:start}
+.box{background:var(--panel);border:2px solid var(--line);border-radius:8px;padding:12px;display:grid;gap:10px;min-width:0}
+.box h4{margin:0;font-family:var(--f-pix);font-size:14px;letter-spacing:.1em;text-transform:uppercase;color:var(--moon)}
+select,input[type=text]{font-family:var(--f-pix);font-size:14px;background:#0d0818;color:var(--ink);border:2px solid var(--line);border-radius:5px;padding:6px 8px;width:100%}
+label.tg{display:flex;gap:8px;align-items:center;font-size:14px;cursor:pointer}
+.keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.key{display:grid;gap:4px;justify-items:start;background:#0d0818;border:1px solid var(--line);border-radius:6px;padding:8px;font-size:13px}
+.key b{font-size:18px;font-variant-numeric:tabular-nums}
+.slot{display:grid;gap:6px}
+.slot .lbl{font-size:12px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.formation{font-family:var(--f-display);font-size:18px;color:var(--cosmic)}
+.maps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px}
+.map{border:2px solid var(--line);border-radius:6px;padding:8px;background:#0d0818;font-size:13px;display:grid;gap:3px}
+.map.sel{border-color:var(--moon)}
+.map.lock{opacity:.45}
+.map b{font-size:14px}
+
+/* expedition */
+.exp{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:0;background:#000}
+.stage{position:relative;min-width:0}
+#cv{display:block;width:100%;aspect-ratio:16/9;image-rendering:pixelated;background:#000;max-width:100%}
+.hud{position:absolute;left:8px;right:8px;top:6px;display:flex;justify-content:space-between;gap:8px;pointer-events:none;flex-wrap:wrap}
+.hud .pp{display:flex;gap:6px;flex-wrap:wrap}
+.pc{background:rgba(10,5,20,.82);border:2px solid #000;border-radius:5px;padding:3px 6px;min-width:96px;font-size:11px;box-shadow:2px 2px 0 rgba(0,0,0,.6)}
+.pc .nm{display:flex;justify-content:space-between;gap:6px;color:var(--moon)}
+.pc .hpb,.pc .spb{height:5px;background:#300;margin-top:2px;border:1px solid #000}
+.pc .hpb i{display:block;height:100%;background:var(--toxic)}
+.pc .spb i{display:block;height:100%;background:var(--cosmic)}
+.pc.full .spb i{background:var(--moon);animation:pulse .5s infinite alternate}
+.clock{background:rgba(10,5,20,.85);border:2px solid #000;border-radius:5px;padding:3px 8px;font-size:12px;text-align:right}
+.clock b{font-size:18px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.prog{position:absolute;left:8px;right:8px;bottom:6px;display:flex;gap:3px;pointer-events:none}
+.prog span{flex:1;height:6px;background:rgba(255,255,255,.15);border:1px solid #000}
+.prog span.done{background:var(--toxic)}
+.prog span.cur{background:var(--moon)}
+.prog span.boss{flex:.7}
+.side{background:var(--panel);border-left:2px solid var(--line);display:flex;flex-direction:column;min-width:0;max-height:100%}
+.side .ctrl{padding:8px;display:grid;gap:6px;border-bottom:2px solid var(--line)}
+.log{flex:1;overflow:auto;padding:8px;font-family:var(--f-body);font-size:13px;display:flex;flex-direction:column;gap:3px;max-height:340px}
+.log div{border-left:3px solid var(--line);padding-left:6px;color:var(--muted)}
+.log .r{border-color:var(--cosmic);color:#d6f5ff}
+.log .z{border-color:var(--toxic)}
+.log .y{border-color:var(--moon);color:#fff3c4}
+.log .b{border-color:var(--blood);color:#ffd0d8}
+.overlay{position:absolute;inset:0;display:grid;place-items:center;background:rgba(5,2,10,.55);z-index:5}
+.puzzle{background:var(--panel);border:3px solid var(--moon);border-radius:8px;padding:14px;width:min(360px,92%);display:grid;gap:10px;box-shadow:6px 6px 0 #000}
+.puzzle h4{margin:0;font-family:var(--f-display);font-weight:400;color:var(--moon);font-size:18px}
+.puzzle .q{font-size:20px;text-align:center}
+.puzzle .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.puzzle .opts button{font-family:var(--f-pix);font-size:18px;padding:10px 0;border:2px solid #000;border-radius:5px;cursor:pointer;background:var(--panel2);color:var(--ink)}
+.timer{height:10px;background:#000;border:1px solid var(--line)}
+.timer i{display:block;height:100%;background:var(--blood);transition:width .1s linear}
+.splash{position:absolute;inset:0;z-index:6;display:grid;place-items:center;pointer-events:none;overflow:hidden;
+  background:repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,210,63,.95) 0 6deg, rgba(255,46,77,.95) 6deg 12deg);animation:spl .25s ease-out}
+.splash::before{content:"";position:absolute;inset:0;background:radial-gradient(circle,#000 1.2px,transparent 1.6px) 0 0/8px 8px;opacity:.35}
+.splash .panel{position:relative;background:#fff;color:#000;border:5px solid #000;padding:12px 20px;transform:rotate(-5deg);box-shadow:10px 10px 0 #000;text-align:center;max-width:90%}
+.splash .panel .k{font-family:var(--f-display);font-size:clamp(26px,5vw,48px);line-height:1;color:var(--blood);-webkit-text-stroke:2px #000}
+.splash .panel .n{font-family:var(--f-pix);font-weight:700;font-size:16px;margin-top:6px}
+@keyframes spl{from{transform:scale(1.4);opacity:0}}
+.banner{position:absolute;left:0;right:0;top:40%;text-align:center;z-index:4;pointer-events:none;font-family:var(--f-display);font-size:clamp(20px,4vw,36px);color:#fff;text-shadow:3px 3px 0 var(--blood),6px 6px 0 #000;animation:ban 2.2s forwards}
+@keyframes ban{0%{transform:translateX(-100%)}15%,80%{transform:none;opacity:1}100%{transform:translateX(100%);opacity:0}}
+.summary .big{font-family:var(--f-display);font-size:32px;color:var(--toxic);text-shadow:3px 3px 0 #000}
+.summary .big.fail{color:var(--blood)}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;font-family:var(--f-body)}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-pix);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td{font-variant-numeric:tabular-nums}
+.demo-note{font-family:var(--f-body);font-size:13px;color:var(--muted);padding:8px 12px;border-top:2px solid var(--line);background:var(--panel)}
+.demo-note b{color:var(--moon)}
+
+/* ---------- DOC ---------- */
+.doc{display:grid;grid-template-columns:220px minmax(0,1fr);gap:36px;margin-top:48px}
+.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;display:grid;gap:2px;font-family:var(--f-pix);font-size:14px;max-height:calc(100vh - 32px);overflow:auto}
+.toc .t{font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.toc a{color:var(--muted);text-decoration:none;padding:4px 8px;border-left:2px solid var(--line)}
+.toc a:hover{color:var(--ink);border-color:var(--moon)}
+.doc section{padding-block:8px 28px;border-bottom:1px solid var(--line);min-width:0}
+.doc h2{font-family:var(--f-display);font-weight:400;font-size:clamp(22px,3vw,30px);margin:12px 0 10px;color:var(--ink);text-wrap:balance}
+.doc h2 small{display:block;font-family:var(--f-pix);font-size:13px;color:var(--blood);letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
+.doc h3{font-family:var(--f-pix);font-weight:700;font-size:18px;margin:18px 0 6px;color:var(--moon)}
+.doc p,.doc li{max-width:72ch}
+.doc p{margin:0 0 10px}
+.doc ul,.doc ol{padding-left:22px;margin:0 0 12px}
+.doc li{margin-bottom:4px}
+.doc b{color:#fff}
+.pill{display:inline-block;font-family:var(--f-pix);font-size:11px;padding:1px 7px;border-radius:3px;border:1px solid;vertical-align:2px;margin-left:4px}
+.pill.dec{color:var(--toxic);border-color:var(--toxic)}
+.pill.prop{color:var(--cosmic);border-color:var(--cosmic)}
+.pill.later{color:var(--muted);border-color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:10px 0 14px}
+.note{border:2px solid var(--line);border-radius:8px;padding:12px;background:var(--panel)}
+.note h4{margin:0 0 6px;font-family:var(--f-pix);color:var(--cosmic);font-size:15px}
+.note p,.note ul{font-size:15px;margin:0}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:8px 0 14px;font-family:var(--f-pix);font-size:14px}
+.flow span{background:var(--panel2);border:2px solid var(--line);border-radius:5px;padding:6px 10px}
+.flow i{color:var(--blood);font-style:normal}
+.open{border-left:4px solid var(--moon);background:rgba(255,210,63,.07);padding:8px 12px;margin:10px 0;max-width:72ch}
+.timeline{display:grid;grid-template-columns:repeat(15,1fr);gap:2px;margin:10px 0 4px;min-width:520px}
+.timeline div{height:34px;display:grid;place-items:center;font-family:var(--f-pix);font-size:11px;color:#000;border:1px solid #000}
+.tlwrap{overflow-x:auto}
+.tl-legend{display:flex;gap:12px;flex-wrap:wrap;font-family:var(--f-pix);font-size:12px;color:var(--muted)}
+.tl-legend span::before{content:"";display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+
+@media (max-width:860px){
+  .exp{grid-template-columns:1fr}
+  .side{border-left:0;border-top:2px solid var(--line)}
+  .log{max-height:180px}
+  .doc{grid-template-columns:1fr}
+  .toc{position:static;max-height:none;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .toc .t{grid-column:1/-1}
+}
+@media (max-width:520px){
+  .pc{min-width:80px}
+  .hud .clock b{font-size:14px}
+  .screen{min-height:380px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Pivô de design · Idle arcade 2.5D · documento vivo</div>
+    <h1>Lua de Sangue <em>Idle</em></h1>
+    <p class="lede">Você monta o esquadrão e configura o automático. Depois escolhe um ponto turístico e assiste <b>até 2 recrutas e 1 pet</b> lutarem juntos na tela, como num beat 'em up cooperativo de fliperama, por cerca de <b>15 minutos reais</b>. Eles limpam hordas, vasculham, abrem baús, soltam especiais e enfrentam o chefe no fim. A demo abaixo é jogável. O documento completo vem logo depois.</p>
+  </header>
+
+  <!-- ================= DEMO ================= -->
+  <div class="console" id="console">
+    <div class="cbar">
+      <div class="grp">
+        <span class="chip" title="Horário do servidor (Brasília, UTC−3)">🕒 Servidor <b id="srvClock">--:--:--</b></span>
+        <span class="chip red" id="moonChip">Lua de Sangue em <b id="moonCd">--:--</b></span>
+      </div>
+      <div class="grp" id="topRes">
+        <span class="chip">Moedas <b id="resCoins">0</b></span>
+        <span class="chip">Chaves <b id="resKeys">0</b></span>
+      </div>
+    </div>
+    <div class="screen" id="screen"></div>
+    <div class="demo-note"><b>Sobre a demo:</b> no jogo, a expedição dura 15 min em tempo real fixo, sem acelerar. Aqui ela foi comprimida pra cerca de 2 a 3 min, e o relógio mostra o tempo equivalente. Os botões de velocidade e "Forçar Lua de Sangue" existem só pra demonstração. Tudo roda no navegador, e o estado se perde ao recarregar.</div>
+  </div>
+
+  <!-- ================= DOC ================= -->
+  <div class="doc">
+    <nav class="toc" aria-label="Índice">
+      <div class="t">Documento</div>
+      <a href="#visao">Visão e pilares</a>
+      <a href="#escopo">Escopo agora</a>
+      <a href="#loop">Loop principal</a>
+      <a href="#onboarding">Primeira sessão</a>
+      <a href="#recrutas">Recrutas</a>
+      <a href="#pets">Pets</a>
+      <a href="#formacoes">Formações</a>
+      <a href="#auto">Configurar o automático</a>
+      <a href="#expedicao">Anatomia da expedição</a>
+      <a href="#ia">IA cooperativa</a>
+      <a href="#especial">Especiais</a>
+      <a href="#baus">Baús, chaves e puzzle</a>
+      <a href="#vasculhar">Vasculhar</a>
+      <a href="#zumbis">Zumbis e formas</a>
+      <a href="#chefes">Chefes</a>
+      <a href="#lua">Evento Lua de Sangue</a>
+      <a href="#mapas">Mapas e clima</a>
+      <a href="#progressao">Progressão e economia</a>
+      <a href="#servidor">Servidor e offline</a>
+      <a href="#arte">Direção de arte</a>
+      <a href="#hud">HUD e telas</a>
+      <a href="#tecnico">Técnico e performance</a>
+      <a href="#futuro">Depois (manual, replay)</a>
+      <a href="#abertas">Perguntas abertas</a>
+    </nav>
+
+    <main>
+      <section id="visao">
+        <h2><small>01</small>Visão e pilares</h2>
+        <p><b>Lua de Sangue</b> é um idle de zumbi com cara de beat 'em up de fliperama, numa perspectiva 2.5D em faixas de profundidade, inspirado na energia visual de Marvel Cosmic Invasion. O jogador não controla a luta. Ele <b>decide quem vai, como vão se comportar e pra onde vão</b>, e então assiste ao esquadrão jogar sozinho.</p>
+        <div class="grid2">
+          <div class="note"><h4>Assistir dá prazer</h4><p>Cada expedição tem que parecer um episódio de desenho: tela cheia de inimigos, golpes com onomatopeia, especial em painel de quadrinho e um chefe no fim. Se for chato de olhar, o formato falha.</p></div>
+          <div class="note"><h4>A decisão vem antes</h4><p>A habilidade do jogador está na escalação, nas posturas, nas regras, nas chaves que leva e no horário em que sai (fugir da Lua de Sangue ou aproveitar ela).</p></div>
+          <div class="note"><h4>Cada recruta é alguém</h4><p>Não existe herói fixo. Todo personagem é um recruta com nome, ofício, nível e histórico próprios. Perder ou ferir um recruta pesa.</p></div>
+          <div class="note"><h4>Brasil reconhecível</h4><p>Os mapas são pontos turísticos reais, começando pelo Marco Zero do Recife, com clima, estação e vida local transformados pelo apocalipse.</p></div>
+        </div>
+      </section>
+
+      <section id="escopo">
+        <h2><small>02</small>O que entra agora e o que espera</h2>
+        <div class="tbl"><table>
+          <thead><tr><th>Item</th><th>Status</th><th>Nota</th></tr></thead>
+          <tbody>
+            <tr><td>Modo automático (assistir)</td><td><span class="pill dec">decidido</span></td><td>Único modo de jogo nesta fase.</td></tr>
+            <tr><td>Expedição de ~15 min em tempo real fixo</td><td><span class="pill dec">decidido</span></td><td>Sem acelerar e sem pular.</td></tr>
+            <tr><td>Formações: solo, solo + pet, dupla, dupla + pet</td><td><span class="pill dec">decidido</span></td><td>Todos aparecem na tela juntos. Não existe troca de personagem.</td></tr>
+            <tr><td>Chave específica por tipo de baú</td><td><span class="pill dec">decidido</span></td><td>Sem chave, aparece um puzzle que é pulado após 5 s.</td></tr>
+            <tr><td>Lua de Sangue a cada 2 h (horário do servidor)</td><td><span class="pill dec">decidido</span></td><td>Duração proposta: 30 min.</td></tr>
+            <tr><td>Enluarados e plenilunares</td><td><span class="pill dec">decidido</span></td><td>Seguem do bestiário atual.</td></tr>
+            <tr><td>Tiro, escudo, IA dos inimigos</td><td><span class="pill dec">decidido</span></td><td>As regras continuam e passam a alimentar a simulação.</td></tr>
+            <tr><td>Abrigo, construções, invasão</td><td><span class="pill later">pausado</span></td><td>A base vira só um menu (recrutas, pets, loja de chaves).</td></tr>
+            <tr><td>Modo manual (controlar 1 recruta)</td><td><span class="pill later">depois</span></td><td>Ver seção <a href="#futuro">Depois</a>.</td></tr>
+            <tr><td>Replay acelerado</td><td><span class="pill later">depois</span></td><td>Boa ideia, fica guardada.</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="loop">
+        <h2><small>03</small>Loop principal</h2>
+        <div class="flow"><span>Base</span><i>→</i><span>Montar esquadrão</span><i>→</i><span>Configurar automático</span><i>→</i><span>Escolher mapa</span><i>→</i><span>Expedição 15 min</span><i>→</i><span>Resumo + loot</span><i>→</i><span>Upar / recrutar / comprar chaves</span><i>↺</i></div>
+        <p><b>Ciclo curto (15 min):</b> uma expedição. O jogador assiste ao vivo ou fecha o app e volta no fim pra ver o resumo.</p>
+        <p><b>Ciclo médio (2 h):</b> a janela da Lua de Sangue. O jogador planeja a próxima saída pra cair dentro ou fora do evento. Dentro tem mais risco e mais loot raro.</p>
+        <p><b>Ciclo longo (dias):</b> desbloquear o próximo ponto turístico vencendo o chefe do anterior, subir recrutas, montar coleção de pets e de recrutas raros.</p>
+        <p><b>Uma expedição por vez</b> no começo <span class="pill prop">proposta</span>. Mais vagas simultâneas (2ª e 3ª equipe) viram progressão, o que dá motivo pra recrutar muita gente.</p>
+      </section>
+
+      <section id="onboarding">
+        <h2><small>04</small>Primeira sessão (o que a demo mostra)</h2>
+        <ol>
+          <li><b>Tela de título</b> com relógio do servidor e contagem até a próxima Lua de Sangue. O jogador entende de cara que o mundo tem um horário.</li>
+          <li><b>Escolha do recruta inicial</b> entre 3 papéis bem diferentes: Vigia (distância), Capoeirista (linha de frente) e Enfermeira (suporte). Cada carta mostra o sprite animado, números e uma frase de quem ele é.</li>
+          <li><b>Base enxuta:</b> lista de recrutas, pets, chaves e um botão grande "Montar expedição". Uma dica explica que dá pra sair sozinho.</li>
+          <li><b>Primeira expedição solo</b> no Marco Zero, já com 1 chave comum e 1 médica de presente, pra que a primeira run mostre um baú sendo aberto com chave e outro sem chave (puzzle).</li>
+          <li><b>Ao voltar:</b> o resumo libera "Recrutar sobrevivente" (2º recruta) e "Adotar pet". Na demo os dois ficam liberados desde o início, pra testar as 4 formações.</li>
+        </ol>
+        <p class="open">Pra pensar: forçar a 1ª run solo (tutorial guiado) ou deixar o jogador escolher? Recomendo forçar solo, porque a dupla vira recompensa e o jogador sente a diferença.</p>
+      </section>
+
+      <section id="recrutas">
+        <h2><small>05</small>Recrutas</h2>
+        <p>Todos os personagens jogáveis são recrutas. Cada um tem: <b>nome</b>, <b>ofício</b> (que define o papel e a arma base), <b>nota</b> (C a S, como no sistema de recrutamento atual), <b>nível</b> e XP próprios, <b>equipamento</b> e <b>condição</b> (pronto, ferido ou em expedição).</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Ofício</th><th>Papel na luta</th><th>Arma base</th><th>Ponto forte</th><th>Fraqueza</th></tr></thead>
+          <tbody>
+            <tr><td>Vigia</td><td>Atirador (distância)</td><td>Espingarda</td><td>Foca em enluarado e cuspidor, tiro que perfura</td><td>Frágil quando cercado</td></tr>
+            <tr><td>Capoeirista</td><td>Linha de frente</td><td>Golpes de perna</td><td>Rápido, joga o zumbi pro alto (combo)</td><td>Pouco dano contra blindado</td></tr>
+            <tr><td>Enfermeira</td><td>Suporte</td><td>Bolsa de primeiros socorros</td><td>Cura, revive mais rápido</td><td>Dano baixo, sofre sozinha</td></tr>
+            <tr><td>Lenhador</td><td>Tanque</td><td>Machado</td><td>Muita vida, segura horda, quebra escudo</td><td>Lento</td></tr>
+            <tr><td>Catadora</td><td>Batedora</td><td>Gancho</td><td>Vasculha 2× mais rápido, acha mais loot</td><td>Dano baixo</td></tr>
+            <tr><td>Serralheiro · Pedreira · Agricultor</td><td colspan="4">Ofícios que já existem no jogo, com papel de combate ainda a definir <span class="pill prop">proposta</span>: escudo (Serralheiro), martelo e atordoar (Pedreira), armadilhas (Agricultor).</td></tr>
+          </tbody>
+        </table></div>
+        <h3>Subir de nível individualmente</h3>
+        <ul>
+          <li>XP vai só pra quem foi na expedição. Quem fica na base não ganha nada.</li>
+          <li>Cada nível dá +vida e +dano. Nos níveis 5, 10 e 15 abre uma escolha entre 2 talentos (ex.: Vigia ganha "tiro duplo" ou "mira no enluarado +30%").</li>
+          <li>A nota (C a S) define o teto de nível e o número de talentos. Recruta S é raro e vale a coleção.</li>
+        </ul>
+        <h3>Ferido em vez de morto</h3>
+        <p>Recruta derrubado que não foi revivido volta <b>ferido</b> e passa um tempo sem poder sair (ex.: 20 min). Combina com idle porque pune sem apagar horas de progresso. <span class="pill prop">proposta</span> Morte permanente pode existir só num modo hardcore futuro.</p>
+      </section>
+
+      <section id="pets">
+        <h2><small>06</small>Pets</h2>
+        <p>No máximo 1 por expedição. O pet luta junto na tela e traz uma habilidade de exploração que muda a run.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Pet</th><th>Em combate</th><th>Habilidade de expedição</th><th>Sozinho com recruta</th></tr></thead>
+          <tbody>
+            <tr><td>Cachorro</td><td>Morde e atordoa por pouco tempo</td><td><b>Faro:</b> revela baús e pontos de vasculhar escondidos</td><td>Arrasta o recruta caído pra trás e o revive 1×</td></tr>
+            <tr><td>Gato</td><td>Arranha, desvia bem</td><td><b>Sorte:</b> +loot raro e revela baú escondido</td><td>Distrai a horda (zumbis focam nele por 3 s)</td></tr>
+            <tr><td>Papagaio</td><td>Bica de cima, ignora a faixa</td><td><b>Alerta:</b> +3 s em todo puzzle e aviso de emboscada</td><td>Grita e chama atenção, dando 2 s de folga ao recruta</td></tr>
+            <tr><td>Capivara · Jabuti · Sagui</td><td colspan="3">Já existem no jogo e ganham papel depois <span class="pill prop">proposta</span>: capivara acalma (zumbis mais lentos por perto), jabuti dá escudo, sagui rouba itens dos zumbis.</td></tr>
+          </tbody>
+        </table></div>
+        <p>O pet sobe de <b>afinidade</b> (não de nível) a cada expedição, o que fortalece a habilidade de exploração.</p>
+      </section>
+
+      <section id="formacoes">
+        <h2><small>07</small>Formações</h2>
+        <p>Quatro formas de sair. Todas aparecem juntas na tela, como um coop. Menos gente na tela é mais difícil, mas o ganho por recruta é maior.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Formação</th><th>XP por recruta</th><th>Horda</th><th>Se cair</th><th>Extras</th></tr></thead>
+          <tbody>
+            <tr><td><b>Solo</b></td><td>150%</td><td>60%</td><td>Fim da expedição, recua com 60% do loot</td><td>Especial solo</td></tr>
+            <tr><td><b>Solo + pet</b></td><td>140%</td><td>70%</td><td>Pet revive 1×</td><td>Habilidade do pet</td></tr>
+            <tr><td><b>Dupla</b></td><td>100%</td><td>100%</td><td>O parceiro revive</td><td>Combos e especial em dupla</td></tr>
+            <tr><td><b>Dupla + pet</b></td><td>90%</td><td>110%</td><td>O parceiro revive, o pet distrai durante o revive</td><td>Tudo junto, especial em trio</td></tr>
+          </tbody>
+        </table></div>
+        <p>A tela de montagem mostra uma <b>nota de perigo</b> do mapa comparada ao poder do esquadrão (verde, amarelo ou vermelho) antes de sair.</p>
+      </section>
+
+      <section id="auto">
+        <h2><small>08</small>Configurar o automático</h2>
+        <p>Dois níveis. Uma postura simples por recruta, que serve pra todo mundo, e regras do esquadrão pra quem gosta de ajustar.</p>
+        <h3>Postura (por recruta)</h3>
+        <ul>
+          <li><b>Agressivo:</b> avança, prioriza dano, usa o especial assim que enche.</li>
+          <li><b>Equilibrado:</b> padrão.</li>
+          <li><b>Cauteloso:</b> mantém distância, recua com vida baixa, guarda o especial pra horda grande ou chefe.</li>
+          <li><b>Protetor:</b> fica perto do parceiro, puxa os zumbis que atacam ele.</li>
+        </ul>
+        <h3>Regras do esquadrão</h3>
+        <ul>
+          <li><b>Vasculhar:</b> tudo, só no caminho, ou nada (mais rápido até o chefe).</li>
+          <li><b>Usar chaves:</b> em qualquer baú, só nos raros, ou nunca (guarda pra depois).</li>
+          <li><b>Puzzle:</b> mostrar (pulado após 5 s) ou sempre pular.</li>
+          <li><b>Reviver:</b> sempre, ou só sem zumbis por perto.</li>
+          <li><b>Recuar:</b> se todo mundo ficar abaixo de X% de vida, a expedição volta com o loot parcial.</li>
+        </ul>
+        <p class="open">Futuro: regras "se/então" no estilo gambit (ex.: "se Enfermeira com vida &lt; 30%, Lenhador protege ela") liberadas no nível 10. Fica fora do MVP.</p>
+      </section>
+
+      <section id="expedicao">
+        <h2><small>09</small>Anatomia de uma expedição (15 min)</h2>
+        <p>Cada mapa tem 4 mini-áreas e uma arena de chefe. A câmera trava em cada trecho até a área ficar limpa, e aí aparece o "VAI →" de fliperama.</p>
+        <div class="tlwrap">
+          <div class="timeline" aria-label="Linha do tempo de 15 minutos">
+            <div style="background:#6fb3ff">1</div><div style="background:#6fb3ff">1</div><div style="background:#6fb3ff">1</div>
+            <div style="background:#8be35a">2</div><div style="background:#8be35a">2</div><div style="background:#8be35a">2</div>
+            <div style="background:#ffd23f">3</div><div style="background:#ffd23f">3</div><div style="background:#ffd23f">3</div>
+            <div style="background:#c79bff">4</div><div style="background:#c79bff">4</div><div style="background:#c79bff">4</div>
+            <div style="background:#ff2e4d;color:#fff">☠</div><div style="background:#ff2e4d;color:#fff">☠</div><div style="background:#ff2e4d;color:#fff">☠</div>
+          </div>
+        </div>
+        <div class="tl-legend"><span style="--c:#6fb3ff">Praça do Marco Zero</span><span style="--c:#8be35a">Rua do Bom Jesus</span><span style="--c:#ffd23f">Armazéns do Cais</span><span style="--c:#c79bff">Molhe dos Arrecifes</span><span style="--c:#ff2e4d">Chefe</span></div>
+        <h3>Dentro de cada mini-área (~3 min)</h3>
+        <ul>
+          <li>2 ou 3 ondas de zumbis vindas da direita e às vezes por trás (emboscada).</li>
+          <li>1 ou 2 pontos de vasculhar (carro, bar fechado, barraca de feira).</li>
+          <li>0 a 2 baús de tipos variados, às vezes um escondido (pet com faro revela).</li>
+          <li>1 evento aleatório possível: sobrevivente pedindo ajuda (vira recruta), armadilha, chuva forte, horda grande.</li>
+        </ul>
+        <h3>Ritmo</h3>
+        <p>Cerca de 70% do tempo em combate, 20% explorando e 10% em transição. O especial deve sair 2 a 4 vezes por run, e o chefe ocupa os últimos 2 a 3 min.</p>
+        <h3>Resultados</h3>
+        <ul>
+          <li><b>Vitória:</b> chefe derrotado, baú do chefe, 100% do loot, próximo mapa liberado na 1ª vez.</li>
+          <li><b>Recuo:</b> regra de recuar ativada ou solo derrubado. Volta com 60% do loot, e os derrubados voltam feridos.</li>
+          <li><b>Derrota:</b> todo mundo caiu na arena do chefe. Volta com 40% e todos feridos.</li>
+        </ul>
+      </section>
+
+      <section id="ia">
+        <h2><small>10</small>IA cooperativa</h2>
+        <p>Cada recruta roda a mesma árvore de prioridades, ajustada pelo papel e pela postura. O objetivo é que pareça <b>dois amigos jogando juntos</b>, sem dois bots trombando.</p>
+        <ol>
+          <li><b>Reviver</b> parceiro caído (respeitando a regra).</li>
+          <li><b>Curar</b> (suporte): aliado abaixo de 60%.</li>
+          <li><b>Lutar:</b> escolher um alvo e evitar o mesmo alvo do parceiro se houver outro por perto. Linha de frente pega o mais próximo do grupo. Distância prioriza enluarado, plenilunar e cuspidor.</li>
+          <li><b>Interagir:</b> sem zumbis, um vasculha ou abre o baú e o outro fica de guarda virado pro lado de onde vem a horda.</li>
+          <li><b>Avançar</b> até o fim da área.</li>
+        </ol>
+        <h3>Faixas de profundidade</h3>
+        <p>O chão tem profundidade (eixo Y). Linha de frente fica na faixa do inimigo, o atirador se alinha numa faixa próxima a distância, e o pet circula por fora. Isso evita a pilha de sprites e dá leitura de coop.</p>
+        <h3>Combos entre eles</h3>
+        <ul>
+          <li>Capoeirista joga o zumbi pro alto e o Vigia acerta no ar ("<i>LANÇA + TIRO</i>", dano 2×).</li>
+          <li>Cachorro derruba e o recruta finaliza.</li>
+          <li>Lenhador quebra o escudo do Blindado e o parceiro entra no corpo exposto.</li>
+        </ul>
+      </section>
+
+      <section id="especial">
+        <h2><small>11</small>Especiais</h2>
+        <p>Cada recruta enche uma barra causando e recebendo dano. Quando <b>todos os recrutas da equipe</b> estão com a barra cheia (e a postura permite), sai o especial combinado. A tela congela, aparece um painel de quadrinho com os nomes e o golpe atinge todos os inimigos visíveis.</p>
+        <ul>
+          <li><b>Solo:</b> especial individual (menos dano, mais frequente).</li>
+          <li><b>Dupla:</b> especial em dupla com nome próprio por par de ofícios (ex.: Vigia + Capoeirista = "Roda de Bala").</li>
+          <li><b>Com pet:</b> o pet entra no painel e acrescenta um efeito (cachorro atordoa todos, gato dá loot extra por abate, papagaio enche 20% da barra de novo).</li>
+        </ul>
+      </section>
+
+      <section id="baus">
+        <h2><small>12</small>Baús, chaves e puzzle</h2>
+        <div class="tbl"><table>
+          <thead><tr><th>Baú</th><th>Chave</th><th>Onde aparece</th><th>Conteúdo típico</th></tr></thead>
+          <tbody>
+            <tr><td>Comum (madeira)</td><td>Chave comum</td><td>Todo mapa</td><td>Sucata, comida, moedas</td></tr>
+            <tr><td>Médico (cruz)</td><td>Chave médica</td><td>Perto de farmácia e hospital</td><td>Remédios, bandagens, item de cura</td></tr>
+            <tr><td>Militar (verde)</td><td>Chave militar</td><td>Armazéns, viaturas</td><td>Munição, peças de arma, equipamento</td></tr>
+            <tr><td>Raro (dourado)</td><td>Chave rara</td><td>Escondido (faro ou sorte do pet) ou durante a Lua de Sangue</td><td>Equipamento raro, fragmento de recruta</td></tr>
+            <tr><td>Do chefe</td><td>Não precisa</td><td>Abre ao derrotar o chefe</td><td>Loot garantido do mapa</td></tr>
+          </tbody>
+        </table></div>
+        <h3>Fluxo do automático</h3>
+        <ol>
+          <li>O recruta chega no baú.</li>
+          <li>Se a regra permite e tem a chave do tipo certo, usa a chave e abre.</li>
+          <li>Senão, se "mostrar puzzle" estiver ligado, abre um puzzle rápido e a ação fica em câmera lenta.</li>
+          <li>O jogador tem <b>5 s</b> (8 s com papagaio). Acertou, abre sem gastar chave. Errou ou não respondeu, o baú fica pra trás.</li>
+          <li>Se o app estiver fechado, o puzzle é pulado direto.</li>
+        </ol>
+        <p>Tipos de puzzle no MVP: <b>fio certo</b> (cor), <b>sequência numérica</b> e <b>símbolo repetido</b>. Todos se resolvem em 1 toque.</p>
+        <p>Chaves são compradas na base com moedas e caem às vezes em baús. A chave rara só cai, não se compra <span class="pill prop">proposta</span>.</p>
+      </section>
+
+      <section id="vasculhar">
+        <h2><small>13</small>Vasculhar</h2>
+        <p>Pontos marcados no cenário (carro, bar, barraca, viatura). O recruta para, aparece uma barra de progresso e sai o loot. A Catadora vasculha 2× mais rápido. Vasculhar com zumbi por perto interrompe a ação. Os pontos escondidos só aparecem com cachorro ou gato.</p>
+        <p>Loot de vasculhar: sucata, comida, remédio, munição e, raramente, chave comum ou médica.</p>
+      </section>
+
+      <section id="zumbis">
+        <h2><small>14</small>Zumbis e formas</h2>
+        <p>O bestiário atual continua: Errante, Corredor, Brutamonte, Cuspidor, Blindado, Gritador, Rastejante, Saltador, Barrigudo, Estalador, A Chorona. Cada zumbi comum existe em 3 formas.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Forma</th><th>Ajuste</th><th>Chance normal</th><th>Durante a Lua de Sangue</th></tr></thead>
+          <tbody>
+            <tr><td>Comum</td><td>—</td><td>~83%</td><td>~40%</td></tr>
+            <tr><td>Enluarado</td><td>vida +40%</td><td>~15%</td><td>~45%</td></tr>
+            <tr><td>Plenilunar</td><td>vida +80%, dano +40%, visual próprio</td><td>~2%</td><td>~15%</td></tr>
+          </tbody>
+        </table></div>
+        <p>A IA dos inimigos continua igual (Cuspidor atira de longe, Corredor flanqueia, Blindado exige quebrar o escudo). A diferença é que agora ela enfrenta a IA dos recrutas.</p>
+      </section>
+
+      <section id="chefes">
+        <h2><small>15</small>Chefes</h2>
+        <p>Cada mapa termina num chefe com 3 fases marcadas na barra de vida. No Marco Zero: <b>O Açougueiro</b>, no Parque das Esculturas.</p>
+        <ul>
+          <li><b>Fase 1 (100–66%):</b> golpes de cutelo em área na frente dele.</li>
+          <li><b>Fase 2 (66–33%):</b> grita e chama errantes de apoio.</li>
+          <li><b>Fase 3 (&lt;33%):</b> fúria, fica mais rápido e dá investidas atravessando as faixas.</li>
+        </ul>
+        <p>Outros chefes do bestiário (O Estivador, A Chorona) ficam reservados pros próximos mapas.</p>
+      </section>
+
+      <section id="lua">
+        <h2><small>16</small>Evento Lua de Sangue</h2>
+        <ul>
+          <li>Começa em <b>toda hora par</b> do horário do servidor (Brasília, UTC−3): 00h, 02h, 04h... e dura <b>30 min</b> <span class="pill prop">duração proposta</span>.</li>
+          <li>O céu fica vermelho, a horda aumenta 30%, as formas enluarada e plenilunar ficam bem mais comuns e os zumbis ficam mais agressivos.</li>
+          <li>Loot ×1,5 e chance de baú raro extra.</li>
+          <li><b>Expedição que já estava rolando:</b> o evento entra no meio, com faixa de aviso na tela. O mapa endurece daquele ponto em diante.</li>
+          <li>Na base, um contador fixo mostra quanto falta, e a tela de montagem avisa "esta expedição vai pegar 12 min de Lua de Sangue".</li>
+        </ul>
+      </section>
+
+      <section id="mapas">
+        <h2><small>17</small>Mapas, clima e estação</h2>
+        <div class="tbl"><table>
+          <thead><tr><th>#</th><th>Mapa</th><th>Mini-áreas</th><th>Clima típico</th><th>Chefe</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Marco Zero (Recife)</td><td>Praça do Marco Zero · Rua do Bom Jesus · Armazéns do Cais · Molhe dos Arrecifes</td><td>Calor, chuva de verão no fim da tarde</td><td>O Açougueiro</td></tr>
+            <tr><td>2</td><td>Alto da Sé (Olinda)</td><td>Ladeiras · Igrejas · Mirante · Feirinha</td><td>Vento, carnaval (estação festiva)</td><td>Bonecão gigante <span class="pill prop">ideia</span></td></tr>
+            <tr><td>3</td><td>Pelourinho (Salvador)</td><td>Largo · Escadarias · Elevador · Mercado</td><td>Sol forte, temporal</td><td>A definir</td></tr>
+            <tr><td>4</td><td>Cristo Redentor (Rio)</td><td>Trilha · Bondinho · Mirante · Estátua</td><td>Neblina, garoa</td><td>A definir</td></tr>
+            <tr><td>5</td><td>Avenida Paulista (SP)</td><td>Calçadão · Museu · Túnel · Prédios</td><td>Garoa, frio de inverno</td><td>A definir</td></tr>
+          </tbody>
+        </table></div>
+        <h3>Clima e estação mudam números, não só a cara</h3>
+        <ul>
+          <li><b>Chuva:</b> tiro com −10% de precisão, zumbis mais lentos, menos vasculhar.</li>
+          <li><b>Neblina:</b> atirador enxerga menos longe, mais emboscadas.</li>
+          <li><b>Noite (pelo horário do servidor):</b> mais enluarados.</li>
+          <li><b>Estações</b> (giram por mês real) <span class="pill prop">proposta</span>: verão com mais horda, inverno com zumbis lentos e loot de comida raro, festas com decoração e baú temático.</li>
+        </ul>
+      </section>
+
+      <section id="progressao">
+        <h2><small>18</small>Progressão e economia</h2>
+        <ul>
+          <li><b>Moedas:</b> compram chaves, recrutamento e cura imediata de feridos.</li>
+          <li><b>Sucata, comida, remédio, munição:</b> equipamento e talentos. Com o abrigo pausado, viram receitas na base.</li>
+          <li><b>Fragmentos de recruta</b> (baú raro, chefe): juntando, recruta-se alguém de nota alta.</li>
+          <li><b>Mapa novo:</b> derrotar o chefe do anterior.</li>
+          <li><b>Vagas de expedição simultânea:</b> marcos de progresso.</li>
+        </ul>
+      </section>
+
+      <section id="servidor">
+        <h2><small>19</small>Servidor e offline</h2>
+        <p>A expedição é uma <b>simulação determinística</b>: seed + stats do esquadrão + regras + horário de início. O servidor calcula o resultado oficial e o navegador roda a mesma simulação pra mostrar a cena.</p>
+        <ul>
+          <li>Fechou o app? A expedição continua no servidor. Ao voltar, a cena retoma no minuto atual (não é replay, é o "ao vivo"), ou mostra o resumo se já acabou.</li>
+          <li>Puzzle com o app fechado é pulado.</li>
+          <li>O cliente não manda resultado, só as respostas de puzzle (com horário). Isso evita trapaça.</li>
+          <li>A Lua de Sangue usa só o relógio do servidor. Mudar o relógio do celular não faz nada.</li>
+        </ul>
+      </section>
+
+      <section id="arte">
+        <h2><small>20</small>Direção de arte</h2>
+        <p>Referência: <b>Marvel Cosmic Invasion</b> (Tribute Games). Pixel art detalhado com animação fluida, beat 'em up em faixas e cenários icônicos, com cara de fliperama dos anos 90 sem os limites daquele hardware.</p>
+        <ul>
+          <li><b>Paleta saturada</b> com sombras roxas e luz quente. A Lua de Sangue puxa tudo pro vermelho.</li>
+          <li><b>Sprites grandes</b> com contorno escuro e silhueta legível a 1×. Cada ofício tem uma cor dominante.</li>
+          <li><b>Impacto:</b> flash branco no acerto, tremor de tela leve, partículas, onomatopeias ("PÁ!", "CRAU!", "TUM!").</li>
+          <li><b>Especial em painel de quadrinho:</b> fundo em raios, retícula, nomes em caixa alta. É o momento que o jogador quer printar.</li>
+          <li><b>Cenários</b> com camadas de parallax e marcos reais (rosa dos ventos, estátua, casario colorido, arrecife). Os assets do Marco Zero já existem.</li>
+          <li>Inspiração de estilo apenas: nenhum personagem, logo ou asset da Marvel.</li>
+        </ul>
+      </section>
+
+      <section id="hud">
+        <h2><small>21</small>HUD e telas</h2>
+        <ul>
+          <li><b>Topo:</b> retrato de cada membro com vida e barra de especial. À direita, o relógio da expedição (contagem regressiva de 15 min).</li>
+          <li><b>Base:</b> barra de progresso dividida nas 4 áreas + chefe.</li>
+          <li><b>Lateral (desktop) ou embaixo (celular):</b> diário do que está acontecendo ("Iara achou remédio no carro abandonado").</li>
+          <li><b>Topo global:</b> relógio do servidor e contagem da Lua de Sangue, em todas as telas.</li>
+          <li><b>Resumo:</b> resultado, abates por forma, baús abertos e pulados, loot, XP e nível de cada recruta, feridos.</li>
+        </ul>
+      </section>
+
+      <section id="tecnico">
+        <h2><small>22</small>Técnico e performance</h2>
+        <ul>
+          <li>Canvas 2D em resolução interna baixa (384×216) escalada com <code>pixelated</code>. 3 personagens e 30 a 50 zumbis rodam a 60 fps até em celular médio.</li>
+          <li>Carregamento por região: só a 1ª mini-área entra antes de começar, o resto vem enquanto o esquadrão joga.</li>
+          <li>Sprites em atlas por mapa, guardados em cache do navegador. Da 2ª vez em diante, quase sem loading.</li>
+          <li>Aba em segundo plano: a renderização para, a simulação continua no servidor.</li>
+          <li>O motor de sprites atual (data.js por pasta) pode exportar atlas pra esse formato.</li>
+        </ul>
+      </section>
+
+      <section id="futuro">
+        <h2><small>23</small>Depois</h2>
+        <ul>
+          <li><b>Modo manual:</b> o jogador controla 1 recruta e a IA controla o outro e o pet. Mesmos assets e mesmo mapa. Precisa de loading completo antes (mapa, chefe, sons) e de validação no servidor pelos inputs gravados.</li>
+          <li><b>Replay acelerado</b> de expedições já terminadas.</li>
+          <li><b>Abrigo, construções e invasão</b> voltando como meta entre expedições.</li>
+          <li><b>Regras gambit</b> avançadas.</li>
+        </ul>
+      </section>
+
+      <section id="abertas">
+        <h2><small>24</small>Perguntas abertas</h2>
+        <ol>
+          <li>Duração da Lua de Sangue: 30 min está bom?</li>
+          <li>1ª expedição forçada solo (tutorial) ou livre?</li>
+          <li>Quantas expedições simultâneas no começo: 1?</li>
+          <li>Ferido: tempo fixo (20 min) ou proporcional ao nível?</li>
+          <li>Chave rara: só cai em baú, ou também dá pra comprar?</li>
+          <li>Moedas premium e monetização: chaves? cura de ferido? recrutamento? (Nunca vender acelerar expedição, já que o tempo é fixo.)</li>
+          <li>Ordem dos mapas depois do Marco Zero: ficar em Pernambuco primeiro (Olinda, Porto de Galinhas) ou já pular pra outras capitais?</li>
+        </ol>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+(function(){
+'use strict';
+/* ====================== DATA ====================== */
+const CLS = {
+  vigia:      {cls:'vigia', nm:'Edson',   name:'Vigia',       role:'Atirador',        tag:'Distância',    hp:85,  atk:10, range:105, spd:36, cd:0.85, shirt:'#3b6fd8', pants:'#2b2f45', skin:'#c68a5a', hair:'#21140c', desc:'Espingarda e boa mira. Fica atrás e derruba enluarado e cuspidor antes de chegarem perto.'},
+  capoeirista:{cls:'capoeirista', nm:'Iara', name:'Capoeirista', role:'Linha de frente', tag:'Corpo a corpo',hp:125, atk:11, range:15,  spd:46, cd:0.55, shirt:'#f2c230', pants:'#f1f1f1', skin:'#8d5a3a', hair:'#140b06', desc:'Rápida e acrobática. Puxa a horda, lança zumbis pro alto e abre combo pro parceiro.'},
+  enfermeira: {cls:'enfermeira', nm:'Socorro',name:'Enfermeira',  role:'Suporte',         tag:'Cura',         hp:95,  atk:7,  range:15,  spd:38, cd:0.8,  shirt:'#eef2f5', pants:'#7fb7c9', skin:'#e0b08a', hair:'#5a3220', heal:true, desc:'Cura quem estiver mal e revive mais rápido. Sozinha sofre, em dupla segura a equipe.'},
+  lenhador:   {cls:'lenhador', nm:'Bira',    name:'Lenhador',    role:'Tanque',          tag:'Corpo a corpo',hp:160, atk:15, range:17,  spd:31, cd:1.1,  shirt:'#b8332e', pants:'#3a2e22', skin:'#b47a52', hair:'#3a2414', desc:'Machado pesado e muita vida. Lento, mas segura qualquer horda.'},
+  catadora:   {cls:'catadora', nm:'Kel',     name:'Catadora',    role:'Batedora',        tag:'Vasculhar',    hp:90,  atk:8,  range:15,  spd:48, cd:0.6,  shirt:'#4f9a5a', pants:'#4a3a2a', skin:'#a8704a', hair:'#7a2a1a', search:2, desc:'Gancho e mochila. Vasculha duas vezes mais rápido e sempre acha um extra.'},
+};
+const STARTERS = ['vigia','capoeirista','enfermeira'];
+const PETS = {
+  cachorro:{id:'cachorro', nm:'Caramelo', name:'Cachorro', skill:'Faro', desc:'Morde e atordoa. Fareja baús e pontos escondidos. Sozinho com você, te revive 1×.', col:'#c98a3e', atk:5, hp:60},
+  gato:    {id:'gato', nm:'Pipoca', name:'Gato', skill:'Sorte', desc:'Arranha e desvia. Mais loot raro e acha baú escondido. Distrai a horda.', col:'#e8e3d8', atk:4, hp:50},
+  papagaio:{id:'papagaio', nm:'Louro', name:'Papagaio', skill:'Alerta', desc:'Bica de cima. +3 s em todo puzzle e avisa de emboscada.', col:'#3fbf4f', atk:3, hp:40},
+};
+const KEYS = {comum:{n:'Comum', c:'#c08a4a', price:20}, medico:{n:'Médica', c:'#f4f4f4', price:35}, militar:{n:'Militar', c:'#5f8a3a', price:50}, raro:{n:'Rara', c:'#ffd23f', price:0}};
+const ZT = {
+  errante:   {hp:30, dmg:6,  spd:13, sc:1,   col:'#7fae5a', shirt:'#5a4a6a'},
+  corredor:  {hp:22, dmg:5,  spd:32, sc:1,   col:'#93b86a', shirt:'#6a3a3a'},
+  brutamonte:{hp:95, dmg:12, spd:10, sc:1.5, col:'#6c9a4c', shirt:'#3a3a52'},
+  cuspidor:  {hp:28, dmg:7,  spd:11, sc:1,   col:'#a5c25a', shirt:'#5a5a2a', ranged:85},
+};
+const FORMS = {comum:{hp:1,dmg:1,tint:null}, enluarado:{hp:1.4,dmg:1,tint:'#8f9cff'}, plenilunar:{hp:1.8,dmg:1.4,tint:'#ff5170'}};
+const AREAS = [
+  {name:'Praça do Marco Zero', len:560, bg:'praca', waves:[{at:60,n:3},{at:250,n:4},{at:430,n:4,mix:['corredor']}], chests:[{x:330,y:.25,type:'comum'}], search:[{x:180,y:.82,label:'Carro abandonado'}], hidden:[{x:500,y:.12,type:'raro'}]},
+  {name:'Rua do Bom Jesus', len:560, bg:'rua', waves:[{at:40,n:4},{at:240,n:4,mix:['cuspidor']},{at:420,n:5,mix:['corredor','cuspidor'],back:2}], chests:[{x:300,y:.78,type:'medico'}], search:[{x:150,y:.2,label:'Bar fechado'},{x:470,y:.85,label:'Barraca de tapioca'}], hidden:[]},
+  {name:'Armazéns do Cais', len:560, bg:'cais', waves:[{at:60,n:4,mix:['brutamonte']},{at:260,n:5,mix:['corredor']},{at:440,n:5,mix:['brutamonte','cuspidor']}], chests:[{x:360,y:.3,type:'militar'}], search:[{x:200,y:.75,label:'Contêiner aberto'}], hidden:[{x:520,y:.85,type:'comum'}]},
+  {name:'Molhe dos Arrecifes', len:560, bg:'molhe', waves:[{at:50,n:5},{at:250,n:5,mix:['corredor','corredor']},{at:430,n:6,mix:['brutamonte','cuspidor'],back:2}], chests:[{x:280,y:.7,type:'comum'},{x:470,y:.25,type:'raro'}], search:[{x:140,y:.3,label:'Barco virado'}], hidden:[]},
+  {name:'Parque das Esculturas', len:384, bg:'boss', boss:true, waves:[], chests:[], search:[], hidden:[]},
+];
+const SPECIAL_NAMES = {
+  'capoeirista+vigia':'RODA DE BALA', 'enfermeira+vigia':'COBERTURA TOTAL', 'capoeirista+enfermeira':'AXÉ DE CURA',
+  'lenhador+vigia':'CORTE E FOGO', 'capoeirista+lenhador':'MARTELO DE PERNA', 'enfermeira+lenhador':'MURALHA VIVA',
+  'catadora+vigia':'EMBOSCADA', 'capoeirista+catadora':'RASTEIRA DUPLA', 'catadora+enfermeira':'KIT DE GUERRA', 'catadora+lenhador':'GANCHO E MACHADO',
+  vigia:'CHUVA DE CHUMBO', capoeirista:'MEIA-LUA CÓSMICA', enfermeira:'ADRENALINA', lenhador:'TERREMOTO', catadora:'ARRASTÃO'
+};
+
+/* ====================== STATE ====================== */
+const S = {
+  roster:[], pets:[], keys:{comum:1, medico:1, militar:0, raro:0}, coins:60,
+  sel:{r1:null, r2:null, pet:null, map:0},
+  posture:{}, rules:{search:'tudo', keys:'todos', puzzle:true, revive:'sempre', retreat:0},
+  forceMoon:false, runs:0
+};
+const $ = s => document.querySelector(s);
+const screen = $('#screen');
+function el(html){ const t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstElementChild; }
+function newRecruit(cls){ const c=CLS[cls]; return {uid:cls+'_'+Math.random().toString(36).slice(2,6), cls, nm:c.nm, lvl:1, xp:0, status:'pronto'}; }
+function lvlNeed(l){ return 80 + l*40; }
+function rStats(r){ const c=CLS[r.cls]; const m=1+(r.lvl-1)*0.12; return {hp:Math.round(c.hp*m), atk:c.atk*m}; }
+function updRes(){ $('#resCoins').textContent=S.coins; $('#resKeys').textContent=Object.values(S.keys).reduce((a,b)=>a+b,0); }
+
+/* ====================== SERVER CLOCK / BLOOD MOON ====================== */
+function serverNow(){ return new Date(Date.now() - 3*3600e3); } // UTC-3, read via getUTC*
+function moonInfo(){
+  const d = serverNow(); const ms = (d.getUTCHours()*3600 + d.getUTCMinutes()*60 + d.getUTCSeconds())*1000;
+  const cyc = 2*3600e3, into = ms % cyc, dur = 30*60e3;
+  return into < dur ? {active:true, left:dur-into} : {active:false, left:cyc-into};
+}
+function fmt(ms){ const s=Math.max(0,Math.floor(ms/1000)); const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h?h+':':'')+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0'); }
+function tickClock(){
+  const d=serverNow(); $('#srvClock').textContent=[d.getUTCHours(),d.getUTCMinutes(),d.getUTCSeconds()].map(v=>String(v).padStart(2,'0')).join(':');
+  const mi=moonInfo(); const chip=$('#moonChip');
+  if(mi.active||S.forceMoon){ chip.innerHTML='LUA DE SANGUE ATIVA · <b>'+(S.forceMoon&&!mi.active?'forçada':fmt(mi.left))+'</b>'; chip.classList.add('on'); }
+  else { chip.innerHTML='Lua de Sangue em <b>'+fmt(mi.left)+'</b>'; chip.classList.remove('on'); }
+}
+setInterval(tickClock, 1000); tickClock();
+function moonActive(){ return S.forceMoon || moonInfo().active; }
+
+/* ====================== PIXEL DRAWING ====================== */
+let FLASH=null;
+function mk(g,x,y,f,s){ return (dx,dy,w,h,c)=>{ g.fillStyle=FLASH||c; const X = f>0 ? x+dx*s : x-(dx+w)*s; g.fillRect(Math.round(X),Math.round(y+dy*s),Math.ceil(w*s),Math.ceil(h*s)); }; }
+function shadow(g,x,y,w){ g.fillStyle='rgba(0,0,0,.35)'; g.beginPath(); g.ellipse(Math.round(x),Math.round(y),w,w*0.35,0,0,7); g.fill(); }
+function drawRecruit(g,x,y,cls,o){
+  const c=CLS[cls], f=o.face||1; shadow(g,x,y+1,8);
+  const P=mk(g,x,y,f,1);
+  if(o.downed){ P(-10,-5,8,4,c.pants); P(-2,-6,9,5,c.shirt); P(7,-6,5,5,c.skin); P(7,-7,5,2,c.hair); g.fillStyle='#fff'; g.font='8px "Pixelify Sans",monospace'; g.fillText('✚',x-3,y-12-Math.abs(Math.sin(o.t*4))*3); return; }
+  const ph = o.walk ? Math.sin(o.t*13) : 0, l = Math.round(ph*2), bob = o.walk ? Math.round(Math.abs(ph)) : Math.round(Math.sin(o.t*3)*0.5);
+  const atk = o.atk>0;
+  // legs
+  if(cls==='capoeirista' && atk){ P(-3,-8,2,8,c.pants); P(0,-11-bob,9,3,c.pants); P(8,-11-bob,2,3,c.skin); }
+  else { P(-3+l,-8,2,8,c.pants); P(1-l,-8,2,8,c.pants); P(-3+l,-1,3,1,'#1a1a1a'); P(1-l,-1,3,1,'#1a1a1a'); }
+  const yb=-bob;
+  if(cls==='catadora') P(-7,-17+yb,3,9,'#8a6a3a');
+  P(-4,-17+yb,8,10,c.shirt); P(-4,-9+yb,8,1,'rgba(0,0,0,.25)');
+  if(cls==='enfermeira'){ P(-1,-15+yb,2,4,'#e33'); P(-2,-14+yb,4,2,'#e33'); }
+  if(cls==='capoeirista'){ P(-4,-12+yb,8,1,'#2a7a3a'); }
+  // head
+  P(-3,-24+yb,6,7,c.skin); P(-3,-25+yb,6,2,c.hair); P(-3,-24+yb,2,4,c.hair); P(1,-22+yb,1,1,'#111');
+  if(cls==='vigia'){ P(-4,-26+yb,7,2,'#1d3c7a'); P(2,-25+yb,3,1,'#1d3c7a'); }
+  if(cls==='capoeirista'){ P(-3,-24+yb,6,1,'#e0263c'); P(-5,-23+yb,2,1,'#e0263c'); }
+  if(cls==='enfermeira'){ P(-3,-27+yb,6,2,'#fff'); P(-1,-27+yb,2,2,'#e33'); }
+  if(cls==='lenhador'){ P(0,-19+yb,3,2,c.hair); P(-4,-26+yb,7,2,'#7a1f1a'); }
+  if(cls==='catadora'){ P(-4,-25+yb,2,6,c.hair); }
+  // arms & weapons
+  if(cls==='vigia'){ if(atk){ P(1,-15+yb,4,2,c.skin); P(3,-16+yb,11,2,'#2a2a2a'); P(13,-16+yb,1,1,'#555'); if(o.atk>0.6) P(14,-17+yb,3,3,'#ffd23f'); } else { P(1,-16+yb,2,6,c.skin); P(0,-14+yb,9,2,'#2a2a2a'); } }
+  else if(cls==='lenhador'){ if(atk){ P(1,-15+yb,5,2,c.skin); P(5,-16+yb,9,2,'#7a4a24'); P(12,-19+yb,3,6,'#cfd6dd'); } else { P(1,-16+yb,2,7,c.skin); P(2,-22+yb,1,12,'#7a4a24'); P(3,-23+yb,3,4,'#cfd6dd'); } }
+  else if(cls==='catadora'){ if(atk){ P(1,-15+yb,6,2,c.skin); P(7,-16+yb,4,1,'#999'); P(10,-17+yb,1,3,'#999'); } else P(1,-16+yb,2,7,c.skin); }
+  else if(cls==='enfermeira'){ if(atk){ P(1,-15+yb,7,2,c.skin); P(7,-17+yb,4,4,'#8a2222'); } else { P(1,-16+yb,2,7,c.skin); P(2,-11+yb,4,4,'#8a2222'); } }
+  else { if(atk && cls!=='capoeirista'){ P(1,-15+yb,7,2,c.skin); } else P(1,-16+yb,2,7,c.skin); }
+}
+function drawZombie(g,x,y,z,t){
+  const T=ZT[z.type], F=FORMS[z.form], s=z.sc||T.sc, f=z.face; shadow(g,x,y+1,8*s);
+  const P=mk(g,x,y,f,s); const skin=F.tint||T.col;
+  if(z.dead){ P(-8,-4,16,4,T.shirt); P(8,-5,5,5,skin); return; }
+  const ph=Math.sin(t*7+z.seed), l=Math.round(ph*1.5);
+  P(-3+l,-8,2,8,'#2e2a38'); P(1-l,-8,2,8,'#2e2a38');
+  P(-3,-17,8,10,T.shirt); P(-3,-12,3,2,'#2a1a2a'); P(2,-15,2,2,'#7a1a1a');
+  if(z.type==='cuspidor'){ P(-2,-13,8,6,'#8aa04a'); }
+  P(-1,-24,6,7,skin); P(-1,-24,6,1,'rgba(0,0,0,.25)'); P(3,-22,1,1,z.form==='comum'?'#ff3':'#fff');
+  const reach = z.atk>0 ? 4 : 0;
+  P(2,-16,7+reach,2,skin); P(1,-13,6+reach,2,skin);
+  if(z.form==='plenilunar'){ P(-1,-26,1,2,'#fff'); P(1,-27,1,3,'#fff'); P(3,-26,1,2,'#fff'); }
+  if(z.form!=='comum' && !FLASH){ g.fillStyle=z.form==='plenilunar'?'rgba(255,60,90,.18)':'rgba(140,160,255,.16)'; g.beginPath(); g.arc(x,y-12*s,13*s,0,7); g.fill(); }
+}
+function drawBoss(g,x,y,b,t){
+  const f=b.face, s=2; shadow(g,x,y+2,20);
+  const P=mk(g,x,y,f,s); const skin=b.rage?'#d0505a':'#9aa76a';
+  if(b.dead){ P(-12,-5,24,5,'#6a5a5a'); return; }
+  const ph=Math.sin(t*5), l=Math.round(ph);
+  P(-4+l,-9,3,9,'#2a2430'); P(1-l,-9,3,9,'#2a2430');
+  P(-6,-21,13,13,skin); P(-5,-20,11,12,'#e6e0d2'); P(-5,-14,11,1,'#a33'); P(-3,-18,3,2,'#a33'); P(1,-12,4,3,'#a33');
+  P(-3,-28,8,8,skin); P(2,-25,2,1,'#ff3'); P(-3,-28,8,1,'#333');
+  const sw = b.atk>0;
+  if(sw){ P(5,-19,7,3,skin); P(11,-24,3,10,'#d8dde3'); P(11,-15,3,2,'#5a3a1a'); }
+  else { P(5,-19,3,8,skin); P(6,-12,6,3,'#d8dde3'); P(5,-12,2,2,'#5a3a1a'); }
+}
+function drawPet(g,x,y,id,o){
+  const p=PETS[id], f=o.face||1; const P=mk(g,x,y,f,1);
+  if(id==='papagaio'){ const fy = -22 + Math.sin(o.t*6)*3; shadow(g,x,y+1,4); const Q=mk(g,x,y+fy,f,1); const wing=Math.sin(o.t*20)>0;
+    Q(-3,-3,6,5,p.col); Q(2,-6,4,4,'#3fbf4f'); Q(5,-5,2,2,'#ffb000'); Q(3,-5,1,1,'#111'); Q(-6,-1,3,2,'#d22'); Q(-2,wing?-6:0,4,2,'#2a8ad8'); return; }
+  shadow(g,x,y+1,6);
+  if(o.downed){ P(-6,-4,12,4,p.col); return; }
+  const ph=o.walk?Math.sin(o.t*16):0, l=Math.round(ph*1.5);
+  if(id==='cachorro'){ P(-6,-8,11,5,p.col); P(-5+l,-3,2,3,p.col); P(3-l,-3,2,3,p.col); P(4,-12,5,5,p.col); P(8,-10,2,2,'#e9c48a'); P(6,-11,1,1,'#111'); P(4,-13,2,2,'#8a4a2a'); P(-8,-10+Math.round(Math.sin(o.t*15)),3,2,p.col); P(3,-8,2,2,'#d22'); if(o.atk>0) P(9,-9,2,1,'#fff'); }
+  else { P(-5,-7,9,4,p.col); P(-4+l,-3,2,3,p.col); P(2-l,-3,2,3,p.col); P(3,-11,5,5,p.col); P(3,-12,1,2,p.col); P(6,-12,1,2,p.col); P(5,-9,1,1,'#3a3'); P(-8,-11+Math.round(Math.sin(o.t*4)),2,6,p.col); P(-3,-6,2,2,'#c9a76a'); }
+}
+
+/* portrait animation loop for cards */
+function animPortraits(t){
+  document.querySelectorAll('canvas.pcan').forEach(cv=>{
+    const g=cv.getContext('2d'); const w=cv.width, h=cv.height; g.clearRect(0,0,w,h);
+    g.fillStyle='rgba(255,255,255,.04)'; g.fillRect(0,h-14,w,14);
+    const k=cv.dataset.k, id=cv.dataset.id, ph=(t/1000);
+    const atk = (Math.floor(ph*1.3)%3===2) ? 0.8 : 0;
+    if(k==='r') drawRecruit(g,w/2,h-8,id,{t:ph,walk:false,atk,face:1});
+    else drawPet(g,w/2,h-8,id,{t:ph,walk:true,face:1});
+  });
+}
+
+/* ====================== SCREENS ====================== */
+let portraitRAF=null;
+function show(node){ screen.innerHTML=''; screen.appendChild(node); updRes();
+  if(!portraitRAF){ const loop=t=>{ animPortraits(t); portraitRAF=requestAnimationFrame(loop); }; portraitRAF=requestAnimationFrame(loop); } }
+function pcan(k,id){ return `<canvas class="pcan" width="96" height="56" data-k="${k}" data-id="${id}"></canvas>`; }
+
+function screenTitle(){
+  const n = el(`<div class="title-screen" role="button" tabindex="0" aria-label="Começar">
+    <div class="moon"></div><div class="skyline"></div>
+    <div class="logo"><div class="big">LUA DE<br>SANGUE</div><div class="tag">IDLE · ARCADE · RECIFE</div><div class="blink">TOQUE PARA COMEÇAR</div></div></div>`);
+  const go=()=>screenStarter(); n.addEventListener('click',go); n.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' ') go(); });
+  show(n);
+}
+function recruitCard(cls, extra=''){
+  const c=CLS[cls];
+  return `<div class="card pick" data-cls="${cls}" tabindex="0">${pcan('r',cls)}
+    <div><div class="role">${c.role} · ${c.tag}</div><h3>${c.nm} · ${c.name}</h3></div>
+    <p>${c.desc}</p>
+    <div class="stats"><span>Vida</span><div class="bar"><i style="width:${c.hp/1.7}%"></i></div>
+      <span>Dano</span><div class="bar"><i style="width:${c.atk/0.17}%"></i></div>
+      <span>Alcance</span><div class="bar x"><i style="width:${Math.min(100,c.range/1.1)}%"></i></div>
+      <span>Velocid.</span><div class="bar x"><i style="width:${c.spd/0.5}%"></i></div></div>${extra}</div>`;
+}
+function screenStarter(){
+  const n = el(`<div class="view"><h2>Escolha seu primeiro recruta</h2>
+    <p class="sub">Não existe herói. Todo mundo é recruta e sobe de nível sozinho. Esse é só o primeiro da sua equipe.</p>
+    <div class="cards">${STARTERS.map(c=>recruitCard(c)).join('')}</div>
+    <div class="row"><button class="btn" id="stGo" disabled>Confirmar recruta</button><span id="stPick" class="badge">nenhum escolhido</span></div></div>`);
+  let pick=null;
+  n.querySelectorAll('.card.pick').forEach(cd=>{ const f=()=>{ n.querySelectorAll('.card').forEach(x=>x.classList.remove('sel')); cd.classList.add('sel'); pick=cd.dataset.cls; n.querySelector('#stGo').disabled=false; n.querySelector('#stPick').textContent=CLS[pick].nm+' · '+CLS[pick].name; };
+    cd.addEventListener('click',f); cd.addEventListener('keydown',e=>{ if(e.key==='Enter') f(); }); });
+  n.querySelector('#stGo').onclick=()=>{ const r=newRecruit(pick); S.roster.push(r); S.sel.r1=r.uid; S.posture[r.uid]='equilibrado'; screenHub(true); };
+  show(n);
+}
+function screenHub(first){
+  const avail = Object.keys(CLS).filter(c=>!S.roster.some(r=>r.cls===c));
+  const petAvail = Object.keys(PETS).filter(p=>!S.pets.includes(p));
+  const n = el(`<div class="view"><h2>Base</h2>
+    <p class="sub">Abrigo e construções estão pausados nesta fase. A base é só onde você organiza a equipe.</p>
+    ${first?`<div class="tip">Você pode sair <b>sozinho</b> agora mesmo. Pra testar as outras formações, recrute um sobrevivente e adote um pet. Na demo é de graça.</div>`:''}
+    <div class="cols">
+      <div class="box"><h4>Recrutas (${S.roster.length})</h4><div class="cards">${S.roster.map(r=>{ const c=CLS[r.cls]; const st=rStats(r);
+        return `<div class="card">${pcan('r',r.cls)}<div><div class="role">${c.role}</div><h3>${r.nm} · ${c.name}</h3></div>
+        <div class="stats"><span>Nível ${r.lvl}</span><div class="bar x"><i style="width:${r.xp/lvlNeed(r.lvl)*100}%"></i></div><span>Vida</span><span>${st.hp}</span></div>
+        <span class="badge ${r.status==='pronto'?'ok':'bad'}">${r.status}</span></div>`; }).join('')}</div>
+        <button class="btn ghost sm" id="hRec" ${avail.length?'':'disabled'}>+ Recrutar sobrevivente</button><div id="recPick"></div></div>
+      <div class="box"><h4>Pets (${S.pets.length})</h4>${S.pets.length?`<div class="cards">${S.pets.map(p=>`<div class="card">${pcan('p',p)}<h3>${PETS[p].nm} · ${PETS[p].name}</h3><span class="badge ok">${PETS[p].skill}</span></div>`).join('')}</div>`:'<p class="sub" style="margin:0">Nenhum pet ainda.</p>'}
+        <button class="btn ghost sm" id="hPet" ${petAvail.length?'':'disabled'}>+ Adotar pet</button><div id="petPick"></div></div>
+      <div class="box"><h4>Chaves</h4><div class="keys">${Object.entries(KEYS).map(([k,v])=>`<div class="key"><span style="color:${v.c}">🔑 ${v.n}</span><b>${S.keys[k]}</b>${v.price?`<button class="btn ghost sm" data-buy="${k}" ${S.coins<v.price?'disabled':''}>Comprar · ${v.price}</button>`:'<span class="badge">só cai em baú</span>'}</div>`).join('')}</div>
+        <p class="sub" style="margin:0;font-size:13px">Cada baú abre só com a chave do mesmo tipo.</p></div>
+    </div>
+    <div class="row"><button class="btn red" id="hGo">Montar expedição →</button></div></div>`);
+  n.querySelector('#hRec').onclick=()=>{ const box=n.querySelector('#recPick'); box.innerHTML=`<p class="sub" style="margin:6px 0">Sobreviventes encontrados:</p><div class="cards">${avail.slice(0,3).map(c=>recruitCard(c)).join('')}</div>`;
+    box.querySelectorAll('.card.pick').forEach(cd=>cd.onclick=()=>{ const r=newRecruit(cd.dataset.cls); S.roster.push(r); S.posture[r.uid]='equilibrado'; if(!S.sel.r2) S.sel.r2=r.uid; screenHub(false); }); };
+  n.querySelector('#hPet').onclick=()=>{ const box=n.querySelector('#petPick'); box.innerHTML=`<div class="cards" style="margin-top:6px">${petAvail.map(p=>`<div class="card pick" data-p="${p}">${pcan('p',p)}<h3>${PETS[p].nm} · ${PETS[p].name}</h3><span class="badge ok">${PETS[p].skill}</span><p>${PETS[p].desc}</p></div>`).join('')}</div>`;
+    box.querySelectorAll('.card.pick').forEach(cd=>cd.onclick=()=>{ S.pets.push(cd.dataset.p); if(!S.sel.pet) S.sel.pet=cd.dataset.p; screenHub(false); }); };
+  n.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{ const k=b.dataset.buy; if(S.coins>=KEYS[k].price){ S.coins-=KEYS[k].price; S.keys[k]++; screenHub(false); } });
+  n.querySelector('#hGo').onclick=screenSetup;
+  show(n);
+}
+function formationOf(sel){ const r2=!!sel.r2, p=!!sel.pet; return r2&&p?'Dupla + pet':r2?'Dupla':p?'Solo + pet':'Solo'; }
+const FORM_FX = {'Solo':{xp:1.5,horde:0.6,txt:'XP 150% · horda 60% · caiu = recua com 60% do loot'}, 'Solo + pet':{xp:1.4,horde:0.7,txt:'XP 140% · horda 70% · pet revive 1×'}, 'Dupla':{xp:1,horde:1,txt:'XP 100% · horda 100% · revive mútuo · combos · especial em dupla'}, 'Dupla + pet':{xp:0.9,horde:1.1,txt:'XP 90% · horda 110% · tudo liberado · especial em trio'}};
+function screenSetup(){
+  const ready = S.roster.filter(r=>r.status==='pronto');
+  if(!ready.find(r=>r.uid===S.sel.r1)) S.sel.r1 = ready[0]?.uid||null;
+  if(S.sel.r2===S.sel.r1) S.sel.r2=null;
+  const opt=(list,cur,none)=> (none?`<option value="">— ninguém —</option>`:'') + list.map(r=>`<option value="${r.uid}" ${r.uid===cur?'selected':''}>${r.nm} · ${CLS[r.cls].name} (nv ${r.lvl})</option>`).join('');
+  const maps=[['Marco Zero','Recife · calor, chuva no fim da tarde',true],['Alto da Sé','Olinda · vento, carnaval',false],['Pelourinho','Salvador · sol forte',false],['Cristo Redentor','Rio · neblina',false],['Av. Paulista','São Paulo · garoa',false]];
+  const n = el(`<div class="view"><h2>Montar expedição</h2>
+    <p class="sub">Escolha quem vai e configure o automático. Depois disso você só assiste.</p>
+    <div class="box"><h4>Destino</h4><div class="maps">${maps.map((m,i)=>`<div class="map ${i===0?'sel':'lock'}"><b>${i+1}. ${m[0]}</b><span>${m[1]}</span><span class="badge ${m[2]?'ok':''}">${m[2]?'liberado · chefe: O Açougueiro':'🔒 vença o chefe anterior'}</span></div>`).join('')}</div></div>
+    <div class="cols">
+      <div class="box"><h4>Esquadrão</h4>
+        <div class="slot"><span class="lbl">Recruta 1 (obrigatório)</span><select id="sR1">${opt(ready,S.sel.r1,false)}</select></div>
+        <div class="slot"><span class="lbl">Recruta 2 (opcional)</span><select id="sR2">${opt(ready.filter(r=>r.uid!==S.sel.r1),S.sel.r2,true)}</select></div>
+        <div class="slot"><span class="lbl">Pet (opcional)</span><select id="sPet"><option value="">— nenhum —</option>${S.pets.map(p=>`<option value="${p}" ${p===S.sel.pet?'selected':''}>${PETS[p].nm} · ${PETS[p].name} (${PETS[p].skill})</option>`).join('')}</select></div>
+        <div class="formation" id="fName">${formationOf(S.sel)}</div><p class="sub" style="margin:0;font-size:14px" id="fTxt">${FORM_FX[formationOf(S.sel)].txt}</p>
+        <div id="danger"></div>
+      </div>
+      <div class="box"><h4>Postura</h4><div id="postures"></div>
+        <h4>Regras do esquadrão</h4>
+        <div class="slot"><span class="lbl">Vasculhar</span><select id="rS"><option value="tudo">Tudo</option><option value="caminho">Só no caminho</option><option value="nada">Nada (direto pro chefe)</option></select></div>
+        <div class="slot"><span class="lbl">Usar chaves</span><select id="rK"><option value="todos">Em qualquer baú</option><option value="raros">Só em baú raro</option><option value="nunca">Nunca</option></select></div>
+        <label class="tg"><input type="checkbox" id="rP" ${S.rules.puzzle?'checked':''}> Mostrar puzzle quando faltar chave (pula em 5 s)</label>
+        <div class="slot"><span class="lbl">Reviver parceiro</span><select id="rR"><option value="sempre">Sempre</option><option value="seguro">Só sem zumbis perto</option></select></div>
+        <div class="slot"><span class="lbl">Recuar quando todos abaixo de</span><select id="rT"><option value="0">Nunca recuar</option><option value="20">20% de vida</option><option value="35">35% de vida</option></select></div>
+      </div>
+      <div class="box"><h4>Chaves na mochila</h4><div class="keys">${Object.entries(KEYS).map(([k,v])=>`<div class="key"><span style="color:${v.c}">🔑 ${v.n}</span><b>${S.keys[k]}</b></div>`).join('')}</div>
+        <p class="sub" style="margin:0;font-size:13px">Este mapa tem baús: comum ×2, médico ×1, militar ×1, raro ×1 (+ escondidos).</p>
+        <h4>Tempo</h4><p style="margin:0;font-family:var(--f-body)"><b style="font-family:var(--f-display);font-size:22px">15:00</b> em tempo real</p>
+        <p class="sub" style="margin:0;font-size:13px" id="moonWarn"></p>
+        <label class="tg"><input type="checkbox" id="fMoon" ${S.forceMoon?'checked':''}> Forçar Lua de Sangue (só na demo)</label>
+      </div>
+    </div>
+    <div class="row"><button class="btn ghost" id="sBack">← Base</button><button class="btn red" id="sGo">Iniciar expedição</button></div></div>`);
+  ['rS','rK','rR','rT'].forEach((id,i)=>{ const key=['search','keys','revive','retreat'][i]; const s=n.querySelector('#'+id); s.value=String(S.rules[key]); s.onchange=()=>{ S.rules[key]= key==='retreat'? +s.value : s.value; }; });
+  n.querySelector('#rP').onchange=e=>S.rules.puzzle=e.target.checked;
+  n.querySelector('#fMoon').onchange=e=>{ S.forceMoon=e.target.checked; tickClock(); refresh(); };
+  const refresh=()=>{
+    const f=formationOf(S.sel); n.querySelector('#fName').textContent=f; n.querySelector('#fTxt').textContent=FORM_FX[f].txt;
+    const members=[S.sel.r1,S.sel.r2].filter(Boolean).map(u=>S.roster.find(r=>r.uid===u));
+    n.querySelector('#postures').innerHTML = members.map(r=>`<div class="slot"><span class="lbl">${r.nm} · ${CLS[r.cls].name}</span><select data-pu="${r.uid}">${['agressivo','equilibrado','cauteloso','protetor'].map(p=>`<option value="${p}" ${S.posture[r.uid]===p?'selected':''}>${p[0].toUpperCase()+p.slice(1)}</option>`).join('')}</select></div>`).join('');
+    n.querySelectorAll('[data-pu]').forEach(s=>s.onchange=()=>S.posture[s.dataset.pu]=s.value);
+    const power = members.reduce((a,r)=>a+r.lvl*10+10,0) + (S.sel.pet?8:0); const need = 30*FORM_FX[f].horde + (moonActive()?10:0);
+    const ratio=power/need; n.querySelector('#danger').innerHTML = `<span class="badge ${ratio>=1.1?'ok':ratio>=0.8?'warn':'bad'}">Perigo: ${ratio>=1.1?'tranquilo':ratio>=0.8?'arriscado':'muito perigoso'}</span>`;
+    const mi=moonInfo(); const w=n.querySelector('#moonWarn');
+    if(moonActive()) w.textContent='A Lua de Sangue está ativa: mapa mais difícil, loot ×1,5.';
+    else if(mi.left<15*60e3) w.textContent='A Lua de Sangue começa em '+fmt(mi.left)+' e vai pegar o fim da expedição.';
+    else w.textContent='Nenhuma Lua de Sangue prevista durante esta expedição.';
+  };
+  n.querySelector('#sR1').onchange=e=>{ S.sel.r1=e.target.value; if(S.sel.r2===S.sel.r1) S.sel.r2=null; screenSetup(); };
+  n.querySelector('#sR2').onchange=e=>{ S.sel.r2=e.target.value||null; refresh(); };
+  n.querySelector('#sPet').onchange=e=>{ S.sel.pet=e.target.value||null; refresh(); };
+  n.querySelector('#sBack').onclick=()=>screenHub(false);
+  n.querySelector('#sGo').onclick=startExpedition;
+  show(n); refresh();
+}
+
+/* ====================== EXPEDITION SIM ====================== */
+const W=384, H=216, GY0=146, GY1=204;
+const gy = y => GY0 + y*(GY1-GY0);
+let G=null;
+
+function startExpedition(){
+  const members=[S.sel.r1,S.sel.r2].filter(Boolean).map(u=>S.roster.find(r=>r.uid===u));
+  const form = formationOf(S.sel);
+  const n = el(`<div class="exp"><div class="stage"><canvas id="cv" width="${W}" height="${H}"></canvas>
+      <div class="hud"><div class="pp" id="hudP"></div><div class="clock"><div>${'Marco Zero'}</div><b id="eClock">15:00</b><div id="eArea"></div></div></div>
+      <div class="prog" id="eProg">${AREAS.map((a,i)=>`<span class="${a.boss?'boss':''}"></span>`).join('')}</div>
+      <div id="ovl"></div></div>
+    <div class="side"><div class="ctrl"><div class="row" role="group" aria-label="Velocidade da demo"><span style="font-size:12px;color:var(--muted)">Velocidade da demo:</span>${[1,2,4].map(v=>`<button class="btn ghost sm" data-sp="${v}">${v}×</button>`).join('')}</div>
+      <div class="row"><button class="btn ghost sm" id="eMoon">Forçar Lua de Sangue</button><button class="btn ghost sm" id="eQuit">Recuar agora</button></div></div>
+      <div class="log" id="eLog" aria-live="polite"></div></div></div>`);
+  show(n);
+  const cv=n.querySelector('#cv'), g=cv.getContext('2d'); g.imageSmoothingEnabled=false;
+  const areaStart=[]; let acc=0; AREAS.forEach(a=>{ areaStart.push(acc); acc+=a.len; });
+  G = { g, cv, t:0, clock:0, speed:1, area:0, areaStart, worldLen:acc, camX:0, ents:[], zs:[], proj:[], fx:[], pops:[], objs:[], wavesDone:[], over:false,
+    form, fx_:FORM_FX[form], members, pet:S.sel.pet, moonWas:moonActive(), moonBannerShown:false, slow:1, puzzleOpen:false, petRevive:true,
+    stats:{kills:{comum:0,enluarado:0,plenilunar:0}, chestsOpen:0, chestsSkip:0, keysUsed:0, puzzlesOk:0, searches:0, specials:0, loot:{moedas:0,sucata:0,comida:0,remedio:0,municao:0}, combos:0},
+    shake:0, gone:false, bossSpawned:false, msgQ:[] };
+  // squad
+  members.forEach((r,i)=>{ const c=CLS[r.cls], st=rStats(r); G.ents.push({kind:'r', r, cls:r.cls, x:30-i*14, y:.35+i*.35, hp:st.hp, max:st.hp, atk:st.atk, range:c.range, spd:c.spd, cdMax:c.cd, cd:0, sp:0, face:1, atkT:0, walk:false, downed:false, rev:0, healCd:3, task:null, posture:S.posture[r.uid]||'equilibrado', flash:0, lane:i}); });
+  if(G.pet){ const p=PETS[G.pet]; G.ents.push({kind:'p', id:G.pet, x:20, y:.6, hp:p.hp, max:p.hp, atk:p.atk, spd:50, cdMax:0.9, cd:0, face:1, atkT:0, walk:false, downed:false, flash:0}); }
+  // objects
+  AREAS.forEach((a,ai)=>{ const s=areaStart[ai];
+    a.chests.forEach(c=>G.objs.push({k:'chest', type:c.type, x:s+c.x, y:c.y, area:ai, state:'closed'}));
+    a.search.forEach(c=>G.objs.push({k:'search', label:c.label, x:s+c.x, y:c.y, area:ai, state:'todo', prog:0}));
+    a.hidden.forEach(c=>G.objs.push({k:'chest', type:c.type, x:s+c.x, y:c.y, area:ai, state:'hidden', hidden:true}));
+    G.wavesDone.push(a.waves.map(()=>false)); });
+  if(S.rules.search==='nada') G.objs.forEach(o=>{ if(o.k==='search') o.state='skip'; });
+  // controls
+  n.querySelectorAll('[data-sp]').forEach(b=>{ b.onclick=()=>{ G.speed=+b.dataset.sp; n.querySelectorAll('[data-sp]').forEach(x=>x.style.borderColor=''); b.style.borderColor='var(--moon)'; }; if(b.dataset.sp==='1') b.style.borderColor='var(--moon)'; });
+  n.querySelector('#eMoon').onclick=()=>{ if(!S.forceMoon){ S.forceMoon=true; tickClock(); } };
+  n.querySelector('#eQuit').onclick=()=>endRun('recuo','Você mandou a equipe recuar.');
+  log(`Expedição ${form.toLowerCase()} partiu pro Marco Zero.`, 'y');
+  if(moonActive()) log('A Lua de Sangue está ativa. Os zumbis vão vir mais fortes.', 'b');
+  banner(AREAS[0].name.toUpperCase());
+  buildHud();
+  let last=performance.now();
+  const loop=now=>{ if(G.gone) return; const dt=Math.min(0.05,(now-last)/1000); last=now; if(!G.over){ for(let i=0;i<G.speed;i++) step(dt*G.slow); } render(); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+}
+function log(msg,cls=''){ const L=document.getElementById('eLog'); if(!L) return; const d=document.createElement('div'); d.className=cls; const m=Math.floor(G.clock/60), s=Math.floor(G.clock%60); d.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')} · ${msg}`; L.prepend(d); while(L.children.length>60) L.lastChild.remove(); }
+function banner(txt){ const o=document.getElementById('ovl'); if(!o) return; const b=document.createElement('div'); b.className='banner'; b.textContent=txt; o.appendChild(b); setTimeout(()=>b.remove(),2300); }
+function pop(x,y,txt,col='#fff',big=false){ G.pops.push({x,y,txt,col,t:0,big}); }
+function parts(x,y,col,n=6){ for(let i=0;i<n;i++) G.fx.push({x,y,vx:(Math.random()-.5)*80,vy:-Math.random()*70-10,t:0,col}); }
+const ONO=['PÁ!','TUM!','CRAU!','POW!','TÁ!','BAM!'];
+function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+function squad(){ return G.ents.filter(e=>e.kind==='r'); }
+function alive(){ return G.ents.filter(e=>!e.downed); }
+function leaderX(){ const a=squad().filter(e=>!e.downed); return a.length? Math.max(...a.map(e=>e.x)) : 0; }
+function areaEnd(i){ return G.areaStart[i]+AREAS[i].len; }
+
+function spawnZombie(x,y,type,boss){
+  const moon=moonActive(); const r=Math.random();
+  const form = moon ? (r<.15?'plenilunar':r<.6?'enluarado':'comum') : (r<.02?'plenilunar':r<.17?'enluarado':'comum');
+  const T=ZT[type], F=FORMS[form], lv = 1 + (G.members.reduce((a,m)=>a+m.lvl,0)/G.members.length-1)*0.15;
+  const hp=Math.round(T.hp*F.hp*lv*(moon?1.1:1));
+  G.zs.push({type, form, x, y, hp, max:hp, dmg:T.dmg*F.dmg*(moon?1.15:1), spd:T.spd*(0.85+Math.random()*.3)*(moon?1.15:1), sc:T.sc, cd:1+Math.random(), face:-1, atk:0, flash:0, seed:Math.random()*9, dead:false, deadT:0, stun:0, air:0});
+}
+function spawnWave(ai,wi){
+  const w=AREAS[ai].waves[wi]; const n=Math.max(2,Math.round(w.n*G.fx_.horde*(moonActive()?1.3:1)));
+  const types=[]; (w.mix||[]).forEach(t=>types.push(t)); while(types.length<n) types.push('errante');
+  types.forEach((t,i)=>{ const back = w.back && i<w.back; const x = back ? G.camX-10-i*12 : G.camX+W+10+i*16; spawnZombie(x, Math.random(), t); });
+  log(`${w.back?'Emboscada! ':''}Horda de ${n} zumbis se aproximando.`,'z');
+  if(w.back && G.pet==='papagaio') log('Louro gritou antes: emboscada pela retaguarda!', 'r');
+}
+function spawnBoss(){
+  const x=G.areaStart[4]+300; const moon=moonActive(); const hp=Math.round(320*G.members.length*(moon?1.2:1)*(G.pet?1.15:1));
+  G.boss={x,y:.5,hp,max:hp,dmg:16*G.fx_.horde*(moon?1.2:1),spd:16,cd:2,face:-1,atk:0,flash:0,phase:1,rage:false,dead:false,charge:0};
+  banner('O AÇOUGUEIRO'); log('O Açougueiro saiu do Parque das Esculturas!','b'); G.shake=6;
+}
+
+function nearestZ(e, filter){ let best=null, bd=1e9; for(const z of G.zs){ if(z.dead) continue; if(filter && !filter(z)) continue; const d=Math.abs(z.x-e.x)+Math.abs(z.y-e.y)*60; if(d<bd){ bd=d; best=z; } } if(G.boss && !G.boss.dead){ const d=Math.abs(G.boss.x-e.x)+Math.abs(G.boss.y-e.y)*60; if(d<bd && (!filter||filter(G.boss))){ bd=d; best=G.boss; } } return best; }
+function onScreen(x){ return x>G.camX-20 && x<G.camX+W+20; }
+function activeFoes(){ return G.zs.filter(z=>!z.dead && onScreen(z.x)).length + (G.boss&&!G.boss.dead?1:0); }
+function moveTo(e,tx,ty,dt,sp){ const dx=tx-e.x, dy=(ty-e.y)*60; const d=Math.hypot(dx,dy); if(d<1.5){ e.walk=false; return true; } const v=(sp||e.spd)*dt; e.x+=dx/d*Math.min(v,d); e.y+=dy/d*Math.min(v,d)/60; e.y=Math.max(0,Math.min(1,e.y)); if(Math.abs(dx)>1) e.face=dx>0?1:-1; e.walk=true; return false; }
+function hitFoe(z,dmg,src,opts={}){
+  if(z.dead) return; let d=dmg;
+  if(z.air>0 && src && src.cls==='vigia'){ d*=2; pop(z.x,gy(z.y)-30,'COMBO!','#ffd23f',true); G.stats.combos++; z.air=0; }
+  z.hp-=d; z.flash=0.12; parts(z.x,gy(z.y)-12,z===G.boss?'#a33':(FORMS[z.form]?.tint||'#6a9a3a'),3);
+  if(Math.random()<.35 && !opts.quiet) pop(z.x+rnd([-6,6]),gy(z.y)-28,rnd(ONO),'#fff');
+  if(src && src.kind==='r'){ src.sp=Math.min(100,src.sp+d*0.5); }
+  if(opts.launch && z!==G.boss && Math.random()<.4){ z.air=0.9; }
+  if(z.hp<=0){ z.dead=true; z.deadT=0; if(z===G.boss){ bossDown(); } else { G.stats.kills[z.form]++; if(z.form!=='comum') log(`${src&&src.r?src.r.nm:'A equipe'} derrubou um ${z.type} ${z.form}.`,'z'); if(Math.random()<.3) G.stats.loot.moedas+=z.form==='comum'?2:5; } }
+}
+function hurt(e,dmg){
+  if(e.downed) return; e.hp-=dmg; e.flash=0.12; if(e.kind==='r') e.sp=Math.min(100,e.sp+dmg*0.5);
+  if(e.hp<=0){ e.hp=0; e.downed=true; e.walk=false; e.rev=0;
+    if(e.kind==='r'){ log(`${e.r.nm} caiu!`,'b'); pop(e.x,gy(e.y)-30,'CAIU!','#ff2e4d',true); }
+    else log(`${PETS[e.id].nm} ficou fora de combate.`,'b');
+    checkWipe(); }
+}
+function checkWipe(){
+  const sq=squad(); if(sq.every(e=>e.downed)){
+    if(sq.length===1 && G.pet && G.petRevive){ const p=G.ents.find(e=>e.kind==='p'); if(p && !p.downed){ G.petRevive=false; p.task={k:'petrevive', t:0}; log(`${PETS[G.pet].nm} correu pra arrastar ${sq[0].r.nm} pra fora da horda!`,'r'); return; } }
+    setTimeout(()=>endRun(G.boss?'derrota':'recuo', sq.length===1?`${sq[0].r.nm} caiu sozinho. Recuando com o que deu pra salvar.`:'Toda a equipe caiu.'), 1200); G.over=true; }
+}
+
+function step(dt){
+  G.t+=dt; G.clock+=dt*6; // demo: ~6x compressed
+  if(!G.moonWas && moonActive()){ G.moonWas=true; banner('LUA DE SANGUE!'); log('A Lua de Sangue nasceu no meio da expedição. O mapa endurece a partir de agora.','b'); G.shake=5; const ai=G.area; if(!AREAS[ai].boss){ for(let i=0;i<3;i++) spawnZombie(G.camX+W+10+i*14, Math.random(), 'errante'); } }
+  const ai=G.area, A=AREAS[ai], aS=G.areaStart[ai], aE=areaEnd(ai);
+  // waves
+  A.waves.forEach((w,wi)=>{ if(!G.wavesDone[ai][wi] && leaderX()>=aS+w.at){ G.wavesDone[ai][wi]=true; spawnWave(ai,wi); } });
+  if(A.boss && !G.bossSpawned && leaderX()>=aS+60){ G.bossSpawned=true; spawnBoss(); }
+  // reveal hidden
+  if(G.pet==='cachorro'||G.pet==='gato'){ G.objs.forEach(o=>{ if(o.state==='hidden' && Math.abs(o.x-leaderX())<120){ o.state='closed'; pop(o.x,gy(o.y)-20,G.pet==='cachorro'?'FARO!':'SORTE!','#3ed4ff',true); log(`${PETS[G.pet].nm} achou um baú ${o.type} escondido!`,'r'); } }); }
+  const foes = activeFoes();
+  const sq=squad();
+  // recruits AI
+  for(const e of sq){
+    e.atkT=Math.max(0,e.atkT-dt); e.flash=Math.max(0,e.flash-dt); e.cd-=dt; e.healCd-=dt;
+    if(e.downed){ continue; }
+    if(foes===0 && e.hp<e.max) e.hp=Math.min(e.max,e.hp+e.max*0.05*dt);
+    const mate=sq.find(o=>o!==e);
+    const lowHp = e.hp/e.max<0.3 && e.posture==='cauteloso';
+    // 1 revive
+    if(mate && mate.downed && (S.rules.revive==='sempre' || foes===0)){
+      if(moveTo(e,mate.x-8*e.face,mate.y,dt)){ e.walk=false; mate.rev+=dt*(e.cls==='enfermeira'?2:1); e.task={k:'rev'}; if(Math.floor(mate.rev*4)!==Math.floor((mate.rev-dt)*4)) pop(mate.x,gy(mate.y)-26,'…','#3ed4ff');
+        if(mate.rev>=2.5){ mate.downed=false; mate.hp=mate.max*0.4; mate.rev=0; log(`${e.r.nm} levantou ${mate.r.nm}!`,'r'); pop(mate.x,gy(mate.y)-30,'DE PÉ!','#8be35a',true); } }
+      continue;
+    }
+    // 2 heal
+    if(CLS[e.cls].heal && e.healCd<=0){ const tgt=sq.filter(o=>!o.downed && o.hp/o.max<0.6).sort((a,b)=>a.hp/a.max-b.hp/b.max)[0]; if(tgt){ e.healCd=6; const h=Math.round(tgt.max*0.3); tgt.hp=Math.min(tgt.max,tgt.hp+h); pop(tgt.x,gy(tgt.y)-30,'+'+h,'#8be35a',true); parts(tgt.x,gy(tgt.y)-14,'#8be35a',8); log(`${e.r.nm} curou ${tgt===e?'a si mesma':tgt.r.nm} (+${h}).`,'r'); } }
+    // 3 fight
+    if(foes>0){
+      const ranged = e.range>40;
+      const mt = mate && mate.task && mate.task.z;
+      let z = ranged ? (nearestZ(e,q=>q!==mt && onScreen(q.x) && (q.form&&q.form!=='comum' || q.type==='cuspidor')) || nearestZ(e,q=>onScreen(q.x))) : (nearestZ(e,q=>q!==mt && onScreen(q.x)) || nearestZ(e,q=>onScreen(q.x)));
+      if(!z){ e.walk=false; continue; }
+      e.task={k:'fight', z};
+      if(ranged){
+        const want = (lowHp?130:e.posture==='agressivo'?70:95);
+        const side = z.x>e.x?1:-1; const tx = z.x - side*want; const ty=z.y;
+        const dx=Math.abs(z.x-e.x);
+        if(Math.abs(dx-want)>25 || Math.abs(z.y-e.y)>.12) moveTo(e,Math.max(G.camX+6,Math.min(G.camX+W-6,tx)),ty,dt); else e.walk=false;
+        e.face = side;
+        if(e.cd<=0 && dx<e.range+40 && Math.abs(z.y-e.y)<.18){ e.cd=e.cdMax; e.atkT=0.25; G.proj.push({x:e.x+side*12,y:e.y,vx:side*260,dmg:e.atk,src:e,t:0,pierce:1}); }
+      } else {
+        const side = z.x>e.x?1:-1; const reach=(z===G.boss?22:12)+(z.sc>1?4:0);
+        if(lowHp){ moveTo(e,e.x-side*30,e.y,dt); continue; }
+        if(Math.abs(z.x-e.x)>reach || Math.abs(z.y-e.y)>.08) moveTo(e,z.x-side*reach,z.y,dt); else { e.walk=false; e.face=side;
+          if(e.cd<=0){ e.cd=e.cdMax*(e.posture==='agressivo'?0.85:1); e.atkT=0.22; hitFoe(z,e.atk*(0.85+Math.random()*.3),e,{launch:e.cls==='capoeirista'}); if(e.cls==='lenhador'){ G.shake=2; for(const o of G.zs){ if(o!==z && !o.dead && Math.abs(o.x-z.x)<16 && Math.abs(o.y-z.y)<.15) hitFoe(o,e.atk*.5,e,{quiet:true}); } } } }
+      }
+      continue;
+    }
+    // 4 interact
+    const objs = G.objs.filter(o=>o.area===ai && (o.k==='chest'?o.state==='closed':o.state==='todo'));
+    if(objs.length){
+      let mine = objs.find(o=>o.who===e) || objs.find(o=>!o.who || o.who.downed);
+      if(mine && mate && !mate.downed && mine.who!==e && mine.who===mate){ mine=null; }
+      if(mine){ mine.who=e; e.task={k:'obj'};
+        if(moveTo(e,mine.x-10,mine.y,dt)){ e.face=1;
+          if(mine.k==='search'){ mine.prog+=dt*(CLS[e.cls].search||1); if(mine.prog>=3){ mine.state='done'; G.stats.searches++; searchLoot(e,mine); } }
+          else openChest(e,mine);
+        }
+      } else if(mate){ // guard
+        const gx = Math.max(e.x, mate.x+18); e.task={k:'guard'}; if(moveTo(e,gx,mate.y>.5?mate.y-.3:mate.y+.3,dt)) e.face=1;
+      }
+      continue;
+    }
+    // 5 advance
+    e.task={k:'adv'};
+    if(!A.boss){ const allWaves=G.wavesDone[ai].every(Boolean); const limit = allWaves && foes===0 ? aE+40 : Math.min(aE-20, leaderX()+50);
+      const tgtX = Math.min(limit, e.x + 40); moveTo(e,tgtX,e.lane?0.7:0.35,dt); }
+    else { moveTo(e,aS+120+ (e.lane?0:20),e.lane?0.7:0.35,dt); }
+  }
+  // area transition
+  const allW=G.wavesDone[ai].every(Boolean);
+  if(!A.boss && allW && foes===0 && sq.filter(e=>!e.downed).every(e=>e.x>aE-30)){
+    G.objs.filter(o=>o.area===ai && o.state==='closed').forEach(o=>{ o.state='left'; });
+    G.area++; banner(AREAS[G.area].name.toUpperCase()); log(`Entrando em: ${AREAS[G.area].name}.`,'y');
+    if(G.area===4) log('Silêncio estranho no parque...','b');
+  }
+  // pet AI
+  const pet=G.ents.find(e=>e.kind==='p');
+  if(pet){ pet.atkT=Math.max(0,pet.atkT-dt); pet.cd-=dt; pet.flash=Math.max(0,pet.flash-dt);
+    if(pet.task && pet.task.k==='petrevive' && !pet.downed){ const m=sq[0]; if(moveTo(pet,m.x+8,m.y,dt,70)){ pet.task.t+=dt; if(pet.task.t>2){ m.downed=false; m.hp=m.max*0.4; pet.task=null; log(`${PETS[G.pet].nm} trouxe ${m.r.nm} de volta!`,'r'); pop(m.x,gy(m.y)-30,'DE PÉ!','#8be35a',true); G.over=false; } } }
+    else if(pet.downed){ pet.rev=(pet.rev||0)+dt; if(foes===0 && pet.rev>4){ pet.downed=false; pet.hp=pet.max*.5; pet.rev=0; } }
+    else if(foes>0){ const z=nearestZ(pet,q=>onScreen(q.x)); if(z){ const side=z.x>pet.x?1:-1;
+      if(G.pet==='papagaio'){ moveTo(pet,z.x-side*6,z.y,dt,60); if(pet.cd<=0 && Math.abs(z.x-pet.x)<12){ pet.cd=pet.cdMax; pet.atkT=.2; hitFoe(z,pet.atk,null,{quiet:true}); } }
+      else if(Math.abs(z.x-pet.x)>10||Math.abs(z.y-pet.y)>.08) moveTo(pet,z.x-side*10,z.y+(z.y>.5?-.06:.06),dt); else { pet.walk=false; pet.face=side; if(pet.cd<=0){ pet.cd=pet.cdMax; pet.atkT=.2; hitFoe(z,pet.atk,null,{quiet:true}); if(G.pet==='cachorro' && z!==G.boss && Math.random()<.3){ z.stun=1.2; pop(z.x,gy(z.y)-30,'NHAC!','#ffd23f'); } if(G.pet==='gato' && Math.random()<.25){ z.aggroPet=3; } } } } }
+    else { const ld=sq.filter(e=>!e.downed)[0]||sq[0]; moveTo(pet, ld.x-14, Math.min(1,ld.y+.2), dt, pet.spd*1.1); if(Math.abs(pet.x-ld.x)<20) pet.walk=false; }
+  }
+  // zombies
+  const targets=alive();
+  for(const z of G.zs){
+    z.flash=Math.max(0,z.flash-dt); z.atk=Math.max(0,z.atk-dt); z.air=Math.max(0,z.air-dt);
+    if(z.dead){ z.deadT+=dt; continue; }
+    if(z.stun>0){ z.stun-=dt; continue; }
+    if(!targets.length) continue;
+    let tg = z.aggroPet>0 ? (pet&&!pet.downed?pet:null) : null; if(z.aggroPet>0) z.aggroPet-=dt;
+    if(!tg){ let bd=1e9; for(const t of targets){ const d=Math.abs(t.x-z.x)+Math.abs(t.y-z.y)*60; if(d<bd){bd=d;tg=t;} } }
+    const T=ZT[z.type]; const side=tg.x>z.x?1:-1; z.face=side; z.cd-=dt;
+    if(T.ranged){ const dx=Math.abs(tg.x-z.x); if(dx>T.ranged || Math.abs(tg.y-z.y)>.1){ moveTo(z,tg.x-side*T.ranged*.8,tg.y,dt,z.spd); } else if(z.cd<=0){ z.cd=2.2; z.atk=.3; G.proj.push({x:z.x+side*8,y:z.y,vx:side*120,dmg:z.dmg,src:null,foe:true,t:0}); } }
+    else { const reach=10*(z.sc||1); if(Math.abs(tg.x-z.x)>reach || Math.abs(tg.y-z.y)>.07) moveTo(z,tg.x-side*reach,tg.y,dt,z.spd); else if(z.cd<=0){ z.cd=1.3; z.atk=.3; hurt(tg,z.dmg); } }
+  }
+  G.zs = G.zs.filter(z=>!(z.dead && z.deadT>2.5));
+  // boss
+  const b=G.boss;
+  if(b && !b.dead){ b.flash=Math.max(0,b.flash-dt); b.atk=Math.max(0,b.atk-dt); b.cd-=dt;
+    const pct=b.hp/b.max;
+    if(b.phase===1 && pct<.66){ b.phase=2; banner('FASE 2'); log('O Açougueiro berrou e chamou reforços!','b'); G.shake=6; for(let i=0;i<Math.round(4*G.fx_.horde+1);i++) spawnZombie(G.camX+W+10+i*14, Math.random(), i%3?'errante':'corredor'); }
+    if(b.phase===2 && pct<.33){ b.phase=3; b.rage=true; b.spd=26; banner('FÚRIA!'); log('O Açougueiro entrou em fúria!','b'); G.shake=8; }
+    if(targets.length){ let tg=targets[0], bd=1e9; for(const t of targets){ const d=Math.abs(t.x-b.x)+Math.abs(t.y-b.y)*60; if(d<bd){bd=d;tg=t;} }
+      const side=tg.x>b.x?1:-1; b.face=side;
+      if(b.charge>0){ b.charge-=dt; b.x+=side*120*dt; b.x=Math.max(G.camX+20,Math.min(G.camX+W-20,b.x)); for(const t of targets){ if(Math.abs(t.x-b.x)<18 && Math.abs(t.y-b.y)<.15 && !t.chHit){ t.chHit=true; hurt(t,b.dmg*1.2); G.shake=5; } } if(b.charge<=0) targets.forEach(t=>t.chHit=false); }
+      else if(b.rage && b.cd<=0 && Math.random()<.4){ b.cd=3; b.charge=0.9; b.y=tg.y; pop(b.x,gy(b.y)-60,'INVESTIDA!','#ff2e4d',true); }
+      else if(Math.abs(tg.x-b.x)>24 || Math.abs(tg.y-b.y)>.08) moveTo(b,tg.x-side*22,tg.y,dt,b.spd);
+      else if(b.cd<=0){ b.cd=b.rage?1.4:2; b.atk=.35; G.shake=4; pop(b.x+side*20,gy(b.y)-40,'CHOP!','#fff',true); for(const t of targets){ if(Math.abs(t.x-(b.x+side*16))<22 && Math.abs(t.y-b.y)<.2) hurt(t,b.dmg); } }
+    }
+  }
+  // projectiles
+  for(const p of G.proj){ p.t+=dt; p.x+=p.vx*dt;
+    if(p.foe){ for(const t of alive()){ if(Math.abs(t.x-p.x)<6 && Math.abs(t.y-p.y)<.09){ hurt(t,p.dmg); p.dead=true; parts(p.x,gy(p.y)-12,'#a5c25a',4); break; } } }
+    else { const list=G.zs.filter(z=>!z.dead).concat(G.boss&&!G.boss.dead?[G.boss]:[]); for(const z of list){ if(!p.hitSet) p.hitSet=new Set(); if(p.hitSet.has(z)) continue; const rr=z===G.boss?14:7; if(Math.abs(z.x-p.x)<rr && Math.abs(z.y-p.y)<.12){ p.hitSet.add(z); hitFoe(z,p.dmg,p.src); p.pierce--; if(p.pierce<0){ p.dead=true; break; } } } }
+    if(p.t>1.6 || !onScreen(p.x)) p.dead=true; }
+  G.proj=G.proj.filter(p=>!p.dead);
+  // special
+  const living=sq.filter(e=>!e.downed);
+  if(living.length && living.length===sq.length && living.every(e=>e.sp>=100) && (foes>=3 || (G.boss&&!G.boss.dead)) && !G.puzzleOpen){
+    const allow = living.every(e=>e.posture!=='cauteloso' || foes>=5 || (G.boss&&!G.boss.dead));
+    if(allow) fireSpecial(living);
+  }
+  // retreat rule
+  if(S.rules.retreat>0 && living.length && sq.every(e=>e.hp/e.max*100<S.rules.retreat) && foes>0){ G.over=true; setTimeout(()=>endRun('recuo',`Todos abaixo de ${S.rules.retreat}% de vida. Recuando pela regra.`),600); }
+  // fx
+  for(const f of G.fx){ f.t+=dt; f.x+=f.vx*dt; f.y+=f.vy*dt; f.vy+=200*dt; } G.fx=G.fx.filter(f=>f.t<.8);
+  for(const p of G.pops){ p.t+=dt; } G.pops=G.pops.filter(p=>p.t<(p.big?1.3:.8));
+  G.shake=Math.max(0,G.shake-dt*20);
+  // camera
+  const lx = living.length? living.reduce((a,e)=>a+e.x,0)/living.length : G.camX+W/2;
+  const minC=G.areaStart[ai], maxC=areaEnd(ai)-W+ (A.boss?0:60);
+  G.camX += ((Math.max(minC,Math.min(maxC,lx-W*0.42)))-G.camX)*Math.min(1,dt*3);
+}
+function searchLoot(e,o){
+  const pool=[['sucata',3],['comida',2],['remedio',1],['municao',2],['moedas',8]]; const n = 1 + (CLS[e.cls].search?1:0) + (G.pet==='gato'?1:0);
+  const got=[]; for(let i=0;i<n;i++){ const it=rnd(pool); const q=Math.max(1,Math.round(it[1]*(moonActive()?1.5:1))); G.stats.loot[it[0]]+=q; got.push(`${q} ${it[0]==='remedio'?'remédio':it[0]==='municao'?'munição':it[0]}`); }
+  if(Math.random()<.18){ G.stats.loot.chave_comum=(G.stats.loot.chave_comum||0)+1; got.push('1 chave comum'); }
+  pop(o.x,gy(o.y)-24,'ACHOU!','#ffd23f',true); log(`${e.r.nm} vasculhou ${o.label.toLowerCase()}: ${got.join(', ')}.`,'r');
+}
+function chestLoot(o){
+  const base={comum:[['sucata',4],['comida',3],['moedas',15]], medico:[['remedio',4],['moedas',10]], militar:[['municao',6],['sucata',4],['moedas',20]], raro:[['moedas',50],['fragmento',1]]}[o.type]||[['moedas',30]];
+  const got=[]; base.forEach(([k,q])=>{ const qq=Math.round(q*(moonActive()?1.5:1)*(G.pet==='gato'?1.2:1)); G.stats.loot[k]=(G.stats.loot[k]||0)+qq; got.push(`${qq} ${k==='remedio'?'remédio':k==='municao'?'munição':k==='fragmento'?'fragmento de recruta':k}`); });
+  return got.join(', ');
+}
+function openChest(e,o){
+  if(o.busy) return; const canKey = S.keys[o.type]>0 && (S.rules.keys==='todos' || (S.rules.keys==='raros' && o.type==='raro'));
+  if(canKey){ S.keys[o.type]--; G.stats.keysUsed++; o.state='open'; G.stats.chestsOpen++; updRes(); pop(o.x,gy(o.y)-26,'CLIQUE!','#ffd23f',true); log(`${e.r.nm} usou a chave ${KEYS[o.type].n.toLowerCase()} no baú: ${chestLoot(o)}.`,'y'); return; }
+  if(!S.rules.puzzle){ o.state='left'; G.stats.chestsSkip++; log(`Baú ${o.type} sem chave ficou pra trás (puzzle desligado).`,''); return; }
+  o.busy=true; openPuzzle(o, ok=>{ o.busy=false; if(ok){ o.state='open'; G.stats.chestsOpen++; G.stats.puzzlesOk++; pop(o.x,gy(o.y)-26,'ABRIU!','#8be35a',true); log(`Puzzle resolvido! Baú ${o.type} aberto sem chave: ${chestLoot(o)}.`,'y'); } else { o.state='left'; G.stats.chestsSkip++; log(`Puzzle pulado. Baú ${o.type} ficou pra trás.`,''); } });
+}
+function openPuzzle(o,cb){
+  G.puzzleOpen=true; G.slow=0.12; const time = 5 + (G.pet==='papagaio'?3:0);
+  const kinds=['fio','num','sym']; const k=rnd(kinds); let q, opts, ans;
+  if(k==='fio'){ const cols=[['#ff2e4d','vermelho'],['#3ed4ff','azul'],['#8be35a','verde'],['#ffd23f','amarelo']]; const a=rnd(cols); q=`Corte o fio da cor do LED <span style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${a[0]};box-shadow:0 0 10px ${a[0]};vertical-align:-2px"></span>`; opts=cols.map(c=>({h:`<span style="display:block;height:8px;background:${c[0]}"></span>`,v:c[1]})); ans=a[1]; }
+  else if(k==='num'){ const st=2+Math.floor(Math.random()*4), d=2+Math.floor(Math.random()*4); q=`${st} · ${st+d} · ${st+2*d} · ?`; ans=String(st+3*d); const set=new Set([ans]); while(set.size<4) set.add(String(st+3*d+rnd([-3,-2,-1,1,2,3,4]))); opts=[...set].sort(()=>Math.random()-.5).map(v=>({h:v,v})); }
+  else { const syms=['☾','✚','✦','☠','♠','◆']; const pick=syms.sort(()=>Math.random()-.5).slice(0,4); const dup=rnd(pick); const seq=[...pick,dup].sort(()=>Math.random()-.5); q=`Qual símbolo aparece duas vezes?<br><span style="letter-spacing:.3em">${seq.join(' ')}</span>`; opts=pick.map(v=>({h:v,v})); ans=dup; }
+  const ov=document.getElementById('ovl'); const box=el(`<div class="overlay"><div class="puzzle"><h4>Baú ${KEYS[o.type]?.n||''} trancado</h4><div style="font-family:var(--f-body);font-size:13px;color:var(--muted)">Sem chave ${KEYS[o.type]?.n.toLowerCase()}. Resolva antes de pular${G.pet==='papagaio'?' (Louro deu +3 s)':''}.</div><div class="q">${q}</div><div class="opts">${opts.map(op=>`<button data-v="${op.v}">${op.h}</button>`).join('')}</div><div class="timer"><i style="width:100%"></i></div><div style="font-size:12px;color:var(--muted);text-align:right" class="tl">${time.toFixed(1)} s</div></div></div>`);
+  ov.appendChild(box); let left=time, done=false;
+  const fin=ok=>{ if(done) return; done=true; clearInterval(iv); box.remove(); G.puzzleOpen=false; G.slow=1; cb(ok); };
+  box.querySelectorAll('button').forEach(b=>b.onclick=()=>fin(b.dataset.v===ans));
+  const iv=setInterval(()=>{ if(G.gone){ clearInterval(iv); return; } left-=0.1; box.querySelector('.timer i').style.width=(left/time*100)+'%'; box.querySelector('.tl').textContent=Math.max(0,left).toFixed(1)+' s'; if(left<=0) fin(false); },100);
+}
+function fireSpecial(living){
+  G.stats.specials++; const key = living.length>1 ? living.map(e=>e.cls).sort().join('+') : living[0].cls; const nm=SPECIAL_NAMES[key]||'ESPECIAL';
+  living.forEach(e=>e.sp=0); G.slow=0; G.puzzleOpen=true;
+  const names = living.map(e=>e.r.nm).join(' + ') + (G.pet && !G.ents.find(x=>x.kind==='p').downed ? ' + '+PETS[G.pet].nm : '');
+  const ov=document.getElementById('ovl'); const sp=el(`<div class="splash"><div class="panel"><div class="k">${nm}!</div><div class="n">${names.toUpperCase()}</div><div class="n" style="font-size:12px;color:#555">${living.length>1?'ESPECIAL EM DUPLA':'ESPECIAL SOLO'}${G.pet?' · com pet':''}</div></div></div>`);
+  ov.appendChild(sp); log(`ESPECIAL: ${nm} (${names})!`,'y');
+  setTimeout(()=>{ sp.remove(); G.slow=1; G.puzzleOpen=false; G.shake=10;
+    const dmg = living.length>1?70:45; const lv=G.members.reduce((a,m)=>a+m.lvl,0)/G.members.length;
+    for(const z of G.zs){ if(!z.dead && onScreen(z.x)){ hitFoe(z,dmg*(1+(lv-1)*.12),null,{quiet:true}); if(G.pet==='cachorro') z.stun=1.5; parts(z.x,gy(z.y)-12,'#ffd23f',6); } }
+    if(G.boss && !G.boss.dead) hitFoe(G.boss,G.boss.max*(living.length>1?.14:.09),null);
+    if(G.pet==='papagaio') living.forEach(e=>e.sp=20);
+    pop(G.camX+W/2,120,'KA-BOOM!','#ffd23f',true);
+  }, 1500);
+}
+function bossDown(){
+  log('O Açougueiro caiu! O baú do chefe se abriu.','y'); banner('VITÓRIA!'); G.shake=10;
+  G.stats.loot.moedas+=80; G.stats.loot.fragmento=(G.stats.loot.fragmento||0)+1; G.stats.loot.sucata+=10;
+  G.over=true; setTimeout(()=>endRun('vitoria','O Açougueiro foi derrotado no Parque das Esculturas.'),2200);
+}
+
+/* ====================== RENDER ====================== */
+function hash(n){ n=Math.sin(n*127.1)*43758.5453; return n-Math.floor(n); }
+function drawBG(g){
+  const moon=moonActive(); const cx=G.camX; const ai=G.area; const bg=AREAS[ai].bg;
+  // sky
+  const sk=g.createLinearGradient(0,0,0,GY0); if(moon){ sk.addColorStop(0,'#2a0410'); sk.addColorStop(1,'#7a1426'); } else { sk.addColorStop(0,'#120a2e'); sk.addColorStop(1,'#3a2a5e'); }
+  g.fillStyle=sk; g.fillRect(0,0,W,GY0);
+  for(let i=0;i<30;i++){ g.fillStyle='rgba(255,255,255,'+(.3+hash(i)*.5)+')'; g.fillRect(Math.round((hash(i*3)*W*2 - cx*0.03)%W+W)%W, Math.round(hash(i*7)*70),1,1); }
+  const mx=300-((cx*0.04)%40); g.fillStyle=moon?'#ff2e4d':'#f6f0d8'; g.beginPath(); g.arc(mx,34,16,0,7); g.fill(); if(moon){ g.fillStyle='rgba(255,46,77,.2)'; g.beginPath(); g.arc(mx,34,26,0,7); g.fill(); }
+  // far skyline
+  g.fillStyle=moon?'#3a0a1a':'#24183e';
+  for(let i=-1;i<14;i++){ const bx=Math.floor(cx*0.2/40)+i; const x=bx*40-cx*0.2; const h=20+hash(bx)*40; g.fillRect(Math.round(x),GY0-30-h,36,h+30); }
+  // mid layer by area
+  const pal = ['#f2c14e','#4fb3a9','#e26d8a','#f08a4b','#7fc66b','#5c8fd6','#efe3c8'];
+  for(let i=-1;i<10;i++){ const bx=Math.floor(cx*0.5/56)+i; const x=Math.round(bx*56-cx*0.5);
+    if(bg==='praca'||bg==='rua'){ const h=bg==='rua'?62:46+hash(bx+3)*12; const c=pal[Math.floor(hash(bx+1)*pal.length)]; g.fillStyle=moon?shade(c,.55):shade(c,.75); g.fillRect(x,GY0-h,52,h); g.fillStyle='rgba(0,0,0,.25)'; g.fillRect(x,GY0-h,52,3);
+      for(let w=0;w<3;w++) for(let r=0;r<(h>55?3:2);r++){ g.fillStyle=hash(bx*9+w+r*3)>.7?'#ffd86a':'#2a1a30'; g.fillRect(x+6+w*16,GY0-h+8+r*16,8,10); }
+      if(bg==='praca' && bx%4===0){ g.fillStyle=moon?'#2a0a12':'#1a1230'; g.fillRect(x+24,GY0-70,3,70); g.fillRect(x+14,GY0-72,22,3); } }
+    else if(bg==='cais'){ g.fillStyle=moon?'#4a1a1a':'#5a4a3a'; g.fillRect(x,GY0-56,54,56); g.fillStyle=moon?'#2a0a0a':'#3a2a1e'; g.beginPath(); g.moveTo(x,GY0-56); g.lineTo(x+27,GY0-70); g.lineTo(x+54,GY0-56); g.fill(); g.fillStyle='#1a1018'; g.fillRect(x+18,GY0-34,18,34); }
+    else if(bg==='molhe'||bg==='boss'){ g.fillStyle=moon?'#4a0e1e':'#1e3a5a'; g.fillRect(x,GY0-26,56,26); g.fillStyle='rgba(255,255,255,.15)'; g.fillRect(x+((G.t*10+bx*7)%50),GY0-20,6,1); g.fillRect(x+((G.t*14+bx*3)%50),GY0-10,8,1);
+      if(bg==='boss' && bx%2===0){ g.fillStyle=moon?'#2a0610':'#2a2238'; g.fillRect(x+20,GY0-80,10,60); g.fillRect(x+16,GY0-86,18,8); g.fillRect(x+22,GY0-96,6,10); } }
+  }
+  // ground
+  g.fillStyle = bg==='molhe'||bg==='boss' ? (moon?'#3a2a2a':'#6a6a72') : bg==='cais' ? (moon?'#3a2a26':'#5a5048') : (moon?'#4a2a2a':'#8a7a68');
+  g.fillRect(0,GY0,W,H-GY0);
+  for(let yy=GY0;yy<H;yy+=6){ const off=Math.round(-cx % 12); g.fillStyle='rgba(0,0,0,.12)'; for(let xx=off+((yy/6)%2)*6;xx<W;xx+=12) g.fillRect(xx,yy,1,6); g.fillRect(0,yy,W,1); }
+  g.fillStyle='rgba(0,0,0,.35)'; g.fillRect(0,GY0,W,3);
+  if(bg==='praca'){ const rx=G.areaStart[0]+300-cx; g.strokeStyle='rgba(255,230,180,.35)'; g.lineWidth=2; g.beginPath(); g.ellipse(rx,176,60,18,0,0,7); g.stroke(); g.beginPath(); g.moveTo(rx-60,176); g.lineTo(rx+60,176); g.moveTo(rx,158); g.lineTo(rx,194); g.stroke(); }
+  // area end arrow
+  const A=AREAS[ai]; if(!A.boss && G.wavesDone[ai].every(Boolean) && activeFoes()===0 && Math.sin(G.t*8)>0){ g.fillStyle='#ffd23f'; g.font='14px Bungee, Impact, sans-serif'; g.fillText('VAI →',W-70,60); }
+}
+function shade(hex,k){ const n=parseInt(hex.slice(1),16); const r=(n>>16)&255,gg=(n>>8)&255,b=n&255; return `rgb(${Math.round(r*k)},${Math.round(gg*k)},${Math.round(b*k)})`; }
+function drawObj(g,o){
+  const x=Math.round(o.x-G.camX), y=Math.round(gy(o.y));
+  if(o.state==='hidden') return;
+  if(o.k==='search'){ const done=o.state!=='todo'; g.fillStyle='rgba(0,0,0,.3)'; g.fillRect(x-14,y-1,28,3);
+    if(/Carro|Barco/.test(o.label)){ g.fillStyle=done?'#4a4050':'#7a3a3a'; g.fillRect(x-14,y-10,28,9); g.fillRect(x-8,y-16,16,6); g.fillStyle='#99c'; g.fillRect(x-6,y-15,5,4); g.fillRect(x+1,y-15,5,4); g.fillStyle='#111'; g.fillRect(x-11,y-2,5,3); g.fillRect(x+6,y-2,5,3); }
+    else { g.fillStyle=done?'#4a4050':'#6a5a3a'; g.fillRect(x-12,y-14,24,13); g.fillStyle='#3a2a1a'; g.fillRect(x-12,y-16,24,2); }
+    if(!done){ g.fillStyle='#ffd23f'; g.fillRect(x-1,y-26+Math.round(Math.sin(G.t*5)*2),2,6); g.fillRect(x-1,y-18+Math.round(Math.sin(G.t*5)*2),2,2); }
+    if(o.prog>0 && o.state==='todo'){ g.fillStyle='#000'; g.fillRect(x-12,y-32,24,4); g.fillStyle='#3ed4ff'; g.fillRect(x-11,y-31,22*Math.min(1,o.prog/3),2); }
+    return; }
+  const col = {comum:'#9a6a3a', medico:'#e8e8e8', militar:'#4f6a32', raro:'#e8b830'}[o.type];
+  g.fillStyle='rgba(0,0,0,.3)'; g.fillRect(x-9,y-1,18,3);
+  if(o.state==='open'){ g.fillStyle=shade(col,.6); g.fillRect(x-8,y-8,16,8); g.fillStyle=col; g.fillRect(x-8,y-14,16,3); return; }
+  if(o.state==='left'){ g.globalAlpha=.4; }
+  g.fillStyle=col; g.fillRect(x-8,y-11,16,11); g.fillStyle=shade(col,.7); g.fillRect(x-8,y-11,16,3); g.fillStyle='#222'; g.fillRect(x-1,y-8,2,3);
+  if(o.type==='medico'){ g.fillStyle='#e33'; g.fillRect(x-1,y-6,2,5); g.fillRect(x-3,y-4,6,1); }
+  if(o.type==='raro' && o.state==='closed'){ g.fillStyle='rgba(255,210,63,'+(0.3+Math.sin(G.t*6)*.2)+')'; g.fillRect(x-10,y-13,20,15); }
+  g.globalAlpha=1;
+}
+function render(){
+  const g=G.g; g.save(); g.clearRect(0,0,W,H);
+  if(G.shake>0) g.translate(Math.round((Math.random()-.5)*G.shake),Math.round((Math.random()-.5)*G.shake));
+  drawBG(g);
+  const list=[];
+  G.objs.forEach(o=>{ if(onScreen(o.x)) list.push({y:o.y-0.001, d:()=>drawObj(g,o)}); });
+  G.zs.forEach(z=>{ if(onScreen(z.x)) list.push({y:z.y, d:()=>{ FLASH=z.flash>0?'#fff':null; const lift=z.air>0?Math.sin(z.air/0.9*Math.PI)*16:0; drawZombie(g,z.x-G.camX,gy(z.y)-lift,z,G.t); FLASH=null; if(!z.dead && z.hp<z.max){ g.fillStyle='#000'; g.fillRect(Math.round(z.x-G.camX-7),Math.round(gy(z.y)-30*(z.sc||1)-lift),14,2); g.fillStyle=z.form==='comum'?'#8be35a':z.form==='enluarado'?'#8f9cff':'#ff5170'; g.fillRect(Math.round(z.x-G.camX-7),Math.round(gy(z.y)-30*(z.sc||1)-lift),Math.round(14*z.hp/z.max),2); } if(z.stun>0){ g.fillStyle='#ffd23f'; g.fillRect(Math.round(z.x-G.camX-3+Math.sin(G.t*10)*3),Math.round(gy(z.y)-30),2,2); } }}); });
+  if(G.boss) list.push({y:G.boss.y, d:()=>{ FLASH=G.boss.flash>0?'#fff':null; drawBoss(g,G.boss.x-G.camX,gy(G.boss.y),G.boss,G.t); FLASH=null; }});
+  G.ents.forEach(e=>list.push({y:e.y, d:()=>{ FLASH=e.flash>0?'#fff':null;
+    if(e.kind==='r') drawRecruit(g,e.x-G.camX,gy(e.y),e.cls,{t:G.t,walk:e.walk,atk:e.atkT>0?e.atkT/0.25:0,face:e.face,downed:e.downed});
+    else drawPet(g,e.x-G.camX,gy(e.y),e.id,{t:G.t,walk:e.walk,atk:e.atkT,face:e.face,downed:e.downed});
+    FLASH=null;
+    if(e.kind==='r' && e.downed && e.rev>0){ g.fillStyle='#000'; g.fillRect(Math.round(e.x-G.camX-10),Math.round(gy(e.y)-22),20,3); g.fillStyle='#3ed4ff'; g.fillRect(Math.round(e.x-G.camX-10),Math.round(gy(e.y)-22),Math.round(20*e.rev/2.5),3); }
+    if(e.kind==='r' && !e.downed && e.task && e.task.k==='obj'){ const o=G.objs.find(o=>o.who===e && o.k==='search' && o.state==='todo'); }
+  }}));
+  list.sort((a,b)=>a.y-b.y).forEach(i=>i.d());
+  for(const p of G.proj){ const x=Math.round(p.x-G.camX), y=Math.round(gy(p.y)-15); if(p.foe){ g.fillStyle='#a5c25a'; g.fillRect(x-2,y-2,4,4); } else { g.fillStyle='#ffe58a'; g.fillRect(x-4,y,8,1); g.fillStyle='#fff'; g.fillRect(x+(p.vx>0?3:-4),y,1,1); } }
+  for(const f of G.fx){ g.fillStyle=f.col; g.fillRect(Math.round(f.x-G.camX),Math.round(f.y),2,2); }
+  for(const p of G.pops){ const a=1-p.t/(p.big?1.3:.8); g.globalAlpha=Math.max(0,a); g.font=(p.big?'11px':'8px')+' Bungee, Impact, sans-serif'; g.textAlign='center'; const x=Math.round(p.x-G.camX), y=Math.round(p.y-p.t*20);
+    g.fillStyle='#000'; g.fillText(p.txt,x+1,y+1); g.fillStyle=p.col; g.fillText(p.txt,x,y); g.globalAlpha=1; g.textAlign='left'; }
+  // boss bar
+  if(G.boss && !G.boss.dead){ g.fillStyle='#000'; g.fillRect(92,H-26,200,8); g.fillStyle=G.boss.rage?'#ff2e4d':'#e8a33a'; g.fillRect(93,H-25,Math.round(198*G.boss.hp/G.boss.max),6); g.fillStyle='#fff'; g.fillRect(93+132,H-26,1,8); g.fillRect(93+66,H-26,1,8); g.font='8px "Pixelify Sans", monospace'; g.fillText('O AÇOUGUEIRO',93,H-29); }
+  g.restore();
+  updHud();
+}
+function buildHud(){ const h=document.getElementById('hudP'); if(!h) return; h.innerHTML=G.ents.map((e,i)=>`<div class="pc" id="pc${i}"><div class="nm"><span>${e.kind==='r'?e.r.nm:PETS[e.id].nm}</span><span>${e.kind==='r'?'nv '+e.r.lvl:'pet'}</span></div><div class="hpb"><i></i></div>${e.kind==='r'?'<div class="spb"><i></i></div>':''}</div>`).join(''); }
+let hudT=0;
+function updHud(){
+  if(!document.getElementById('eClock')) return; hudT++; if(hudT%4) return;
+  G.ents.forEach((e,i)=>{ const c=document.getElementById('pc'+i); if(!c) return; c.querySelector('.hpb i').style.width=(e.hp/e.max*100)+'%'; c.style.opacity=e.downed?.5:1; const s=c.querySelector('.spb i'); if(s){ s.style.width=e.sp+'%'; c.classList.toggle('full',e.sp>=100); } });
+  const left=Math.max(0,900-G.clock); document.getElementById('eClock').textContent=fmt(left*1000);
+  document.getElementById('eArea').textContent=AREAS[G.area].name;
+  document.querySelectorAll('#eProg span').forEach((s,i)=>{ s.className=(AREAS[i].boss?'boss ':'')+(i<G.area?'done':i===G.area?'cur':''); });
+}
+
+/* ====================== END / SUMMARY ====================== */
+function endRun(kind,why){
+  if(G.gone) return; G.over=true; G.gone=true;
+  const mult = kind==='vitoria'?1: kind==='recuo'?0.6:0.4;
+  const L=G.stats.loot; const loot={}; Object.entries(L).forEach(([k,v])=>{ if(v>0) loot[k]=Math.max(1,Math.round(v*mult)); });
+  S.coins += loot.moedas||0; if(loot.chave_comum) S.keys.comum+=loot.chave_comum;
+  const kills=G.stats.kills, tk=kills.comum+kills.enluarado+kills.plenilunar;
+  const baseXp = kills.comum*2 + kills.enluarado*4 + kills.plenilunar*8 + (kind==='vitoria'?50:0) + G.stats.searches*4;
+  const rows = squad().map(e=>{ const r=e.r; const gain=Math.round(baseXp*G.fx_.xp*(moonActive()?1.2:1)); const before=r.lvl; r.xp+=gain; while(r.xp>=lvlNeed(r.lvl)){ r.xp-=lvlNeed(r.lvl); r.lvl++; }
+    const injured = e.downed || (kind!=='vitoria' && e.hp<=0); if(injured) r.status='pronto'; // demo: sem bloqueio
+    return {r, gain, up:r.lvl-before, injured}; });
+  S.runs++;
+  const title = kind==='vitoria'?'VITÓRIA':kind==='recuo'?'RECUO':'DERROTA';
+  const n=el(`<div class="view summary"><div class="big ${kind==='vitoria'?'':'fail'}">${title}</div><p class="sub">${why} ${kind!=='vitoria'?`Loot reduzido a ${Math.round(mult*100)}%.`:''}</p>
+    <div class="cols">
+      <div class="box"><h4>Equipe</h4><div class="tbl"><table><thead><tr><th>Recruta</th><th>XP</th><th>Nível</th><th>Condição</th></tr></thead><tbody>
+        ${rows.map(x=>`<tr><td>${x.r.nm} · ${CLS[x.r.cls].name}</td><td>+${x.gain}</td><td>${x.r.lvl}${x.up?` <span class="badge ok">+${x.up} nível!</span>`:''}</td><td>${x.injured?'<span class="badge bad">ferido · 20 min*</span>':'<span class="badge ok">ok</span>'}</td></tr>`).join('')}
+        ${G.pet?`<tr><td>${PETS[G.pet].nm} · ${PETS[G.pet].name}</td><td colspan="3">+1 afinidade</td></tr>`:''}
+      </tbody></table></div><p class="sub" style="margin:0;font-size:12px">Formação: ${G.form} (XP ×${G.fx_.xp}). *Na demo o ferimento não bloqueia o recruta.</p></div>
+      <div class="box"><h4>Combate</h4><div class="tbl"><table><tbody>
+        <tr><td>Abates</td><td>${tk}</td></tr><tr><td>· comuns</td><td>${kills.comum}</td></tr><tr><td>· enluarados</td><td>${kills.enluarado}</td></tr><tr><td>· plenilunares</td><td>${kills.plenilunar}</td></tr>
+        <tr><td>Especiais</td><td>${G.stats.specials}</td></tr><tr><td>Combos</td><td>${G.stats.combos}</td></tr>
+      </tbody></table></div></div>
+      <div class="box"><h4>Exploração e loot</h4><div class="tbl"><table><tbody>
+        <tr><td>Baús abertos</td><td>${G.stats.chestsOpen} (${G.stats.keysUsed} com chave, ${G.stats.puzzlesOk} por puzzle)</td></tr>
+        <tr><td>Baús pra trás</td><td>${G.stats.chestsSkip}</td></tr><tr><td>Pontos vasculhados</td><td>${G.stats.searches}</td></tr>
+        ${Object.entries(loot).map(([k,v])=>`<tr><td>${({moedas:'Moedas',sucata:'Sucata',comida:'Comida',remedio:'Remédio',municao:'Munição',fragmento:'Fragmento de recruta',chave_comum:'Chave comum'})[k]||k}</td><td>+${v}</td></tr>`).join('')}
+      </tbody></table></div></div>
+    </div>
+    <div class="row"><button class="btn" id="sumHub">Voltar pra base</button><button class="btn red" id="sumAgain">Nova expedição</button></div></div>`);
+  n.querySelector('#sumHub').onclick=()=>screenHub(false);
+  n.querySelector('#sumAgain').onclick=screenSetup;
+  show(n);
+}
+
+/* boot */
+screenTitle(); updRes();
+})();
+</script>
+
+</body></html>

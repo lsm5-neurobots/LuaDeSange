@@ -1,0 +1,87 @@
+{
+  "id": "heroi_equip",
+  "nome": "Herói — armas, equipamentos e skins",
+  "tipo": "heroi",
+  "conceito": "Tudo que o líder carrega por cima do corpo: 7 armas (4 corpo a corpo, 3 de fogo), 2 armaduras, 3 mochilas, 4 coisas de cabeça, 3 calçados e 4 acessórios, mais as 3 classes iniciais e 6 skins de paleta. Cada item é uma folha 1024x1024 (8 linhas HROWS x 8 colunas) já colorida (tint=false), presa às juntas de humano.pose(): mão da frente, cabeça, ombros/tronco, pés e pulsos. Visual de gambiarra brasileira do fim do mundo: taco com prego, machado de bombeiro, chapéu de couro de cangaceiro, chinelo verde-amarelo.",
+  "partes": [
+    {"parte": "Regras gerais das armas", "descricao": "Camada weapon (a última, por cima da mão). Eixo local u = ao longo do ângulo da arma a partir de P['ha_f'] (u<0 = cabo atrás da mão), v = perpendicular (v>0 = lado de baixo quando aponta para a direita = gume/lado do golpe; v<0 = topo/miras). Ângulo: na própria linha de ataque e nas outras linhas de ataque usa P['grip']; na linha 'attack' as armas longas (taco, facão, machado e armas de fogo) usam ângulos próprios [-85,-105,-40,45,65,-40] para a ponta não sair do quadro de 128 px no impacto (golpe termina apontando para baixo-frente, onde está o zumbi); nos quadros 0-1 (preparação) toda arma usa -85/-105 e é recortada pela cabeça (grow 3) para parecer passar por trás dela. Descanso (idle/walk/hurt/death): corpo a corpo segue P['grip'] (arma em pé na frente do corpo, balançando com o passo); pistola aponta para o chão (75°, ±6° no passo); espingarda/rifle ficam em pé junto ao ombro (-80°, cano para cima, coronha para baixo). Special (curativo, mão no peito): corpo a corpo pendurado para baixo-frente (60°), pistola para baixo (80°), armas longas atravessadas no peito (25°). Desmaio: cada camada gira com humano.rotate_fit(arr, P['rotate']) igual às outras. Rastro de golpe e clarão/fumaça/cápsula vão na própria folha da arma (camada de efeito do Frame, sem tinta de dano). Linhas de ataque: corpo a corpo = rastro em arco (attack q.2-4) ou rastro reto de estocada (attack_knife q.2-3) desenhado entre a ponta do quadro anterior e a atual, núcleo branco-quente #fff6e8 desbotando para #ffb4a0 transparente. Mão de trás: o esqueleto não deixa a mão de trás alcançar o guarda-mão (ela fica no peito), então armas longas são seguradas pelo punho com a coronha encaixada no ombro da frente."},
+    {"parte": "Faca (weapon_faca)", "descricao": "Faca de cozinha/caça. Comprimento 15 px (cabo 5 + guarda 1 + lâmina 9 em u -4..10), lâmina 3 px afinando até a ponta com dorso reto em cima e fio curvo embaixo. Aço #c9ced8 com fio brilhante #f4f6fa e dorso escuro #6a7080; guarda #4a4e58; cabo de madeira escura #3a2418 com 2 rebites #d8c08a. Linha attack_knife: q.0-1 recolhe junto ao corpo, q.2 estocada com rastro reto de 3 traços, q.3 impacto (ponta no x≈128, pode cortar 1 px) com brilho na ponta, q.4-5 volta. Em attack faz punhalada de cima para baixo com rastro curto."},
+    {"parte": "Taco (weapon_taco)", "descricao": "Taco de beisebol de madeira com 3 pregos. 29 px (u -5..24): pomo 5 px, cabo 3 px de largura com fita preta #26262c listrada em cinza, corpo engrossando até 6,5 px. Madeira #c99a5a, luz #e8c48a, veio #9a6a34 em 2 linhas ao longo do eixo e nó escuro; 3 pregos #b8bcc4 de 2-3 px saindo do lado do golpe perto da ponta + mancha de sangue #7a1a1a. Linha attack (padrão do Brigão): q.0-1 levanta atrás da cabeça, q.2 desce com arco largo, q.3 impacto apontando 45° para baixo-frente com arco cheio, q.4 segue até 65° com rastro fraco, q.5 volta."},
+    {"parte": "Facão (weapon_facao)", "descricao": "Facão de mato estilo Tramontina. 27 px (u -5..22): cabo preto #24201e de 4 px com 2 rebites de latão, lâmina 4→5 px de aço #b8bec8, ponta curvada para cima (dorso), fio claro #eef2f8, linha do dorso #5a606c, 2 manchas de ferrugem #8a4a24. Linha attack (corte de cima para baixo) com arco mais fino e mais claro que o do taco."},
+    {"parte": "Machado (weapon_machado)", "descricao": "Machado de bombeiro. Cabo de madeira #a87444 com veio, 29 px (u -5..24) e 3 px de largura, empunhadura escurecida. Cabeça em u 18..25: lâmina vermelha #c0262d para o lado do golpe (v +2..+10) com fio de aço #e8ecf2 de 2 px, ponta/picareta curta de aço no lado oposto (v -2..-7). Linha attack com arco pesado e largo (4 px)."},
+    {"parte": "Pistola (weapon_pistola)", "descricao": "Pistola semiautomática preta. 14 px de comprimento x 9 de altura: ferrolho #3a3c44 com brilho #7a7e8a e serrilhado, cano saindo 1 px, guarda-mato em anel, punho #4a3a30 inclinado para trás com textura. A mão segura o punho (u=0), cano em v=-4. Linha attack_fire (padrão do Atirador): q.0-1 mira, q.2 tiro — ferrolho recua 2 px e clarão amarelo #fff2a0/laranja #ff9a2a em estrela na boca do cano, q.3 cápsula de latão #e3b23c sai para cima-trás + fumacinha cinza, q.4 cápsula caindo, q.5 abaixa. Fora da sua linha: aponta para o chão."},
+    {"parte": "Espingarda (weapon_espingarda)", "descricao": "Espingarda pump calibre 12. 36 px (u -15..21): coronha de madeira #8a5a30 com veio e soleira preta, caixa de culatra #3a3c44, cano #5a5e68 com brilho e tubo de carregador embaixo, telha (pump) de madeira em u 9..15. Segurada pelo punho com a coronha no ombro. Linha attack_fire: q.2 clarão grande e largo + coice, q.3 fumaça, q.4 telha puxada para trás (u 5..11) e cartucho vermelho #c0262d de base dourada sai voando, q.5 telha volta e abaixa."},
+    {"parte": "Rifle (weapon_rifle)", "descricao": "Rifle de caça com luneta. 38 px (u -15..23): coronha de madeira #7a4a24 com veio e bochecha, caixa #34363e, cano fino #4a4e58, luneta preta #22242a com lente azul #5ab0e8 brilhando em u -1..10, alavanca do ferrolho com bolinha. Linha attack_fire: q.2 clarão estreito e comprido, q.3 fumaça + cápsula longa, q.4 cápsula cai, q.5 abaixa."},
+    {"parte": "Colete (armor_colete_m/f)", "descricao": "Colete utilitário cáqui (de pescador) sem mangas, camada jacket. Tronco torso_shapes(grow=3) do corpo m ou f (no f acompanha o busto), aberto na frente mostrando a camisa (faixa central recortada como a jaqueta, bordas com zíper #c8b878). Cáqui #8f7f4c, luz #b4a46c, sombra #5e5230; 2 bolsos de peito com lapela e costura pontilhada no painel da frente, 1 bolso grande no painel de trás, argola de metal. Acompanha lean/bob do tronco; não cobre os braços."},
+    {"parte": "Armadura tática (armor_tatica_m/f)", "descricao": "Colete porta-placas verde-oliva escuro, camada jacket. Tronco grow=3 fechado, placa frontal #3e4a2e com faixas MOLLE (linhas de pontos #2a3220 a cada 3 px), 3 porta-carregadores na barriga, emblema vermelho de lua de sangue no peito, alças largas nos ombros, faixa lateral e ombreira no braço de trás. Corpo f usa o mesmo desenho sobre o busto."},
+    {"parte": "Mochila pequena (bag_mochila_p)", "descricao": "Mochila escolar azul #2f5d8a, corpo 12x16 px atrás do ombro de trás (preso em P['sh_b'], gira com o lean), bolso frontal com zíper, alça fina azul escura sobre o ombro da frente descendo até o peito e uma alça sobre o ombro de trás. O corpo da mochila é recortado onde passam o tronco (grow 2) e o braço de trás, para ficar visualmente atrás deles, com contorno nas bordas recortadas."},
+    {"parte": "Mochila média (bag_mochila_m)", "descricao": "Mochila de trilha verde-oliva #5a6b3a, 14x22 px, aba de cima com fivela, garrafinha d'água na lateral, 2 alças acolchoadas e tira de peito. Balança 1 px no walk (segue o bob do tronco)."},
+    {"parte": "Mochila grande (bag_mochila_g)", "descricao": "Mochilão cargueiro laranja-queimado #a8562a, 16x28 px, passa acima do ombro; saco de dormir enrolado listrado (#8a2a2a/#d8c8a8) em cima, frigideira pendurada atrás, alças largas, tira de peito e barrigueira na cintura."},
+    {"parte": "Boné (head_bone)", "descricao": "Boné azul royal #2856a8 com costuras convergindo para o botão do topo, aba de 16 px para a frente (direita) com sombra embaixo, logo de lua crescente amarela #f2c230 no painel da frente. Copa rx 17 cobre o crânio inteiro até 5 px acima dos olhos. Gira com P['hrot'] em volta de P['head']."},
+    {"parte": "Chapéu de palha (head_palha)", "descricao": "Chapéu de palha de roça: aba larga elíptica 50x9 px, copa 24x16 px, trançado em xadrez diagonal (#e2c071 / luz #f4dc9a / escuro #b08a3e), fita marrom-avermelhada #7a2a1a na base da copa, fiapos soltos na borda da aba."},
+    {"parte": "Chapéu de couro (head_chapeu_couro)", "descricao": "Chapéu de couro de vaqueiro/cangaceiro: copa redonda #7a4a24, aba virada para cima em meia-lua com pontas na frente e atrás, costura pontilhada #e8c890 na borda, estrela dourada #e8b830 de 5 pontas no centro e tachinhas nas laterais, barbicacho de couro descendo pela bochecha."},
+    {"parte": "Capacete de moto (head_capacete)", "descricao": "Capacete aberto (jet) vermelho #b8262c com faixa branca no topo, cobre crânio e orelha, abertura do rosto com borda de espuma preta #22222a deixando olhos e boca visíveis, viseira fumê levantada na testa com reflexo, brilho especular no casco, jugular sob o queixo."},
+    {"parte": "Chinelo (feet_chinelo)", "descricao": "Chinelo de dedo verde-e-amarelo: sola amarela #ffd23a de 15x3 px com borda branca e solado escuro, tira verde #1f9a4a em V do vão dos dedos até as laterais. O pé de pele (camada body) aparece. Pé de trás 20% mais escuro (roxo da noite). Acompanha P['ft_*'] (levanta no walk, ajoelha no death)."},
+    {"parte": "Tênis de corrida (feet_tenis)", "descricao": "Tênis branco #ece8e0 com faixa laranja #ff6a1a na lateral, sola alta branca com linha cinza, cadarço em pontinhos, calcanhar laranja. Um pouco maior que o sapato padrão (grow 1.5)."},
+    {"parte": "Bota de couro (feet_bota)", "descricao": "Bota marrom #6a3e1e com cano até meia canela (cobre a barra da calça), dobra do cano mais clara, sola preta #1e1612 com salto, costura pontilhada clara na junção da sola e ganchos de cadarço."},
+    {"parte": "Cordão de ouro (acc_cordao)", "descricao": "Corrente grossa de ouro em U do pescoço até ~9 px abaixo da base do pescoço, elos alternando #f2c230 e #b8861a com brilho #fff4c0, medalhão redondo 4x4 com lua. Preso em P['neck'] e gira com o lean."},
+    {"parte": "Óculos escuros (acc_oculos)", "descricao": "Óculos estilo aviador: lente de trás 5x4 em P['head']+(-1,2), lente da frente 4x4 em +(9,2), lentes #16161e com reflexo diagonal #6a8ab0, armação dourada fina, haste até a orelha. Gira com P['hrot']."},
+    {"parte": "Relógio (acc_relogio)", "descricao": "Relógio de pulseira de couro preta no pulso da mão de trás (82% do antebraço de trás), mostrador prateado 3x3 com ponteiro. Escondido automaticamente onde o tronco passa na frente do braço de trás."},
+    {"parte": "Anel de prata (acc_anel)", "descricao": "Aro de prata #d8dce4 de 3 px nos nós dos dedos da mão da frente (P['ha_f']), com brilho branco e sombra #6a6e7a, pedrinha azul. Fica acima da pele; a arma (camada weapon) pode passar por cima."},
+    {"parte": "Classes", "descricao": "Brigão: começa com Taco, ataque na linha 'attack' (golpe de cima para baixo). Atirador: começa com Pistola, linha 'attack_fire' (mira, tiro, coice). Sobrevivente: começa com Faca, linha 'attack_knife' (estocada rápida). A linha de ataque usada é a da arma equipada (campo linha_ataque do item)."},
+    {"parte": "Skins", "descricao": "Paletas que sobrescrevem as cores tingíveis camisa/calça/cabelo (as camadas tint:true do grupo corpo/cabelo): Neon {#39ff88,#1a1a2e,#00e5ff}, Tóxica {#a6e22e,#3d3d1a,#c8ff00}, Lua Rubra {#8b0000,#1a0505,#ff4d4d}, Canarinho {#ffd800,#1e4fbf,#2a1a0a}, Folião {#ff3db8,#7a2ff0,#ffd800}, Matuto {#c84b2a,#3a5a8a,#5b3a24}. Itens desta folha não são afetados (cores fixas)."}
+  ],
+  "paleta": [
+    {"nome": "Madeira do taco", "hex": "#c99a5a"}, {"nome": "Veio", "hex": "#9a6a34"},
+    {"nome": "Aço", "hex": "#c9ced8"}, {"nome": "Fio", "hex": "#f4f6fa"},
+    {"nome": "Vermelho bombeiro", "hex": "#c0262d"}, {"nome": "Arma preta", "hex": "#3a3c44"},
+    {"nome": "Latão", "hex": "#e3b23c"}, {"nome": "Clarão", "hex": "#fff2a0"},
+    {"nome": "Cáqui", "hex": "#8f7f4c"}, {"nome": "Oliva tático", "hex": "#3e4a2e"},
+    {"nome": "Mochila azul", "hex": "#2f5d8a"}, {"nome": "Mochila oliva", "hex": "#5a6b3a"}, {"nome": "Mochila laranja", "hex": "#a8562a"},
+    {"nome": "Boné", "hex": "#2856a8"}, {"nome": "Palha", "hex": "#e2c071"}, {"nome": "Couro", "hex": "#7a4a24"},
+    {"nome": "Capacete", "hex": "#b8262c"}, {"nome": "Chinelo amarelo", "hex": "#ffd23a"}, {"nome": "Chinelo verde", "hex": "#1f9a4a"},
+    {"nome": "Tênis", "hex": "#ece8e0"}, {"nome": "Laranja tênis", "hex": "#ff6a1a"}, {"nome": "Bota", "hex": "#6a3e1e"},
+    {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Prata", "hex": "#d8dce4"}
+  ],
+  "animacoes": {
+    "idle": "Arma em pé na mão (corpo a corpo), pistola para o chão, arma longa em pé junto ao ombro; tudo sobe/desce com o bob. Chapéu, mochila e acessórios seguem cabeça/tronco.",
+    "walk": "Arma balança com a mão (ângulo do grip); calçados levantam com os pés; mochila acompanha o bob e o lean de 4°.",
+    "attack": "Golpe de cima para baixo: armas longas com ângulos próprios para caber no quadro; rastro em arco nos quadros 2-4.",
+    "hurt": "Itens recebem o flash branco (q.0) e a tinta vermelha (q.1) iguais ao corpo.",
+    "death": "Itens giram junto com o corpo (rotate da pose) e somem no fade; arma continua na mão.",
+    "special": "Curativo: arma abaixada/atravessada no peito para não atravessar o rosto.",
+    "attack_fire": "Mira no ombro, tiro com clarão/coice (q.2), fumaça e cápsula (q.3-4), abaixa (q.5).",
+    "attack_knife": "Estocada: rastro reto nos quadros 2-3, brilho na ponta no impacto."
+  },
+  "especial": "—",
+  "ferramenta": "armas: faca, taco, facão, machado, pistola, espingarda, rifle",
+  "fala": "—",
+  "eventos": {
+    "attack": {"3": "impacto"},
+    "attack_fire": {"2": "tiro", "3": "capsula"},
+    "attack_knife": {"3": "impacto"}
+  },
+  "opcoes": {
+    "weapon": [
+      {"id": "faca", "nome": "Faca", "linha_ataque": "attack_knife"},
+      {"id": "taco", "nome": "Taco", "linha_ataque": "attack"},
+      {"id": "facao", "nome": "Facão", "linha_ataque": "attack"},
+      {"id": "machado", "nome": "Machado", "linha_ataque": "attack"},
+      {"id": "pistola", "nome": "Pistola", "linha_ataque": "attack_fire"},
+      {"id": "espingarda", "nome": "Espingarda", "linha_ataque": "attack_fire"},
+      {"id": "rifle", "nome": "Rifle", "linha_ataque": "attack_fire"}
+    ],
+    "armor": [{"id": "colete", "nome": "Colete", "corpo": "m/f"}, {"id": "tatica", "nome": "Armadura tática", "corpo": "m/f"}],
+    "bag": [{"id": "mochila_p", "nome": "Mochila pequena"}, {"id": "mochila_m", "nome": "Mochila média"}, {"id": "mochila_g", "nome": "Mochila grande"}],
+    "head": [{"id": "bone", "nome": "Boné"}, {"id": "palha", "nome": "Chapéu de palha"}, {"id": "chapeu_couro", "nome": "Chapéu de couro"}, {"id": "capacete", "nome": "Capacete de moto"}],
+    "feet": [{"id": "chinelo", "nome": "Chinelo"}, {"id": "tenis", "nome": "Tênis de corrida"}, {"id": "bota", "nome": "Bota de couro"}],
+    "acc": [{"id": "cordao", "nome": "Cordão de ouro"}, {"id": "oculos", "nome": "Óculos escuros"}, {"id": "relogio", "nome": "Relógio"}, {"id": "anel", "nome": "Anel de prata"}],
+    "classes": [
+      {"id": "brigao", "nome": "Brigão", "arma": "taco", "linha_ataque": "attack"},
+      {"id": "atirador", "nome": "Atirador", "arma": "pistola", "linha_ataque": "attack_fire"},
+      {"id": "sobrevivente", "nome": "Sobrevivente", "arma": "faca", "linha_ataque": "attack_knife"}
+    ],
+    "skins": ["neon", "toxica", "lua_rubra", "canarinho", "foliao", "matuto"],
+    "notas": "Os itens de feet substituem a camada shoes padrão; armor substitui a camada jacket. Com arma de fogo equipada, a camada fx genérica não precisa desenhar os efeitos 'flash'/'shell' da pose: a folha da arma já tem clarão e cápsula no lugar certo do cano (o 'impact' genérico continua valendo)."
+  }
+}

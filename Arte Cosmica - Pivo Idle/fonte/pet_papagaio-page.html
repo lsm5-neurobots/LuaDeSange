@@ -1,0 +1,151 @@
+<title>Papagaio · Pet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:240/150;object-fit:contain!important}
+.fr canvas{width:auto;height:110px} .chip{display:inline-block;font-family:var(--f-pix);font-size:12px;background:var(--moon);color:#1a0d00;border-radius:3px;padding:1px 8px;margin-right:6px}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Pets · <span id="papel"></span> · Direção de arte cósmica</div>
+    <h1 id="h1"></h1>
+    <p class="lede" id="lede"></p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="240" height="150" role="img" aria-label="Pet animado ao lado do Vigia no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Variante</span><div class="seg forms" id="vars"></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button><button id="bVig" aria-pressed="true">Vigia (escala)</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real no jogo</span>
+        <div class="real"><div><canvas id="r1"></canvas><span>ficha (100%)</span></div><div><canvas id="r2"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">A silhueta escura no palco é o Vigia na mesma escala, pra comparar o tamanho do pet com o de um recruta.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Habilidade</small><span id="habN"></span></h2>
+      <p id="habD" style="margin:0;color:var(--muted)"></p>
+    </section>
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><canvas id="beforeCv" width="128" height="128"></canvas><figcaption>Atual · 1º quadro da folha antiga</figcaption></figure>
+        <figure><canvas id="afterCv"></canvas><figcaption>Novo · 4 tons, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor</h2>
+      <div class="ramps" id="ramps"></div>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <div class="tbl"><table><thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead><tbody id="rows"></tbody></table></div>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{BATON}}
+{{VIGIA}}
+{{PETJS}}
+(function(){
+'use strict';
+const PET=PAPA, MT=PET.META;
+const SW=240, SH=150, SGROUND=140, FW=Math.round(PET.FW*PET.PS), FH=Math.round(PET.FH*PET.PS), GROUND=PET.GROUND*PET.PS, PAX=PET.AX*PET.PS;
+{{BG}}
+document.getElementById('papel').textContent=MT.papel;
+document.getElementById('h1').innerHTML=MT.nome+' <small>'+MT.sub+'</small>';
+document.getElementById('lede').textContent=MT.lede;
+document.getElementById('habN').textContent=MT.hab; document.getElementById('habD').textContent=MT.habDesc;
+document.getElementById('rows').innerHTML=MT.rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+['r1','afterCv'].forEach(id=>{ const c=document.getElementById(id); c.width=FW; c.height=FH; }); const r2c=document.getElementById('r2'); r2c.width=Math.round(FW*0.7); r2c.height=Math.round(FH*0.7);
+const V0=Object.keys(PET.VARS)[0];
+const S={v:V0, anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, vig:true, pt:[]};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+// silhueta do Vigia
+const vigCv=(()=>{ const src=VIGIA.frame('media','comum','idle',0,5), c=document.createElement('canvas'); c.width=src.width; c.height=src.height; const x=c.getContext('2d'); x.drawImage(src,0,0); x.globalCompositeOperation='source-atop'; x.fillStyle='rgba(20,12,40,.82)'; x.fillRect(0,0,c.width,c.height); return c; })();
+const vigFull=VIGIA.frame('media','comum','idle',0,5);
+let last=performance.now(), T=0;
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=PET.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); updStrip(); } }
+  if((S.anim==='walk'||S.anim==='fly') && S.playing) S.scroll+=dt*(S.slow?8:16);
+  draw(dt); requestAnimationFrame(loop); }
+function draw(dt){
+  drawBG(g,'comum',S.scroll,T);
+  const A=PET.ANIMS[S.anim], cv=PET.frame(S.v,S.anim,S.fi,S.step), P=PET.poseOf(S.anim,S.fi);
+  const vx=30, vy=SGROUND-VIGIA.GROUND;
+  let ox=Math.round(SW/2-PAX+10), oy=Math.round(SGROUND-GROUND);
+  if(A.shoulder){ g.drawImage(vigFull,vx,vy); const f=cv._feet; ox=Math.round(vx+VIGIA.AX+2-f.x); oy=Math.round(vy+66-f.y); }
+  else if(S.vig) g.drawImage(vigCv,vx,vy);
+  if(P.hang){ ox=Math.round(SW/2-30); oy=40; const t=cv._tailTip; g.fillStyle='#120a1c'; g.fillRect(0,oy+t.y-3,SW,3); g.fillStyle='#4a3c5c'; g.fillRect(0,oy+t.y-3,SW,1); }
+  if(!A.shoulder && !P.hang){ const c=cv._center, w=Math.round(FW*0.22); g.fillStyle='rgba(10,4,16,.5)'; for(let y=-1;y<=1;y++) g.fillRect(ox+c.x-w+(y?2:0),SGROUND+y+1,w*2-(y?4:0),1); }
+  if(P.dome && S.step>=5){ const c=cv._center; glow(ox+c.x,oy+c.y,46,'rgba(255,210,60,.35)'); g.strokeStyle='rgba(255,230,140,.8)'; g.beginPath(); g.ellipse(ox+c.x,oy+c.y+8,40,30,0,Math.PI,0); g.stroke(); }
+  g.drawImage(cv,ox,oy);
+  const fxp=cv._fx, X=ox+fxp.x, Y=oy+fxp.y, top=cv._top;
+  if(P.lines){ g.fillStyle='#fff'; for(let k=0;k<4;k++) g.fillRect(X-30-k*6,Y-6+k*4,14,1); }
+  if(P.impact && S.step>=3){ g.fillStyle='#fff'; for(let k=0;k<8;k++){ const a=k/8*Math.PI*2; for(let r=4;r<10;r++) g.fillRect(Math.round(X+4+Math.cos(a)*r),Math.round(Y+Math.sin(a)*r),1,1); } }
+  if(P.waves){ g.strokeStyle='rgba(255,255,255,.8)'; g.lineWidth=1; for(let k=0;k<3;k++){ g.beginPath(); g.arc(X,Y,8+k*7+(T*40%7),-0.7,0.7); g.stroke(); } }
+  if(P.dust && Math.random()<0.6) S.pt.push({x:X-4+Math.random()*6,y:SGROUND-1,vx:(Math.random()-.5)*40,vy:-20-Math.random()*30,t:0,c:'#a89878'});
+  if(P.sparkle && Math.random()<0.5){ const h=cv._hand||cv._fx; S.pt.push({x:ox+h.x+(Math.random()-.5)*12,y:oy+h.y-6+(Math.random()-.5)*10,vx:0,vy:-8,t:0,c:'#fff2a0'}); }
+  if(P.dome && Math.random()<0.5){ const c=cv._center; S.pt.push({x:ox+c.x+(Math.random()-.5)*60,y:oy+c.y+(Math.random()-.5)*30,vx:0,vy:-12,t:0,c:'#ffe27a'}); }
+  S.pt.forEach(p=>{ p.t+=dt; p.x+=p.vx*dt; p.y+=p.vy*dt; p.vy+=60*dt; g.globalAlpha=Math.max(0,1-p.t*2); g.fillStyle=p.c; g.fillRect(Math.round(p.x),Math.round(p.y),1,1); }); g.globalAlpha=1; S.pt=S.pt.filter(p=>p.t<0.5);
+  if(P.shout) setFx('bubble','ZUMBI!',X+28,Y-18);
+  else if(P.heart) setFx('bubble','♥',ox+top.x+12,oy+top.y-8);
+  else if(P.bang) setFx('bubble','!',ox+top.x+10,oy+top.y-10);
+  else if(P.impact) setFx('burst',MT.id==='jabuti'?'NHAC!':MT.id==='papagaio'?'TOC!':'SHRIK!',X+14,Y-14);
+  else if(P.dome) setFx('burst','ESCUDO!',ox+top.x,oy+top.y-22);
+  else if(P.flash) setFx('burst','AI!',ox+top.x,oy+top.y-10);
+  else if(A.shoulder) setFx('bubble','+3 s no puzzle',ox+top.x+30,oy+top.y-14);
+  else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${A.n} · ${A.dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,FW,FH); r1.drawImage(cv,0,0);
+  const r2=r2c.getContext('2d'); r2.clearRect(0,0,r2c.width,r2c.height); PIX.setK(0.7); r2.drawImage(PET.frame(S.v,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('vars').innerHTML=Object.entries(PET.VARS).map(([k,v])=>`<button data-v="${k}" aria-pressed="${k===V0}">${v.nome}</button>`).join('');
+document.querySelectorAll('#vars button').forEach(b=>b.onclick=()=>{ S.v=b.dataset.v; press('vars','v',S.v); buildStrip(); buildRamps(); after(); });
+document.getElementById('anims').innerHTML=Object.entries(PET.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('anims','anim',S.anim); buildStrip(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%PET.ANIMS[S.anim].n; updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const bVig=document.getElementById('bVig'); bVig.onclick=()=>{ S.vig=!S.vig; bVig.setAttribute('aria-pressed',String(S.vig)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=PET.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(PET.frame(S.v,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=PET.mats(S.v);
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(PET.NAMES).map(k=>`<div class="ramp"><span>${PET.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join(''); }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(PET.frame(S.v,'idle',0,5),0,0); }
+const old=new Image(); old.onload=()=>{ const c=document.getElementById('beforeCv').getContext('2d'); c.imageSmoothingEnabled=false; c.drawImage(old,0,0,128,128,0,0,128,128); }; old.src='data:image/png;base64,{{OLDPNG}}';
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>

@@ -1,0 +1,157 @@
+<title>O Estivador · Chefe B02</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:300/190;object-fit:contain!important} .fr canvas{width:147px;height:150px}
+.seg.forms button[data-form="furia"][aria-pressed="true"]{background:#ff7a2a;color:#fff}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bestiário · Chefes · Direção de arte cósmica</div>
+    <h1>O Estivador <small>Chefe B02</small></h1>
+    <p class="lede">Chefe do Marco Zero. Trabalhou a vida inteira no porto do Recife carregando carga e, morto, ainda carrega: <b>um caixote no ombro e um gancho de carga preso numa corrente</b>. Gira o gancho e lança: se acerta, puxa o herói até ele. Arremessa o caixote, que quebra no chão e vira obstáculo. Na Fúria, o gancho fica em brasa, a corrente fica mais longa e ele joga dois caixotes de uma vez.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="300" height="190" role="img" aria-label="O Estivador animado no cais do Recife à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Fase</span>
+        <div class="seg forms" id="forms"><button data-form="normal" aria-pressed="true">Normal</button><button data-form="furia" aria-pressed="false">Fúria</button></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real no jogo</span>
+        <div class="real"><div><canvas id="r1" width="196" height="200" style="width:98px;height:100px"></canvas><span>ficha (½ na tela)</span></div><div><canvas id="r2" width="137" height="140" style="width:137px;height:140px"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">Quadro de 196×200 px. O Estivador tem ~170 px na ficha e ~120 px no jogo, quase o dobro do Vigia (~76 px).</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">Telegrafia: o Gancho gira 4 quadros acima da cabeça e recua 180 ms antes do lançamento de 60 ms. O caixote sobe acima da cabeça por 500 ms antes de voar. A Fúria tem animação própria de transição: urro, gancho em brasa e brasas subindo.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><img alt="Sprite atual do Estivador, 128 px" src="data:image/png;base64,{{OLDPNG}}"><figcaption>Atual · pixel chunky, contorno uniforme, 2 tons</figcaption></figure>
+        <figure><canvas id="afterCv" width="196" height="200"></canvas><figcaption>Novo · 4 tons, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor da fase <span id="formName">Normal</span></h2>
+      <div class="ramps" id="ramps"></div>
+      <p class="note" style="margin-top:10px">Gorro laranja e botas amarelas são as âncoras de cor (lidas de longe nas duas pontas da silhueta). Na Fúria só o ferro muda: o gancho e a corrente passam a usar a rampa de brasa.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead>
+      <tbody>
+        <tr><td>Cabeça</td><td>Gorro de lã laranja desbotado, barba grossa e embaraçada com algas secas. Pele inchada da água salgada. Tapa-olho improvisado com fita.</td><td>Gorro com barra dobrada e canelado. Barba em mechas escuras com 3 fios de alga verde pendurados. Pele verde-azulada inchada. Tapa-olho feito de duas tiras de fita em X. O olho que sobra é leitoso (e em brasa na Fúria).</td></tr>
+        <tr><td>Tronco</td><td>Macacão jeans com uma alça arrebentada, sobre camiseta listrada. Corda grossa enrolada como bandoleira. Ombros enormes.</td><td>Tronco 35% mais largo que o de um humano comum. Camiseta de listras azul e branca, peito do macacão com bolso e botões de ferro, alça da frente arrebentada e pendurada. A corda atravessa o peito em diagonal, com as tranças marcadas.</td></tr>
+        <tr><td>Braços</td><td>Esquerdo apoia um caixote no ombro, com carimbos de carga. Direito segura corrente com gancho enorme.</td><td>Caixote de 30×24 px com tábuas, cantoneiras de ferro e carimbos vermelhos apagados. A mão de trás segura o caixote por cinemática inversa, também quando ele sobe acima da cabeça. A corrente tem elos alternados e termina num gancho em J enferrujado.</td></tr>
+        <tr><td>Pernas</td><td>Pernas grossas no macacão, barra dobrada. Botas de borracha amarelas cheias de lama do mangue.</td><td>Pernas de 16 px de largura com vinco, barra dobrada mais clara e botas amarelas com a metade de baixo coberta de lama marrom.</td></tr>
+        <tr><td>Movimento</td><td>Gira o gancho e lança; se acerta, puxa o herói. Arremessa o caixote, que vira obstáculo. Anda arrastando as botas.</td><td>Gancho: 10 quadros (giro, recuo, lançamento, puxada). A corrente sai do sprite e é desenhada no palco até o alvo. Caixote: 8 quadros. Ele voa em arco, quebra em tábuas e deixa um monte de destroços. O andar tem passo curto e pesado.</td></tr>
+        <tr><td>Fúria</td><td>Gancho em brasa, arremessa dois caixotes de uma vez e a corrente fica mais longa.</td><td>Transição própria com urro. Ferro em rampa de brasa com brilho aditivo, corrente 40% mais longa no palco, dois caixotes em arcos diferentes e brasas subindo do gancho.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{ESTI}}
+(function(){
+'use strict';
+const SW=300, SH=190, SGROUND=180, FW=ESTI.FW, FH=ESTI.FH, GROUND=ESTI.GROUND;
+{{BG}}
+const S={form:'normal', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, crates:[], debris:[], piles:[], embers:[], flash:0};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+const OX=10, OY=SGROUND-GROUND;
+const IRON={normal:['#b0a8a0','#7a6e66','#4e4440','#2a2422'],furia:['#fff0a0','#ffb030','#e05a1a','#8a240a']};
+let last=performance.now(), T=0;
+function onFrame(){ const A=ESTI.ANIMS[S.anim];
+  if(S.anim==='crate' && S.fi===A.throwAt){ const cv=ESTI.frame(S.form,'crate',2,5), c=cv._crate||{x:80,y:20}; const n=S.form==='furia'?2:1;
+    for(let k=0;k<n;k++) S.crates.push({x0:OX+c.x,y0:OY+c.y,x1:OX+190+k*48,y1:SGROUND-6+k*4,t:0,d:0.6+k*0.12}); }
+  if(S.anim==='rage' && S.fi===1) S.flash=0.25; }
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=ESTI.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); onFrame(); updStrip(); } }
+  if(S.anim==='walk' && S.playing) S.scroll+=dt*(S.slow?5:10);
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+function crateSprite(x,y,rot){ g.save(); g.translate(Math.round(x),Math.round(y)); g.rotate(rot); g.fillStyle='#170b1c'; g.fillRect(-9,-8,18,16); g.fillStyle='#b07a40'; g.fillRect(-8,-7,16,14); g.fillStyle='#7a4e24'; g.fillRect(-8,-2,16,1); g.fillRect(-1,-7,1,14); g.fillStyle='#e0b070'; g.fillRect(-8,-7,16,1); g.fillStyle='#b84a3a'; g.fillRect(2,-5,4,2); g.restore(); }
+function drawChain(x0,y0,x1,y1){ const I=IRON[S.form], n=Math.max(2,Math.round(Math.hypot(x1-x0,y1-y0)/3));
+  for(let k=0;k<=n;k++){ const t=k/n, x=x0+(x1-x0)*t, y=y0+(y1-y0)*t+Math.sin(t*Math.PI)*4; g.fillStyle='#170b1c'; g.fillRect(Math.round(x)-1,Math.round(y)-1,3,3); g.fillStyle=k%2?I[2]:I[1]; g.fillRect(Math.round(x),Math.round(y),k%2?2:1,1); }
+  g.fillStyle='#170b1c'; g.fillRect(Math.round(x1)-3,Math.round(y1)-3,8,9); g.fillStyle=I[1]; g.fillRect(Math.round(x1)-2,Math.round(y1)-2,2,6); g.fillRect(Math.round(x1)-2,Math.round(y1)+3,6,2); g.fillRect(Math.round(x1)+3,Math.round(y1),2,4);
+  if(S.form==='furia' && S.step>=5) glow(x1,y1+2,10,'rgba(255,140,40,.6)'); }
+function draw(dt){
+  drawBG(g,S.form==='furia'?'plenilunar':'comum',S.scroll,T);
+  const cv=ESTI.frame(S.form,S.anim,S.fi,S.step), P=ESTI.poseOf(S.anim,S.fi);
+  // destroços de caixote (obstáculo)
+  S.piles.forEach(p=>{ p.t+=dt; const a=Math.max(0,Math.min(1,(4-p.t))); g.globalAlpha=a; g.fillStyle='#170b1c'; g.fillRect(p.x-12,p.y-6,24,7); g.fillStyle='#7a4e24'; g.fillRect(p.x-11,p.y-5,22,5); g.fillStyle='#b07a40'; g.fillRect(p.x-9,p.y-7,7,3); g.fillRect(p.x+1,p.y-8,9,3); g.fillStyle='#e0b070'; g.fillRect(p.x-6,p.y-9,10,2); g.globalAlpha=1; }); S.piles=S.piles.filter(p=>p.t<4);
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-2;y<=2;y++){ const w=Math.floor(Math.sqrt(1-(y/3)**2)*32); g.fillRect(OX+ESTI.AX-w+4,SGROUND+y+1,w*2,1); }
+  if(S.flash>0){ S.flash-=dt; g.fillStyle='rgba(255,60,30,'+(S.flash*1.6)+')'; g.fillRect(0,0,SW,SH); }
+  g.drawImage(cv,OX,OY);
+  // gancho lançado: corrente até o alvo, depois puxando
+  const A=ESTI.ANIMS[S.anim];
+  if(S.anim==='hook' && P.hk===2){ const h=cv._hand, reach=S.form==='furia'?210:150; const k=S.fi-A.throwAt; const ext=k===0?0.7:Math.max(0.15,1-(k-1)*0.3);
+    const tx=OX+h.x+reach*ext, ty=SGROUND-40; drawChain(OX+h.x,OY+h.y,tx,ty); }
+  if(S.form==='furia' && S.step>=5){ const hk=cv._hook; if(hk){ glow(OX+hk.x,OY+hk.y+8,12,'rgba(255,140,40,.55)'); if(Math.random()<0.4) S.embers.push({x:OX+hk.x+(Math.random()-.5)*10,y:OY+hk.y+8,t:0}); } }
+  if(S.anim==='rage' && P.roar && S.step>=5){ const m=cv._mouth; for(let k=0;k<3;k++){ const r=((T*120)+k*14)%46; g.strokeStyle='rgba(255,'+(S.form==='furia'?120:220)+',90,'+(0.7-r/70)+')'; g.beginPath(); g.arc(OX+m.x,OY+m.y,r,-0.8,0.8); g.stroke(); } if(Math.random()<0.5) S.embers.push({x:OX+m.x+(Math.random()-.5)*30,y:OY+m.y+20,t:0}); }
+  g.fillStyle='#ffb040'; S.embers.forEach(e=>{ e.t+=dt; e.y-=dt*22; e.x+=Math.sin(e.t*7)*0.3; g.globalAlpha=Math.max(0,1-e.t); g.fillRect(Math.round(e.x),Math.round(e.y),1,1); }); g.globalAlpha=1; S.embers=S.embers.filter(e=>e.t<1);
+  // caixotes voando
+  S.crates.forEach(c=>{ c.t+=dt/c.d; const t=Math.min(1,c.t), x=c.x0+(c.x1-c.x0)*t, y=c.y0+(c.y1-c.y0)*t-Math.sin(t*Math.PI)*50; crateSprite(x,y,t*5);
+    if(c.t>=1){ c.done=true; S.piles.push({x:c.x1,y:c.y1+4,t:0}); for(let k=0;k<12;k++) S.debris.push({x:c.x1,y:c.y1,vx:(Math.random()-.5)*90,vy:-40-Math.random()*60,t:0}); } }); S.crates=S.crates.filter(c=>!c.done);
+  S.debris.forEach(d=>{ d.t+=dt; d.x+=d.vx*dt; d.y+=d.vy*dt; d.vy+=200*dt; g.fillStyle=d.t%0.2<0.1?'#b07a40':'#e0b070'; g.fillRect(Math.round(d.x),Math.round(d.y),3,1); }); S.debris=S.debris.filter(d=>d.t<0.7);
+  // onomatopeias
+  if(S.anim==='hook' && S.fi<=3) setFx('bubble','vuum vuum',OX+cv._hand.x+20,OY+cv._hand.y-20);
+  else if(S.anim==='hook' && S.fi===A.throwAt) setFx('burst','CLANG!',OX+cv._hand.x+(S.form==='furia'?150:110),SGROUND-60);
+  else if(S.anim==='hook' && S.fi>=6 && S.fi<=8) setFx('burst','VEM CÁ!',OX+cv._hand.x+70,SGROUND-80);
+  else if(S.anim==='crate' && S.fi===A.throwAt) setFx('burst','HNNGH!',OX+90,OY+40);
+  else if(S.anim==='crate' && S.fi>=5 && S.piles.length) setFx('burst','CRASH!',S.piles[S.piles.length-1].x,SGROUND-30);
+  else if(S.anim==='rage' && P.roar) setFx('burst','RAAARGH!',OX+cv._mouth.x+40,OY+cv._mouth.y-20);
+  else if(S.anim==='hurt' && S.fi<=1) setFx('burst','CRAU!',OX+60,OY+60);
+  else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${A.n} · ${A.dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,FW,FH); r1.drawImage(cv,0,0);
+  const r2=document.getElementById('r2').getContext('2d'); r2.clearRect(0,0,137,140); PIX.setK(0.7); r2.drawImage(ESTI.frame(S.form,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(ESTI.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('anims','anim',S.anim); buildStrip(); });
+document.querySelectorAll('#forms button').forEach(b=>b.onclick=()=>{ S.form=b.dataset.form; press('forms','form',S.form); buildStrip(); buildRamps(); after(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%ESTI.ANIMS[S.anim].n; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=ESTI.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(ESTI.frame(S.form,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms${A.throwAt===i?' ✦':''}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=ESTI.mats(S.form); document.getElementById('formName').textContent=S.form==='furia'?'Fúria':'Normal';
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(ESTI.NAMES).map(k=>`<div class="ramp"><span>${ESTI.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('')+
+  `<div class="ramp"><span>Contorno · Lua</span><i style="background:${PIX.OUTLINE}"></i><i style="background:${ESTI.RIM[S.form]}"></i><span></span><span></span></div>`; }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(ESTI.frame(S.form,'idle',0,5),0,0); }
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>

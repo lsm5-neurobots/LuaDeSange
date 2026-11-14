@@ -1,0 +1,116 @@
+{
+ "titulo": "Zumbi Grafiteiro (Lapa) - spray, mascara e arte de rua",
+ "pasta": "zumbis-lapa/grafiteiro",
+ "secoes": [
+  {
+   "nome": "Grafiteiro pintando com spray",
+   "n": 14,
+   "busca": [
+    "graffiti artist spraying",
+    "grafiteiro",
+    "graffiti artist at work",
+    "street artist spray paint wall",
+    "artista de rua grafite",
+    "graffiteiro Rio"
+   ],
+   "depth": 0,
+   "cats": [
+    "Graffiti artists"
+   ]
+  },
+  {
+   "nome": "Latas de spray, bicos e tampas",
+   "n": 12,
+   "busca": [
+    "spray paint cans",
+    "aerosol can nozzle",
+    "lata de spray tinta",
+    "spray cans colorful",
+    "spray paint can close up"
+   ],
+   "depth": 0,
+   "cats": [
+    "Spray paint cans"
+   ]
+  },
+  {
+   "nome": "Mascara respiratoria, capuz e luvas",
+   "n": 10,
+   "busca": [
+    "respirator mask half face",
+    "máscara respirador",
+    "hoodie hood man street",
+    "work gloves paint stained",
+    "bandana mask face",
+    "paint stained clothes"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Roupa: moletom, bone, mochila de latas",
+   "n": 10,
+   "busca": [
+    "hoodie sweatshirt",
+    "snapback cap",
+    "backpack spray cans",
+    "streetwear sneakers",
+    "skater clothes",
+    "tênis sujo de tinta"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Grafite carioca: murais, tags e pixacao",
+   "n": 16,
+   "busca": [
+    "graffiti Rio de Janeiro",
+    "grafite Rio mural",
+    "Lapa grafite",
+    "Santa Teresa graffiti",
+    "tag graffiti wall",
+    "Escadaria Selarón"
+   ],
+   "depth": 0,
+   "cats": [
+    "Graffiti in Rio de Janeiro"
+   ]
+  },
+  {
+   "nome": "Nuvem de tinta, respingos e pingos",
+   "n": 10,
+   "busca": [
+    "spray paint cloud",
+    "paint splatter",
+    "paint drips wall",
+    "aerosol mist",
+    "colored smoke cloud"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Poses: braco erguido, agachado, correndo",
+   "n": 14,
+   "busca": [
+    "man spraying wall pose",
+    "man crouching spray paint",
+    "running man hoodie",
+    "throwing spray can",
+    "person shaking spray can"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Muros, tapumes e viadutos da Lapa",
+   "n": 14,
+   "busca": [
+    "Lapa Rio muro",
+    "tapume graffiti",
+    "viaduto graffiti Brazil",
+    "Arcos da Lapa graffiti",
+    "urban wall Rio de Janeiro",
+    "rua Rio pichação"
+   ],
+   "depth": 0
+  }
+ ]
+}

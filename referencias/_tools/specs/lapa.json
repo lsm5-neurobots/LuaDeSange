@@ -1,0 +1,14 @@
+{"titulo": "Lapa e Centro - Rio de Janeiro", "pasta": "lapa-rio", "secoes": [
+ {"nome": "Arcos da Lapa", "n": 14, "cats": ["Arcos da Lapa"], "busca": ["Arcos da Lapa Rio de Janeiro", "Aqueduto da Carioca"]},
+ {"nome": "Escadaria Selaron", "n": 14, "cats": ["Escadaria Selarón"], "busca": ["Escadaria Selaron", "Selaron steps tiles"]},
+ {"nome": "Bonde de Santa Teresa", "n": 12, "cats": ["Santa Teresa Tram"], "busca": ["Bonde de Santa Teresa", "Santa Teresa tram Rio"]},
+ {"nome": "Santa Teresa - ruas e casaroes", "n": 10, "cats": ["Santa Teresa (Rio de Janeiro)"], "busca": ["Santa Teresa Rio de Janeiro rua", "Largo dos Guimaraes"]},
+ {"nome": "Rua do Lavradio e casaroes da Lapa", "n": 10, "busca": ["Rua do Lavradio", "Lapa Rio de Janeiro casarao", "Rua Joaquim Silva Lapa"]},
+ {"nome": "Lapa a noite e boemia", "n": 10, "busca": ["Lapa Rio de Janeiro noite", "Lapa night Rio", "Circo Voador", "Fundicao Progresso"]},
+ {"nome": "Catedral Metropolitana", "n": 8, "cats": ["Catedral Metropolitana de São Sebastião"], "busca": ["Catedral Metropolitana Rio de Janeiro"]},
+ {"nome": "Cinelandia e Theatro Municipal", "n": 10, "cats": ["Cinelândia"], "busca": ["Theatro Municipal Rio de Janeiro", "Cinelandia Rio"]},
+ {"nome": "Central do Brasil", "n": 8, "cats": ["Central do Brasil (station)"], "busca": ["Estacao Central do Brasil", "Central do Brasil relogio"]},
+ {"nome": "Morro e favela vistos da Lapa", "n": 8, "busca": ["Morro da Providencia", "favela Rio de Janeiro Santa Teresa view", "Rio de Janeiro favela night"]},
+ {"nome": "Baia e Pao de Acucar ao fundo", "n": 8, "busca": ["Rio de Janeiro skyline Sugarloaf from Santa Teresa", "Pao de Acucar noite", "Baia de Guanabara noite"]},
+ {"nome": "Detalhes de rua (orelhao, banca, calcada portuguesa, poste)", "n": 10, "busca": ["calcada portuguesa Rio de Janeiro", "orelhao Rio de Janeiro", "banca de jornal Rio de Janeiro", "Rio de Janeiro street lamp centro"]}
+]}

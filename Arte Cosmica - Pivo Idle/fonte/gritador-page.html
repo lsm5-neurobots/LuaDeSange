@@ -1,0 +1,134 @@
+<title>Gritador Nº 005</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:240/150;object-fit:contain!important} .fr canvas{width:128px;height:124px}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#5af0e0} .seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:#e05aa8;color:#fff}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bestiário · Zumbis comuns · Direção de arte cósmica</div>
+    <h1>Gritador <small>Nº 005</small></h1>
+    <p class="lede">Uma zumbi magra, de cabelo comprido, com a mandíbula deslocada pelo próprio grito. <b>Não ataca: corre, para e grita</b> a cada 6 s, chamando 3 zumbis pelas bordas da tela. É a prioridade número um da IA dos recrutas, porque deixa a horda crescer.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="240" height="150" role="img" aria-label="Gritador animado no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Forma</span>
+        <div class="seg forms" id="forms"><button data-form="comum" aria-pressed="true">Comum</button><button data-form="enluarado" aria-pressed="false">Enluarado</button><button data-form="plenilunar" aria-pressed="false">Plenilunar</button></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real no jogo</span>
+        <div class="real"><div><canvas id="r1" width="124" height="128"></canvas><span>ficha (100%)</span></div><div><canvas id="r2" width="87" height="90"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">No jogo ele entra a 70%, como os outros zumbis, pra ficar menor que as portas do mapa novo.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">No Gritar, os 3 primeiros quadros (500 ms) são o aviso: a cabeça vai pra trás e a boca abre. O 4º quadro é o grito (✦), com ondas, tremor de tela e reforços chegando.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><img alt="Sprite atual do Gritador, 128 px" src="data:image/png;base64,{{OLDPNG}}"><figcaption>Atual · pixel chunky, contorno uniforme, 2 tons</figcaption></figure>
+        <figure><canvas id="afterCv" width="124" height="128"></canvas><figcaption>Novo · 4 tons, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor da forma <span id="formName">Comum</span></h2>
+      <div class="ramps" id="ramps"></div>
+      <p class="note" style="margin-top:10px">Pele fria e roupa desbotada, com o rosa da blusa como única cor viva. No grito, as ondas brancas (vermelhas no Plenilunar) chamam mais atenção que ela.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead>
+      <tbody>
+        <tr><td>Cabeça</td><td>Boca aberta além do normal, mandíbula deslocada pra baixo, canto da boca rasgado. Olhos vidrados e muito abertos. Cabelo preto, longo e embaraçado, com mechas no rosto. Pescoço comprido com tendões saltados.</td><td>A mandíbula é uma peça separada que desce até 36° e fica mais comprida no grito. O canto rasgado tem sangue. Olho grande arregalado com pupila mínima. O cabelo é feito em duas camadas (atrás e na frente do rosto) que balançam. O pescoço é um tubo com tendão marcado que estica quando a cabeça vai pra trás.</td></tr>
+        <tr><td>Tronco</td><td>Blusa de alcinha rosa desbotada e moletom aberto rasgado no ombro. Tronco estreito e ossudo.</td><td>Blusa rosa com alcinhas e clavícula. Moletom cinza aberto com as duas abas, rasgo no ombro mostrando a pele e capuz caído nas costas.</td></tr>
+        <tr><td>Braços</td><td>Mãos subindo até o rosto, dedos compridos abertos ao lado das bochechas. Unhas compridas e quebradas. Bracelete de miçangas no pulso.</td><td>As mãos ficam abertas perto do rosto em todas as animações, menos na fuga, quando ela agita os braços. Dedos longos com unha escura e pulseira de 3 miçangas coloridas.</td></tr>
+        <tr><td>Pernas</td><td>Saia jeans curta e meia-calça rasgada com fios soltos. Um tênis branco, o outro pé descalço e sujo.</td><td>Saia jeans com costura, meia-calça escura com 2 rasgos mostrando a pele e fio solto. Tênis branco na frente e pé descalço atrás.</td></tr>
+        <tr><td>Movimento</td><td>Foge do herói. A cada 6 s para, joga a cabeça pra trás e grita: a tela treme e 3 zumbis aparecem pelas bordas.</td><td>"Fugir" é uma corrida desengonçada com os braços agitados. "Gritar" tem 500 ms de aviso (cabeça indo pra trás), depois 3 quadros de grito com ondas saindo da boca, tremor de tela e 3 silhuetas entrando pelas bordas.</td></tr>
+        <tr><td>Enluarado</td><td>Pele rosa e olhos brancos.</td><td>Pele rosa, olho todo branco e luz de lua rosa.</td></tr>
+        <tr><td>Plenilunar</td><td>Pele preta, cabelo e boca vermelhos. O grito atordoa por 0,5 s.</td><td>Pele preta, cabelo e boca vermelhos, olho em brasa. As ondas do grito ficam vermelhas, e no jogo atordoam por 0,5 s.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{FAC}}
+(function(){
+'use strict';
+const SW=240, SH=150, SGROUND=140, FW=GRIT.FW, FH=GRIT.FH, GROUND=GRIT.GROUND;
+{{BG}}
+const S={form:'comum', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, parts:[], rings:[], shake:0, spawns:[]};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+let last=performance.now(), T=0;
+const ox=()=>40, oy=()=>SGROUND-GROUND;
+function onFrame(){ if(S.anim==='attack' && S.fi===GRIT.ANIMS.attack.screamAt){ S.rings.push({t:0}); S.shake=0.5; [[-10,SGROUND-2],[SW+10,SGROUND-4],[SW+10,SGROUND+4]].forEach(([x,y],k)=>S.spawns.push({x,y,t:-k*0.12,from:x<0?1:-1})); } }
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=GRIT.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); onFrame(); updStrip(); } }
+  if(S.anim==='walk' && S.playing) S.scroll+=dt*(S.slow?7:14);
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+function draw(dt){
+  drawBG(g,S.form,S.scroll,T);
+  const cv=GRIT.frame(S.form,S.anim,S.fi,S.step), X=ox(), Y=oy();
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-2;y<=2;y++){ const w=Math.floor(Math.sqrt(1-(y/3)**2)*22); g.fillRect(X+GRIT.AX-w+4,SGROUND+y+1,w*2,1); }
+  g.drawImage(cv,X,Y);
+  const P=GRIT.poseOf(S.anim,S.fi), m=cv._mouth;
+  S.rings.forEach(r=>{ r.t+=dt; for(let k=0;k<4;k++){ const rr=r.t*150-k*9; if(rr<3) continue; g.strokeStyle=S.form==='plenilunar'?'rgba(255,90,70,'+Math.max(0,0.9-r.t*1.1)+')':'rgba(255,255,255,'+Math.max(0,0.9-r.t*1.1)+')'; g.lineWidth=1; g.beginPath(); g.arc(X+m.x,Y+m.y,rr,-2.2,0.4); g.stroke(); } }); S.rings=S.rings.filter(r=>r.t<0.9);
+  S.spawns.forEach(z=>{ z.t+=dt; if(z.t<0) return; const x=Math.round(z.x+z.from*Math.min(z.t,1.2)*22), y=z.y, a=Math.min(1,z.t*3)*(z.t>1.6?Math.max(0,1-(z.t-1.6)*2):1); g.globalAlpha=a; g.fillStyle='#170b1c'; g.fillRect(x-5,y-34,10,34); g.fillRect(x-3,y-42,8,9); g.fillRect(x+(z.from>0?4:-10),y-30,6,3); g.fillStyle='#ff4a5a'; g.fillRect(x+(z.from>0?2:-2),y-39,1,1); g.globalAlpha=1; }); S.spawns=S.spawns.filter(z=>z.t<2.2);
+  if(S.shake>0){ S.shake-=dt; const d=Math.round((Math.random()-.5)*3); g.drawImage(stage,d,0); }
+  if(S.anim==='attack' && S.fi>=3 && S.fi<=5) setFx('burst',S.form==='plenilunar'?'AAAAH!!':'AAAAH!',X+m.x+20,Y+m.y-14);
+  else if(S.anim==='attack' && S.fi<=2) setFx('bubble','…',X+m.x+12,Y+m.y-22);
+  else if(S.anim==='hurt' && S.fi<=1) setFx('burst','CRAU!',X+40,Y+30);
+  else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${GRIT.ANIMS[S.anim].n} · ${GRIT.ANIMS[S.anim].dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,124,128); r1.drawImage(cv,0,0);
+  const r2=document.getElementById('r2').getContext('2d'); r2.imageSmoothingEnabled=false; r2.clearRect(0,0,87,90); PIX.setK(0.7); r2.drawImage(GRIT.frame(S.form,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(GRIT.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('anims','anim',S.anim); buildStrip(); });
+document.querySelectorAll('#forms button').forEach(b=>b.onclick=()=>{ S.form=b.dataset.form; press('forms','form',S.form); buildStrip(); buildRamps(); after(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%GRIT.ANIMS[S.anim].n; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=GRIT.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(GRIT.frame(S.form,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms${A.screamAt===i?' ✦':''}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=GRIT.mats(S.form); document.getElementById('formName').textContent={comum:'Comum',enluarado:'Enluarado',plenilunar:'Plenilunar'}[S.form];
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(GRIT.NAMES).map(k=>`<div class="ramp"><span>${GRIT.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('')+
+  `<div class="ramp"><span>Contorno · Lua</span><i style="background:${PIX.OUTLINE}"></i><i style="background:${GRIT.RIM[S.form]}"></i><span></span><span></span></div>`; }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(GRIT.frame(S.form,'attack',4,5),0,0); }
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>

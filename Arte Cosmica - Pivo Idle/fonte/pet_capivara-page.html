@@ -1,0 +1,154 @@
+<title>Capivara · Pet</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:200/120;object-fit:contain!important} .fr canvas{width:124px;height:92px}
+.scale{display:grid;gap:8px;justify-items:center;background:#0d0818;border:1px solid var(--line);border-radius:8px;padding:10px} .scale canvas{image-rendering:pixelated;width:100%;max-width:420px;height:auto}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Pets · Calma demais · Direção de arte cósmica</div>
+    <h1>Capivara <small>Pet</small></h1>
+    <p class="lede">A capivara é calma demais pro apocalipse: anda num gingado lento de olhos meio fechados, e nem os zumbis comuns se dão ao trabalho de atacar. Corpo de barril, cabeça quadradona, uma mexerica equilibrada no cocuruto e uma bolsinha de primeiros socorros a tiracolo. <b>Especial: Aura da Calmaria</b>, que cura o herói só de ficar por perto.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="200" height="120" role="img" aria-label="Capivara animado no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Pelagem</span><div class="seg forms" id="vars"></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real</span>
+        <div class="real"><div><canvas id="r1" width="128" height="92"></canvas><span>ficha (100%)</span></div><div><canvas id="r2" width="90" height="65"></canvas><span>no jogo (70%)</span></div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">Na Aura, um anel verde cresce no chão por 1,3 s com cruzinhas e corações subindo. A Cabeçada tem 280 ms de antecipação, com a cabeça baixa e a mexerica quase caindo. No desmaio, a mexerica voa e cai no chão.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Escala</small>Ao lado do Vigia</h2>
+      <div class="scale"><canvas id="scaleCv" width="210" height="150"></canvas><span class="note">Silhueta do Vigia (recruta, 100%) e o pet no mesmo chão e na mesma escala.</span></div>
+    </section>
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><canvas id="beforeCv" width="128" height="128"></canvas><figcaption>Atual · 1º quadro da folha antiga</figcaption></figure>
+        <figure><canvas id="afterCv" width="128" height="92"></canvas><figcaption>Novo · 4 tons, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Paleta</small>Rampas da pelagem <span id="varName"></span></h2>
+    <div class="ramps" id="ramps"></div>
+  </section>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>O que foi mantido</h2>
+    <div class="tbl"><table><thead><tr><th>Ficha</th><th>Como ficou</th></tr></thead><tbody><tr><td>Cabeça</td><td>Bloco quadradão com topo reto e frente cortada, focinho largo mais escuro, narina horizontal e bigodinho.</td></tr><tr><td>Olhos</td><td>Pequenos e no alto, com a pálpebra de pelo cobrindo metade: o olhar "tô de boa". Viram traço sereno na aura e X no desmaio.</td></tr><tr><td>Orelhas</td><td>Redondinhas no topo de trás, com um tique no parado.</td></tr><tr><td>Corpo</td><td>Barril de 3 elipses com anca alta e redonda, sem rabo, barriga mais clara e tufos ásperos no dorso.</td></tr><tr><td>Patas</td><td>Curtas e grossas, com patas quase pretas. Gingado lento de pares diagonais.</td></tr><tr><td>Mexerica</td><td>Laranja com folhinha. Balança no gingado, quase cai na cabeçada e voa no desmaio.</td></tr><tr><td>Bolsinha</td><td>Lona verde-oliva com aba, etiqueta com cruz vermelha e alça de couro cruzando o corpo.</td></tr><tr><td>Pelagens</td><td>Marrom (ficha), ruiva e escura.</td></tr></tbody></table></div>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{BATON}}
+{{VIGIA}}
+{{CORE}}
+{{PETJS}}
+(function(){
+'use strict';
+const PET=PET_CAPIVARA, ID=PET.id;
+const SW=200, SH=120, SGROUND=110, FW=PET.FW, FH=PET.FH, GROUND=PET.GROUND;
+{{BG}}
+const S={v:Object.keys(PET.VARS)[0], anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, fx:[]};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+let last=performance.now(), T=0;
+const OX=36, OY=SGROUND-GROUND;
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+function onFrame(){ const cv=PET.frame(S.v,S.anim,S.fi,5), P=PET.poseOf(S.anim,S.fi);
+  if(S.anim==='special'){
+    if(ID==='cachorro' && (S.fi===2||S.fi===3)) S.fx.push({k:'ring',x:OX+cv._mouth.x,y:OY+cv._mouth.y,t:0,big:S.fi===3});
+    if(ID==='gato' && (S.fi===1||S.fi===3)) for(let k=0;k<7;k++) S.fx.push({k:'smoke',x:OX+cv._center.x+(S.fi===3?46:0)+(Math.random()-.5)*30,y:OY+cv._center.y+(Math.random()-.5)*16,t:0,r:3+Math.random()*4});
+    if(ID==='gato' && S.fi===3) for(let k=0;k<6;k++) S.fx.push({k:'spark',x:OX+cv._center.x+46+(Math.random()-.5)*30,y:OY+cv._center.y-10+(Math.random()-.5)*20,t:0});
+    if(ID==='capivara' && S.fi===1) S.fx.push({k:'aura',x:OX+cv._center.x,y:SGROUND+1,t:0});
+    if(ID==='capivara' && S.fi>=1 && S.fi<=4) for(let k=0;k<3;k++) S.fx.push({k:Math.random()<.4?'heart':'cross',x:OX+cv._center.x+(Math.random()-.5)*60,y:SGROUND-4-Math.random()*20,t:0});
+  }
+  if(S.anim==='attack' && ((ID==='cachorro'&&S.fi===3)||(ID==='gato'&&S.fi===2)||(ID==='capivara'&&S.fi===3))) S.fx.push({k:ID==='gato'?'scratch':'star',x:OX+(ID==='gato'?cv._paw.x+6:cv._mouth.x+4),y:OY+(ID==='gato'?cv._paw.y-6:cv._mouth.y),t:0});
+}
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=PET.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); onFrame(); updStrip(); } }
+  if(S.anim==='walk' && S.playing) S.scroll+=dt*(S.slow?6:12);
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function draw(dt){
+  drawBG(g,'comum',S.scroll,T);
+  const cv=PET.frame(S.v,S.anim,S.fi,S.step), P=PET.poseOf(S.anim,S.fi), X=OX+(P.shift||0), Y=OY;
+  S.fx.filter(f=>f.k==='aura').forEach(f=>{ f.t+=dt; const r=10+f.t*40, a=Math.max(0,0.9-f.t*0.6); g.strokeStyle='rgba(111,220,122,'+a+')'; g.lineWidth=2; g.beginPath(); g.ellipse(f.x,f.y,r,r*0.28,0,0,Math.PI*2); g.stroke(); glow(f.x,f.y,r*0.8,'rgba(111,220,122,'+(a*0.25)+')'); });
+  const al=P.alpha==null?1:P.alpha;
+  if(al>0){ g.fillStyle='rgba(10,4,16,'+(0.5*al)+')'; for(let y=-1;y<=1;y++){ const w=Math.floor(Math.sqrt(1-(y/2)**2)*26); g.fillRect(X+PET.AX-w-4,SGROUND+y+1,w*2,1); }
+    g.save(); g.globalAlpha=al; g.drawImage(cv,X,Y); g.restore(); }
+  S.fx.forEach(f=>{ if(f.k==='aura') return; f.t+=dt;
+    if(f.k==='ring'){ for(let k=0;k<(f.big?3:2);k++){ const rr=f.t*90-k*7; if(rr<3) continue; g.strokeStyle=k%2?'rgba(255,214,60,'+Math.max(0,1-f.t*2)+')':'rgba(255,255,255,'+Math.max(0,1-f.t*2)+')'; g.lineWidth=1; g.beginPath(); g.arc(f.x,f.y,rr,-0.8,0.8); g.stroke(); } }
+    if(f.k==='smoke'){ const a=Math.max(0,0.85-f.t*1.3); g.fillStyle='rgba(200,196,214,'+a+')'; const r=f.r+f.t*8; g.beginPath(); g.arc(f.x,f.y-f.t*8,r,0,Math.PI*2); g.fill(); }
+    if(f.k==='spark'){ const a=Math.max(0,1-f.t*1.6); g.fillStyle='rgba(255,240,170,'+a+')'; g.fillRect(Math.round(f.x)-1,Math.round(f.y),3,1); g.fillRect(Math.round(f.x),Math.round(f.y)-1,1,3); }
+    if(f.k==='cross'||f.k==='heart'){ const a=Math.max(0,1-f.t*0.9), y=Math.round(f.y-f.t*18), x=Math.round(f.x); g.fillStyle=f.k==='cross'?'rgba(111,220,122,'+a+')':'rgba(255,110,130,'+a+')';
+      if(f.k==='cross'){ g.fillRect(x-1,y-3,2,6); g.fillRect(x-3,y-1,6,2); } else { g.fillRect(x-2,y-2,2,2); g.fillRect(x+1,y-2,2,2); g.fillRect(x-3,y-1,6,2); g.fillRect(x-2,y+1,4,1); g.fillRect(x-1,y+2,2,1); } }
+    if(f.k==='star'){ const a=Math.max(0,1-f.t*3); g.fillStyle='rgba(255,255,255,'+a+')'; for(let k=0;k<8;k++){ const an=k/8*Math.PI*2; for(let r=3;r<9;r++) g.fillRect(Math.round(f.x+Math.cos(an)*r),Math.round(f.y+Math.sin(an)*r),1,1); } }
+    if(f.k==='scratch'){ const a=Math.max(0,1-f.t*2.5); g.fillStyle='rgba(255,255,255,'+a+')'; for(let k=0;k<3;k++) for(let r=0;r<12;r++) g.fillRect(Math.round(f.x-4+r*0.8+k*3),Math.round(f.y-6+r),1,1); }
+  });
+  S.fx=S.fx.filter(f=>f.t<(f.k==='aura'?1.5:1.2));
+  if(S.anim==='ko' && S.fi>=3){ const h=cv._head; for(let k=0;k<3;k++){ const a=T*6+k*2.1; g.fillStyle='#ffd23f'; g.fillRect(Math.round(X+h.x+Math.cos(a)*8),Math.round(Y+h.y-2+Math.sin(a)*2.5),2,2); } }
+  const ON={cachorro:{sp0:['bubble','!'],sp:['burst','AU! AU!'],atk:['burst','NHAC!'],hurt:['burst','CAIN!']},gato:{sp0:['bubble','prrr'],sp:['bubble','puff!'],atk:['burst','FSST!'],hurt:['burst','MIAU!']},capivara:{sp0:['bubble','…'],sp:['bubble','tô de boa'],atk:['burst','TUM!'],hurt:['burst','ué?']}}[ID];
+  const h=cv._head;
+  if(S.anim==='special' && S.fi===0) setFx(ON.sp0[0],ON.sp0[1],X+h.x+12,Y+h.y-8);
+  else if(S.anim==='special' && S.fi>=2 && S.fi<=4) setFx(ON.sp[0],ON.sp[1],OX+h.x+18+(ID==='gato'?46:0),Y+h.y-12);
+  else if(S.anim==='attack' && S.fi===(ID==='gato'?2:3)) setFx(ON.atk[0],ON.atk[1],X+cv._mouth.x+16,Y+cv._mouth.y-14);
+  else if(S.anim==='hurt' && S.fi<=1) setFx(ON.hurt[0],ON.hurt[1],X+h.x,Y+h.y-10);
+  else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${PET.ANIMS[S.anim].n} · ${PET.ANIMS[S.anim].dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,128,92); r1.drawImage(cv,0,0);
+  const r2=document.getElementById('r2').getContext('2d'); r2.clearRect(0,0,90,65); PIX.setK(0.7); r2.drawImage(PET.frame(S.v,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(PET.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; S.fx=[]; press('anims','anim',S.anim); buildStrip(); });
+document.getElementById('vars').innerHTML=Object.entries(PET.VARS).map(([k,v],i)=>`<button data-v="${k}" aria-pressed="${i===0}">${v.nome}</button>`).join('');
+document.querySelectorAll('#vars button').forEach(b=>b.onclick=()=>{ S.v=b.dataset.v; press('vars','v',S.v); buildStrip(); buildRamps(); after(); scale(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%PET.ANIMS[S.anim].n; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=PET.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(PET.frame(S.v,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+const NAMES={fur:'Pelo',dark:'Pelo escuro',far:'Lado de lá',cream:'Creme',stripe:'Listras',light:'Pelo claro',snout:'Focinho',band:'Bandana',orange:'Mexerica',bag:'Bolsinha',iris:'Olho',tongue:'Língua'};
+function buildRamps(){ const M=PET.mats(S.v); document.getElementById('varName').textContent=PET.VARS[S.v].nome;
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(NAMES).filter(k=>M[k]).map(k=>`<div class="ramp"><span>${NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join(''); }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(PET.frame(S.v,'idle',0,5),0,0); }
+function scale(){ const c=document.getElementById('scaleCv').getContext('2d'); c.imageSmoothingEnabled=false; c.clearRect(0,0,210,150); c.fillStyle='#2a1d40'; c.fillRect(0,146,210,1);
+  const v=VIGIA.frame('media','comum','idle',0,1), t=document.createElement('canvas'); t.width=v.width; t.height=v.height; const tc=t.getContext('2d'); tc.drawImage(v,0,0); tc.globalCompositeOperation='source-atop'; tc.fillStyle='#6a5aa0'; tc.fillRect(0,0,t.width,t.height); c.drawImage(t,10,146-VIGIA.GROUND); c.fillStyle='#ac9dca'; c.font='9px monospace'; c.fillText('Vigia',40,20); c.drawImage(PET.frame(S.v,'idle',0,5),88,146-GROUND); }
+const old=new Image(); old.onload=()=>{ const c=document.getElementById('beforeCv').getContext('2d'); c.imageSmoothingEnabled=false; c.drawImage(old,0,0,128,128,0,0,128,128); }; old.src='data:image/png;base64,{{OLDPNG}}';
+buildStrip(); buildRamps(); after(); scale(); draw(0); requestAnimationFrame(loop);
+})();
+</script>

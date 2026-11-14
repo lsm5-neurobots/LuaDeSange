@@ -1,0 +1,79 @@
+/* ===== Mercado ===== */
+.mk-hint { margin: 0 0 8px; color: var(--muted); font-size: 13px }
+.mk-invs { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 10px }
+.mk-inv { display: inline-flex; align-items: center; gap: 2px; background: var(--panel2); border: 1px solid var(--c); border-radius: 999px; padding: 1px 10px 1px 4px; font-size: 13px }
+.mk-inv img.ico { vertical-align: 0 }
+.mk-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-top: 10px }
+.mk-card { display: grid; grid-template-columns: 54px 1fr; grid-template-rows: 1fr auto; gap: 6px 10px; background: var(--panel2); border: 2px solid var(--line); border-left: 4px solid var(--c); border-radius: 10px; padding: 10px }
+.mk-ic { grid-row: 1 / 3; width: 54px; height: 54px; display: grid; place-items: center; background: color-mix(in srgb, var(--c) 22%, #120a1e); border: 2px solid #000; box-shadow: inset 2px 2px 0 color-mix(in srgb, var(--c) 70%, #fff), inset -2px -2px 0 color-mix(in srgb, var(--c) 45%, #000) }
+.mk-ic img.ico { margin: 0; vertical-align: 0 }
+.mk-txt b { font-family: var(--f-display); font-size: 16px }
+.mk-txt p { margin: 2px 0; font-size: 12px; color: var(--muted) }
+.mk-txt small { font-size: 11px; color: var(--ink) }
+.mk-buy { display: flex; justify-content: space-between; align-items: center; gap: 8px }
+.mk-buy .cost { font-size: 12px }
+
+/* ===== Plano da expedição ===== */
+.ep { display: grid; gap: 10px }
+.ep-how { background: var(--panel2); border: 2px solid var(--line); border-radius: 10px; padding: 10px 12px }
+.ep-how ol { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px; font-size: 14px }
+.ep-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px }
+.ep-tog { display: flex; gap: 10px; align-items: center; text-align: left; background: var(--panel2); border: 2px solid var(--line); border-radius: 10px; padding: 8px 10px; color: var(--ink); font: inherit }
+.ep-tog small { display: block; font-size: 11px; color: var(--muted) }
+.ep-tog .sw { flex: none; width: 38px; height: 22px; border-radius: 999px; background: #2a2038; position: relative; transition: background .2s }
+.ep-tog .sw::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: #8a7aa0; transition: transform .2s, background .2s }
+.ep-tog[aria-pressed=true] { border-color: var(--moon) }
+.ep-tog[aria-pressed=true] .sw { background: #6a4a14 }
+.ep-tog[aria-pressed=true] .sw::after { transform: translateX(16px); background: var(--moon) }
+.ep-lim { display: flex; align-items: center; gap: 6px; flex-wrap: wrap }
+.ep-bag { display: grid; gap: 6px }
+.ep-bag > .lbl { display: flex; align-items: center; justify-content: space-between }
+.ep-item { display: grid; grid-template-columns: 40px 1fr auto; gap: 10px; align-items: center; background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px }
+.ep-item.none { opacity: .45 }
+.ep-ic { width: 40px; height: 40px; display: grid; place-items: center; background: color-mix(in srgb, var(--c) 22%, #120a1e); border: 2px solid #000; box-shadow: inset 2px 2px 0 color-mix(in srgb, var(--c) 70%, #fff), inset -2px -2px 0 color-mix(in srgb, var(--c) 45%, #000) }
+.ep-ic img.ico { margin: 0; vertical-align: 0 }
+.ep-nm small { display: block; font-size: 11px; color: var(--muted) }
+.ep-st { display: flex; align-items: center; gap: 6px }
+.ep-st small { color: var(--muted) }
+
+/* plano da expedição: cards de configuração, sliders, segmentos e chips */
+.ep-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 10px }
+.ep-card { background: var(--panel); border: 2px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 8px; align-content: start }
+.ep-card h3 { margin: 0; font-family: var(--f-pix); font-weight: 400; font-size: 16px; color: var(--moon) }
+.ep-card .ep-h-loop { margin-top: 6px }
+.ep-sl { display: grid; gap: 4px; background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px }
+.ep-sl-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 14px }
+.ep-sl output { font-family: var(--f-pix); color: var(--moon); font-size: 15px }
+.ep-sl small { font-size: 11px; color: var(--muted) }
+.ep-sl input[type=range] { width: 100%; accent-color: var(--moon); height: 22px; cursor: pointer }
+.ep-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap }
+.ep-seg { display: flex; gap: 4px; flex-wrap: wrap }
+.ep-chips { display: flex; flex-wrap: wrap; gap: 6px; align-items: center }
+.ep-chip { font: inherit; font-size: 13px; padding: 4px 10px; border-radius: 999px; border: 2px solid var(--line); background: #1a1028; color: var(--muted); cursor: pointer }
+.ep-chip[aria-pressed=true] { border-color: var(--moon); background: #3a2a0c; color: var(--ink) }
+.ep-chip:focus-visible, .ep-sl input:focus-visible { outline: 2px solid var(--cosmic); outline-offset: 2px }
+.ep-foot { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: space-between }
+@media (max-width: 480px) { .ep-grid { grid-template-columns: 1fr } }
+
+/* plano: abas (cada assunto num lugar só) */
+.ep-tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--line); overflow-x: auto; scrollbar-width: thin }
+.ep-tab { flex: 1 0 auto; display: grid; gap: 1px; text-align: left; min-width: 104px; padding: 8px 12px 6px; background: transparent; color: var(--muted);
+  border: 2px solid transparent; border-bottom: 0; border-radius: 8px 8px 0 0; margin-bottom: -2px; cursor: pointer; font-family: var(--f-pix) }
+.ep-tab b { font-weight: 400; font-size: 15px }
+.ep-tab small { font-size: 11px; font-family: var(--f-body); white-space: nowrap }
+.ep-tab:hover { color: var(--ink) }
+.ep-tab[aria-selected=true] { background: var(--panel); color: var(--moon); border-color: var(--line); border-bottom: 2px solid var(--panel) }
+.ep-tab[aria-selected=true] small { color: var(--ink) }
+.ep-pane { min-height: 260px }
+.ep-pane .ep-card, .ep-pane .ep-how { border-top-left-radius: 0; border-top: 0; border-radius: 0 0 10px 10px }
+
+/* plano: bloco de controles do modo manual */
+.ep-ctrl h3 { margin: 0; font-family: var(--f-pix); font-weight: 400; font-size: 16px; color: var(--moon) }
+.ep-keys { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px }
+.ep-keys li { display: flex; align-items: center; gap: 8px; min-width: 0; background: #120a1c; border: 2px solid #000; border-radius: 8px; padding: 6px 8px; font-family: var(--f-pix); font-size: 13px; color: var(--ink); box-shadow: inset 0 -3px 0 #2a1b46 }
+.ep-keys kbd { flex: none; font-family: inherit; font-size: 12px; color: var(--moon); background: #1e1333; border: 2px solid #000; border-bottom-width: 3px; border-radius: 4px; padding: 1px 6px }
+.ep-keys span { min-width: 0 }
+.ep-keys small { display: block; font-family: var(--f-body); font-size: 11px; color: var(--muted); letter-spacing: 0; text-transform: none }
+.ep-keys b { color: var(--moon); font-weight: 400 }
+.ep-note { margin: 0; font-family: var(--f-body); font-size: 12px; color: var(--muted) }
+@media (max-width: 640px) { .ep-keys { grid-template-columns: 1fr } }

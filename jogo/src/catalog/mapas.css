@@ -1,0 +1,43 @@
+@import './zumbis.css';
+
+.top { position: relative; grid-template-columns: 1fr }
+.top nav a[aria-current=true] { color: var(--moon); background: var(--panel); }
+.top .links { font-family: var(--f-pix); font-size: 13px; color: var(--muted) }
+.top .links a { color: var(--cosmic) }
+.ctl label { display: flex; gap: 6px; align-items: center; cursor: pointer }
+.ctl button[aria-pressed=true] { background: #3a2a14; border-color: var(--moon); color: var(--moon) }
+
+.mapa-head { display: grid; gap: 4px; margin: 18px 0 10px }
+.mapa-head h2 { margin: 0 }
+.mapa-head p { margin: 0; color: var(--muted); max-width: 900px }
+.mapa-head .meta { font-family: var(--f-pix); font-size: 13px; color: var(--ink) }
+
+.viewer { background: var(--panel); border: 2px solid var(--line); border-radius: 12px; padding: 10px; display: grid; gap: 8px }
+.viewer .screen { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 8px; overflow: hidden }
+.viewer canvas.big { width: 100%; height: 100%; display: block }
+.viewer .hud { position: absolute; left: 10px; top: 8px; font: 13px var(--f-pix); background: rgba(10, 6, 20, .72); padding: 3px 8px; border-radius: 6px; pointer-events: none }
+.viewer .busy { position: absolute; right: 10px; top: 8px; font: 12px var(--f-pix); color: var(--moon); background: rgba(10, 6, 20, .72); padding: 3px 8px; border-radius: 6px }
+.viewer .busy[hidden] { display: none }
+.scrub { display: grid; gap: 4px }
+.scrub input[type=range] { width: 100%; accent-color: var(--moon) }
+.ticks { position: relative; height: 22px }
+.ticks button { position: absolute; transform: translateX(-1px); font: 11px var(--f-pix); color: var(--muted); background: none; border: 0; border-left: 2px solid var(--line); padding: 0 4px; cursor: pointer; white-space: nowrap; height: 22px }
+.ticks button:hover, .ticks button.on { color: var(--moon); border-left-color: var(--moon) }
+.vrow { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-family: var(--f-pix); font-size: 13px }
+.vrow button { font: 13px var(--f-pix); color: var(--ink); background: var(--panel2); border: 2px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer }
+.vrow button:hover { border-color: var(--moon) }
+
+.areas { display: grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap: 14px; margin-top: 18px; align-items: start }
+.area { background: var(--panel); border: 2px solid var(--line); border-radius: 12px; padding: 10px; display: grid; gap: 8px; min-width: 0 }
+.area.arena { border-color: #5a3a8a }
+.area header { display: flex; justify-content: space-between; gap: 8px; align-items: center }
+.area h3 { margin: 0; font: 17px var(--f-display) }
+.area .thumb { width: 100%; aspect-ratio: 16 / 9; background: #0d0818; border-radius: 8px; display: block; cursor: pointer }
+.area .ref { margin: 0; font: 12px var(--f-pix); color: var(--cosmic) }
+.area .desc { margin: 0; color: var(--muted); font-size: 14px }
+.area .zs { margin: 0; font-size: 13px }
+.area .zs b { font-family: var(--f-pix); color: var(--muted); font-weight: 400; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; margin-right: 4px }
+
+@media (max-width: 600px) {
+  .areas { grid-template-columns: 1fr }
+}

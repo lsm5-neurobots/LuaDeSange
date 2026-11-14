@@ -1,0 +1,225 @@
+{
+ "grupo": "cabelos",
+ "itens": [
+  {
+   "id": "m_curto",
+   "nome": "Curto",
+   "camada": "hair",
+   "arquivo": "heroi/hair_m_curto.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "curto"
+  },
+  {
+   "id": "m_raspado",
+   "nome": "Raspado",
+   "camada": "hair",
+   "arquivo": "heroi/hair_m_raspado.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "raspado"
+  },
+  {
+   "id": "m_topete",
+   "nome": "Topete",
+   "camada": "hair",
+   "arquivo": "heroi/hair_m_topete.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "topete"
+  },
+  {
+   "id": "m_black",
+   "nome": "Black power",
+   "camada": "hair",
+   "arquivo": "heroi/hair_m_black.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "black"
+  },
+  {
+   "id": "m_black_back",
+   "nome": "Black power (atrás)",
+   "camada": "hair_back",
+   "arquivo": "heroi/hair_back_m_black.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "black"
+  },
+  {
+   "id": "m_moicano",
+   "nome": "Moicano",
+   "camada": "hair",
+   "arquivo": "heroi/hair_m_moicano.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "moicano"
+  },
+  {
+   "id": "m_careca",
+   "nome": "Careca",
+   "camada": "hair",
+   "arquivo": null,
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "careca"
+  },
+  {
+   "id": "f_longo",
+   "nome": "Longo",
+   "camada": "hair",
+   "arquivo": "heroi/hair_f_longo.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "longo"
+  },
+  {
+   "id": "f_longo_back",
+   "nome": "Longo (atrás)",
+   "camada": "hair_back",
+   "arquivo": "heroi/hair_back_f_longo.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "longo"
+  },
+  {
+   "id": "f_rabo",
+   "nome": "Rabo de cavalo",
+   "camada": "hair",
+   "arquivo": "heroi/hair_f_rabo.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "rabo"
+  },
+  {
+   "id": "f_rabo_back",
+   "nome": "Rabo de cavalo (atrás)",
+   "camada": "hair_back",
+   "arquivo": "heroi/hair_back_f_rabo.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "rabo"
+  },
+  {
+   "id": "f_coque",
+   "nome": "Coque",
+   "camada": "hair",
+   "arquivo": "heroi/hair_f_coque.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "coque"
+  },
+  {
+   "id": "f_cacheado",
+   "nome": "Cacheado",
+   "camada": "hair",
+   "arquivo": "heroi/hair_f_cacheado.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "cacheado"
+  },
+  {
+   "id": "f_cacheado_back",
+   "nome": "Cacheado (atrás)",
+   "camada": "hair_back",
+   "arquivo": "heroi/hair_back_f_cacheado.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "cacheado"
+  },
+  {
+   "id": "f_chanel",
+   "nome": "Chanel",
+   "camada": "hair",
+   "arquivo": "heroi/hair_f_chanel.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "chanel"
+  },
+  {
+   "id": "f_chanel_back",
+   "nome": "Chanel (atrás)",
+   "camada": "hair_back",
+   "arquivo": "heroi/hair_back_f_chanel.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "chanel"
+  },
+  {
+   "id": "f_careca",
+   "nome": "Careca",
+   "camada": "hair",
+   "arquivo": null,
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#1d1410",
+   "opcao": "hair",
+   "estilo": "careca"
+  },
+  {
+   "id": "barba",
+   "nome": "Barba",
+   "camada": "beard",
+   "arquivo": "heroi/beard_m.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#1d1410",
+   "opcao": "beard",
+   "estilo": "com"
+  },
+  {
+   "id": "sem_barba",
+   "nome": "Sem barba",
+   "camada": "beard",
+   "arquivo": null,
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#1d1410",
+   "opcao": "beard",
+   "estilo": "sem"
+  }
+ ],
+ "cores": {
+  "hair_color": [
+   "#1d1410",
+   "#4a2e1a",
+   "#8a5a2b",
+   "#d9a441",
+   "#b8382c",
+   "#e6e1d6"
+  ]
+ },
+ "obs": "Camadas brancas: multiplicar pela hair_color. hair_back pinta antes do corpo; beard antes de hair. Itens com arquivo null = sem camada. Mesmo 'estilo' liga hair e hair_back."
+}

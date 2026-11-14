@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Herói e Recrutas da Lua de Sangue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --night: #13111b; --night-2: #1c1927; --night-3: #241f33; --line: #2e2a3c;
+  --bone: #ece4d2; --bone-dim: #b5ac9c; --moon: #d0343c; --moonlit: #b9a7e8;
+  --grass-a: #3a462e; --grass-b: #404d32;
+  --f-display: "Pixelify Sans", "Courier New", monospace;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--night); color: var(--bone); font: 17px/1.55 var(--f-body); }
+img, canvas { image-rendering: pixelated; max-width: 100%; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+header.wrap { padding-top: 34px; }
+.moon { width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ec6870, var(--moon) 55%, #6e1418); box-shadow: 0 0 30px rgba(208,52,60,.45); }
+h1 { font: 700 clamp(30px, 6vw, 48px)/1.05 var(--f-display); margin: 18px 0 10px; text-wrap: balance; }
+.lede { color: var(--bone-dim); max-width: 72ch; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+.chips li { font: 500 13px var(--f-display); border: 1px solid var(--line); padding: 4px 10px; border-radius: 3px; color: var(--bone-dim); }
+nav.top { position: sticky; top: 0; z-index: 5; background: rgba(19,17,27,.94); backdrop-filter: blur(4px); border-bottom: 1px solid var(--line); margin-top: 22px; }
+nav.top .wrap { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-top: 10px; padding-bottom: 10px; }
+nav.top a { font: 500 14px var(--f-display); color: var(--bone); text-decoration: none; padding: 5px 10px; border: 1px solid var(--line); border-radius: 4px; }
+nav.top a:hover { border-color: var(--moon); }
+.tb-label { font: 500 13px var(--f-display); color: var(--bone-dim); margin-left: auto; }
+.btn { font: 500 13px var(--f-display); padding: 6px 11px; border-radius: 4px; border: 1px solid #4a4360; background: var(--night-2); color: var(--bone); cursor: pointer; }
+.btn[aria-pressed="true"] { background: var(--moon); border-color: var(--moon); color: #fff; }
+.btn:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--moonlit); outline-offset: 2px; }
+h2.sec { font: 700 32px var(--f-display); margin: 40px 0 6px; border-bottom: 2px solid var(--line); padding-bottom: 10px; scroll-margin-top: 64px; }
+.sec-lede { color: var(--bone-dim); margin: 0 0 18px; max-width: 72ch; }
+h3 { font: 700 16px var(--f-display); color: var(--moonlit); margin: 22px 0 8px; letter-spacing: .03em; }
+.stage { width: 256px; height: 256px; border-radius: 6px; overflow: hidden; background-color: var(--grass-a);
+  background-image: linear-gradient(45deg, var(--grass-b) 25%, transparent 25%, transparent 75%, var(--grass-b) 75%), linear-gradient(45deg, var(--grass-b) 25%, transparent 25%, transparent 75%, var(--grass-b) 75%);
+  background-size: 64px 64px; background-position: 0 0, 32px 32px; }
+.stage canvas { width: 256px; height: 256px; display: block; }
+.stage.big, .stage.big canvas { width: 320px; height: 320px; }
+.rowbtns { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.rowbtns button { font: 500 12px var(--f-display); padding: 4px 7px; border-radius: 3px; border: 1px solid #b5ac9c; background: #f6f0e2; color: #2a2433; cursor: pointer; }
+.rowbtns button[aria-pressed="true"] { background: var(--night); color: var(--bone); border-color: var(--night); }
+.dark .rowbtns button { background: var(--night-2); color: var(--bone); border-color: #4a4360; }
+.dark .rowbtns button[aria-pressed="true"] { background: var(--moon); border-color: var(--moon); color: #fff; }
+.fr { font: 400 12px var(--f-mono); color: var(--bone-dim); margin-top: 6px; min-height: 1.4em; }
+/* criador */
+.creator { display: grid; grid-template-columns: 340px 1fr; gap: 28px; align-items: start; }
+.creator .left { position: sticky; top: 70px; background: var(--night-2); border: 1px solid var(--line); border-radius: 10px; padding: 10px; }
+.opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px 22px; }
+.opt label, .opt .lbl { display: block; font: 500 13px var(--f-display); color: var(--bone-dim); margin-bottom: 5px; }
+.sw { display: flex; flex-wrap: wrap; gap: 6px; }
+.sw button { width: 28px; height: 28px; border-radius: 4px; border: 2px solid #0008; cursor: pointer; padding: 0; }
+.sw button.none { background: repeating-linear-gradient(45deg, #2a2633 0 4px, #3a3446 4px 8px); }
+.sw button[aria-pressed="true"] { outline: 2px solid var(--bone); outline-offset: 2px; }
+.ch { display: flex; flex-wrap: wrap; gap: 5px; }
+.ch button { font: 500 12px var(--f-display); padding: 5px 9px; border-radius: 4px; border: 1px solid #4a4360; background: var(--night-3); color: var(--bone); cursor: pointer; }
+.ch button[aria-pressed="true"] { background: var(--moon); border-color: var(--moon); color: #fff; }
+.layers { font: 400 11px var(--f-mono); color: var(--bone-dim); margin-top: 8px; line-height: 1.5; }
+/* fichas */
+.partes { display: grid; grid-template-columns: 170px 1fr; margin: 0; border-top: 1px solid var(--line); }
+.partes dt, .partes dd { margin: 0; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.partes dt { font: 500 14px var(--f-display); padding-right: 12px; }
+.partes dd { color: var(--bone-dim); }
+.pal { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.pal li { display: flex; align-items: center; gap: 7px; background: var(--night-2); border: 1px solid var(--line); border-radius: 4px; padding: 4px 9px 4px 4px; font-size: 13px; }
+.pal i { width: 22px; height: 22px; border-radius: 3px; border: 1px solid #0006; display: block; }
+.pal code { font: 400 11px var(--f-mono); color: var(--bone-dim); }
+.anims { margin: 0; padding: 0; list-style: none; }
+.anims li { padding: 7px 0; border-bottom: 1px solid var(--line); color: var(--bone-dim); }
+.anims b { font: 500 14px var(--f-display); color: var(--bone); margin-right: 6px; }
+.ev { font: 400 11px var(--f-mono); color: var(--moonlit); margin-left: 4px; }
+details.doc { background: var(--night-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 16px; margin: 12px 0; }
+details.doc > summary { cursor: pointer; font: 700 18px var(--f-display); }
+details.doc > summary small { font: 400 14px var(--f-body); color: var(--bone-dim); margin-left: 8px; }
+.entry { display: grid; grid-template-columns: 300px 1fr; gap: 28px; padding: 32px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 64px; }
+.card { position: sticky; top: 70px; margin: 0; align-self: start; background: var(--bone); border-radius: 12px; padding: 22px 22px 16px; box-shadow: 0 6px 0 #0008; }
+.card .corner { position: absolute; font: 700 13px/1.05 var(--f-display); color: var(--moon); }
+.card .tl { top: 5px; left: 8px; } .card .br { bottom: 5px; right: 8px; transform: rotate(180deg); }
+.card-name { font: 700 22px var(--f-display); color: var(--night); margin: 10px 0 0; }
+.card-sub { color: #5a5248; font-size: 14px; margin: 0 0 4px; font-style: italic; }
+.card .fr { color: #5a5248; }
+h4.nm { font: 700 30px var(--f-display); margin: 0; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+.tag { font: 500 12px var(--f-display); border-radius: 3px; padding: 2px 8px; }
+.tag.p { background: #2f6b3a; } .tag.s { background: #3a4a7a; } .tag.x { background: #7a2a2a; } .tag.e { background: var(--moon); }
+.conceito { font-size: 18px; max-width: 70ch; margin: 0 0 12px; }
+.var img { width: 100%; max-width: 480px; background: #2a2a2a; border-radius: 6px; margin-top: 6px; }
+details.sheet summary { cursor: pointer; font: 500 14px var(--f-display); color: var(--bone-dim); margin-top: 14px; }
+details.sheet img { margin-top: 10px; background: #2a2a2a; border-radius: 4px; width: 100%; max-width: 1024px; }
+nav.index { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin: 10px 0 6px; }
+.idx { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 6px; border-radius: 8px; text-decoration: none; color: var(--bone); background: var(--night-2); border: 1px solid var(--line); }
+.idx:hover { border-color: var(--moon); }
+.idx canvas { width: 104px; height: 104px; }
+.idx-name { font: 500 14px var(--f-display); }
+.missing { color: var(--moon); font-family: var(--f-display); padding: 20px 0; }
+footer { color: var(--bone-dim); font-size: 13px; padding: 30px 0 50px; }
+@media (max-width: 860px) { .creator, .entry { grid-template-columns: 1fr; } .creator .left, .card { position: relative; top: 0; justify-self: center; } .partes { grid-template-columns: 1fr; } .partes dt { border-bottom: 0; padding-bottom: 0; } }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="moon" aria-hidden="true"></div>
+  <h1>Herói e Recrutas da Lua de Sangue</h1>
+  <p class="lede">O líder montado camada por camada, do jeito que o criador do jogo permite, e os 8 recrutas do abrigo, cada um com o seu ofício. Tudo em quadros de 128 px, na mesma câmera dos zumbis. Cada personagem tem uma ficha com a descrição de cada parte do corpo.</p>
+  <ul class="chips"><li>128 × 128 px</li><li>recrutas: folha 1024 × 768</li><li>herói: 1024 × 1024 (+ tiro e faca)</li><li>camadas tingíveis</li></ul>
+</header>
+<nav class="top" aria-label="Seções"><div class="wrap">
+  <a href="#heroi">Herói</a><a href="#recrutas">Recrutas</a><a href="#docs-heroi">Ficha do herói</a>
+  <span class="tb-label">Velocidade:</span>
+  <button class="btn" data-speed="0.5" aria-pressed="false">0,5×</button>
+  <button class="btn" data-speed="1" aria-pressed="true">1×</button>
+  <button class="btn" data-speed="2" aria-pressed="false">2×</button>
+</div></nav>
+
+<main class="wrap">
+  <h2 class="sec" id="heroi">O herói — personalização</h2>
+  <p class="sec-lede">Monte o seu líder. Cada escolha liga, desliga ou pinta uma camada (corpo, rosto, roupa, cabelo, equipamento, arma). O botão de ataque usa a linha certa para a arma: golpe de cima para baixo, tiro ou estocada.</p>
+  <div id="creator"></div>
+
+  <h2 class="sec" id="recrutas">Recrutas</h2>
+  <p class="sec-lede">Cada sobrevivente tem um ofício fixo, a profissão que tinha antes. O ataque é feito com a ferramenta do ofício e o especial mostra o trabalho dele no abrigo. No jogo, pele e cabelo são sorteados: a grade de variantes mostra as combinações.</p>
+  <nav class="index" id="recIndex" aria-label="Recrutas"></nav>
+  <div id="recEntries"></div>
+
+  <h2 class="sec" id="docs-heroi">Ficha do herói — parte por parte</h2>
+  <div id="heroDocs"></div>
+</main>
+<footer class="wrap">Gerado por código: tools/humano.py (esqueleto), tools/heroi_*.py (camadas do herói) e tools/recruta_*.py (recrutas), sobre tools/pixkit.py. Depois de regerar, rode tools/montar_pagina.py.</footer>
+
+<script src="data.js"></script>
+<script>
+(() => {
+  const D = window.DATA || {};
+  const S = 128;
+  const LABEL = { idle: 'Parado', walk: 'Andar', attack: 'Ataque', hurt: 'Dano', death: 'Queda', special: 'Especial', attack_fire: 'Tiro', attack_knife: 'Estocada' };
+  const ORDER = ['shadow', 'hair_back', 'body', 'face', 'pants', 'shoes', 'shirt', 'jacket', 'bag', 'arm', 'shirt_arm', 'jacket_arm', 'beard', 'hair', 'head', 'acc', 'weapon', 'fx'];
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  let speed = 1;
+  const players = [];
+  const imgCache = {};
+  const loadImg = src => imgCache[src] || (imgCache[src] = new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => no(src); i.src = src; }));
+
+  // ---------- player genérico (draw recebe (ctx,row,f)) ----------
+  function player(canvas, rows, row, drawFn, onFrame) {
+    const ctx = canvas.getContext('2d'); ctx.imageSmoothingEnabled = false;
+    const p = { row, f: 0, t: 0, rows };
+    p.draw = () => { ctx.clearRect(0, 0, S, S); drawFn(ctx, p.row, p.f); onFrame && onFrame(p); };
+    p.set = r => { p.row = r; p.f = 0; p.t = 0; p.draw(); };
+    p.tick = dt => { if (reduce) return; p.t += dt * speed; const d = D.dur[p.row][p.f]; if (p.t >= d) { p.t -= d; p.f = (p.f + 1) % D.nfr[p.row]; p.draw(); } };
+    players.push(p); return p;
+  }
+  function rowButtons(el, rows, p, labelFor) {
+    el.innerHTML = rows.map(r => `<button data-row="${r}" aria-pressed="${r === p.row}">${(labelFor && labelFor(r)) || LABEL[r]}</button>`).join('');
+    el.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+      el.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); p.set(b.dataset.row);
+    }));
+  }
+
+  // ---------- fichas (docs) ----------
+  function docHTML(d, rows) {
+    if (!d) return '<p class="missing">Ficha ainda não gerada.</p>';
+    const ev = d.eventos || {};
+    const evTxt = r => { const e = ev[r]; return e ? Object.entries(e).map(([k, v]) => `q${k}: ${esc(v)}`).join(' · ') : ''; };
+    const an = d.animacoes || {};
+    const rws = rows.filter(r => an[r]).concat(Object.keys(an).filter(k => !rows.includes(k)));
+    let opc = '';
+    if (d.opcoes) {
+      const list = Array.isArray(d.opcoes) ? d.opcoes : Object.entries(d.opcoes).map(([k, v]) => ({ nome: k, valores: v }));
+      opc = `<h3>OPÇÕES</h3><dl class="partes">${list.map(o => {
+        const nome = o.nome || o.opcao || o.id || '';
+        const v = o.valores ?? o.values ?? o.itens ?? o.descricao ?? o;
+        const txt = Array.isArray(v) ? v.map(x => x === null ? 'nenhuma' : (typeof x === 'object' ? (x.nome || x.id || JSON.stringify(x)) : x)).join(', ') : (v && typeof v === 'object' ? JSON.stringify(v) : v);
+        return `<dt>${esc(nome)}</dt><dd>${esc(txt)}</dd>`;
+      }).join('')}</dl>`;
+    }
+    return `${d.conceito ? `<p class="conceito">${esc(d.conceito)}</p>` : ''}
+      <h3>PARTE POR PARTE</h3>
+      <dl class="partes">${(d.partes || []).map(p => `<dt>${esc(p.parte)}</dt><dd>${esc(p.descricao)}</dd>`).join('')}</dl>
+      ${opc}
+      ${(d.paleta || []).length ? `<h3>PALETA</h3><ul class="pal">${d.paleta.map(c => `<li><i style="background:${esc(c.hex)}"></i>${esc(c.nome)} <code>${esc(c.hex)}</code></li>`).join('')}</ul>` : ''}
+      ${rws.length ? `<h3>ANIMAÇÕES</h3><ul class="anims">${rws.map(r => `<li><b>${LABEL[r] || esc(r)}</b>${esc(an[r])}${evTxt(r) ? `<span class="ev">[${evTxt(r)}]</span>` : ''}</li>`).join('')}</ul>` : ''}`;
+  }
+
+  // ---------- recrutas ----------
+  const recIdx = document.getElementById('recIndex'), recEnt = document.getElementById('recEntries');
+  (D.recrutas || []).forEach((r, i) => {
+    const a = document.createElement('a'); a.className = 'idx'; a.href = '#rec-' + r.id;
+    a.innerHTML = `<canvas width="128" height="128" aria-hidden="true"></canvas><span class="idx-name">${esc(r.nome)}</span>`;
+    recIdx.appendChild(a);
+    const sec = document.createElement('section'); sec.className = 'entry'; sec.id = 'rec-' + r.id;
+    sec.innerHTML = `
+      <figure class="card">
+        <span class="corner tl">${String(i + 1).padStart(2, '0')}</span><span class="corner br">${String(i + 1).padStart(2, '0')}</span>
+        <div class="stage"><canvas width="128" height="128" role="img" aria-label="${esc(r.nome)} animado"></canvas></div>
+        <p class="card-name">${esc(r.nome)}</p><p class="card-sub">“${esc(r.fala)}”</p>
+        <div class="rowbtns"></div><div class="fr"></div>
+      </figure>
+      <div>
+        <h4 class="nm">${esc(r.nome)}</h4>
+        <div class="tags"><span class="tag p">Principal: ${esc(r.pri)}</span><span class="tag s">Secundária: ${esc(r.sec)}</span><span class="tag x">Contrária: ${esc(r.con)}</span>${r.especial ? `<span class="tag e">Especial: ${esc(r.especial)}</span>` : ''}${r.ferramenta ? `<span class="tag s">Ferramenta: ${esc(r.ferramenta)}</span>` : ''}</div>
+        ${r.sheet ? '' : '<p class="missing">Folha ainda não gerada.</p>'}
+        ${docHTML(r.partes ? r : null, D.rows)}
+        ${r.variantes ? `<h3>VARIANTES (pele × cabelo)</h3><div class="var"><img src="${esc(r.variantes)}" alt="Variantes de pele e cabelo do ${esc(r.nome)}" loading="lazy"></div>` : ''}
+        ${r.sheet ? `<details class="sheet"><summary>Folha completa (1024 × 768)</summary><img src="${esc(r.sheet)}" alt="Folha de sprites do ${esc(r.nome)}" loading="lazy"></details>` : ''}
+      </div>`;
+    recEnt.appendChild(sec);
+    if (!r.sheet) return;
+    loadImg(r.sheet).then(img => {
+      const draw = (ctx, row, f) => ctx.drawImage(img, f * S, D.rows.indexOf(row) * S, S, S, 0, 0, S, S);
+      const ip = player(a.querySelector('canvas'), D.rows, 'walk', draw); ip.draw();
+      const fr = sec.querySelector('.fr');
+      const sp = player(sec.querySelector('.stage canvas'), D.rows, 'idle', draw, p => { fr.textContent = `${LABEL[p.row]} · quadro ${p.f + 1}/${D.nfr[p.row]}`; });
+      sp.draw(); rowButtons(sec.querySelector('.rowbtns'), D.rows, sp);
+    }).catch(() => {});
+  });
+
+  // ---------- docs do herói ----------
+  const hd = document.getElementById('heroDocs');
+  const hdocs = D.heroDocs || [];
+  hd.innerHTML = hdocs.length ? hdocs.map((d, k) => `<details class="doc" ${k === 0 ? 'open' : ''}><summary>${esc(d.nome || d.id)}<small>${(d.partes || []).length} partes</small></summary>${docHTML(d, D.hrows)}</details>`).join('')
+    : '<p class="missing">Fichas do herói ainda não geradas.</p>';
+
+  // ---------- criador do herói ----------
+  const H = D.hero || {};
+  const items = [].concat(...Object.values(H).map(m => m.itens || []));
+  const cores = Object.assign({}, ...Object.values(H).map(m => m.cores || {}));
+  const equip = H.equip || {};
+  const classes = equip.classes || [];
+  const skins = equip.skins || [];
+  const cr = document.getElementById('creator');
+  if (!items.length) { cr.innerHTML = '<p class="missing">Camadas do herói ainda não geradas.</p>'; }
+  else buildCreator();
+
+  function buildCreator() {
+    const by = (opcao, corpo) => items.filter(it => it.opcao === opcao && (!corpo || it.corpo === 'any' || it.corpo === corpo || !it.corpo));
+    const uniq = arr => [...new Map(arr.map(x => [x.id, x])).values()];
+    const firstCol = (k, def) => (cores[k] && cores[k].filter(Boolean)[0]) || def;
+    const st = {
+      body: 'm', skin: firstCol('skin', '#c98d5e'), hair: null, hair_color: firstCol('hair_color', '#1d1410'), beard: false,
+      shirt: firstCol('shirt', '#c0262d'), pants: firstCol('pants', '#2b3a5a'), jacket: null, armor: null,
+      weapon: (classes[0] && classes[0].arma) || null, head: null, bag: null, feet: null, acc: [], skinPal: null, cls: classes[0] ? classes[0].id : null,
+    };
+    const hkey = it => it.estilo || it.id;
+    const hairs = () => uniq(by('hair', st.body).filter(it => it.camada === 'hair').map(it => ({ id: hkey(it), nome: it.nome })));
+    st.hair = (hairs()[0] || {}).id || null;
+
+    cr.innerHTML = `<div class="creator">
+      <div class="left dark">
+        <div class="stage big"><canvas width="128" height="128" role="img" aria-label="Herói personalizado animado"></canvas></div>
+        <div class="rowbtns"></div><div class="fr"></div><div class="layers"></div>
+      </div>
+      <div class="opts"></div></div>`;
+    const opts = cr.querySelector('.opts');
+    const canvas = cr.querySelector('canvas');
+    const layersEl = cr.querySelector('.layers');
+
+    // cache de folhas tingidas
+    const tintCache = {};
+    function tinted(src, color) {
+      const key = src + '|' + (color || '');
+      if (tintCache[key]) return tintCache[key];
+      const img = imgCache.__done && imgCache.__done[src];
+      if (!img) return null;
+      if (!color) return (tintCache[key] = img);
+      const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+      const x = c.getContext('2d'); x.imageSmoothingEnabled = false;
+      x.drawImage(img, 0, 0); x.globalCompositeOperation = 'multiply'; x.fillStyle = color; x.fillRect(0, 0, c.width, c.height);
+      x.globalCompositeOperation = 'destination-in'; x.drawImage(img, 0, 0);
+      return (tintCache[key] = c);
+    }
+    imgCache.__done = {};
+    const ensure = src => imgCache.__done[src] ? Promise.resolve() : loadImg(src).then(i => { imgCache.__done[src] = i; });
+
+    function pal(k) { if (st.skinPal) { const s = skins.find(x => x.id === st.skinPal); if (s && s.pal && s.pal[k === 'hair_color' ? 'hair' : k]) return s.pal[k === 'hair_color' ? 'hair' : k]; } return st[k]; }
+    const isDefShoe = it => it.camada === 'shoes' && /^shoes_/.test(it.id);
+    const forBody = it => !it.corpo || it.corpo === 'any' || it.corpo === st.body;
+    function active() {
+      const L = [];
+      const add = (it, color) => it && forBody(it) && !L.some(l => l.it === it) && L.push({ it, color: it.tint ? color : null });
+      const of = f => items.filter(it => forBody(it) && f(it));
+      // base: corpo, braço, rosto, sombra, efeitos
+      of(it => ['body', 'arm'].includes(it.camada)).forEach(it => add(it, pal('skin')));
+      of(it => ['face', 'shadow', 'fx'].includes(it.camada)).forEach(it => add(it));
+      // roupas
+      of(it => it.camada === 'shirt' || it.camada === 'shirt_arm').forEach(it => add(it, pal('shirt')));
+      of(it => it.camada === 'pants').forEach(it => add(it, pal('pants')));
+      const jac = st.armor === 'jaqueta' ? (st.jacket || '#5b3a24') : (!st.armor ? st.jacket : null);
+      if (jac) of(it => it.opcao === 'jacket').forEach(it => add(it, jac));
+      if (st.armor && st.armor !== 'jaqueta') of(it => it.opcao === 'armor' && it.id === st.armor).forEach(it => add(it));
+      // calçado: equipamento substitui o tênis padrão
+      const feet = st.feet ? of(it => it.opcao === 'feet' && !isDefShoe(it) && it.id === st.feet) : [];
+      (feet.length ? feet : of(isDefShoe)).forEach(it => add(it));
+      if (st.hair) of(it => it.opcao === 'hair' && hkey(it) === st.hair).forEach(it => add(it, pal('hair_color')));
+      if (st.beard && st.body === 'm') of(it => it.opcao === 'beard').forEach(it => add(it, pal('hair_color')));
+      ['head', 'bag', 'weapon'].forEach(k => { if (st[k]) of(it => it.opcao === k && it.id === st[k]).forEach(it => add(it)); });
+      st.acc.forEach(a => of(it => it.opcao === 'acc' && it.id === a).forEach(it => add(it)));
+      L.sort((x, y) => ORDER.indexOf(x.it.camada) - ORDER.indexOf(y.it.camada));
+      return L;
+    }
+    let current = [];
+    function refresh() {
+      current = active();
+      Promise.all(current.map(l => ensure(l.it.arquivo))).then(() => { hp.draw(); });
+      layersEl.textContent = 'camadas: ' + current.map(l => l.it.camada + (l.color ? '·' + l.color : '')).join(' › ');
+    }
+    const weaponItem = () => items.find(it => it.opcao === 'weapon' && it.id === st.weapon);
+    const atkRow = () => { const w = weaponItem(); return (w && w.linha_ataque) || 'attack'; };
+    const off = document.createElement('canvas'); off.width = off.height = S;
+    const ox = off.getContext('2d'); ox.imageSmoothingEnabled = false;
+    const drawHero = (ctx, row, f) => {
+      const r = row === 'attack' ? atkRow() : row;
+      const ri = D.hrows.indexOf(r);
+      const ff = Math.min(f, D.nfr[r] - 1);
+      const gunFx = r === 'attack_fire' && weaponItem();   // a arma já traz clarão e cápsula
+      ox.globalCompositeOperation = 'source-over'; ox.clearRect(0, 0, S, S);
+      for (const l of current) {
+        if (l.it.camada === 'shadow' || (l.it.camada === 'fx' && gunFx)) continue;
+        const sh = tinted(l.it.arquivo, l.color); if (sh) ox.drawImage(sh, ff * S, ri * S, S, S, 0, 0, S, S);
+      }
+      // flash branco de dano (quadro 0 de dano/queda): clareia depois de tingir
+      if ((r === 'hurt' || r === 'death') && ff === 0) { ox.globalCompositeOperation = 'source-atop'; ox.fillStyle = 'rgba(255,250,246,.78)'; ox.fillRect(0, 0, S, S); }
+      const shd = current.find(l => l.it.camada === 'shadow');
+      if (shd) { const sh = tinted(shd.it.arquivo, null); if (sh) ctx.drawImage(sh, ff * S, ri * S, S, S, 0, 0, S, S); }
+      ctx.drawImage(off, 0, 0);
+    };
+    const fr = cr.querySelector('.fr');
+    const hp = player(canvas, D.rows, 'idle', drawHero, p => { fr.textContent = `${LABEL[p.row === 'attack' ? atkRow() : p.row]} · quadro ${p.f + 1}/${D.nfr[p.row]}`; });
+    rowButtons(cr.querySelector('.rowbtns'), D.rows, hp);
+
+    // ---- controles
+    const sw = (key, list, allowNone) => `<div class="sw">${(allowNone ? [null] : []).concat(list.filter(c => c !== null)).map(c => `<button data-k="${key}" data-v="${c ?? ''}" class="${c ? '' : 'none'}" style="${c ? 'background:' + c : ''}" aria-label="${c ?? 'nenhuma'}" aria-pressed="${st[key] === c}"></button>`).join('')}</div>`;
+    const ch = (key, list, allowNone, noneLabel) => `<div class="ch">${(allowNone ? [{ id: '', nome: noneLabel || 'Nenhum' }] : []).concat(list).map(x => `<button data-k="${key}" data-v="${x.id}" aria-pressed="${(st[key] || '') === x.id}">${esc(x.nome)}</button>`).join('')}</div>`;
+    function render() {
+      const hl = hairs();
+      const armorList = [{ id: 'jaqueta', nome: 'Jaqueta' }].concat(uniq(by('armor', st.body)).map(x => ({ id: x.id.replace(/_(m|f)$/, ''), nome: x.nome })));
+      const weapons = uniq(by('weapon'));
+      opts.innerHTML = `
+        ${classes.length ? `<div class="opt"><span class="lbl">Classe de luta</span>${ch('cls', classes.map(c => ({ id: c.id, nome: c.nome })))}</div>` : ''}
+        <div class="opt"><span class="lbl">Corpo</span>${ch('body', [{ id: 'm', nome: 'Masculino' }, { id: 'f', nome: 'Feminino' }])}</div>
+        <div class="opt"><span class="lbl">Pele</span>${sw('skin', cores.skin || [])}</div>
+        <div class="opt"><span class="lbl">Cabelo</span>${ch('hair', hl.map(h => ({ id: h.id, nome: h.nome })), true, 'Careca')}</div>
+        <div class="opt"><span class="lbl">Cor do cabelo</span>${sw('hair_color', cores.hair_color || [])}</div>
+        ${st.body === 'm' && by('beard', 'm').length ? `<div class="opt"><span class="lbl">Barba</span><div class="ch"><button data-k="beard" data-v="" aria-pressed="${!st.beard}">Sem</button><button data-k="beard" data-v="1" aria-pressed="${st.beard}">Com</button></div></div>` : ''}
+        <div class="opt"><span class="lbl">Camisa</span>${sw('shirt', cores.shirt || [])}</div>
+        <div class="opt"><span class="lbl">Calça</span>${sw('pants', cores.pants || [])}</div>
+        <div class="opt"><span class="lbl">Jaqueta (cor)</span>${sw('jacket', cores.jacket || [], true)}</div>
+        <div class="opt"><span class="lbl">Armadura</span>${ch('armor', armorList, true)}</div>
+        <div class="opt"><span class="lbl">Arma</span>${ch('weapon', weapons.map(w => ({ id: w.id, nome: w.nome })), true)}</div>
+        <div class="opt"><span class="lbl">Cabeça</span>${ch('head', uniq(by('head')).map(x => ({ id: x.id, nome: x.nome })), true)}</div>
+        <div class="opt"><span class="lbl">Mochila</span>${ch('bag', uniq(by('bag')).map(x => ({ id: x.id, nome: x.nome })), true)}</div>
+        <div class="opt"><span class="lbl">Calçado</span>${ch('feet', uniq(by('feet').filter(x => !/^shoes_/.test(x.id))).map(x => ({ id: x.id, nome: x.nome })), true, 'Tênis padrão')}</div>
+        <div class="opt"><span class="lbl">Acessórios (vários)</span><div class="ch">${uniq(by('acc')).map(x => `<button data-k="acc" data-v="${x.id}" aria-pressed="${st.acc.includes(x.id)}">${esc(x.nome)}</button>`).join('')}</div></div>
+        ${skins.length ? `<div class="opt"><span class="lbl">Skin (paleta)</span>${ch('skinPal', skins.map(s => ({ id: s.id, nome: s.nome })), true, 'Sem skin')}</div>` : ''}
+        <div class="opt"><span class="lbl">&nbsp;</span><button class="btn" id="rnd">🎲 Aleatório</button></div>`;
+      opts.querySelectorAll('[data-k]').forEach(b => b.addEventListener('click', () => {
+        const k = b.dataset.k, v = b.dataset.v;
+        if (k === 'acc') { st.acc = st.acc.includes(v) ? st.acc.filter(x => x !== v) : st.acc.concat(v); }
+        else if (k === 'beard') st.beard = !!v;
+        else if (k === 'body') { st.body = v; if (v === 'f') st.beard = false; const h = hairs(); if (!h.some(x => x.id === st.hair)) st.hair = (h[0] || {}).id || null; }
+        else if (k === 'cls') { st.cls = v; const c = classes.find(x => x.id === v); if (c && c.arma) st.weapon = c.arma; }
+        else st[k] = v === '' ? null : v;
+        render(); refresh();
+      }));
+      opts.querySelector('#rnd').addEventListener('click', () => {
+        const pk = a => a[Math.floor(Math.random() * a.length)];
+        st.body = pk(['m', 'f']); st.skin = pk(cores.skin || [st.skin]); const h = hairs(); st.hair = Math.random() < .1 ? null : (pk(h) || {}).id || null;
+        st.hair_color = pk(cores.hair_color || [st.hair_color]); st.shirt = pk(cores.shirt || [st.shirt]); st.pants = pk(cores.pants || [st.pants]);
+        st.jacket = pk(cores.jacket || [null]); st.beard = st.body === 'm' && Math.random() < .35;
+        st.head = Math.random() < .4 ? (pk(uniq(by('head'))) || {}).id || null : null; st.bag = Math.random() < .5 ? (pk(uniq(by('bag'))) || {}).id || null : null;
+        st.armor = null; st.skinPal = null; render(); refresh();
+      });
+    }
+    render(); refresh();
+  }
+
+  document.querySelectorAll('[data-speed]').forEach(b => b.addEventListener('click', () => {
+    speed = +b.dataset.speed; document.querySelectorAll('[data-speed]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  }));
+  let last = performance.now();
+  const loop = now => { const dt = Math.min(100, now - last); last = now; players.forEach(p => p.tick(dt)); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+{
+  "id": "catadora",
+  "nome": "Catadora",
+  "tipo": "recruta",
+  "corpo": "f",
+  "conceito": "Catadora de recicláveis que já rodava a cidade inteira antes do fim do mundo — agora a cidade inteira é o lixão dela. Lenço de chita na cabeça, camiseta verde desbotada cheia de remendos, luva de borracha amarela e o bag de ráfia lotado de latinhas e garrafas PET nas costas. Anda com o gancho de vergalhão como bengala e enxerga valor em tudo.",
+  "aptidao": {
+    "principal": "Coleta",
+    "produz": [
+      "Sucata",
+      "Pano"
+    ],
+    "secundaria": "Madeira",
+    "contraria": "Defesa"
+  },
+  "cor_uniforme": "#4f7d4a",
+  "partes": [
+    {
+      "parte": "Cabeça/rosto",
+      "descricao": "Crânio padrão do esqueleto (círculo r15 + queixo 12x9 puxado p/ direita), cabeçorra igual aos zumbis. Pele sorteada (4 tons). Mancha de fuligem/sujeira de 2–3 px na bochecha de trás e gotinha de suor na têmpora no especial. Inclina com o tronco (hrot = lean/2)."
+    },
+    {
+      "parte": "Lenço/cabelo",
+      "descricao": "Lenço de chita vermelho (#c4372c, sombra #8a2420, luz #e0574a) cobrindo o alto da cabeça até ~4 px acima dos olhos, com florzinhas amarelas (#f2c230) de miolo branco e folhinhas verdes (#3f8a3a) em grade de 10 florzinhas em cruz (4 px) que giram com a cabeça. Nó atrás-em-cima (bolota 5x4) com duas pontas de 7–9 px que balançam no walk (fase oposta ao passo) e voam para trás no ataque/hurt. Por baixo aparece cabelo (cor sorteada): franja de 2 mechas na testa, costeleta descendo até a orelha e um rabo-de-cavalo grosso (6x12) saindo sob o nó, que balança atrás do pescoço."
+    },
+    {
+      "parte": "Olhos/sobrancelhas",
+      "descricao": "Olhos padrão do esqueleto (esclera 5x5/4x5, íris castanha olhando p/ frente, cílio feminino). Sobrancelhas 5 px, 1 px mais grossas que o padrão (linha dupla na de trás), franzidas no ataque, erguidas no especial quadro 0 ('achei!')."
+    },
+    {
+      "parte": "Boca/expressão",
+      "descricao": "Meio-sorriso torto de quem já viu de tudo no idle (canto da frente 1 px acima); dente cerrado no ataque; 'o' no hurt/death; sorriso largo no fim do especial. Linha de expressão de 1 px no canto da boca."
+    },
+    {
+      "parte": "Orelhas/nariz",
+      "descricao": "Orelha padrão (elipse 3.5x5) meio coberta pela costeleta; brinco de argola dourada (#e3b23c, aro de 3x3 px) pendurado no lóbulo, balança 1 px no walk. Nariz padrão em cunha de 5 px com luz."
+    },
+    {
+      "parte": "Pescoço/gola",
+      "descricao": "Pescoço padrão 9 px. Gola careca da camiseta esgarçada (borda 1 px mais clara #7fa070, um ponto descosturado). Alça do bag cruza o peito saindo da gola."
+    },
+    {
+      "parte": "Tronco/camiseta",
+      "descricao": "Camiseta verde-uniforme #4f7d4a desbotada (manchas claras #6f9a66 por pontilhado, sombra roxa do motor), símbolo de reciclagem desbotado 5x5 px no peito (#9cc08a). Remendo de pano xadrez/bege (#d8c49a com costura tracejada #6a4a2a) 6x5 px na barriga e outro de jeans 4x4 nas costas; barra com sujeira marrom (#5a4a30) de 2 px. Corte feminino (busto do esqueleto)."
+    },
+    {
+      "parte": "Braços",
+      "descricao": "Mangas curtas até ~62% do braço com dobra (faixa mais escura de 10 px); antebraço de pele até a luva. Braço da frente segura o gancho; braço de trás balança no walk e fica solto ao lado do bag no idle."
+    },
+    {
+      "parte": "Mãos/luvas",
+      "descricao": "Luva de borracha amarela (#e8b830, sombra #a8781a, brilho #fff0a0) cobrindo mão (elipse r4.5) e o terço final do antebraço com punho dobrado 2 px; dedo emborrachado aparece fechado sobre o cabo do gancho (camada weapon). Mancha de sujeira escura 1–2 px na palma."
+    },
+    {
+      "parte": "Pernas/calça",
+      "descricao": "Calça jeans larga desbotada (#5d6f86, joelho gasto #7d8ea4) dobrada até a canela (barra virada 3 px #8a9ab0), remendo xadrez vermelho/preto 5x5 no joelho da frente com pontos de costura, barbante amarrado na cintura no lugar do cinto (#c8b27a, nó com 2 pontas). Pernas largas (+2 px)."
+    },
+    {
+      "parte": "Pés/chinelo",
+      "descricao": "Chinelo de dedo (sola verde #2f8a3a com borda amarela #f2c230, tira azul #2a4fa0 em V) com o pé de pele aparecendo e o canelo com poeira; pé de trás mais escuro. No walk a sola levanta junto do pé."
+    },
+    {
+      "parte": "Ferramenta (gancho)",
+      "descricao": "Gancho de catador feito de vergalhão: haste de aço 2 px (#8a9098, luz #c8ced6, ferrugem #8a4a24 em 3 pontos), 30 px de comprimento, ponta curvada em gancho de ~7 px; cabo de 7 px enrolado em fita isolante preta com faixa de fita vermelha. No idle/walk apoia no chão como bengala; no ataque sobe e desce em golpe de cima para baixo; no especial fisga a latinha do chão."
+    },
+    {
+      "parte": "Bag de ráfia (marca do ofício)",
+      "descricao": "Bag de ráfia branca trançada (#e6dfcc, trama em xadrez 2 px #c8bfa6, faixa azul #3a64a8 de 3 px) de ~26x34 px pendurado nas costas atrás do ombro de trás, saindo das costas na silhueta. Pela boca saem garrafa PET verde (#5fb07a com tampa azul), latinha vermelha/prata, papelão (#a8824a) e um pano rosa. Alça marrom de 3 px cruza o peito em diagonal. Balança com atraso no walk, pula no especial quando o item cai dentro."
+    },
+    {
+      "parte": "Silhueta/postura",
+      "descricao": "Leve corcunda para a frente (cabeça 1 px à frente), quadril de lado por causa do peso do bag; a corcova do bag + gancho apoiado fazem uma silhueta inconfundível. Postura cansada mas firme, braço de trás segurando a alça."
+    }
+  ],
+  "paleta": [
+    {
+      "nome": "Camiseta verde (uniforme)",
+      "hex": "#4f7d4a"
+    },
+    {
+      "nome": "Desbotado",
+      "hex": "#6f9a66"
+    },
+    {
+      "nome": "Lenço chita vermelho",
+      "hex": "#c4372c"
+    },
+    {
+      "nome": "Flor da chita",
+      "hex": "#f2c230"
+    },
+    {
+      "nome": "Folha da chita",
+      "hex": "#3f8a3a"
+    },
+    {
+      "nome": "Luva de borracha",
+      "hex": "#e8b830"
+    },
+    {
+      "nome": "Jeans desbotado",
+      "hex": "#5d6f86"
+    },
+    {
+      "nome": "Remendo xadrez",
+      "hex": "#b8322a"
+    },
+    {
+      "nome": "Remendo bege",
+      "hex": "#d8c49a"
+    },
+    {
+      "nome": "Barbante",
+      "hex": "#c8b27a"
+    },
+    {
+      "nome": "Ráfia",
+      "hex": "#e6dfcc"
+    },
+    {
+      "nome": "Faixa azul do bag",
+      "hex": "#3a64a8"
+    },
+    {
+      "nome": "Garrafa PET",
+      "hex": "#5fb07a"
+    },
+    {
+      "nome": "Latinha",
+      "hex": "#c9343a"
+    },
+    {
+      "nome": "Aço do gancho",
+      "hex": "#8a9098"
+    },
+    {
+      "nome": "Ferrugem",
+      "hex": "#8a4a24"
+    },
+    {
+      "nome": "Fita isolante",
+      "hex": "#22222a"
+    },
+    {
+      "nome": "Sola do chinelo",
+      "hex": "#2f8a3a"
+    },
+    {
+      "nome": "Argola dourada",
+      "hex": "#e3b23c"
+    }
+  ],
+  "animacoes": {
+    "idle": "4 quadros: respira (tronco desce 0–1 px), gancho apoiado no chão como bengala (grip 74°), meio-sorriso torto; quadro 2 pisca; pontas do lenço, rabo-de-cavalo e bag oscilam 1 px.",
+    "walk": "8 quadros: passada com o gancho balançando à frente como bengala (grip 68±14°), poeirinha nos quadros 2 e 6 quando a ponta raspa o chão, bag balança atrasado 1–2 px, pontas do lenço e brinco balançam.",
+    "attack": "6 quadros: 0–1 levanta o gancho por cima da cabeça (sobrancelha franzida, dente cerrado), 2–3 desce com tudo e fisga à frente (impacto no quadro 3), 4 puxa de volta, 5 volta à guarda.",
+    "hurt": "4 quadros: 0 flash branco, 1 recua com tinta vermelha e olhos fechados, 2–3 se recompõe; pontas do lenço voam para trás.",
+    "death": "6 quadros: flash, cambaleia, cai de joelhos, tomba para trás (corpo girado numa tela maior e puxado ~30 px para dentro do quadro para não cortar a cabeça); uma latinha rola do bag no chão nos quadros 4–5; estrelinhas no último quadro.",
+    "special": "Garimpar — 6 quadros: 0 vê o brilho de uma latinha, um parafuso e um paninho rosa no chão (sobrancelhas erguidas, olho arregalado); 1 se abaixa (tronco 22°, joelhos dobrados) e fisga com o gancho, gotinha de suor; 2 levanta a latinha e o pano pendurados na ponta, parafuso pulando com rastro; 3 ergue o gancho acima da cabeça com os itens; 4 os itens voam em arco (rastro claro) para a boca do bag, olhos felizes; 5 latinha nova aparece na boca do bag, bag afunda 1–2 px, estrelas douradas e brilhos, sorriso largo."
+  },
+  "especial": "Garimpar",
+  "ferramenta": "Gancho de catador (vergalhão curvado com cabo de fita isolante)",
+  "fala": "Lixo de um é tesouro de outro.",
+  "eventos": {
+    "idle": {},
+    "walk": {
+      "0": "passo_chinelo",
+      "2": "gancho_chao",
+      "4": "passo_chinelo",
+      "6": "latas_chacoalham"
+    },
+    "attack": {
+      "0": "esforco",
+      "1": "vento",
+      "3": "golpe_metal",
+      "4": "puxao"
+    },
+    "hurt": {
+      "0": "dor",
+      "1": "latas_chacoalham"
+    },
+    "death": {
+      "0": "dor",
+      "2": "joelho_chao",
+      "4": "queda",
+      "5": "lata_rolando"
+    },
+    "special": {
+      "0": "brilho",
+      "1": "fisgada",
+      "2": "lata",
+      "3": "vento",
+      "4": "arremesso",
+      "5": "latas_no_saco"
+    }
+  }
+}

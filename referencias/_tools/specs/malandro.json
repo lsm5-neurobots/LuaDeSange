@@ -1,0 +1,111 @@
+{
+ "titulo": "Zumbi Malandro (variante local) - figurino e materiais",
+ "pasta": "zumbis-rio/malandro",
+ "secoes": [
+  {
+   "nome": "Terno branco e linho",
+   "n": 12,
+   "busca": [
+    "white linen suit man",
+    "terno branco samba",
+    "white suit 1940s man",
+    "man in white linen suit",
+    "white suit 1930s Brazil",
+    "white dinner jacket vintage man",
+    "white linen suit vintage photograph",
+    "men white suit vintage fashion",
+    "linen suit 1940s man",
+    "terno de linho branco",
+    "homem de terno branco anos 1950",
+    "white suit man 1950s photo"
+   ],
+   "depth": 0,
+   "cats": [
+    "White suits",
+    "Linen suits"
+   ]
+  },
+  {
+   "nome": "Chapeu panama e chapeu de palha",
+   "n": 2,
+   "busca": [
+    "panama hat",
+    "chapeu panama",
+    "straw fedora hat",
+    "panama hat man vintage",
+    "panama hat Ecuador weaving",
+    "Panama hat straw man"
+   ],
+   "depth": 0,
+   "cats": [
+    "Panama hats"
+   ]
+  },
+  {
+   "nome": "Sapato bicolor",
+   "n": 12,
+   "busca": [
+    "two-tone shoes spectator",
+    "spectator shoes",
+    "sapato bicolor"
+   ]
+  },
+  {
+   "nome": "Camisa listrada e lenco",
+   "n": 2,
+   "busca": [
+    "striped shirt",
+    "camisa listrada",
+    "breton shirt",
+    "silk scarf",
+    "neckerchief",
+    "horizontal stripes shirt man",
+    "striped shirt man vintage",
+    "pinstripe shirt 1940s"
+   ]
+  },
+  {
+   "nome": "Roda de samba na Lapa",
+   "n": 16,
+   "busca": [
+    "roda de samba",
+    "samba Lapa Rio",
+    "samba de roda Rio de Janeiro musicians"
+   ]
+  },
+  {
+   "nome": "Pandeiro, cavaquinho e chapeu",
+   "n": 14,
+   "busca": [
+    "pandeiro",
+    "cavaquinho",
+    "tamborim"
+   ]
+  },
+  {
+   "nome": "Rio anos 1930-1950 (rua, moda)",
+   "n": 14,
+   "busca": [
+    "Rio de Janeiro 1940s street",
+    "Rio de Janeiro 1930s Lapa",
+    "Avenida Rio Branco 1940",
+    "Lapa Rio de Janeiro 1930",
+    "Rio de Janeiro 1950",
+    "Rio de Janeiro antigo rua"
+   ]
+  },
+  {
+   "nome": "Navalha, baralho e malandragem (objetos)",
+   "n": 2,
+   "busca": [
+    "straight razor",
+    "navalha barbear",
+    "playing cards old",
+    "vintage pocket watch",
+    "toothpick",
+    "barber straight razor vintage",
+    "straight razor vintage Brazil"
+   ]
+  }
+ ]
+}

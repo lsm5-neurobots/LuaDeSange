@@ -1,0 +1,29 @@
+.psel { position: relative; display: grid; gap: 4px; min-width: 0 }
+.psel-btn, .psel-opt {
+  display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; color: var(--ink);
+  font-family: var(--f-pix); font-size: 14px; background: var(--panel2); border: 2px solid var(--line); border-radius: 8px; padding: 4px 10px 4px 4px; cursor: pointer;
+}
+.psel-btn { min-height: 64px }
+.psel-btn:hover, .psel-btn:focus-visible { border-color: var(--moon); outline: none }
+.psel.open .psel-btn { border-color: var(--moon); background: #3a2a14; border-bottom-left-radius: 0; border-bottom-right-radius: 0 }
+.psel img.px { width: 52px; height: 52px; flex: none; background: #0d0818; border-radius: 6px }
+.psel-none { width: 52px; height: 52px; flex: none; display: grid; place-items: center; color: var(--muted); background: #0d0818; border-radius: 6px; font-size: 20px }
+.psel-tx { display: grid; gap: 1px; min-width: 0; flex: 1 }
+.psel-tx b { font-weight: normal; white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.psel-tx small { font-size: 11px; color: var(--muted); font-family: var(--f-body) }
+.psel-tx .psel-why { color: var(--warn) }
+.psel-car { color: var(--moon); font-size: 16px; transition: transform .15s; flex: none }
+.psel.open .psel-car { transform: rotate(180deg) }
+.psel-list {
+  position: absolute; z-index: 30; top: 100%; left: 0; right: 0; display: grid; gap: 2px; padding: 4px;
+  max-height: 300px; overflow-y: auto; background: #140c26; border: 2px solid var(--moon); border-top: 0;
+  border-radius: 0 0 8px 8px; box-shadow: 0 12px 28px rgba(0, 0, 0, .6); animation: pselIn .12s ease-out;
+}
+.psel-opt { border-color: transparent; background: transparent }
+.psel-opt:hover:not(:disabled), .psel-opt:focus-visible { background: var(--panel2); border-color: var(--line); outline: none }
+.psel-opt[aria-selected=true] { background: #3a2a14; border-color: var(--moon) }
+.psel-opt:disabled { opacity: .4; cursor: not-allowed }
+.psel-ck { color: var(--moon); font-size: 16px; flex: none }
+.psel-empty { padding: 10px; color: var(--muted); font-size: 13px }
+@keyframes pselIn { from { opacity: 0; transform: translateY(-4px) } to { opacity: 1; transform: none } }
+@media (prefers-reduced-motion: reduce) { .psel-list { animation: none } .psel-car { transition: none } }

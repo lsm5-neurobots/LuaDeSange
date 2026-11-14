@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pets e Recrutas da Lua de Sangue</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#120a0c; --panel:#1d1215; --panel2:#26181c; --line:#3a2329; --text:#f1e6e0; --mut:#a8938c;
+  --red:#d6363c; --gold:#f5c542;
+  --S:#f5c542; --A:#b57bff; --B:#4fa3ff; --C:#5fd17a; --D:#9aa0a6; --E:#c0705e;
+}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#2a0f14 0%,var(--bg) 60%);color:var(--text);font-family:Inter,system-ui,sans-serif;min-height:100vh}
+.pix{font-family:"Press Start 2P",monospace}
+header{padding:22px 16px 8px;text-align:center}
+header h1{font-size:18px;line-height:1.5;margin:0;color:var(--text);text-shadow:0 0 18px rgba(214,54,60,.6)}
+header h1 span{color:var(--red)}
+header p{color:var(--mut);font-size:13px;margin:8px auto 0;max-width:560px}
+nav{display:flex;gap:6px;justify-content:center;padding:12px;position:sticky;top:0;background:rgba(18,10,12,.92);backdrop-filter:blur(6px);z-index:5;border-bottom:1px solid var(--line)}
+nav{flex-wrap:wrap}
+nav button{background:var(--panel);color:var(--mut);border:1px solid var(--line);padding:10px 10px;border-radius:8px;font-size:9px;cursor:pointer}
+nav button.on{color:var(--text);border-color:var(--red);background:#2b1418}
+main{max-width:980px;margin:0 auto;padding:16px}
+.view{display:none}.view.on{display:block}
+h2{font-size:11px;color:var(--gold);margin:22px 0 10px;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.sp{display:flex;gap:12px;align-items:center}
+.sprite{image-rendering:pixelated;flex:none;background:#0c0708;border:1px solid var(--line);border-radius:10px;padding:6px}
+.sp h3{margin:0;font-size:11px;line-height:1.5}
+.sp .beh{color:var(--mut);font-size:12px;margin-top:6px;line-height:1.4}
+.aff{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 8px}
+.tag{font-size:11px;padding:4px 8px;border-radius:999px;border:1px solid var(--line);background:var(--panel2)}
+.tag b{font-weight:800}
+.tag.p{border-color:var(--S);color:var(--S)}
+.tag.s{border-color:var(--B);color:var(--B)}
+.tag.x{border-color:var(--E);color:var(--E)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+td,th{padding:5px 4px;border-top:1px solid var(--line);text-align:left}
+th{color:var(--mut);font-weight:600}
+.g{font-family:"Press Start 2P",monospace;font-size:10px;padding:3px 5px;border-radius:4px;color:#140a0b;display:inline-block;min-width:22px;text-align:center}
+.gS{background:var(--S)}.gA{background:var(--A)}.gB{background:var(--B)}.gC{background:var(--C)}.gD{background:var(--D)}.gE{background:var(--E)}
+.note{color:var(--mut);font-size:12px;line-height:1.5}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.legend div{display:flex;align-items:center;gap:6px;font-size:12px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+
+/* Libertar */
+.arena{background:#0d0809;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center;position:relative;overflow:hidden;min-height:380px}
+.arena.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:none}20%{transform:translate(-5px,2px)}40%{transform:translate(4px,-3px)}60%{transform:translate(-3px,-2px)}80%{transform:translate(3px,2px)}}
+.controls{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+select,.btn{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13px;font-family:Inter}
+.btn{cursor:pointer;font-weight:700}
+.btn.red{background:var(--red);border-color:var(--red);color:#fff}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#1a0e05}
+.btn:disabled{opacity:.4;cursor:default}
+.cage{position:relative;width:180px;height:160px;margin:10px auto;display:flex;align-items:flex-end;justify-content:center}
+.cage .bars{position:absolute;inset:0;border:5px solid #6d5a52;border-radius:8px 8px 4px 4px;background:repeating-linear-gradient(90deg,transparent 0 18px,#6d5a52 18px 23px);transition:transform .5s cubic-bezier(.5,-0.4,.7,1.4),opacity .5s}
+.cage .bars::before{content:"";position:absolute;left:-5px;right:-5px;top:-14px;height:10px;background:#6d5a52;border-radius:4px}
+.cage.open .bars{transform:translateY(-140%) rotate(-8deg);opacity:0}
+.cage .pet{position:relative;z-index:0;margin-bottom:6px}
+.cage.scared .pet{animation:tremble .18s infinite}
+@keyframes tremble{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
+.cage.free .pet{animation:hop .6s ease-out}
+@keyframes hop{0%{transform:translateY(0) scale(1,1)}30%{transform:translateY(-40px) scale(.9,1.15)}70%{transform:translateY(0) scale(1.2,.8)}100%{transform:translateY(0) scale(1)}}
+.bubble{position:absolute;top:-6px;right:10px;font-size:20px}
+.gates{position:absolute;inset:0;pointer-events:none;border:0 solid #6d5a52;transition:border-width .3s}
+.gates.up{border-width:10px;border-style:double}
+.wave{min-height:70px}
+.wave .lbl{font-size:10px;color:var(--red);margin:6px 0}
+.zs{font-size:22px;letter-spacing:2px;min-height:30px}
+.zs span{display:inline-block;transition:transform .2s,opacity .2s}
+.zs span.dead{transform:rotate(90deg) scale(.6);opacity:0}
+.bar{height:8px;background:#2a1a1d;border-radius:4px;overflow:hidden;max-width:300px;margin:8px auto}
+.bar i{display:block;height:100%;background:var(--red);transition:width .2s}
+.roulette{display:none;margin:12px auto 0}
+.roulette.on{display:block}
+.reel{display:flex;gap:6px;justify-content:center}
+.reel div{width:40px;height:46px;display:flex;align-items:center;justify-content:center;font-family:"Press Start 2P";font-size:16px;border-radius:8px;background:var(--panel2);border:2px solid var(--line);color:var(--mut);transition:transform .08s}
+.reel div.hit{transform:scale(1.25);color:#140a0b;border-color:#fff}
+.flash{position:absolute;inset:0;pointer-events:none;opacity:0}
+.flash.go{animation:fl .7s ease-out}
+@keyframes fl{0%{opacity:.9}100%{opacity:0}}
+.rays{position:absolute;left:50%;top:44%;width:520px;height:520px;margin:-260px 0 0 -260px;pointer-events:none;opacity:0;background:repeating-conic-gradient(rgba(245,197,66,.35) 0 10deg,transparent 10deg 30deg);border-radius:50%;-webkit-mask:radial-gradient(circle,#000 20%,transparent 70%);mask:radial-gradient(circle,#000 20%,transparent 70%)}
+.rays.on{opacity:1;animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.reveal{display:none;max-width:360px;margin:14px auto 0;text-align:left;position:relative;z-index:2}
+.reveal.on{display:block;animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+.reveal .card{border-width:2px}
+.big{font-family:"Press Start 2P";font-size:30px;padding:10px 12px;border-radius:10px;color:#140a0b}
+.why{font-size:12px;color:var(--mut);margin-top:8px;line-height:1.5}
+.row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+/* Casinha */
+.house-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.stat{font-size:12px;color:var(--mut)}
+.stat b{color:var(--text)}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:12px}
+.slot{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center;position:relative}
+.slot.empty{border-style:dashed;color:var(--mut);display:flex;align-items:center;justify-content:center;min-height:170px;font-size:12px}
+.slot.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 0 18px rgba(245,197,66,.25)}
+.slot .nm{font-size:9px;margin:6px 0;line-height:1.4}
+.slot .bn{font-size:12px;margin:4px 0 8px}
+.slot .gpos{position:absolute;top:8px;right:8px}
+.slot .act{display:flex;gap:4px;justify-content:center;flex-wrap:wrap}
+.slot .act button{font-size:11px;padding:6px 8px}
+.hud{display:flex;align-items:center;gap:10px;background:#0b0607;border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:14px}
+.hud .ic{position:relative}
+.hud .ic .g{position:absolute;right:-8px;bottom:-6px;font-size:8px;min-width:0;padding:2px 3px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+.modal.on{display:flex}
+.modal .card{max-width:420px;width:100%}
+.pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:10px}
+.pick button{background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:8px;cursor:pointer;font-size:11px}
+.pick button:hover{border-color:var(--red)}
+/* brilho por nota */
+.gl{position:relative;overflow:hidden}
+.gl-S{border-color:var(--S)!important;animation:glowS 1.8s ease-in-out infinite;background:linear-gradient(160deg,#3a2a10,var(--panel) 55%)}
+.gl-A{border-color:var(--A)!important;box-shadow:0 0 14px rgba(181,123,255,.45);background:linear-gradient(160deg,#2a1840,var(--panel) 55%)}
+.gl-B{border-color:var(--B)!important;box-shadow:0 0 8px rgba(79,163,255,.35)}
+.gl-C{border-color:var(--C)!important}
+.gl-D{border-color:var(--D)!important}
+.gl-E{border-color:var(--E)!important;border-style:dashed!important;filter:saturate(.55) brightness(.9)}
+@keyframes glowS{0%,100%{box-shadow:0 0 10px rgba(245,197,66,.45)}50%{box-shadow:0 0 26px rgba(245,197,66,.85)}}
+.gl-S::after,.gl-A::after{content:"";position:absolute;top:-50%;left:-80%;width:45%;height:200%;transform:rotate(20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);animation:sweep 2.6s ease-in-out infinite;pointer-events:none}
+.gl-A::after{animation-duration:4s;background:linear-gradient(90deg,transparent,rgba(210,180,255,.28),transparent)}
+@keyframes sweep{0%{left:-80%}60%,100%{left:140%}}
+.gl-S::before{content:"✦  ✧   ✦    ✧  ✦";position:absolute;left:0;right:0;top:6px;text-align:center;color:var(--S);font-size:12px;letter-spacing:6px;animation:twk 1.2s steps(2) infinite;pointer-events:none;opacity:.8}
+@keyframes twk{50%{opacity:.25}}
+.recgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+footer{color:var(--mut);font-size:11px;text-align:center;padding:24px 16px 40px}
+</style>
+</head>
+<body>
+<header>
+  <h1 class="pix">PETS E RECRUTAS DA <span>LUA DE SANGUE</span></h1>
+  <p>Pets e recrutas chegam com uma nota de E a S. Quanto mais o bônus combina com a natureza do pet, ou a aptidão combina com o ofício do recruta, maior a nota — e mais o card brilha.</p>
+</header>
+<nav>
+  <button class="pix on" data-v="especies">ESPÉCIES</button>
+  <button class="pix" data-v="libertar">LIBERTAR</button>
+  <button class="pix" data-v="casinha">CASINHA</button>
+  <button class="pix" data-v="recrutas">RECRUTAS</button>
+</nav>
+<main>
+  <section class="view on" id="v-especies">
+    <h2 class="pix">COMO FUNCIONA A NOTA</h2>
+    <div class="card">
+      <table>
+        <tr><th>Bônus sorteado</th><th>Chance</th><th>Nota</th><th>Força</th></tr>
+        <tr><td>Afinidade principal</td><td>35%</td><td><span class="g gS">S</span> 30% · <span class="g gA">A</span> 70%</td><td>100% · 80%</td></tr>
+        <tr><td>Afinidade secundária</td><td>25%</td><td><span class="g gB">B</span></td><td>60%</td></tr>
+        <tr><td>Neutro</td><td>30%</td><td><span class="g gC">C</span> · <span class="g gD">D</span></td><td>45% · 30%</td></tr>
+        <tr><td>Contrário</td><td>10%</td><td><span class="g gE">E</span></td><td>20%</td></tr>
+      </table>
+      <p class="note">Força = % do valor máximo do bônus. Ex.: gato com XP nota S = +50% XP (×1,5). Gato com Vida nota E = só +6 HP.</p>
+    </div>
+    <h2 class="pix">BÔNUS (VALOR NA NOTA S)</h2>
+    <div class="legend" id="bonusLegend"></div>
+    <h2 class="pix">ESPÉCIES</h2>
+    <div class="grid" id="speciesGrid"></div>
+  </section>
+
+  <section class="view" id="v-libertar">
+    <h2 class="pix">JAULA NO MAPA</h2>
+    <div class="arena" id="arena">
+      <div class="gates" id="gates"></div>
+      <div class="flash" id="flash"></div>
+      <div class="rays" id="rays"></div>
+      <div class="controls">
+        <select id="pickSpecies"></select>
+        <button class="btn red" id="btnFree">Libertar · as grades vão fechar</button>
+      </div>
+      <div class="cage scared" id="cage">
+        <div class="bubble" id="bubble">🐾</div>
+        <div class="pet" id="cagePet"></div>
+        <div class="bars"></div>
+      </div>
+      <div class="wave" id="wave"><p class="note">Chegue perto da jaula e segure para libertar. As grades sobem e vêm 3 ondas: 5, 7 e 9 zumbis.</p></div>
+      <div class="roulette" id="roulette"><div class="reel" id="reel"></div></div>
+      <div class="reveal" id="reveal"></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-casinha">
+    <h2 class="pix">CASINHA DE PETS</h2>
+    <div class="card house-head">
+      <div>
+        <div class="stat">Nível <select id="houseLvl"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select> · vagas <b id="slotsTxt"></b></div>
+        <div class="stat" style="margin-top:6px">Petiscos: <b id="petiscoTxt">0</b> <button class="btn" id="btnPetisco" style="padding:4px 8px;font-size:11px;margin-left:6px">+1 Petisco (teste)</button></div>
+      </div>
+      <div class="note" style="max-width:340px">Toque em <b>Levar</b> para escolher o pet da próxima expedição. Petisco sorteia de novo o bônus e a nota, mantendo a espécie.</div>
+    </div>
+    <div class="hud" id="hud"></div>
+    <div class="slots" id="slots"></div>
+  </section>
+  <section class="view" id="v-recrutas">
+    <h2 class="pix">NOTA DO RECRUTA</h2>
+    <div class="card">
+      <p class="note" style="margin-top:0">Cada sobrevivente tem um <b>ofício</b> fixo (o que ele era antes). Ao ser recrutado, sorteia 1 <b>aptidão</b> de trabalho. Aptidão que combina com o ofício = nota alta: serralheiro com aptidão Serralheria tira S ou A; serralheiro com aptidão Combate tira E.</p>
+      <table>
+        <tr><th>Aptidão sorteada</th><th>Chance</th><th>Nota</th><th>Rendimento</th></tr>
+        <tr><td>Do ofício (principal)</td><td>35%</td><td><span class="g gS">S</span> 30% · <span class="g gA">A</span> 70%</td><td>2× · 1,7×</td></tr>
+        <tr><td>Secundária</td><td>25%</td><td><span class="g gB">B</span></td><td>1,4×</td></tr>
+        <tr><td>Neutra</td><td>30%</td><td><span class="g gC">C</span> · <span class="g gD">D</span></td><td>1,2× · 1×</td></tr>
+        <tr><td>Contrária</td><td>10%</td><td><span class="g gE">E</span></td><td>0,8×</td></tr>
+      </table>
+      <p class="note">Nota da missão de recrutamento ≥ 90% dobra a chance de S (proposta).</p>
+    </div>
+    <h2 class="pix">RECRUTAR (SIMULADOR)</h2>
+    <div class="arena" id="arenaR" style="min-height:300px">
+      <div class="flash" id="flashR"></div>
+      <div class="rays" id="raysR"></div>
+      <div class="controls">
+        <select id="pickJob"></select>
+        <label class="note" style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="goodMission"> missão ≥ 90%</label>
+        <button class="btn red" id="btnRec">Recrutar</button>
+      </div>
+      <div id="recPreview" style="margin:6px auto"></div>
+      <div class="roulette" id="rouletteR"><div class="reel" id="reelR"></div></div>
+      <div class="reveal" id="revealR"></div>
+    </div>
+    <h2 class="pix">OFÍCIOS</h2>
+    <div class="grid" id="jobGrid"></div>
+    <h2 class="pix">MORADORES DA BASE</h2>
+    <div class="recgrid" id="recList"></div>
+  </section>
+</main>
+
+<div class="modal" id="modal"><div class="card" id="modalBody"></div></div>
+
+<footer>Protótipo de design · valores iniciais, ajustar no playtest · ver claude/pets.md e claude/recrutas.md no projeto</footer>
+
+<script>
+// ---------- dados ----------
+const BONUS = {
+  xp:   {nome:"XP",          ic:"✨", max:50, fmt:p=>`+${r1(50*p)}% de XP`},
+  vida: {nome:"Vida",        ic:"❤️", max:30, fmt:p=>`+${Math.round(30*p)} de HP máximo`},
+  dano: {nome:"Dano",        ic:"⚔️", max:25, fmt:p=>`+${r1(25*p)}% de dano`},
+  def:  {nome:"Defesa",      ic:"🛡️", max:20, fmt:p=>`−${r1(20*p)}% de dano recebido`},
+  sorte:{nome:"Sorte",       ic:"🍀", max:20, fmt:p=>`+${r1(20*p)}% de chance de loot subir 1 raridade`},
+  vasc: {nome:"Vasculhar",   ic:"🔍", max:40, fmt:p=>`−${r1(40*p)}% no tempo de vasculhar`},
+  faro: {nome:"Faro",        ic:"👃", max:10, fmt:p=>`revela baús, contêineres e variantes a ${Math.round(10*p)} tiles`},
+  regen:{nome:"Regeneração", ic:"💚", max:.5, fmt:p=>`+${r2(.5*p)} HP/s fora de combate`},
+  vel:  {nome:"Velocidade",  ic:"💨", max:20, fmt:p=>`+${r1(20*p)}% de velocidade`},
+};
+const LEG = {xp:"+50% XP (×1,5)",vida:"+30 HP máx.",dano:"+25% dano",def:"−20% dano recebido",sorte:"+20% loot sobe raridade",vasc:"−40% tempo de vasculhar",faro:"revela no minimapa (10 tiles)",regen:"+1 HP a cada 2 s",vel:"+20% movimento"};
+const FORCA = {S:1, A:.8, B:.6, C:.45, D:.3, E:.2};
+function r1(x){return (Math.round(x*10)/10).toString().replace(".",",")}
+function r2(x){return (Math.round(x*100)/100).toString().replace(".",",")}
+
+// paletas e sprites originais (pixel art 16x12)
+const PAL = {o:"#1b100c",k:"#0a0a0a",w:"#f4efe6",r:"#c9343a",p:"#e88aa0",y:"#f2c230",t:"#7a5233"};
+const SPECIES = [
+ {id:"cachorro",nome:"Cachorro",sub:"vira-lata caramelo",pri:"dano",sec:"def",con:"vasc",
+  beh:"Late quando um zumbi se aproxima e morde junto com o golpe do herói.",
+  pal:{c:"#d08a3c",l:"#f0c08a"},
+  px:["................","...........oo...","..........occo..",".........occcco.",".........occkclo","..o......occccko",".oco.....oocllo.","..occoooooccco..","...occcccccco...","...occlllccco...","...oco.oco.oco..","...ooo.ooo.ooo.."]},
+ {id:"gato",nome:"Gato",sub:"de telhado",pri:"xp",sec:"sorte",con:"vida",
+  beh:"Anda à frente do herói e some e reaparece entre as regiões.",
+  pal:{g:"#7d7f8c",d:"#5a5b66"},
+  px:["..o...o.........",".ogo.ogo........",".ogggggo........","ogkgggkgo.......","ogggpgggo....o..",".oggwggo....ogo.","..ogggo.....odo.",".ogdgdgo...ogo..",".oggggggooodo...",".ogdgdgdgdggo...",".ogwgoogwgggo...","..ooo..oooooo..."]},
+ {id:"papagaio",nome:"Papagaio",sub:"verdadeiro",pri:"faro",sec:"xp",con:"def",
+  beh:"Voa em círculos e grita \"ZUMBI!\" perto de variantes raras.",
+  pal:{g:"#3fae4a",b:"#3a3a3a"},
+  px:["....oooo........","...oggggo.......","..oyykgggo......","..oyyggggbbo....","..ogggggggbo....","...ogggggoo.....","..oggrggggo.....","..ogrrrgggo.....","...ogrrggo......","...oggggo.......","....orro........","tttttrrttttt...."]},
+ {id:"jabuti",nome:"Jabuti",sub:"piranga",pri:"vida",sec:"def",con:"vel",
+  beh:"Lento demais para andar sozinho: vai carregado nas costas do herói.",
+  pal:{d:"#6b4423",h:"#d1772a",s:"#8f9a5a"},
+  px:["................","................","......oooooo....",".....odhddhdo...","....oddhdddhdo..",".oo.odhddhddhdo.","osso.oooooooooo.","oskssssssssssso.",".ooosso..osso.o.","....ooo..ooo....","................","................"]},
+ {id:"capivara",nome:"Capivara",sub:"da beira do rio",pri:"regen",sec:"vida",con:"dano",
+  beh:"Calma demais: zumbis comuns a ignoram e ela cura o herói só de estar perto.",
+  pal:{b:"#9a6a3c",d:"#4a2c18",l:"#b88754"},
+  px:["................","..oo............",".obbooooooo.....","obkbbbbbbbbo....","obbbbllbbbbbo...","dbbbbbbbbbbbbo..",".obbbbbbbbbbbo..","..obbbllbbbbbo..","..obbbbbbbbbbo..","..obbo...obbo...","..ooo....ooo....","................"]},
+ {id:"sagui",nome:"Sagui",sub:"de tufo branco",pri:"vasc",sec:"sorte",con:"vida",
+  beh:"Mãos rápidas: remexe os contêineres junto com o herói.",
+  pal:{g:"#7a7468",f:"#d9b48a",n:"#5a3a2a"},
+  px:["ww......ww......","wwoooooww.......",".ogggggo........","oggfffggo.......","ogkfffkgo.......",".offnffo........","..offfo......oo.",".ogggggo....ogo.",".oggggggo..owo..","..ogggggo.ogo...","..ogoogoowgo....","..oo..oogoo....."]},
+];
+const SP = Object.fromEntries(SPECIES.map(s=>[s.id,s]));
+
+function sprite(sp,scale=6){
+  const pal = {...PAL,...sp.pal};
+  const h=sp.px.length,w=sp.px[0].length;
+  let r="";
+  sp.px.forEach((row,y)=>[...row].forEach((ch,x)=>{ if(ch!=="."&&pal[ch]) r+=`<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${pal[ch]}"/>`; }));
+  return `<svg class="sprite" width="${w*scale+14}" height="${h*scale+14}" viewBox="-1 -1 ${w+2} ${h+2}" shape-rendering="crispEdges">${r}</svg>`;
+}
+function spriteBare(sp,scale=6){return sprite(sp,scale).replace('class="sprite"','style="image-rendering:pixelated"');}
+
+// ---------- espécies ----------
+document.getElementById("bonusLegend").innerHTML = Object.entries(BONUS).map(([k,b])=>`<div>${b.ic} <b>${b.nome}</b> ${LEG[k]}</div>`).join("");
+function gradeFor(sp,k){ if(k===sp.pri) return "S/A"; if(k===sp.sec) return "B"; if(k===sp.con) return "E"; return "C/D"; }
+document.getElementById("speciesGrid").innerHTML = SPECIES.map(sp=>{
+  const rows = Object.entries(BONUS).map(([k,b])=>{
+    const g=gradeFor(sp,k);
+    const badges=g.split("/").map(x=>`<span class="g g${x}">${x}</span>`).join(" ");
+    return `<tr><td>${b.ic} ${b.nome}</td><td>${badges}</td></tr>`;
+  }).join("");
+  return `<div class="card">
+    <div class="sp">${sprite(sp,5)}<div><h3 class="pix">${sp.nome.toUpperCase()}</h3><div class="note">${sp.sub}</div><div class="beh">${sp.beh}</div></div></div>
+    <div class="aff">
+      <span class="tag p">Principal <b>${BONUS[sp.pri].nome}</b></span>
+      <span class="tag s">Secundário <b>${BONUS[sp.sec].nome}</b></span>
+      <span class="tag x">Contrário <b>${BONUS[sp.con].nome}</b></span>
+    </div>
+    <details><summary class="note" style="cursor:pointer">Nota possível por bônus</summary><table>${rows}</table></details>
+  </div>`;
+}).join("");
+
+// ---------- sorteio ----------
+function roll(sp){
+  const r=Math.random();
+  let k,g;
+  if(r<.35){k=sp.pri; g=Math.random()<.3?"S":"A";}
+  else if(r<.60){k=sp.sec; g="B";}
+  else if(r<.90){const neutros=Object.keys(BONUS).filter(x=>![sp.pri,sp.sec,sp.con].includes(x)); k=neutros[Math.floor(Math.random()*neutros.length)]; g=Math.random()<.5?"C":"D";}
+  else {k=sp.con; g="E";}
+  return {bonus:k,grade:g};
+}
+function whyText(sp,pet){
+  const b=BONUS[pet.bonus].nome;
+  if(pet.bonus===sp.pri) return `${b} é a afinidade principal do ${sp.nome.toLowerCase()} — combina perfeitamente.`;
+  if(pet.bonus===sp.sec) return `${b} é a afinidade secundária do ${sp.nome.toLowerCase()} — combina bem.`;
+  if(pet.bonus===sp.con) return `${b} é o contrário da natureza do ${sp.nome.toLowerCase()} — nota mínima.`;
+  return `${b} é neutro para o ${sp.nome.toLowerCase()} (afinidade: ${BONUS[sp.pri].nome}).`;
+}
+
+// ---------- estado ----------
+let state = {lvl:1, pets:[], active:null, petisco:0, nextId:1};
+try{const s=JSON.parse(localStorage.getItem("lds-pets")); if(s&&s.pets) state=s;}catch(e){}
+function save(){try{localStorage.setItem("lds-pets",JSON.stringify(state));}catch(e){}}
+const VAGAS=[2,3,4,5,6];
+const cap=()=>VAGAS[state.lvl-1];
+
+// ---------- libertar ----------
+const pick=document.getElementById("pickSpecies");
+pick.innerHTML = `<option value="">Espécie aleatória</option>`+SPECIES.map(s=>`<option value="${s.id}">${s.nome}</option>`).join("");
+let current=null, busy=false, lastPet=null;
+function newCage(){
+  const id = pick.value || SPECIES[Math.floor(Math.random()*SPECIES.length)].id;
+  current = SP[id];
+  const cage=document.getElementById("cage");
+  cage.className="cage scared";
+  document.getElementById("bubble").style.display="";
+  document.getElementById("cagePet").innerHTML = spriteBare(current,7);
+  document.getElementById("wave").innerHTML = `<p class="note">Um ${current.nome.toLowerCase()} está preso na jaula. Chegue perto e segure para libertar. As grades sobem e vêm 3 ondas: 5, 7 e 9 zumbis.</p>`;
+  document.getElementById("roulette").className="roulette";
+  document.getElementById("reveal").className="reveal";
+  document.getElementById("rays").className="rays";
+  document.getElementById("btnFree").disabled=false;
+  document.getElementById("btnFree").textContent="Libertar · as grades vão fechar";
+}
+pick.onchange=()=>{ if(!busy) newCage(); };
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function shake(){const a=document.getElementById("arena"); a.classList.remove("shake"); void a.offsetWidth; a.classList.add("shake");}
+function flash(color){const f=document.getElementById("flash"); f.style.background=color; f.classList.remove("go"); void f.offsetWidth; f.classList.add("go");}
+
+document.getElementById("btnFree").onclick = async ()=>{
+  if(busy) return;
+  if(document.getElementById("reveal").classList.contains("on")){ newCage(); return; }
+  busy=true;
+  const btn=document.getElementById("btnFree"); btn.disabled=true;
+  document.getElementById("gates").classList.add("up"); shake();
+  const waveEl=document.getElementById("wave");
+  for(const [i,n] of [[1,5],[2,7],[3,9]]){
+    waveEl.innerHTML=`<div class="lbl pix">ONDA ${i}/3</div><div class="zs">${"<span>🧟</span>".repeat(n)}</div><div class="bar"><i style="width:100%"></i></div>`;
+    await sleep(350);
+    const zs=[...waveEl.querySelectorAll(".zs span")], bar=waveEl.querySelector(".bar i");
+    for(let j=0;j<zs.length;j++){ await sleep(170); zs[j].classList.add("dead"); bar.style.width=`${100-(j+1)/zs.length*100}%`; if(j===zs.length-1) shake(); }
+    await sleep(300);
+  }
+  waveEl.innerHTML=`<div class="lbl pix" style="color:var(--gold)">HORDA DERROTADA</div>`;
+  document.getElementById("gates").classList.remove("up");
+  // abre a jaula
+  const cage=document.getElementById("cage");
+  cage.classList.remove("scared"); cage.classList.add("open"); document.getElementById("bubble").style.display="none";
+  flash("#fff"); shake(); await sleep(450);
+  cage.classList.add("free"); await sleep(500);
+  // roleta
+  const pet={id:state.nextId++, sp:current.id, ...roll(current)};
+  const G=["E","D","C","B","A","S"];
+  const reel=document.getElementById("reel");
+  reel.innerHTML=G.map(g=>`<div data-g="${g}">${g}</div>`).join("");
+  document.getElementById("roulette").className="roulette on";
+  const cells=[...reel.children];
+  const target=G.indexOf(pet.grade);
+  const steps=6*3+target; let delay=45;
+  for(let s=0;s<=steps;s++){
+    cells.forEach(c=>{c.classList.remove("hit");c.style.background="";});
+    const c=cells[s%6]; c.classList.add("hit"); c.style.background=`var(--${c.dataset.g})`;
+    await sleep(delay); delay*= (s>steps-8?1.32:1.04);
+  }
+  // efeito por nota
+  if(pet.grade==="S"){flash("var(--S)"); shake(); document.getElementById("rays").className="rays on";}
+  else if(pet.grade==="A"){flash("var(--A)");}
+  else if(pet.grade==="B"||pet.grade==="C"){flash("rgba(255,255,255,.5)");}
+  await sleep(250);
+  lastPet=pet;
+  showReveal(pet);
+  btn.disabled=false; btn.textContent="Nova jaula";
+  busy=false;
+};
+function showReveal(pet){
+  const sp=SP[pet.sp], b=BONUS[pet.bonus];
+  const el=document.getElementById("reveal");
+  el.innerHTML=`<div class="card gl gl-${pet.grade}">
+    <div class="sp"><div class="big" style="background:var(--${pet.grade})">${pet.grade}</div>
+    <div><h3 class="pix">${sp.nome.toUpperCase()}</h3><div class="note">afinidade: ${BONUS[sp.pri].ic} ${BONUS[sp.pri].nome}</div></div></div>
+    <p style="margin:12px 0 0;font-size:15px">${b.ic} <b>${b.nome}</b>: ${b.fmt(FORCA[pet.grade])}</p>
+    <div class="why">${whyText(sp,pet)}</div>
+    <div class="row"><button class="btn gold" id="btnKeep">Levar para a Casinha</button></div>
+  </div>`;
+  el.className="reveal on";
+  document.getElementById("btnKeep").onclick=()=>keepPet(pet);
+}
+function keepPet(pet){
+  if(state.pets.length<cap()){ state.pets.push(pet); if(!state.active) state.active=pet.id; save(); renderHouse(); afterKeep(); return; }
+  // casinha cheia: escolher quem soltar
+  const body=document.getElementById("modalBody");
+  body.innerHTML=`<h3 class="pix" style="font-size:10px;line-height:1.6">CASINHA CHEIA</h3><p class="note">Escolha um pet para soltar. Ele devolve 1 Petisco.</p>
+  <div class="pick">${state.pets.map(p=>`<button data-id="${p.id}">${spriteBare(SP[p.sp],3)}<br>${SP[p.sp].nome} <span class="g g${p.grade}">${p.grade}</span><br><span class="note">${BONUS[p.bonus].nome}</span></button>`).join("")}</div>
+  <div class="row"><button class="btn" id="mCancel">Deixar o novo ir</button></div>`;
+  document.getElementById("modal").classList.add("on");
+  body.querySelectorAll(".pick button").forEach(bt=>bt.onclick=()=>{
+    const id=+bt.dataset.id;
+    state.pets=state.pets.filter(p=>p.id!==id); state.petisco++;
+    if(state.active===id) state.active=pet.id;
+    state.pets.push(pet); save(); renderHouse(); closeModal(); afterKeep();
+  });
+  document.getElementById("mCancel").onclick=()=>{closeModal(); newCage();};
+}
+function afterKeep(){
+  const el=document.getElementById("reveal");
+  el.querySelector(".row").innerHTML=`<span class="note">✓ Foi para a Casinha.</span> <button class="btn" onclick="go('casinha')">Ver Casinha</button>`;
+}
+function closeModal(){document.getElementById("modal").classList.remove("on");}
+document.getElementById("modal").onclick=e=>{if(e.target.id==="modal") closeModal();};
+
+// ---------- casinha ----------
+const lvlSel=document.getElementById("houseLvl");
+lvlSel.onchange=()=>{ state.lvl=+lvlSel.value; save(); renderHouse(); };
+document.getElementById("btnPetisco").onclick=()=>{state.petisco++; save(); renderHouse();};
+function renderHouse(){
+  lvlSel.value=state.lvl;
+  document.getElementById("slotsTxt").textContent=`${state.pets.length}/${cap()}`;
+  document.getElementById("petiscoTxt").textContent=state.petisco;
+  const slots=[];
+  for(let i=0;i<cap();i++){
+    const p=state.pets[i];
+    if(!p){slots.push(`<div class="slot empty">vaga livre</div>`);continue;}
+    const sp=SP[p.sp], b=BONUS[p.bonus];
+    slots.push(`<div class="slot gl gl-${p.grade} ${state.active===p.id?"active":""}">
+      <span class="g g${p.grade} gpos">${p.grade}</span>
+      ${spriteBare(sp,5)}
+      <div class="nm pix">${sp.nome.toUpperCase()}</div>
+      <div class="bn">${b.ic} ${b.fmt(FORCA[p.grade])}</div>
+      <div class="act">
+        <button class="btn ${state.active===p.id?"gold":""}" data-a="use" data-id="${p.id}">${state.active===p.id?"Na expedição":"Levar"}</button>
+        <button class="btn" data-a="reroll" data-id="${p.id}" ${state.petisco?"":"disabled"}>Petisco</button>
+        <button class="btn" data-a="free" data-id="${p.id}">Soltar</button>
+      </div></div>`);
+  }
+  // pets acima do limite (se baixou o nível)
+  state.pets.slice(cap()).forEach(p=>slots.push(`<div class="slot" style="opacity:.5"><span class="g g${p.grade} gpos">${p.grade}</span>${spriteBare(SP[p.sp],5)}<div class="nm pix">${SP[p.sp].nome.toUpperCase()}</div><div class="note">sem vaga neste nível</div></div>`));
+  document.getElementById("slots").innerHTML=slots.join("");
+  document.querySelectorAll("#slots button").forEach(bt=>bt.onclick=()=>{
+    const id=+bt.dataset.id, p=state.pets.find(x=>x.id===id);
+    if(bt.dataset.a==="use") state.active=id;
+    if(bt.dataset.a==="free"){ state.pets=state.pets.filter(x=>x.id!==id); state.petisco++; if(state.active===id) state.active=state.pets[0]?.id||null; }
+    if(bt.dataset.a==="reroll" && state.petisco>0){ state.petisco--; Object.assign(p,roll(SP[p.sp])); }
+    save(); renderHouse();
+  });
+  const a=state.pets.find(x=>x.id===state.active);
+  document.getElementById("hud").innerHTML = a
+    ? `<div class="ic">${spriteBare(SP[a.sp],3)}<span class="g g${a.grade}">${a.grade}</span></div><div><div class="pix" style="font-size:8px;color:var(--mut)">HUD DA EXPEDIÇÃO</div><div style="font-size:13px;margin-top:4px">${SP[a.sp].nome} · ${BONUS[a.bonus].ic} ${BONUS[a.bonus].fmt(FORCA[a.grade])}</div></div>`
+    : `<div class="note">Nenhum pet na expedição. Liberte um na aba Libertar.</div>`;
+}
+
+// ---------- recrutas ----------
+const APT = {
+  serr:{nome:"Serralheria",ic:"🔨",onde:"Serralheria: fabrica e melhora armas mais rápido"},
+  cons:{nome:"Construção",ic:"🏗️",onde:"Obras: evoluir e reparar construções mais rápido"},
+  mad: {nome:"Madeira",ic:"🪓",onde:"Pilha de toras: produz Madeira"},
+  col: {nome:"Coleta",ic:"🧺",onde:"Ponto de coleta: produz Sucata e Pano"},
+  hort:{nome:"Horta",ic:"🌱",onde:"Horta e coletor: produz Comida e Água"},
+  def: {nome:"Defesa",ic:"🛡️",onde:"Posto de guarda e muralha na invasão"},
+  comb:{nome:"Combate",ic:"⚔️",onde:"Expedição: luta ao lado do herói"},
+  med: {nome:"Medicina",ic:"🩹",onde:"Enfermaria: cura recrutas feridos e faz ataduras"},
+};
+const REND = {S:2, A:1.7, B:1.4, C:1.2, D:1, E:.8};
+const JOBS = [
+  {id:"serralheiro",nome:"Serralheiro",pri:"serr",sec:"cons",con:"comb",cor:"#5b6b7a",fala:"Me dá uma bigorna que eu resolvo."},
+  {id:"pedreira",nome:"Pedreira",pri:"cons",sec:"serr",con:"med",cor:"#c98a2e",fala:"Muro torto aqui não fica de pé."},
+  {id:"lenhador",nome:"Lenhador",pri:"mad",sec:"comb",con:"med",cor:"#8b3a2a",fala:"Machado eu já sei usar."},
+  {id:"catadora",nome:"Catadora",pri:"col",sec:"mad",con:"def",cor:"#4f7d4a",fala:"Lixo de um é tesouro de outro."},
+  {id:"agricultor",nome:"Agricultor",pri:"hort",sec:"col",con:"comb",cor:"#6f8f2f",fala:"Planta que dá, a gente come."},
+  {id:"vigia",nome:"Vigia",pri:"def",sec:"comb",con:"hort",cor:"#2f4a7a",fala:"Ninguém passa do portão."},
+  {id:"capoeirista",nome:"Capoeirista",pri:"comb",sec:"def",con:"serr",cor:"#e8e2d0",fala:"Zumbi não sabe gingar."},
+  {id:"enfermeira",nome:"Enfermeira",pri:"med",sec:"hort",con:"mad",cor:"#d9e6ef",fala:"Senta aí que eu dou um jeito nisso."},
+];
+const JB = Object.fromEntries(JOBS.map(j=>[j.id,j]));
+const SKINS=["#e0b48a","#c68a5e","#8d5a3b","#5e3a24"], HAIRS=["#1a1210","#4a2a14","#8a5a2a","#d8c8a0","#2a2a2a"];
+const HUMAN=["....hhhh....","...hhhhhh...","...hssssh...","...skssks...","...ssssss...","....ssss....","..cccccccc..",".cccccccccc.",".sccccccccs.",".sccccccccs.","..cccccccc..","..pppppppp..","..ppp..ppp..","..ppp..ppp..","..bbb..bbb.."];
+function human(r,scale){ return spriteBare({px:HUMAN,pal:{h:r.hair,s:r.skin,c:JB[r.job].cor,p:"#3a3340",b:"#1e1614"}},scale); }
+function rollApt(job,good){
+  let pS=.35*.3; if(good) pS*=2;
+  const r=Math.random();
+  if(r<pS) return {apt:job.pri,grade:"S"};
+  if(r<.35) return {apt:job.pri,grade:"A"};
+  if(r<.60) return {apt:job.sec,grade:"B"};
+  if(r<.90){const n=Object.keys(APT).filter(x=>![job.pri,job.sec,job.con].includes(x)); return {apt:n[Math.floor(Math.random()*n.length)],grade:Math.random()<.5?"C":"D"};}
+  return {apt:job.con,grade:"E"};
+}
+function aptGrade(job,k){ if(k===job.pri) return "S/A"; if(k===job.sec) return "B"; if(k===job.con) return "E"; return "C/D"; }
+const NAMES=["Dona Cida","Seu Zé","Tonho","Lia","Bia","Jairo","Neide","Caio","Rosa","Biu","Mel","Edson","Socorro","Davi","Nena","Hugo"];
+document.getElementById("jobGrid").innerHTML = JOBS.map(j=>{
+  const r={job:j.id,skin:SKINS[1],hair:HAIRS[0]};
+  const rows=Object.entries(APT).map(([k,a])=>`<tr><td>${a.ic} ${a.nome}</td><td>${aptGrade(j,k).split("/").map(x=>`<span class="g g${x}">${x}</span>`).join(" ")}</td></tr>`).join("");
+  return `<div class="card"><div class="sp"><div class="sprite">${human(r,4)}</div><div><h3 class="pix">${j.nome.toUpperCase()}</h3><div class="beh">“${j.fala}”</div></div></div>
+  <div class="aff"><span class="tag p">Principal <b>${APT[j.pri].nome}</b></span><span class="tag s">Secundária <b>${APT[j.sec].nome}</b></span><span class="tag x">Contrária <b>${APT[j.con].nome}</b></span></div>
+  <details><summary class="note" style="cursor:pointer">Nota possível por aptidão</summary><table>${rows}</table></details></div>`;
+}).join("");
+const pickJob=document.getElementById("pickJob");
+pickJob.innerHTML=`<option value="">Ofício aleatório</option>`+JOBS.map(j=>`<option value="${j.id}">${j.nome}</option>`).join("");
+let recState={list:[],next:1};
+try{const s=JSON.parse(localStorage.getItem("lds-rec")); if(s&&s.list) recState=s;}catch(e){}
+function saveRec(){try{localStorage.setItem("lds-rec",JSON.stringify(recState));}catch(e){}}
+let pendingRec=null, recBusy=false;
+function newRecruit(){
+  const j=pickJob.value?JB[pickJob.value]:JOBS[Math.floor(Math.random()*JOBS.length)];
+  pendingRec={id:recState.next++, job:j.id, nome:NAMES[Math.floor(Math.random()*NAMES.length)], skin:SKINS[Math.floor(Math.random()*SKINS.length)], hair:HAIRS[Math.floor(Math.random()*HAIRS.length)]};
+  document.getElementById("recPreview").innerHTML=`${human(pendingRec,6)}<div class="note">${pendingRec.nome} · ${j.nome} 💬</div>`;
+  document.getElementById("rouletteR").className="roulette";
+  document.getElementById("revealR").className="reveal";
+  document.getElementById("raysR").className="rays";
+  document.getElementById("btnRec").textContent="Recrutar";
+}
+pickJob.onchange=()=>{ if(!recBusy) newRecruit(); };
+async function spinGrade(reel,grade){
+  const G=["E","D","C","B","A","S"];
+  reel.innerHTML=G.map(g=>`<div data-g="${g}">${g}</div>`).join("");
+  const cells=[...reel.children], steps=18+G.indexOf(grade); let delay=45;
+  for(let s=0;s<=steps;s++){
+    cells.forEach(c=>{c.classList.remove("hit");c.style.background="";});
+    const c=cells[s%6]; c.classList.add("hit"); c.style.background=`var(--${c.dataset.g})`;
+    await sleep(delay); delay*=(s>steps-8?1.32:1.04);
+  }
+}
+function flashEl(id,color){const f=document.getElementById(id); f.style.background=color; f.classList.remove("go"); void f.offsetWidth; f.classList.add("go");}
+function shakeEl(id){const a=document.getElementById(id); a.classList.remove("shake"); void a.offsetWidth; a.classList.add("shake");}
+function recCard(r){
+  const j=JB[r.job], a=APT[r.apt];
+  return `<div class="card gl gl-${r.grade}">
+    <div class="sp"><div class="sprite">${human(r,4)}</div><div style="flex:1"><h3 class="pix">${r.nome.toUpperCase()}</h3><div class="note">${j.nome} · ofício: ${APT[j.pri].ic} ${APT[j.pri].nome}</div></div><div class="big" style="background:var(--${r.grade});font-size:20px">${r.grade}</div></div>
+    <p style="margin:12px 0 0;font-size:14px">${a.ic} <b>${a.nome}</b> · rendimento ${String(REND[r.grade]).replace(".",",")}×</p>
+    <div class="why">${a.onde}.</div>
+  </div>`;
+}
+document.getElementById("btnRec").onclick=async()=>{
+  if(recBusy) return;
+  if(document.getElementById("revealR").classList.contains("on")){ newRecruit(); return; }
+  recBusy=true; const btn=document.getElementById("btnRec"); btn.disabled=true;
+  const j=JB[pendingRec.job];
+  Object.assign(pendingRec, rollApt(j, document.getElementById("goodMission").checked));
+  document.getElementById("rouletteR").className="roulette on";
+  await spinGrade(document.getElementById("reelR"), pendingRec.grade);
+  const g=pendingRec.grade;
+  if(g==="S"){flashEl("flashR","var(--S)"); shakeEl("arenaR"); document.getElementById("raysR").className="rays on";}
+  else if(g==="A") flashEl("flashR","var(--A)");
+  else if(g==="B"||g==="C") flashEl("flashR","rgba(255,255,255,.5)");
+  await sleep(250);
+  const a=APT[pendingRec.apt];
+  let why;
+  if(pendingRec.apt===j.pri) why=`${a.nome} é exatamente o ofício de ${j.nome.toLowerCase()} — nota alta.`;
+  else if(pendingRec.apt===j.sec) why=`${a.nome} é próxima do ofício de ${j.nome.toLowerCase()} — combina bem.`;
+  else if(pendingRec.apt===j.con) why=`${a.nome} é o oposto do ofício de ${j.nome.toLowerCase()} — nota mínima.`;
+  else why=`${a.nome} é neutra para ${j.nome.toLowerCase()} (ofício: ${APT[j.pri].nome}).`;
+  const el=document.getElementById("revealR");
+  el.innerHTML=recCard(pendingRec)+`<div class="why" style="text-align:center">${why}</div>`;
+  el.className="reveal on";
+  recState.list.unshift(pendingRec); saveRec(); renderRec();
+  btn.disabled=false; btn.textContent="Próximo sobrevivente"; recBusy=false;
+};
+function renderRec(){
+  const el=document.getElementById("recList");
+  el.innerHTML = recState.list.length ? recState.list.map(r=>`<div style="position:relative">${recCard(r)}<button class="btn" data-id="${r.id}" style="position:absolute;bottom:10px;right:10px;font-size:11px;padding:4px 8px;z-index:3">Dispensar</button></div>`).join("")
+    : `<p class="note">Nenhum morador ainda. Recrute alguém no simulador.</p>`;
+  el.querySelectorAll("button").forEach(b=>b.onclick=()=>{recState.list=recState.list.filter(r=>r.id!==+b.dataset.id); saveRec(); renderRec();});
+}
+newRecruit(); renderRec();
+
+// ---------- navegação ----------
+function go(v){
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b.dataset.v===v));
+  document.querySelectorAll(".view").forEach(s=>s.classList.toggle("on",s.id==="v-"+v));
+  if(location.hash!=="#"+v) history.replaceState(null,"","#"+v);
+}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>go(b.dataset.v));
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1); if(["especies","libertar","casinha","recrutas"].includes(h)) go(h);});
+const h0=location.hash.slice(1); if(["especies","libertar","casinha","recrutas"].includes(h0)) go(h0);
+newCage(); renderHouse();
+</script>
+</body>
+</html>

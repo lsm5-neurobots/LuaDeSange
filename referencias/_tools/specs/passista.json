@@ -1,0 +1,115 @@
+{
+ "titulo": "Passista (mini boss) - figurino e materiais",
+ "pasta": "zumbis-rio/passista",
+ "secoes": [
+  {
+   "nome": "Passistas no desfile",
+   "n": 20,
+   "busca": [
+    "passista escola de samba",
+    "passista Sambodromo",
+    "samba dancer carnival Rio costume",
+    "passista",
+    "Rio carnival dancer",
+    "samba dancer",
+    "Carnaval do Rio passista"
+   ],
+   "cats": [
+    "Passistas",
+    "Samba dancers",
+    "Samba (dance)"
+   ],
+   "depth": 1
+  },
+  {
+   "nome": "Fantasias com plumas e esplendor",
+   "n": 20,
+   "busca": [
+    "fantasia plumas carnaval Rio",
+    "carnival feathers costume Rio de Janeiro",
+    "esplendor fantasia carnaval",
+    "carnaval Rio fantasia",
+    "Rio carnival costume",
+    "carnival costume Brazil feathers",
+    "fantasia de carnaval"
+   ],
+   "cats": [
+    "Carnival costumes in Brazil",
+    "Costumes of Carnival in Rio de Janeiro",
+    "Feather headdresses"
+   ],
+   "depth": 1
+  },
+  {
+   "nome": "Lantejoulas, paetes e brilho",
+   "n": 12,
+   "busca": [
+    "sequins costume carnival",
+    "lantejoulas fantasia",
+    "carnival costume detail Rio"
+   ]
+  },
+  {
+   "nome": "Porta-bandeira e mestre-sala",
+   "n": 12,
+   "busca": [
+    "porta-bandeira mestre-sala",
+    "porta bandeira escola de samba"
+   ]
+  },
+  {
+   "nome": "Sambodromo e alegorias",
+   "n": 6,
+   "cats": [
+    "Sambódromo da Marquês de Sapucaí",
+    "Carnival floats in Rio de Janeiro",
+    "Rio de Janeiro Carnival 2014",
+    "Rio de Janeiro Carnival 2015"
+   ],
+   "busca": [
+    "Sapucai carnival float",
+    "carro alegorico Rio carnaval",
+    "Sambadrome parade float Rio",
+    "Marques de Sapucai desfile"
+   ],
+   "depth": 1
+  },
+  {
+   "nome": "Bateria e instrumentos",
+   "n": 12,
+   "busca": [
+    "bateria escola de samba",
+    "surdo samba instrumento",
+    "tamborim samba"
+   ]
+  },
+  {
+   "nome": "Adereços: coroa, cocar, sandalia, chocalho",
+   "n": 10,
+   "busca": [
+    "carnival headdress",
+    "headdress feathers",
+    "coroa de carnaval",
+    "high heel sandal sequins",
+    "chocalho",
+    "carnival mask feathers"
+   ]
+  },
+  {
+   "nome": "Desfile das escolas (geral)",
+   "n": 8,
+   "cats": [
+    "Rio de Janeiro Carnival 2012",
+    "Rio de Janeiro Carnival 2013",
+    "Rio de Janeiro Carnival 2016"
+   ],
+   "depth": 1,
+   "busca": [
+    "Mocidade Independente desfile Sambodromo",
+    "Beija-Flor desfile Sapucai",
+    "Sambadrome parade Rio de Janeiro",
+    "Rio samba school parade Sambodromo"
+   ]
+  }
+ ]
+}

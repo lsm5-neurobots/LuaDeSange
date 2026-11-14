@@ -1,0 +1,25 @@
+node_modules/
+dist/
+
+.env
+.env.*
+!.env.example
+credentials.json
+*credentials*.json
+*serviceAccount*.json
+*firebase-adminsdk*.json
+*.pem
+
+# 179 MB — o GitHub recusa arquivo acima de 100 MB
+jogo/prints/onboarding-final-completo.mp4
+
+# ~2,4 GB de imagens de referência — um push acima de 2 GB é recusado
+referencias/**/*.jpg
+referencias/**/*.jpeg
+referencias/**/*.png
+referencias/**/*.gif
+referencias/**/*.webp
+
+__pycache__/
+*.pyc
+sh.exe.stackdump

@@ -1,0 +1,15 @@
+Arte Cósmica - Pivô Idle (Lua de Sangue) · 2026-11-07
+
+Cada .html abre direto no navegador (tudo embutido, sem servidor).
+
+zumbis/    13 zumbis (Errante ... Estivador) em hi-bit estilo beat 'em up cósmico
+recrutas/  8 recrutas + personagem-inicial.html (criação customizável)
+pets/      6 pets
+objetos/   bastão (4 raridades), objetos de vasculhar, baús + puzzles com skip
+mapa/      fase do Marco Zero (12 áreas, 15 min, escala 3x)
+demos/     expedição completa (12 áreas, mini boss, boss, vasculhar, baús), demo de combate Vigia x zumbis (difícil, níveis 1/5/10/20) e o design doc idle
+fonte/     código-fonte (pipeline pix.js, factories de cada personagem, templates e scripts build_*.js)
+
+Observação sobre fonte/: os scripts build_*.js foram escritos para rodar na pasta de trabalho
+original (eles leem os HTML gerados com nomes <slug>-cosmic.html na pasta acima de fonte/
+e os PNG antigos pelo caminho absoluto). Para regerar aqui, ajuste os caminhos ou renomeie.

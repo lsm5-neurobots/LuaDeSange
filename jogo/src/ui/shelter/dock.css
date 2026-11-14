@@ -1,0 +1,127 @@
+/* Dock do abrigo: placas com bisel pixel (contorno escuro com cantos "mordidos", luz em cima, sombra embaixo),
+   ícone grande + rótulo, badge e atalho. Sem backdrop-filter (embaçar a cena animada custa a cada quadro). */
+.sh-dock {
+  position: absolute; left: var(--g); right: var(--g); bottom: max(10px, env(safe-area-inset-bottom, 0px)); z-index: 4;
+  display: flex; align-items: stretch; gap: 10px; padding: 10px 12px 12px;
+  background: linear-gradient(rgba(34, 21, 58, .9), rgba(14, 8, 26, .93));
+  box-shadow: inset 0 2px 0 rgba(160, 128, 224, .32), inset 0 -3px 0 rgba(0, 0, 0, .55),
+    0 -2px 0 #06030c, 0 2px 0 #06030c, -2px 0 0 #06030c, 2px 0 0 #06030c, 0 6px 0 rgba(0, 0, 0, .45);
+}
+.sh .sh-tag { bottom: 112px }
+
+.dk-row { display: flex; gap: 8px; flex: 1 1 auto; min-width: 0; align-items: stretch }
+
+.dk {
+  --ol: #06030c; --f1: #3b2a62; --f2: #22163c;
+  position: relative; flex: 1 1 0; min-width: 62px; max-width: 98px; min-height: 68px; padding: 7px 4px 6px;
+  display: grid; justify-items: center; align-content: center; gap: 4px;
+  color: var(--ink); background: linear-gradient(var(--f1), var(--f2)); border: 0; border-radius: 0;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, .2), inset 2px 0 0 rgba(255, 255, 255, .08),
+    inset 0 -3px 0 color-mix(in srgb, var(--ac) 45%, #0a0614), inset -2px 0 0 rgba(0, 0, 0, .3),
+    0 -2px 0 var(--ol), 0 2px 0 var(--ol), -2px 0 0 var(--ol), 2px 0 0 var(--ol), 0 6px 0 rgba(0, 0, 0, .45);
+  transition: transform .08s steps(2);
+  -webkit-tap-highlight-color: transparent;
+}
+.dk[hidden] { display: none }
+.dk-ic { position: relative; display: block; width: 40px; height: 40px }
+.dk-ic img, .dk-go-ic img { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; margin: 0 }
+.dk-h { opacity: 0 }
+.dk-lb { font-family: var(--f-pix); font-size: 12px; line-height: 1; letter-spacing: .02em; color: #dcd0f4; text-shadow: 1px 1px 0 #000; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis }
+.dk-key { position: absolute; top: 4px; left: 5px; font: 10px/1 var(--f-pix); color: rgba(220, 208, 244, .5); background: none; border: 0; padding: 0 }
+
+/* hover / foco: sobe, contorno na cor do ícone, face mais clara e ícone destacado */
+.dk:hover, .dk:focus-visible, .dk.on {
+  --ol: var(--ac); --f1: color-mix(in srgb, var(--ac) 22%, #4a3678); --f2: color-mix(in srgb, var(--ac) 12%, #2a1c48);
+}
+.dk:hover, .dk:focus-visible { transform: translateY(-3px) }
+.dk:hover .dk-h, .dk:focus-visible .dk-h, .dk.on .dk-h { opacity: 1 }
+.dk:hover .dk-n, .dk:focus-visible .dk-n, .dk.on .dk-n { opacity: 0 }
+.dk:hover .dk-lb, .dk:focus-visible .dk-lb, .dk.on .dk-lb { color: #fff }
+.dk:focus-visible { outline: 2px solid #fff; outline-offset: 5px }
+/* aberto: marcador embaixo */
+.dk.on::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 16px; height: 3px; margin-left: -8px; background: var(--ac); box-shadow: 0 1px 0 #000 }
+/* clique: aperta */
+.dk:active, .dk.press {
+  transform: translateY(3px);
+  box-shadow: inset 0 3px 0 rgba(0, 0, 0, .4), inset 0 -2px 0 rgba(255, 255, 255, .1),
+    0 -2px 0 var(--ol), 0 2px 0 var(--ol), -2px 0 0 var(--ol), 2px 0 0 var(--ol);
+}
+
+/* badges */
+.dk-bd {
+  position: absolute; top: -9px; right: -7px; z-index: 1; min-width: 20px; padding: 3px 5px 2px; text-align: center; pointer-events: none;
+  font: 11px/1 var(--f-pix); font-weight: 700; color: #fff; background: var(--blood);
+  box-shadow: 0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000, 2px 0 0 #000, inset 0 -2px 0 rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .4);
+}
+.dk-bd[hidden] { display: none }
+.dk-bd.gold { background: #ffd23f; color: #1e1206 }
+.dk-bd.cyan { background: #3ed4ff; color: #04202c }
+.dk-bd.time { background: #1a1030; color: #ffd23f }
+.dk-bd.soft { background: #6a52a0; color: #fff }
+.dk-bd.good { background: #6fdc7a; color: #08240e }
+
+.dk-cfg { flex: 0 0 auto; min-width: 58px }
+.dk-col { flex: 0 0 auto; min-width: 70px }
+
+/* CTA principal: Expedição */
+.dk-go {
+  position: relative; overflow: hidden; flex: 0 0 auto; margin-left: 4px; min-height: 68px; padding: 6px 22px 6px 10px;
+  display: flex; align-items: center; gap: 10px; border: 0; border-radius: 0; text-align: left;
+  color: #1e1206; background: linear-gradient(#fff0a0 0%, #ffd23f 42%, #f0a828 100%);
+  box-shadow: inset 0 3px 0 #fff8d0, inset 3px 0 0 rgba(255, 255, 255, .4), inset 0 -4px 0 #a86a10, inset -3px 0 0 rgba(130, 70, 10, .45),
+    0 -2px 0 #06030c, 0 2px 0 #06030c, -2px 0 0 #06030c, 2px 0 0 #06030c, 0 6px 0 rgba(0, 0, 0, .5);
+  transition: transform .08s steps(2);
+  -webkit-tap-highlight-color: transparent;
+}
+.dk-go-ic { position: relative; flex: none; width: 52px; height: 52px }
+.dk-go-tx { display: grid; gap: 3px; position: relative; z-index: 1 }
+.dk-go-tx b { font-family: var(--f-display); font-weight: 400; font-size: 26px; line-height: 1; letter-spacing: .04em; text-transform: uppercase; text-shadow: 2px 2px 0 rgba(255, 255, 255, .45) }
+.dk-go-sub { font-family: var(--f-pix); font-size: 12px; line-height: 1; color: #5a3408 }
+.dk-go .moon-b { display: none }
+.dk-go:hover, .dk-go:focus-visible { transform: translateY(-3px); background: linear-gradient(#fff6c0 0%, #ffdc5a 42%, #f6b438 100%) }
+.dk-go:hover .dk-h, .dk-go:focus-visible .dk-h { opacity: 1 }
+.dk-go:hover .dk-n, .dk-go:focus-visible .dk-n { opacity: 0 }
+.dk-go:focus-visible { outline: 2px solid #fff; outline-offset: 5px }
+.dk-go:active { transform: translateY(3px); box-shadow: inset 0 4px 0 rgba(120, 60, 0, .45), 0 -2px 0 #06030c, 0 2px 0 #06030c, -2px 0 0 #06030c, 2px 0 0 #06030c }
+.dk-go.soon .dk-go-sub { color: #9a0e26; font-weight: 700 }
+/* Lua de Sangue no céu: placa vermelha, lua vermelha */
+.dk-go.blood { color: #fff; background: linear-gradient(#ff7088 0%, #e8244a 45%, #9a0e2e 100%);
+  box-shadow: inset 0 3px 0 #ffb0c0, inset 3px 0 0 rgba(255, 255, 255, .3), inset 0 -4px 0 #5a0418, inset -3px 0 0 rgba(60, 0, 20, .5),
+    0 -2px 0 #06030c, 0 2px 0 #06030c, -2px 0 0 #06030c, 2px 0 0 #06030c, 0 6px 0 rgba(0, 0, 0, .5) }
+.dk-go.blood .dk-go-tx b { text-shadow: 2px 2px 0 #000 }
+.dk-go.blood .dk-go-sub { color: #ffe0e6 }
+.dk-go.blood .moon-n { display: none }
+.dk-go.blood .moon-b { display: block }
+/* brilho que atravessa a placa de tempos em tempos (só transform: fica no compositor) */
+.dk-go-sheen { position: absolute; top: -4px; bottom: -4px; left: -40%; width: 26%; pointer-events: none;
+  background: linear-gradient(100deg, transparent 0, rgba(255, 255, 255, .55) 50%, transparent 100%);
+  transform: translateX(0) skewX(-18deg); animation: dkSheen 5s steps(20) infinite; will-change: transform }
+@keyframes dkSheen { 0%, 64% { transform: translateX(0) skewX(-18deg) } 100% { transform: translateX(640%) skewX(-18deg) } }
+@media (prefers-reduced-motion: reduce) { .dk-go-sheen { display: none } .dk, .dk-go { transition: none } }
+
+/* telas médias: a Expedição vai pra uma linha própria */
+@media (max-width: 1140px) {
+  .sh-dock { flex-wrap: wrap; row-gap: 12px }
+  .dk-row { flex-basis: 100% }
+  .dk-col { flex: 0 0 auto }
+  .dk-go { flex: 1 1 auto; margin-left: 0; justify-content: center }
+  .sh .sh-tag { bottom: 200px }
+}
+/* celular: grade 6×2 de alvos grandes + Expedição embaixo */
+@media (max-width: 720px) {
+  .sh-dock { gap: 8px; row-gap: 10px; padding: 8px 8px 10px }
+  .dk-row { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px 6px }
+  .dk { min-width: 0; max-width: none; min-height: 56px; padding: 5px 1px 4px; gap: 3px }
+  .dk-ic { width: 32px; height: 32px }
+  .dk-lb { font-size: 10px; letter-spacing: -.02em }
+  .dk-bd { top: -8px; right: -5px; font-size: 10px; padding: 2px 4px 1px; min-width: 16px }
+  .dk-col { min-width: 64px }
+  .dk-go { min-height: 56px; padding: 4px 14px 4px 8px }
+  .dk-go-ic { width: 40px; height: 40px }
+  .dk-go-tx b { font-size: 22px }
+  .dk-go-sub { font-size: 11px }
+  .sh .sh-tag { bottom: 234px }
+}
+@media (max-width: 720px), (hover: none) { .dk-key { display: none } }
+@media (max-width: 420px) { .dk-row { column-gap: 4px } .dk-lb { font-size: 9px; letter-spacing: -.06em } }

@@ -1,0 +1,143 @@
+{"grupo": "hud_combate", "titulo": "HUD de combate", "ordem": 1,
+ "resumo": "Elementos de interface do combate: vida do herói, veneno, barra do boss com fases, guarda do escudo, recursos dos golpes especiais, barrinha de recovery/recarga, lua, relógio do dia e marcadores sobre inimigos. Tudo em moldura de metal velho rebitado com ossos e acento vermelho-lua, legível sobre o mapa escuro.",
+ "itens": [
+  {"id": "hud_vida", "nome": "Barra de vida do herói", "categoria": "HUD",
+   "mecanica": "Vida do herói (HP-01..HP-11)",
+   "conceito": "A barra de vida do canto superior esquerdo, feita como se o herói tivesse montado o painel com sucata: uma régua de ferro escuro rebitada, arranhada e com manchas de ferrugem, presa a um medalhão redondo de metal que guarda um coração anatômico vermelho (com aorta e veias, não um coração de desenho). A régua tem um friso vermelho-lua fino embaixo do chanfro de cima e um pedaço de osso amarrado na ponta direita como trava. Dentro, 10 segmentos de 10 HP cada, separados por divisórias de metal, com brilho em cima, sombra embaixo e listras diagonais leves para não parecer cor lisa. A cor do recheio muda por faixa (verde, amarelo, vermelho), a ghost bar é uma camada clara atrás da principal e a cura aparece como verde-claro na frente. No veneno tudo fica roxo com bolhas subindo e o coração ganha tom arroxeado; no hit tudo vira quase branco por 80 ms.",
+   "partes": [
+    {"parte": "Medalhão do coração", "descricao": "Disco de metal 40×40 px em x 2..42, y 4..44, borda chanfrada #5a5662/#2a2630, 6 rebites #c9ced4 ao redor, arranhões claros. Fundo interno escuro #1a1418 com brilho vermelho atrás do coração."},
+    {"parte": "Coração anatômico", "descricao": "~22×24 px: corpo #b8283a com lobos, aorta e artérias em cima #d24a5a, veias azuladas #5a4a8a, brilho #ff9aa0 em cima-esquerda; na vida baixa fica mais vermelho/escuro, no veneno roxo #8a4ab0, no flash quase branco."},
+    {"parte": "Régua (moldura da barra)", "descricao": "Retângulo 212×26 px em x 40..252, y 11..37, metal #3a3640 com chanfro claro em cima, borda escura, rebites, arranhões, manchas de ferrugem #8a4e2e, respingo de sangue seco #5a161c, friso vermelho-lua #c8323a de 1 px. Ponta direita com osso #d8ccb0 amarrado por corda #b59a62."},
+    {"parte": "Segmentos", "descricao": "10 células de ~19×14 px em x 48..246, y 17..31, divisórias de metal de 1 px; vazio = rebaixo escuro #140e12 com sombra interna; cheio = cor da faixa com 2 px de brilho no topo, 2 px de sombra embaixo, listras diagonais e borda viva clara na ponta do recheio."},
+    {"parte": "Ghost bar / prévia de cura", "descricao": "Ghost: rosa-creme claro #f0d8c8 nos segmentos perdidos recentemente (70% → 100%). Cura: verde-claro #b8f0a0 à frente do verde (de 60% até 80%)."},
+    {"parte": "Bolhas de veneno", "descricao": "Bolhinhas roxas claras #d8a8ff de 2-3 px saindo de cima do recheio, e gotas na moldura."}
+   ],
+   "paleta": [{"nome": "Metal escuro", "hex": "#3a3640"}, {"nome": "Chanfro", "hex": "#5a5662"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Osso", "hex": "#d8ccb0"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Vida verde", "hex": "#4fb04a"}, {"nome": "Vida amarela", "hex": "#e0b42a"}, {"nome": "Vida vermelha", "hex": "#d23038"}, {"nome": "Ghost", "hex": "#f0d8c8"}, {"nome": "Cura", "hex": "#b8f0a0"}, {"nome": "Veneno", "hex": "#9a4ad0"}, {"nome": "Rebaixo", "hex": "#140e12"}],
+   "arquivo": "sprites/hud_vida.png", "fw": 256, "fh": 48, "cols": 8,
+   "quadros": ["cheia verde (100%)", "70% com ghost bar clara (dano recente)", "60% com prévia de cura verde-clara (até 80%)", "amarela (40%)", "vermelha (20%)", "vermelha pulsando (2º quadro, mais clara)", "envenenada roxa (60%, bolhas)", "flash branco do hit"],
+   "anims": [{"nome": "pulso vida baixa", "quadros": [4, 5], "dur": [420, 420], "loop": true}, {"nome": "hit", "quadros": [7, 0], "dur": [80, 300], "loop": false}],
+   "uso": "Âncora no canto superior esquerdo (pivô = canto sup. esq.). Na prática o jogo recorta o recheio pelo HP real (largura proporcional) usando os quadros como paleta/estado; smooth drain, tremor do hit e vinheta vermelha são transformações em tempo real."},
+
+  {"id": "hud_veneno", "nome": "Ícone de veneno e timer", "categoria": "HUD",
+   "mecanica": "Veneno (HP-09, HP-10, HP-11)",
+   "conceito": "Ícone que aparece ao lado da barra de vida enquanto o herói está envenenado. É um frasco de vidro grosso, meio torto, cheio de líquido roxo borbulhante, com rolha de cortiça amarrada e uma caveira pintada em osso na frente; uma gota roxa escorre pelo gargalo. Atrás do frasco há um anel de metal rebitado que funciona como cronômetro: o arco roxo brilhante vai se apagando no sentido horário conforme os 5 s passam, deixando o trilho escuro. Lê de longe como 'perigo, tóxico' pela forma do frasco e pela cor.",
+   "partes": [
+    {"parte": "Frasco", "descricao": "Vidro ~26×30 px centrado em (32,36): bojo redondo, gargalo 8 px, vidro #6a5a7a com reflexo branco em faixa, líquido #9a4ad0/#5a1e86 até 2/3, bolhas #d8a8ff."},
+    {"parte": "Rolha", "descricao": "Cortiça #9a7a4a 8×6 px com barbante #b59a62 e pontinhos de textura."},
+    {"parte": "Caveira", "descricao": "Caveira de osso #e8dcc0 de 10×10 px na frente do bojo com órbitas e dentes escuros #2a1a2a."},
+    {"parte": "Anel do timer", "descricao": "Anel de raio 30/25 px: trilho de metal #2a2630 com 4 rebites; arco roxo brilhante #c070ff com borda clara, cobrindo 100/75/50/25/5% começando no topo."}
+   ],
+   "paleta": [{"nome": "Líquido roxo", "hex": "#9a4ad0"}, {"nome": "Roxo escuro", "hex": "#5a1e86"}, {"nome": "Brilho veneno", "hex": "#d8a8ff"}, {"nome": "Vidro", "hex": "#6a5a7a"}, {"nome": "Osso", "hex": "#e8dcc0"}, {"nome": "Cortiça", "hex": "#9a7a4a"}, {"nome": "Trilho", "hex": "#2a2630"}],
+   "arquivo": "sprites/hud_veneno.png", "fw": 64, "fh": 64, "cols": 6,
+   "quadros": ["ícone sem anel", "anel 100% (5 s)", "anel 75%", "anel 50%", "anel 25%", "anel 5% (quase acabando)"],
+   "anims": [{"nome": "timer", "quadros": [1, 2, 3, 4, 5], "dur": [1000, 1000, 1000, 1000, 1000], "loop": false}],
+   "uso": "Fica à direita da barra de vida (pivô no centro). O jogo pode usar o quadro mais próximo do tempo restante; ao reaplicar veneno volta ao quadro 1."},
+
+  {"id": "hud_boss", "nome": "Barra do boss", "categoria": "HUD",
+   "mecanica": "Boss e fases (BOSS-06, BOSS-10, BF-01, BF-03, BF-08)",
+   "conceito": "Barra larga do rodapé para lutas contra boss (o Açougueiro e os próximos). À esquerda uma placa de ferro pesada, com caveira de osso e dois cutelos cruzados, e rebaixos escuros onde o jogo escreve o nome do boss e o nome da fase. A régua da barra é grossa, com rebites em toda a borda, arranhões, ferrugem e respingos de sangue, e termina num osso amarrado. Dentro há marcadores dourados em 65% e 30% (pinos de latão em losango que atravessam a barra) e, na fase 3, uma linha pontilhada clara em 10% (desespero). A cor do recheio muda por fase: vermelho-carne na fase 1, laranja-ferrugem na fase 2 e vermelho vivo pulsante na fúria, com a palavra FÚRIA em letras próprias numa etiqueta acima. Quando a fase vira, o marcador dourado explode em cacos.",
+   "partes": [
+    {"parte": "Placa do nome", "descricao": "Placa 128×52 px em x 2..130, y 6..58, metal #3a3640 com rebites, caveira ~22×22 px de osso #e8dcc0 sobre cutelos cruzados #9aa0a8; rebaixo do nome #140e12 em x 48..124 y 14..32 e da fase em y 37..50, com friso vermelho-lua."},
+    {"parte": "Régua", "descricao": "Retângulo ~376×28 px em x 128..504, y 20..48, metal com chanfro, rebites, arranhões, ferrugem, sangue seco; ponta direita com osso amarrado."},
+    {"parte": "Recheio", "descricao": "Área interna ~360×16 px (x 136..496, y 26..42). Fase 1 #b8283a, fase 2 #d0622a, fúria #ff3030/#ff6a5a (2 quadros), com brilho no topo, sombra embaixo, listras diagonais e veios escuros tipo carne."},
+    {"parte": "Marcadores", "descricao": "Pinos dourados #f2c230/#b8861a em losango 7×24 px em 65% e 30%; marcador já passado aparece estilhaçado (toco quebrado). Linha pontilhada creme #f0e0c0 em 10% na fase 3/desespero."},
+    {"parte": "Etiqueta FÚRIA", "descricao": "Plaquinha vermelha #8a141c com contorno dourado acima da barra, letras FÚRIA de 2 px de escala em creme #fff0d8; brilha mais no 2º quadro."},
+    {"parte": "Cacos", "descricao": "Cacos dourados de 2-4 px voando do marcador de 65% em 3 quadros, com faísca branca."}
+   ],
+   "paleta": [{"nome": "Metal", "hex": "#3a3640"}, {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Ouro escuro", "hex": "#b8861a"}, {"nome": "Carne (F1)", "hex": "#b8283a"}, {"nome": "Ferrugem (F2)", "hex": "#d0622a"}, {"nome": "Fúria", "hex": "#ff3030"}, {"nome": "Osso", "hex": "#e8dcc0"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}],
+   "arquivo": "sprites/hud_boss.png", "fw": 512, "fh": 64, "cols": 3,
+   "quadros": ["vazia (entrando)", "fase 1 cheia", "fase 2 (laranja, 65% estilhaçado, 55%)", "fase 3 fúria A (25%)", "fase 3 fúria B (pulso claro)", "desespero (8%, linha 10%)", "marcador estilhaçando 1", "marcador estilhaçando 2", "marcador estilhaçando 3"],
+   "anims": [{"nome": "fúria pulsando", "quadros": [3, 4], "dur": [300, 300], "loop": true}, {"nome": "estilhaço do marcador", "quadros": [6, 7, 8, 2], "dur": [70, 90, 110, 400], "loop": false}],
+   "uso": "Centralizada no rodapé (pivô centro-baixo). O jogo recorta o recheio pelo HP real e escreve nome e fase com a fonte do jogo dentro dos rebaixos. Entrada enchendo 0→100% em 0,8 s é recorte em tempo real a partir do quadro 1 sobre o quadro 0."},
+
+  {"id": "hud_guarda", "nome": "Barra de guarda do escudo", "categoria": "HUD",
+   "mecanica": "Defesa com escudo (DEF-02, DEF-09)",
+   "conceito": "Barrinha azul que aparece sob a barra de vida quando o herói tem escudo. À esquerda um escudo redondo de madeira com aro e umbo de metal, como os escudos improvisados do jogo (tampa de tambor rebitada); à direita uma régua estreita rebitada com 5 entalhes, cheia de energia azul-aço com reflexo. Quando a guarda zera o escudo racha ao meio, a barra fica vermelha vazia com rachaduras e aparecem faíscas. Recarregando, a barra fica azul mais apagada com chevrons claros correndo.",
+   "partes": [
+    {"parte": "Ícone do escudo", "descricao": "Escudo 26×26 px centrado em (15,16): madeira #8b5e34 com tábuas, aro metal #7d848c, umbo #c9ced4, rebites. Quebrado: rachadura preta em zigue-zague, metades afastadas, tinta vermelha #c8323a."},
+    {"parte": "Régua", "descricao": "~128×18 px em x 28..156, y 7..25, metal #3a3640 com rebites e arranhões; interior ~120×10 px."},
+    {"parte": "Recheio", "descricao": "Azul #3a8ae0 com brilho #a8d8ff no topo e sombra #1a4a90, entalhes a cada 20% (20 de guarda = golpe normal). Recarregando #4a6a9a dessaturado com chevrons claros."}
+   ],
+   "paleta": [{"nome": "Azul guarda", "hex": "#3a8ae0"}, {"nome": "Azul brilho", "hex": "#a8d8ff"}, {"nome": "Azul escuro", "hex": "#1a4a90"}, {"nome": "Madeira", "hex": "#8b5e34"}, {"nome": "Metal", "hex": "#7d848c"}, {"nome": "Quebrada", "hex": "#c8323a"}],
+   "arquivo": "sprites/hud_guarda.png", "fw": 160, "fh": 32, "cols": 5,
+   "quadros": ["cheia (100)", "metade (50)", "quase vazia (15)", "quebrada (0, ícone rachado, vermelho)", "recarregando (40, azul apagado)"],
+   "anims": [],
+   "uso": "Abaixo da barra de vida (pivô canto sup. esq.). Recorte do recheio pela guarda real; o texto GUARDA QUEBRADA é texto do jogo."},
+
+  {"id": "hud_energia", "nome": "Barras de recurso dos golpes especiais", "categoria": "HUD",
+   "mecanica": "Golpes especiais (KMH-06..08, RSG-08, GTS-08, CHD-07, LSR-07, LSR-08)",
+   "conceito": "Quatro barras de carga, uma por recurso, no mesmo corpo de metal rebitado com um soquete à esquerda que mostra o símbolo do recurso: esfera azul de ki (Kamehameha), espiral ciano de chakra (Rasengan/Chidori), lua crescente vermelha e preta de reiatsu (Getsuga) e bateria verde-ciano (laser). A barra tem marca de mínimo (entalhe claro) e marca de carga cheia (entalhe dourado). Carregando, a energia sobe com brilho na ponta; cheia, a barra inteira brilha e solta faíscas; na sobrecarga (só ki e chakra) fica branco-dourada e instável; no resfriamento a barra fica vermelha descendo com vapor. A célula de energia é dividida em 4 células físicas em vez de recheio contínuo.",
+   "partes": [
+    {"parte": "Soquete do ícone", "descricao": "Disco ~26 px em (14,16) metal com rebites; ícone 16 px: ki = esfera azul #4a9aff com núcleo branco; chakra = espiral ciano #4ae0e8; reiatsu = crescente vermelho #e02a2a sobre preto #120a0e; célula = bateria verde-ciano #3ae0a0 com raio."},
+    {"parte": "Régua", "descricao": "~164×18 px em x 26..190, y 7..25, rebites, arranhões, friso da cor do recurso. Marca de mínimo creme em ~25% e marca de cheia dourada em ~85%."},
+    {"parte": "Recheio", "descricao": "Cor do recurso com brilho no topo e listras; reiatsu é vermelho com veios pretos; célula tem 4 blocos separados por divisória grossa. Sobrecarga #fff0b0/#f2c230. Resfriamento #c8323a com vapor cinza #b8b0c0."},
+    {"parte": "Faíscas", "descricao": "Brilho e faíscas de 3-5 px em volta da barra nos quadros cheia/sobrecarga."}
+   ],
+   "paleta": [{"nome": "Ki", "hex": "#4a9aff"}, {"nome": "Chakra", "hex": "#4ae0e8"}, {"nome": "Reiatsu", "hex": "#e02a2a"}, {"nome": "Reiatsu preto", "hex": "#120a0e"}, {"nome": "Célula", "hex": "#3ae0a0"}, {"nome": "Sobrecarga", "hex": "#fff0b0"}, {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Resfriamento", "hex": "#c8323a"}],
+   "arquivo": "sprites/hud_energia.png", "fw": 192, "fh": 32, "cols": 5,
+   "quadros": ["ki vazia", "ki carregando (passou do mínimo)", "ki carga cheia brilhando", "ki sobrecarga", "ki resfriamento",
+               "chakra vazia", "chakra carregando", "chakra carga cheia brilhando", "chakra sobrecarga", "chakra recarga",
+               "reiatsu vazia", "reiatsu carregando", "reiatsu carga cheia brilhando", "reiatsu cheia brilho 2", "reiatsu recarga",
+               "célula vazia", "célula carregando (2 de 4)", "célula carga cheia brilhando", "célula cheia brilho 2", "célula resfriamento"],
+   "anims": [{"nome": "ki sobrecarga", "quadros": [2, 3], "dur": [90, 90], "loop": true}, {"nome": "chakra sobrecarga", "quadros": [7, 8], "dur": [90, 90], "loop": true}, {"nome": "reiatsu cheia", "quadros": [12, 13], "dur": [200, 200], "loop": true}, {"nome": "célula cheia", "quadros": [17, 18], "dur": [250, 250], "loop": true}],
+   "uso": "Uma linha por recurso; só a do golpe equipado aparece no HUD (pivô canto sup. esq.). A posição real da carga é recorte em tempo real; os quadros dão o estado/cor."},
+
+  {"id": "hud_recuperacao", "nome": "Barrinha de recovery e recarga", "categoria": "HUD",
+   "mecanica": "Recovery do martelo e recarga (HAM-07, TIR-08, LSR-07)",
+   "conceito": "Barrinha pequena que flutua sobre a cabeça do herói. É uma plaquinha de metal com rebites e um ícone à esquerda: um martelo para o recovery do golpe pesado e um cartucho de bala para a recarga da arma. Para o martelo a barra enche em branco-creme e, a partir de 0,3 s (54%), fica azul indicando que outro toque cancela; para a recarga enche em laranja-latão com marcas de munição. Pequena mas legível, com contorno escuro grosso para destacar do chão.",
+   "partes": [
+    {"parte": "Plaquinha", "descricao": "Retângulo ~60×14 px em x 2..62, y 5..19, metal #3a3640, rebites, chanfro."},
+    {"parte": "Ícone", "descricao": "~10×12 px à esquerda: martelo (cabeça #7d848c, cabo #8a6a42) ou cartucho (latão #d0a040, ponta cobre #b8683a)."},
+    {"parte": "Recheio", "descricao": "Interior ~44×6 px. Martelo: creme #f0e6d0 antes de 54%, azul #4a9aff depois (com brilho). Recarga: laranja #e09a30 com 5 marquinhas."}
+   ],
+   "paleta": [{"nome": "Creme", "hex": "#f0e6d0"}, {"nome": "Azul cancelável", "hex": "#4a9aff"}, {"nome": "Latão", "hex": "#e09a30"}, {"nome": "Metal", "hex": "#3a3640"}],
+   "arquivo": "sprites/hud_recuperacao.png", "fw": 64, "fh": 24, "cols": 5,
+   "quadros": ["martelo 0%", "martelo 35%", "martelo 55% (azul, cancelável)", "martelo 80% (azul)", "martelo 100% (azul)", "recarga 0%", "recarga 25%", "recarga 50%", "recarga 75%", "recarga 100%"],
+   "anims": [{"nome": "recovery", "quadros": [0, 1, 2, 3, 4], "dur": [110, 110, 110, 110, 110], "loop": false}, {"nome": "recarga", "quadros": [5, 6, 7, 8, 9], "dur": [200, 200, 200, 200, 200], "loop": false}],
+   "uso": "Pivô centro-baixo, 8 px acima da cabeça do herói. Pode recortar o recheio pelo progresso real."},
+
+  {"id": "hud_lua", "nome": "Ícone da Lua", "categoria": "HUD",
+   "mecanica": "Lua de Sangue (LUA-03)",
+   "conceito": "A lua no canto do HUD que avisa a chegada da Lua de Sangue. É uma lua cheia pixelada com crateras e mares escuros, presa num aro de ferro rebitado com quatro garras de osso. Normal ela é branco-creme com luz fria; nos últimos 10 minutos vai ficando rosada, depois vermelha, e pulsa (o segundo quadro é mais claro e com halo maior). Com a Lua de Sangue ativa ela fica vermelho-sangue escuro com escorridos de sangue embaixo e uma aura vermelha pulsante em volta.",
+   "partes": [
+    {"parte": "Aro", "descricao": "Anel de metal raio 25/21 px centrado em (32,32), #3a3640, rebites e 4 garras de osso #d8ccb0 nas diagonais."},
+    {"parte": "Lua", "descricao": "Disco raio 19 px: branca #ece6d6, rosada #e8b0b0, vermelha #d84848, sangue #a8141c; crateras de 2-5 px com borda clara, mares escuros, terminador sombreado na direita-baixo."},
+    {"parte": "Aura / sangue", "descricao": "Halo vermelho #ff3a3a quantizado; na Lua de Sangue escorridos de sangue #6a0a10 saindo de baixo."}
+   ],
+   "paleta": [{"nome": "Lua branca", "hex": "#ece6d6"}, {"nome": "Rosada", "hex": "#e8b0b0"}, {"nome": "Vermelha", "hex": "#d84848"}, {"nome": "Sangue", "hex": "#a8141c"}, {"nome": "Aura", "hex": "#ff3a3a"}, {"nome": "Osso", "hex": "#d8ccb0"}],
+   "arquivo": "sprites/hud_lua.png", "fw": 64, "fh": 64, "cols": 7,
+   "quadros": ["lua branca normal", "ficando rosada", "vermelha", "vermelha pulsando A", "vermelha pulsando B (clara, halo)", "Lua de Sangue ativa A", "Lua de Sangue ativa B (aura maior)"],
+   "anims": [{"nome": "aviso pulsando", "quadros": [3, 4], "dur": [500, 500], "loop": true}, {"nome": "lua de sangue", "quadros": [5, 6], "dur": [600, 600], "loop": true}],
+   "uso": "Canto superior direito, pivô no centro. O ritmo do pulso pode acompanhar a batida do coração (acelera)."},
+
+  {"id": "hud_relogio", "nome": "Relógio do dia (arco sol/lua)", "categoria": "HUD",
+   "mecanica": "Dia e noite (DN-01)",
+   "conceito": "Arco de metal em meia-lua que mostra a hora do mapa: uma régua curva de ferro rebitado com marcas das horas, sobre um céu recortado que muda de cor com o período. O sol (disco amarelo com raios) ou a lua andam pelo arco: nasce à esquerda, fica no topo ao meio-dia e desce à direita no entardecer; à noite a lua branca fica no alto com estrelas, e na Lua de Sangue a lua é vermelha com céu bordô. Embaixo do arco há uma faixa onde o jogo escreve a hora e o nome do período, e um horizonte de prédios do Recife em silhueta.",
+   "partes": [
+    {"parte": "Arco", "descricao": "Semicírculo de raio 58/50 px centrado em (64,56), metal #3a3640 com marcas de hora #c9ced4 e rebites, ponta de osso nas duas extremidades."},
+    {"parte": "Céu", "descricao": "Interior do semicírculo raio 49: amanhecer laranja/rosa #e88a5a→#6a4a8a, meio-dia azul #5aa0d8, entardecer laranja-vermelho #d8603a→#4a2a5a, noite #1a1a3a com estrelas, Lua de Sangue #3a0a14 com estrelas vermelhas."},
+    {"parte": "Skyline", "descricao": "Silhuetas de prédios e torre #14101a na base do céu, janelas acesas raras."},
+    {"parte": "Astro", "descricao": "Sol raio 7 px #ffd84a com raios; lua raio 6 px #ece6d6 com crateras; lua de sangue #d82a2a com aura."},
+    {"parte": "Faixa", "descricao": "Placa ~112×9 px em y 55..64 metal escuro com rebaixo para o texto do jogo."}
+   ],
+   "paleta": [{"nome": "Sol", "hex": "#ffd84a"}, {"nome": "Céu dia", "hex": "#5aa0d8"}, {"nome": "Amanhecer", "hex": "#e88a5a"}, {"nome": "Noite", "hex": "#1a1a3a"}, {"nome": "Lua de Sangue", "hex": "#d82a2a"}, {"nome": "Skyline", "hex": "#14101a"}],
+   "arquivo": "sprites/hud_relogio.png", "fw": 128, "fh": 64, "cols": 5,
+   "quadros": ["amanhecer", "meio-dia", "entardecer", "noite", "Lua de Sangue"],
+   "anims": [],
+   "uso": "Topo central do HUD, pivô centro-baixo. O jogo troca o quadro no início do período."},
+
+  {"id": "hud_alvo_inimigo", "nome": "Marcadores sobre inimigos", "categoria": "HUD",
+   "mecanica": "Inimigos (LUA-09, DEF-10, HP-03)",
+   "conceito": "Pequenos sinais que flutuam acima da cabeça dos zumbis. A mini barra de vida é uma régua fina de metal com recheio vermelho e ghost clara; o mini boss tem uma versão mais grossa com caveira e moldura dourada. A etiqueta RARO é uma plaquinha dourada com rebites e letras escuras, com brilho, para a variante rara da Lua de Sangue. Os sinais de telegrafia são um '!' grosso com contorno escuro: amarelo para golpe normal, vermelho com aura pulsante para golpe pesado e roxo com aura e correntes para agarrão que não dá para defender.",
+   "partes": [
+    {"parte": "Mini barra", "descricao": "40×8 px centrada em x 32, y ~44..52, metal #3a3640, recheio vermelho #d23038 com brilho, ghost #f0d8c8."},
+    {"parte": "Barra de mini boss", "descricao": "~52×12 px, moldura dourada #b8861a/#f2c230 e caveira de osso ~10×10 px à esquerda, recheio vermelho-carne."},
+    {"parte": "Etiqueta RARO", "descricao": "Placa ~34×13 px dourada #f2c230 com chanfro, 2 rebites, letras RARO 3×5 em #3a2a08 e sparkles brancos."},
+    {"parte": "Exclamação", "descricao": "'!' de ~10×28 px com bisel: amarelo #ffd23a, vermelho #ff3a3a com aura #ff5a5a, roxo #b04aff com aura e elos de corrente."}
+   ],
+   "paleta": [{"nome": "Vida inimigo", "hex": "#d23038"}, {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Aviso amarelo", "hex": "#ffd23a"}, {"nome": "Aviso vermelho", "hex": "#ff3a3a"}, {"nome": "Agarrão roxo", "hex": "#b04aff"}],
+   "arquivo": "sprites/hud_alvo_inimigo.png", "fw": 64, "fh": 64, "cols": 8,
+   "quadros": ["mini barra cheia", "mini barra 45% com ghost", "barra de mini boss (70%)", "etiqueta RARO", "! amarelo (golpe normal)", "! vermelho com aura A (pesado)", "! vermelho com aura B", "! roxo (agarrão, indefensável)"],
+   "anims": [{"nome": "! pesado", "quadros": [5, 6], "dur": [120, 120], "loop": true}],
+   "uso": "Pivô centro-baixo, colado acima da cabeça do inimigo (mini barra) ou um pouco acima dela (!/RARO). Recorte do recheio pelo HP real."}
+ ]}

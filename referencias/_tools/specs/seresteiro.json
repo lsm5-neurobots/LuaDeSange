@@ -1,0 +1,118 @@
+{
+ "titulo": "Zumbi Seresteiro (Lapa) - violao, serenata e boemia",
+ "pasta": "zumbis-lapa/seresteiro",
+ "secoes": [
+  {
+   "nome": "Seresteiro tocando violao",
+   "n": 14,
+   "busca": [
+    "seresta violão",
+    "serenade guitar man",
+    "serenata violão",
+    "man playing classical guitar street",
+    "violonista seresteiro",
+    "chorão violão rua"
+   ],
+   "depth": 0,
+   "cats": [
+    "Serenades"
+   ]
+  },
+  {
+   "nome": "Violao classico: corpo, cordas, boca",
+   "n": 14,
+   "busca": [
+    "classical guitar",
+    "violão",
+    "acoustic guitar body",
+    "guitar soundhole strings",
+    "violão de nylon",
+    "guitar headstock"
+   ],
+   "depth": 0,
+   "cats": [
+    "Classical guitars"
+   ]
+  },
+  {
+   "nome": "Paleto, chapeu e gravata borboleta (boemio)",
+   "n": 12,
+   "busca": [
+    "bow tie suit man 1940s",
+    "fedora hat man vintage",
+    "boêmio terno chapéu",
+    "white jacket musician",
+    "vintage musician suit",
+    "serenader suit"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Choro e seresta no Rio antigo",
+   "n": 12,
+   "busca": [
+    "choro musicians",
+    "chorões Rio de Janeiro",
+    "seresta Rio antigo",
+    "Rio de Janeiro 1940s musicians",
+    "trio de choro",
+    "choro band Rio de Janeiro"
+   ],
+   "depth": 0,
+   "cats": [
+    "Choro"
+   ]
+  },
+  {
+   "nome": "Serenata sob a janela, sacada e lampiao",
+   "n": 10,
+   "busca": [
+    "serenade balcony",
+    "serenata janela",
+    "balcony old house street lamp",
+    "lampião de rua antigo",
+    "gas street lamp night"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Lapa boemia e Arcos",
+   "n": 16,
+   "busca": [
+    "Lapa Rio de Janeiro noite",
+    "Lapa boêmia bar",
+    "Arcos da Lapa",
+    "Rua do Lavradio",
+    "Lapa Rio música ao vivo"
+   ],
+   "depth": 0,
+   "cats": [
+    "Arcos da Lapa"
+   ]
+  },
+  {
+   "nome": "Poses: tocar, curvar, golpear com o violao",
+   "n": 10,
+   "busca": [
+    "guitarist playing pose",
+    "man holding guitar by neck",
+    "guitar player seated",
+    "musician strumming guitar close",
+    "smashing guitar"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Microfone antigo e cantor de radio",
+   "n": 12,
+   "busca": [
+    "vintage microphone",
+    "microfone antigo",
+    "crooner microphone stand",
+    "singer 1940s microphone",
+    "radio singer microphone"
+   ],
+   "depth": 0
+  }
+ ]
+}

@@ -1,0 +1,146 @@
+{"grupo": "fogueira", "titulo": "Fogueira", "ordem": 9,
+ "resumo": "A fogueira é o prédio principal do abrigo (1×1, fixa no centro da grade, nunca destruída — INV-07). Aqui estão os 5 níveis na escada de materiais, os estados animados da chama, a máscara de luz quente, os itens de lenha/isqueiro e a obra de evolução.",
+ "itens": [
+  {"id": "fog_niveis", "nome": "Fogueira — níveis 1 a 5", "categoria": "Construção (prédio principal)",
+   "mecanica": "Fogueira (FOG-01..08), Evolução (EVO-01, EVO-02), Abrigo (ABR-01, ABR-02), Invasão (INV-07)",
+   "conceito": "A fogueira é o coração do abrigo no Marco Zero: é onde o herói cura, salva e de onde a luz quente afasta a noite da Lua de Sangue. Ela sobe a mesma escada de materiais das outras construções, então o jogador lê o nível de longe pelo material do anel: pedras soltas e sucata (N1), anel de tocos de madeira com bancos de tronco (N2), muro baixo de pedra com argamassa e caldeirão no tripé (N3), tijolo com faixa de metal rebitado, grelha de ferro e lampião aceso (N4) e pedra escura com acabamento dourado, runas vermelhas e fogo vermelho-lua (N5). A fogueira NUNCA é destruída: a linha de baixo mostra o estado danificado depois de uma invasão — fuligem, rachaduras, uma ou duas peças soltas caídas no chão, fumaça cinza e chama fraca, mas ainda acesa. O tamanho na grade não muda entre níveis (anel de ~68 px de largura centrado no tile).",
+   "partes": [
+    {"parte": "Anel / base", "descricao": "Elipse centrada em x=64, chão gy=148, raio externo 34×13 px, interno 26×9 px. Nos níveis 3-5 é um muro baixo (8 a 11 px de altura) com face frontal, topo e face interna de trás visível; nos níveis 1-2 são peças soltas (pedras 5-8 px / tocos 7×9 px) em volta da elipse. Peças de trás desenhadas antes do fogo e peças da frente por cima da base da chama."},
+    {"parte": "Leito de carvão", "descricao": "Elipse escura #2a1a14 de 25×8 px no fundo do buraco com pontos de brasa #c8321e/#f07a1e/#ffc93a que pulsam (mais brilho com fogo maior)."},
+    {"parte": "Lenha", "descricao": "3 toras cruzadas (6 px de grossura, 26-30 px de comprimento), casca #6b4426 com veios escuros, ponta cortada #c8955a com anéis #8a5a30, pontas de cima carbonizadas #2a1a12 com rachas acesas."},
+    {"parte": "Chama", "descricao": "5 línguas em forma de gota, 4 camadas nítidas: vermelha (com contorno vinho), laranja (78%), amarela (52%) e branca (28%, só nas 3 centrais). Chama média = 34 px na linha de cima; danificada = 16 px. N5 usa paleta vermelho-lua (#8a0f1e, #c8323a, #ff5a5a, #ffd0d0)."},
+    {"parte": "N1 extras", "descricao": "Chapas de sucata #6b6a66 com ferrugem #8a4e2e encostadas, grelha de arame sobre duas pedras e uma lata enferrujada esquentando nela."},
+    {"parte": "N2 extras", "descricao": "Anel de 12 tocos de madeira em pé (#9a6a3c/#7d5430, topo com anéis), dois bancos de tronco deitados (18×8 px) à esquerda e à direita."},
+    {"parte": "N3 extras", "descricao": "Muro de blocos #8e8a84/#77736e com argamassa #b8b0a0 em 2 fiadas; tripé de 3 varas e caldeirão de ferro preto (12×9 px) pendurado por corrente sobre a chama."},
+    {"parte": "N4 extras", "descricao": "Tijolo #a5432e/#86351f com rejunte #c9b8a0 em 3 fiadas, faixa de metal #7d848c com rebites #c9ced4 a cada 6 px no topo; grelha de barras de metal rebitada passando na frente da chama; poste de ferro à direita com lampião aceso (vidro #ffd36a com brilho)."},
+    {"parte": "N5 extras", "descricao": "Pedra escura #2e2836/#3c3446, frisos dourados #f2c230/#b8861a no topo e na base, 5 runas vermelhas #c8323a com brilho #ff5a5a na face frontal, 2 chifres dourados atrás, brilho vermelho em volta."},
+    {"parte": "Dano", "descricao": "Manchas de fuligem #2a2228, rachaduras pretas em zigue-zague, uma peça caída no chão à esquerda (pedra / toco / bloco / tijolo / pedra escura com friso), buraco escuro no muro, 2-3 nuvens de fumaça cinza, chama fraca (16 px)."}
+   ],
+   "paleta": [
+    {"nome": "Chama vermelha", "hex": "#c8321e"}, {"nome": "Chama laranja", "hex": "#f07a1e"},
+    {"nome": "Chama amarela", "hex": "#ffc93a"}, {"nome": "Chama branca", "hex": "#fff4c8"},
+    {"nome": "Carvão", "hex": "#2a1a14"}, {"nome": "Casca da lenha", "hex": "#6b4426"},
+    {"nome": "Cerne da lenha", "hex": "#c8955a"}, {"nome": "Sucata", "hex": "#6b6a66"},
+    {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Tábua/toco", "hex": "#9a6a3c"},
+    {"nome": "Pedra", "hex": "#8e8a84"}, {"nome": "Argamassa", "hex": "#b8b0a0"},
+    {"nome": "Tijolo", "hex": "#a5432e"}, {"nome": "Metal", "hex": "#7d848c"},
+    {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Lâmpada", "hex": "#ffd36a"},
+    {"nome": "Pedra lunar", "hex": "#2e2836"}, {"nome": "Dourado", "hex": "#f2c230"},
+    {"nome": "Runa", "hex": "#c8323a"}, {"nome": "Brilho de runa", "hex": "#ff5a5a"},
+    {"nome": "Fuligem", "hex": "#2a2228"}
+   ],
+   "arquivo": "sprites/fog_niveis.png", "fw": 128, "fh": 160, "cols": 5,
+   "quadros": ["N1 acesa", "N2 acesa", "N3 acesa", "N4 acesa", "N5 acesa",
+               "N1 danificada", "N2 danificada", "N3 danificada", "N4 danificada", "N5 danificada"],
+   "uso": "Pivô no centro da base (x=64, gy=148). Camada de construções do abrigo, ordenada por y. Estes quadros mostram a chama média parada; no jogo a chama animada vem de fog_chama (ou é desenhada em tempo real por FOG-02) por cima do leito, e a luz de fog_luz é somada no mapa de luz. Não existe estado destruído (INV-07): depois da invasão ela fica danificada até reparar. O squash/stretch da obra pronta é transformação em tempo real."},
+
+  {"id": "fog_chama", "nome": "Fogueira — estados da chama (N2)", "categoria": "Construção (animação)",
+   "mecanica": "Fogueira FOG-01 (acender), FOG-02 (shape), FOG-04 (brasas), FOG-06 (alimentar), FOG-07 (consumo)",
+   "conceito": "Folha de animação da fogueira de referência (nível 2, anel de tocos) com todos os estados da chama, 4 quadros por estado. A chama tem 5 línguas em forma de gota com camadas vermelha, laranja, amarela e branca bem marcadas, que balançam e trocam de altura em frequências diferentes (os quadros fecham o ciclo). Brasas de 1-2 px sobem da chama apagando de amarelo para vermelho, e o leito de carvão pulsa. Ao alimentar, a labareda dobra de tamanho por um instante com flash quente e rajada de brasas; sem lenha vira brasa com fumaça fina e depois carvão cinza frio. O estado 'acendendo' segue o ritual FOG-01: duas faíscas do isqueiro ('tic') e na terceira o fogo pega com 'whoosh' e flash.",
+   "partes": [
+    {"parte": "Base N2", "descricao": "Mesma base de fog_niveis N2 (anel de tocos, bancos de tronco), pivô x=64, gy=148."},
+    {"parte": "Chama baixa", "descricao": "14 px de altura, 18 px de largura, só vermelho/laranja/amarelo, lenha bem visível, brasas raras (3)."},
+    {"parte": "Chama média", "descricao": "34 px de altura, 26 px de largura, 4 camadas, 7 brasas subindo."},
+    {"parte": "Chama alta", "descricao": "58 px de altura, 32 px de largura, núcleo branco grande, gotinhas de fogo soltas acima da ponta, 12 brasas."},
+    {"parte": "Labareda", "descricao": "Ao jogar lenha: quadros A (64 px + flash branco-amarelo em volta) e B (54 px), repetidos com variação, rajada de 20+ brasas."},
+    {"parte": "Brasa", "descricao": "Sem chama: lenha carbonizada com rachas laranja pulsando, leito vermelho, fio de fumaça cinza fina subindo e ondulando."},
+    {"parte": "Apagada", "descricao": "Carvão cinza #4a4448/#6a6468 e cinzas claras #8a8488, sem brilho; nos 2 primeiros quadros a última nuvem de fumaça sobe e some."},
+    {"parte": "Acendendo", "descricao": "Isqueiro vermelho (6×11 px) na beira esquerda do anel: faísca amarela estrelada (quadros 1-2), flash grande + chama curta 'whoosh' (quadro 3), chama subindo 20 px (quadro 4)."}
+   ],
+   "paleta": [
+    {"nome": "Chama vermelha", "hex": "#c8321e"}, {"nome": "Contorno da chama", "hex": "#5a1208"},
+    {"nome": "Chama laranja", "hex": "#f07a1e"}, {"nome": "Chama amarela", "hex": "#ffc93a"},
+    {"nome": "Chama branca", "hex": "#fff4c8"}, {"nome": "Brasa", "hex": "#ff7a1e"},
+    {"nome": "Carvão frio", "hex": "#4a4448"}, {"nome": "Cinza", "hex": "#8a8488"},
+    {"nome": "Fumaça", "hex": "#8a8494"}, {"nome": "Isqueiro", "hex": "#c8323a"}
+   ],
+   "arquivo": "sprites/fog_chama.png", "fw": 128, "fh": 160, "cols": 4,
+   "quadros": ["baixa 1", "baixa 2", "baixa 3", "baixa 4",
+               "média 1", "média 2", "média 3", "média 4",
+               "alta 1", "alta 2", "alta 3", "alta 4",
+               "labareda A (flash)", "labareda B", "labareda A", "labareda B",
+               "brasa 1", "brasa 2", "brasa 3", "brasa 4",
+               "apagada (fumaça final 1)", "apagada (fumaça final 2)", "apagada fria", "apagada fria",
+               "acendendo: faísca 1 (tic)", "acendendo: faísca 2 (tic)", "acendendo: pega fogo (whoosh + flash)", "acendendo: chama subindo"],
+   "anims": [
+    {"nome": "baixa", "quadros": [0, 1, 2, 3], "dur": [130, 130, 130, 130], "loop": true},
+    {"nome": "média", "quadros": [4, 5, 6, 7], "dur": [110, 110, 110, 110], "loop": true},
+    {"nome": "alta", "quadros": [8, 9, 10, 11], "dur": [90, 90, 90, 90], "loop": true},
+    {"nome": "labareda (alimentar)", "quadros": [12, 13, 14, 15, 8, 9], "dur": [60, 70, 60, 70, 90, 90], "loop": false},
+    {"nome": "brasa", "quadros": [16, 17, 18, 19], "dur": [220, 220, 220, 220], "loop": true},
+    {"nome": "apagando → fria", "quadros": [20, 21, 22], "dur": [300, 300, 800], "loop": false},
+    {"nome": "acendendo (FOG-01)", "quadros": [22, 24, 22, 25, 22, 26, 27, 4], "dur": [500, 120, 480, 120, 580, 120, 250, 200], "loop": false}
+   ],
+   "uso": "Mesmo pivô de fog_niveis (x=64, gy=148). O jogo escolhe a linha pela porcentagem de lenha (baixa < 35%, média < 70%, alta acima), troca para labareda por 0,25 s ao alimentar (FOG-06), brasa em 0% e apagada após ~20 s (FOG-07). A subida rápida/descida lenta da altura (5/s e 1,4/s) é interpolação em tempo real entre as linhas; brasas extras e a rajada de 26 brasas podem ser partículas do motor usando fog_itens (brasas soltas). Para outros níveis o motor desenha só a chama (mesmas camadas) por cima da base de fog_niveis."},
+
+  {"id": "fog_luz", "nome": "Luz da fogueira (light)", "categoria": "FX de luz",
+   "mecanica": "Fogueira FOG-03 (Light), Dia e noite DN-04 (luzes), FOG-08 (abrigo iluminado)",
+   "conceito": "Máscara de luz quente que a fogueira joga no chão do abrigo escuro: um halo elíptico (achatado pela câmera 3/4) em degraus nítidos de alpha, do núcleo amarelo-claro para laranja e um anel externo vermelho-escuro bem fraco, sem degradê liso para combinar com a pixel art. Há três raios prontos (pequeno, médio, grande) para chama baixa, média e alta, e um brilho vermelho de 26 px para a brasa sem chama. O jogo usa estes quadros como LUZ ADITIVA: são somados no mapa de luz antes de multiplicar a cena escura (DN-04) e um pouco do núcleo vai direto como brilho aditivo laranja. A oscilação de ±10% (3 senos) e o raio contínuo de 60 a 230 px são escala em tempo real.",
+   "partes": [
+    {"parte": "Luz pequena", "descricao": "Elipse 60×36 px de raio, 7 degraus de alpha (máx. ~200 no centro), núcleo #fff0b0 → #ffc060 → #ff8a30 → borda #c8421e."},
+    {"parte": "Luz média", "descricao": "Elipse 94×56 px de raio, mesmos degraus e cores."},
+    {"parte": "Luz grande", "descricao": "Elipse 124×74 px de raio (ocupa o quadro), mesmos degraus; escala até 230 px no jogo."},
+    {"parte": "Brasa", "descricao": "Círculo achatado de 26×16 px de raio, vermelho #c8321e → #ff5a2a no centro, 4 degraus, alpha máx. ~170."}
+   ],
+   "paleta": [
+    {"nome": "Núcleo", "hex": "#fff0b0"}, {"nome": "Amarelo quente", "hex": "#ffc060"},
+    {"nome": "Laranja", "hex": "#ff8a30"}, {"nome": "Borda", "hex": "#c8421e"},
+    {"nome": "Brasa", "hex": "#ff5a2a"}
+   ],
+   "arquivo": "sprites/fog_luz.png", "fw": 256, "fh": 256, "cols": 4,
+   "quadros": ["luz pequena (raio 60)", "luz média (raio 94)", "luz grande (raio 124)", "brilho da brasa (raio 26)"],
+   "uso": "Centro do quadro (128,128) = centro do anel da fogueira no chão (x=64, y≈136 no quadro da fogueira). Blend ADITIVO (ou soma no lightmap antes de multiplicar a escuridão). Raio contínuo 60–230 px por escala em tempo real; oscilação ±10% com 3 senos; o herói projeta sombra para longe do fogo (calculado pelo motor). Sem fogo: nenhuma luz."},
+
+  {"id": "fog_itens", "nome": "Itens da fogueira (lenha, isqueiro, brasas, fumaça)", "categoria": "Ícones e partículas",
+   "mecanica": "Fogueira FOG-01 (isqueiro), FOG-04 (brasas, fumaça), FOG-06 (tora jogada), ABR-01 (cura e salva)",
+   "conceito": "Peças pequenas usadas pelo motor em volta da fogueira e no HUD. A tora de lenha (casca escura com ponta cortada e anéis) gira no ar em 4 quadros quando o herói joga lenha em arco. A pilha de lenha é o ícone do estoque: toras empilhadas vistas pela ponta, amarradas com corda. O isqueiro de plástico vermelho com capa de metal tem três estados: fechado, faísca (tic) e chama acesa. Brasas soltas pulsam em 3 quadros e a nuvem de fumaça cinza cresce e se desfaz em 3 quadros. O ícone 'Salvar/curar' é uma fogueirinha com um + verde.",
+   "partes": [
+    {"parte": "Tora", "descricao": "36×11 px, casca #6b4426 com veios #4a2c18 e musgo, ponta #c8955a com 2 anéis #8a5a30, um galhinho cortado; gira 0°, 45°, 90°, 135°."},
+    {"parte": "Pilha de lenha", "descricao": "6 toras vistas pela ponta (círculos de 9-10 px) em pirâmide 3-2-1, corda #b59a62 amarrando, base de casca."},
+    {"parte": "Isqueiro", "descricao": "Corpo vermelho #c8323a 12×22 px, capa de metal #c9ced4 com furos, rodinha estriada, botão; faísca = estrela amarela; chama = gota 14 px com 3 camadas."},
+    {"parte": "Brasas soltas", "descricao": "5 pedaços de carvão #2a1a14 com rachas #f07a1e/#ffc93a e brilho em degraus; quadros variam a intensidade."},
+    {"parte": "Fumaça", "descricao": "Nuvem de 3-5 bolas #8a8494/#b0aab8 com contorno #4a4458; cresce, sobe e se abre em fiapos."},
+    {"parte": "Salvar/curar", "descricao": "Fogueirinha (2 toras cruzadas + chama 22 px) com + verde #6fdc7a no canto de cima."}
+   ],
+   "paleta": [
+    {"nome": "Casca", "hex": "#6b4426"}, {"nome": "Cerne", "hex": "#c8955a"},
+    {"nome": "Anel", "hex": "#8a5a30"}, {"nome": "Corda", "hex": "#b59a62"},
+    {"nome": "Isqueiro", "hex": "#c8323a"}, {"nome": "Metal", "hex": "#c9ced4"},
+    {"nome": "Carvão", "hex": "#2a1a14"}, {"nome": "Brasa", "hex": "#f07a1e"},
+    {"nome": "Fumaça", "hex": "#8a8494"}, {"nome": "Cura", "hex": "#6fdc7a"}
+   ],
+   "arquivo": "sprites/fog_itens.png", "fw": 64, "fh": 64, "cols": 5,
+   "quadros": ["tora girando 1", "tora girando 2", "tora girando 3", "tora girando 4", "pilha de lenha",
+               "isqueiro fechado", "isqueiro faísca", "isqueiro aceso", "brasas 1", "brasas 2",
+               "brasas 3", "fumaça 1", "fumaça 2", "fumaça 3", "ícone salvar/curar"],
+   "anims": [
+    {"nome": "tora girando", "quadros": [0, 1, 2, 3], "dur": [70, 70, 70, 70], "loop": true},
+    {"nome": "isqueiro", "quadros": [5, 6, 5, 6, 7], "dur": [300, 100, 300, 100, 400], "loop": false},
+    {"nome": "brasas", "quadros": [8, 9, 10, 9], "dur": [180, 180, 180, 180], "loop": true},
+    {"nome": "fumaça", "quadros": [11, 12, 13], "dur": [200, 250, 300], "loop": false}
+   ],
+   "uso": "Centro do quadro como pivô. A tora segue um arco (posição em tempo real) da mão do herói até o fogo. Isqueiro fica na mão do herói durante FOG-01. Brasas e fumaça são partículas (subida, balanço e fade em tempo real). Pilha de lenha e salvar/curar são ícones de HUD/estoque."},
+
+  {"id": "fog_obra", "nome": "Fogueira em obra", "categoria": "Construção (obra de evolução)",
+   "mecanica": "Evolução EVO-06, EVO-07 (visual da obra), EVO-08 (obra pronta)",
+   "conceito": "A fogueira sendo melhorada do nível 2 para o 3: o anel de tocos ainda queima baixo (a construção continua funcionando no nível atual, EVO-06) enquanto blocos de pedra novos são assentados em volta. Um andaime improvisado de varas amarradas com corda, com uma tábua por cima, cerca a fogueira; um martelo bate num bloco com faíscas e poeira em 3 quadros. O último quadro é 'obra pronta': a fogueira nível 3 inteira, com um brilho branco atravessando e estrelas douradas saindo. A barra de tempo com contagem, o texto 'Nível N!' e o pulo (squash/stretch) são feitos pelo motor.",
+   "partes": [
+    {"parte": "Andaime", "descricao": "2 varas verticais (#8a6a42, 4 px) de y=70 até o chão em x=18 e x=110, travessas em y=86 e y=118, diagonal, amarras de corda #b59a62, tábua #9a6a3c em cima com pregos."},
+    {"parte": "Obra", "descricao": "Base N2 com chama baixa; 5 blocos de pedra #8e8a84 já assentados na frente com argamassa fresca #b8b0a0, pilha de 3 blocos e balde de argamassa à direita."},
+    {"parte": "Martelo", "descricao": "Cabo #9a6a3c 16 px, cabeça de ferro #7d848c 8×5 px; levantado (-70°), batendo (0°) com estrela de impacto e faíscas amarelas, voltando (-30°) com poeira."},
+    {"parte": "Obra pronta", "descricao": "Fogueira N3 completa, faixa diagonal de brilho branco, 4 estrelas douradas #f2c230 e brilhos."}
+   ],
+   "paleta": [
+    {"nome": "Vara", "hex": "#8a6a42"}, {"nome": "Corda", "hex": "#b59a62"},
+    {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Pedra", "hex": "#8e8a84"},
+    {"nome": "Argamassa", "hex": "#b8b0a0"}, {"nome": "Ferro", "hex": "#7d848c"},
+    {"nome": "Faísca", "hex": "#fff6c8"}, {"nome": "Estrela", "hex": "#f2c230"}
+   ],
+   "arquivo": "sprites/fog_obra.png", "fw": 128, "fh": 160, "cols": 4,
+   "quadros": ["obra: martelo levantado", "obra: martelo batendo (faíscas)", "obra: martelo voltando (poeira)", "obra pronta (brilho e estrelas)"],
+   "anims": [
+    {"nome": "marteladas", "quadros": [0, 1, 2], "dur": [180, 90, 150], "loop": true},
+    {"nome": "obra pronta", "quadros": [3], "dur": [600], "loop": false}
+   ],
+   "uso": "Mesmo pivô da fogueira (x=64, gy=148). Mostrado enquanto a obra conta (EVO-04); a barra de tempo vai por cima (UI). Ao terminar mostra o quadro pronto com pulo squash/stretch em tempo real e depois troca para o novo nível em fog_niveis."}
+ ]}

@@ -1,0 +1,209 @@
+{"grupo": "especiais_feixe", "titulo": "Laser e Kamehameha", "ordem": 7,
+ "resumo": "Armas e golpes de feixe de fim de jogo: o rifle de laser improvisado com peças de micro-ondas (LSR) e a onda de energia de ki carregada entre as mãos (KMH). Os feixes são montados no jogo com peças: início (boca), meio repetível na horizontal (tileável) e ponta, sempre em camadas nítidas de pixel art (halo, corpo, núcleo branco), nunca degradê liso.",
+ "itens": [
+  {"id": "lsr_arma", "nome": "Rifle de laser improvisado", "categoria": "Especial / Arma",
+   "mecanica": "Laser (LSR-01, LSR-06, LSR-07, LSR-08)",
+   "conceito": "Arma rara de fim de jogo montada por algum técnico sobrevivente numa oficina do Recife Antigo: a carcaça é a caixa de um micro-ondas velho (esmalte bege encardido, painel de teclas com visor verde ainda aceso), o magnetron virou o coração do disparo e o cano é um tubo de metal com bobinas de fio de cobre enroladas à mão e aletas de dissipador de computador. Em cima vai presa com cintas a célula de energia de vidro, que brilha ciano quando carregada; dois cabos (vermelho e preto) saem dela até as bobinas, e embaixo do cano fica um banco de capacitores azuis. A coronha é um pedaço de madeira enrolado com fita prata, o punho é de plástico preto com ranhuras. Ferrugem, arranhões, rebites e um adesivo de alerta amarelo deixam claro que é gambiarra — perigosa e poderosa. Lê no jogo pelo brilho ciano na célula e na lente da boca; ao carregar, a boca acende e puxa partículas; depois do tiro, aletas e cano ficam vermelhos e soltam vapor.",
+   "partes": [
+    {"parte": "Coronha", "descricao": "Madeira de estaca (#8a6a42) de ~26×16 px à esquerda, com textura de veio, duas voltas de fita prata (#9a9a92) e chapa de borracha preta (#2e2a2e) na ponta."},
+    {"parte": "Carcaça de micro-ondas", "descricao": "Caixa de ~40×20 px em esmalte bege sujo (#d8d2c2) com fendas de ventilação escuras, manchas de ferrugem (#8a4e2e), 4 rebites (#c9ced4), adesivo triangular amarelo (#f2c230) e painel frontal escuro (#3a3a40) com teclas 2×3 e visor verde (#6fdc7a)."},
+    {"parte": "Célula de energia", "descricao": "Cilindro de vidro deitado de ~20×8 px em cima da carcaça, tampas de metal (#7d848c), duas cintas escuras; o plasma ciano (#2fd2ff) tem faixa branca no meio. Apaga quando vazia, brilha forte em carga cheia."},
+    {"parte": "Cabos", "descricao": "Cabo vermelho (#c8323a) e preto (#2a2228) de 2 px fazendo curva da célula até as bobinas."},
+    {"parte": "Bobinas de cobre", "descricao": "Bloco de ~20×14 px em volta do cano, fio de cobre (#b86a32) em listras verticais de 1 px com brilho (#e8a060) e sombra (#7a3e1a). Na superaquecida ficam vermelho-vivo."},
+    {"parte": "Aletas", "descricao": "Seis placas finas de alumínio (#9aa2a8), 2 px de largura e 18 px de altura, com 1 px de vão. Superaquecidas: laranja (#ff8a2a) a vermelho (#e83a2a) com brilho."},
+    {"parte": "Boca / emissor", "descricao": "Anel escuro (#3a3a40) de ~8×12 px com lente circular de raio 3 (#1f6f8f apagada; ciano/branca carregando). É o pivô do feixe (lsr_feixe início)."},
+    {"parte": "Capacitores e punho", "descricao": "Dois cilindros azuis (#3f6a8c) com listra clara sob o cano; punho de plástico preto (#3a3438) com ranhuras e guarda-mato com gatilho."},
+    {"parte": "Efeitos", "descricao": "Carregando: bandas ciano em volta da lente (raio 4→7→10) e 8-12 partículas com rastro sendo sugadas. Cheia: esfera de 11-13 px pulsando com 4 raios em cruz. Superaquecida: halo vermelho nas aletas e baforadas de vapor cinza-claro subindo. Chão: deitada inclinada, sombra roxa e brilho azul de raridade rara (#4a8fe0)."}
+   ],
+   "paleta": [
+    {"nome": "Esmalte de micro-ondas", "hex": "#d8d2c2"}, {"nome": "Painel escuro", "hex": "#3a3a40"},
+    {"nome": "Madeira da coronha", "hex": "#8a6a42"}, {"nome": "Fita prata", "hex": "#9a9a92"},
+    {"nome": "Cobre", "hex": "#b86a32"}, {"nome": "Alumínio das aletas", "hex": "#9aa2a8"},
+    {"nome": "Metal do cano", "hex": "#6b747a"}, {"nome": "Capacitor azul", "hex": "#3f6a8c"},
+    {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Ciano energia", "hex": "#2fd2ff"},
+    {"nome": "Halo azul", "hex": "#2163d0"}, {"nome": "Superaquecido", "hex": "#e83a2a"},
+    {"nome": "Raro", "hex": "#4a8fe0"}],
+   "arquivo": "sprites/lsr_arma.png", "fw": 128, "fh": 64, "cols": 9,
+   "quadros": ["normal", "carregando 1", "carregando 2", "carregando 3", "carga cheia A", "carga cheia B", "superaquecida 1", "superaquecida 2", "no chão (loot)"],
+   "anims": [
+    {"nome": "carregando", "quadros": [1, 2, 3], "dur": [140, 140, 140], "loop": true},
+    {"nome": "carga cheia", "quadros": [4, 5], "dur": [150, 150], "loop": true},
+    {"nome": "superaquecida", "quadros": [6, 7], "dur": [180, 180], "loop": true}],
+   "uso": "Perfil apontando para a direita; o jogo gira pelo ângulo da mira (espelha na vertical quando mira para a esquerda). Pivô da mão no punho (~40,44); boca/origem do feixe em (113,31). Carregando: escolher o quadro 1→3 pela carga (0,3–1,2 s) e tremer o sprite até 1,2 px em tempo real; quadros 4-5 em loop na carga cheia. Após o feixe toca 6-7 durante o resfriamento (~1,1 s). O quadro 8 é o item no chão (âncora na base, y≈58), com bob vertical de 1 px em tempo real."},
+
+  {"id": "lsr_feixe", "nome": "Feixe de laser (peças)", "categoria": "Especial / FX",
+   "mecanica": "Laser (LSR-02, LSR-03, LSR-04, LSR-07, LSR-09)",
+   "conceito": "O feixe grosso do rifle: um raio reto de luz ciano que atravessa todos os zumbis e para na parede. É desenhado em camadas nítidas: halo azul em três degraus (2,2× a largura do corpo), corpo ciano em dois tons e núcleo branco (0,4×), com borda pontilhada de 1 px entre camadas no lugar de degradê. Dentro do corpo correm riscos claros horizontais e no halo flutuam pontinhos de energia, que mudam de quadro para quadro e dão a sensação de fluxo. A boca tem uma estrela de luz com quatro raios finos; a ponta termina arredondada num clarão de impacto que espirra faíscas para trás. O fade out afina o feixe até virar um fio e sumir.",
+   "partes": [
+    {"parte": "Halo", "descricao": "Três degraus de azul translúcido: #1a3c9c (alfa 90) até 2,2× da meia-largura, #2163d0 (alfa 140) até 1,85×, #2b8ff0 (alfa 190) até 1,45×. Meia-largura do corpo = 7 px (feixe ~31 px de altura com halo)."},
+    {"parte": "Corpo", "descricao": "Ciano opaco #2fd2ff até 1×, ciano claro #7ff4ff até 0,72×, com riscos horizontais #b8faff de 6-13 px que se deslocam a cada quadro (padrão de período 32 px, tileável)."},
+    {"parte": "Núcleo", "descricao": "#e6feff até 0,4× e branco puro #ffffff até 0,22× (≈3 px)."},
+    {"parte": "Início (boca)", "descricao": "Estrela de 4 pontas sobre a origem em x=24,y=32: bandas com o mesmo esquema de cores, raio de corpo 10 px, raios finos brancos/ciano de 6-14 px em cruz e diagonal, e brilho quantizado em volta."},
+    {"parte": "Ponta / impacto", "descricao": "O feixe termina em x≈92 com tampa arredondada e um clarão circular (1,5→1,9→1,6× da meia-largura) em x≈96, mais 8-10 faíscas que espirram para trás e para os lados e um anel fino nos quadros 2-3."},
+    {"parte": "Fade out", "descricao": "O meio afinando: 50%, 22% e um fio de 1 px branco com 1 px ciano em volta; o halo perde alfa a cada passo."}
+   ],
+   "paleta": [
+    {"nome": "Halo externo", "hex": "#1a3c9c"}, {"nome": "Halo médio", "hex": "#2163d0"}, {"nome": "Halo interno", "hex": "#2b8ff0"},
+    {"nome": "Corpo ciano", "hex": "#2fd2ff"}, {"nome": "Corpo claro", "hex": "#7ff4ff"}, {"nome": "Risco", "hex": "#b8faff"},
+    {"nome": "Núcleo", "hex": "#e6feff"}, {"nome": "Branco", "hex": "#ffffff"}],
+   "arquivo": "sprites/lsr_feixe.png", "fw": 128, "fh": 64, "cols": 10,
+   "quadros": ["início (boca)", "meio pulso 88%", "meio pulso 100%", "meio pulso 112%", "ponta/impacto 1", "ponta/impacto 2", "ponta/impacto 3", "fade out 1 (50%)", "fade out 2 (22%)", "fade out 3 (fio)"],
+   "anims": [
+    {"nome": "meio pulsando", "quadros": [1, 2, 3, 2], "dur": [60, 60, 60, 60], "loop": true},
+    {"nome": "impacto", "quadros": [4, 5, 6], "dur": [70, 70, 70], "loop": true},
+    {"nome": "fade out", "quadros": [7, 8, 9], "dur": [110, 120, 120], "loop": false}],
+   "uso": "Montagem: eixo do feixe em y=32 em todas as peças. Desenhar o INÍCIO com a origem (24,32) na boca da arma (lsr_arma, 113,31), repetir o MEIO na horizontal quantas vezes for preciso (é tileável: a coluna 127 casa com a coluna 0 e com o início/ponta) e fechar com a PONTA, cujo clarão (96,32) fica no ponto onde o feixe bate na parede; cortar o último meio se sobrar. Tudo é girado junto pelo ângulo da mira, blend aditivo (ou normal, as camadas já são translúcidas). A escala da carga (×0,6→×1,2) e o overshoot de abertura (140% em 60 ms) são escala vertical em tempo real; a pulsação ±12% vem dos quadros 1-3. No fade out (0,35 s) trocar o meio pelos quadros 7→9. 'Reduzir flashes': usar só o meio 88% e alfa 70% no núcleo."},
+
+  {"id": "lsr_marca", "nome": "Marca queimada do laser", "categoria": "Especial / Chão",
+   "mecanica": "Laser (LSR-05)",
+   "conceito": "Por onde o feixe passa o calçamento fica marcado: um risco alongado de asfalto derretido que nasce em brasa laranja e esfria para vermelho-escuro, depois vira fuligem preta com cinza clara nas bordas e, ao longo de 40 s, esmaece até 35%. A borda é irregular, com respingos de fuligem, para não parecer uma elipse perfeita. No ponto final do feixe fica uma marca maior, quase redonda, com respingos radiais e rachaduras em brasa. São decalques de chão, sem contorno preto forte, para parecerem parte do piso.",
+   "partes": [
+    {"parte": "Fuligem externa", "descricao": "Mancha irregular #2a2228 de ~44×14 px (alfa 210) com pontilhado de textura e respingos soltos; na marca grande ~52×28 px com 10 pontas radiais."},
+    {"parte": "Queimado interno", "descricao": "Miolo #1a1418 de ~32×8 px, com pontos de cinza #5a5258 e #8a8288 nos estados frios."},
+    {"parte": "Brasa", "descricao": "Bandas #8f2a14 → #c8401a → #ff8a2a → #ffd36a no centro (~28×6 px) e faíscas soltas; esfriando: só #7a2a1a com pontinhos laranja. Marca grande: centro em brasa e rachaduras laranja que saem dele."}
+   ],
+   "paleta": [
+    {"nome": "Fuligem", "hex": "#2a2228"}, {"nome": "Queimado", "hex": "#1a1418"}, {"nome": "Cinza", "hex": "#5a5258"},
+    {"nome": "Cinza clara", "hex": "#8a8288"}, {"nome": "Brasa escura", "hex": "#8f2a14"}, {"nome": "Brasa", "hex": "#c8401a"},
+    {"nome": "Laranja", "hex": "#ff8a2a"}, {"nome": "Amarelo quente", "hex": "#ffd36a"}],
+   "arquivo": "sprites/lsr_marca.png", "fw": 64, "fh": 64, "cols": 6,
+   "quadros": ["marca em brasa", "marca esfriando", "marca fuligem", "marca esmaecida 35%", "marca final grande em brasa", "marca final grande fuligem"],
+   "anims": [
+    {"nome": "esfriar", "quadros": [0, 1, 2, 3], "dur": [300, 500, 900, 900], "loop": false},
+    {"nome": "esfriar grande", "quadros": [4, 5], "dur": [600, 900], "loop": false}],
+   "uso": "Decalque no chão, camada de chão (abaixo dos zumbis), centro (32,32). As marcas pequenas são carimbadas ao longo do feixe a cada ~24 px e giradas pelo ângulo do feixe; a grande vai no ponto final. Brasa→fuligem em 1,2 s (cross-fade entre quadros 0→1→2) e depois o alfa cai em tempo real até 35% em 40 s (o quadro 3 mostra o resultado final)."},
+
+  {"id": "lsr_celula", "nome": "Célula de energia e efeitos de acerto", "categoria": "Especial / Item e FX",
+   "mecanica": "Laser (LSR-04, LSR-05, LSR-08)",
+   "conceito": "A munição do laser: uma célula cilíndrica de vidro grosso com tampas de metal aparafusadas, tirada de gerador do abrigo ou achada como loot raro. Por dentro, plasma ciano em bandas com um fio branco no meio e uma bobina de cobre enrolada em espiral por fora do vidro; na base, uma faixa de alerta amarela e preta, e em cima dois terminais (vermelho e preto). Vazia, o vidro fica cinza-azulado escuro, com uma trinca e um resto de brilho apagado no fundo. A mesma tira traz as faíscas que saltam do zumbi atingido pelo feixe e a fumaça preta que sai do zumbi carbonizado.",
+   "partes": [
+    {"parte": "Tampas", "descricao": "Metal #7d848c com topo elíptico (rx 11, ry 4), parafusos #c9ced4, terminais 3×4 px vermelho #c8323a e preto #2a2228 no topo."},
+    {"parte": "Vidro e plasma", "descricao": "Tubo de ~16×22 px; cheio: bandas #2b8ff0 → #2fd2ff → #7ff4ff com fio branco vertical e bolhas; vazio: #2a3a44 com reflexo #6a8a9a e trinca branca."},
+    {"parte": "Bobina e faixa", "descricao": "Espiral de fio de cobre #b86a32 em diagonal sobre o vidro; faixa de alerta com listras #f2c230/#1c1822 na tampa de baixo."},
+    {"parte": "Faíscas", "descricao": "Explosão de 10-12 faíscas ciano com cabeça branca: quadro 1 curtas e um clarão, 2 longas, 3 pontos caindo e apagando."},
+    {"parte": "Fumaça de carbonizado", "descricao": "Baforadas #3a3438/#5a5258 com contorno escuro subindo e crescendo (raio 5→9), com 2-4 brasas laranja."}
+   ],
+   "paleta": [
+    {"nome": "Metal", "hex": "#7d848c"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Plasma", "hex": "#2fd2ff"},
+    {"nome": "Plasma claro", "hex": "#7ff4ff"}, {"nome": "Vidro vazio", "hex": "#2a3a44"}, {"nome": "Cobre", "hex": "#b86a32"},
+    {"nome": "Alerta", "hex": "#f2c230"}, {"nome": "Fumaça", "hex": "#3a3438"}, {"nome": "Brasa", "hex": "#ff8a2a"}],
+   "arquivo": "sprites/lsr_celula.png", "fw": 64, "fh": 64, "cols": 8,
+   "quadros": ["célula cheia", "célula vazia", "faíscas 1", "faíscas 2", "faíscas 3", "fumaça carbonizado 1", "fumaça carbonizado 2", "fumaça carbonizado 3"],
+   "anims": [
+    {"nome": "faíscas", "quadros": [2, 3, 4], "dur": [50, 60, 80], "loop": true},
+    {"nome": "fumaça", "quadros": [5, 6, 7], "dur": [170, 170, 170], "loop": true}],
+   "uso": "Quadros 0-1: ícone de HUD/inventário e item no chão (base em y≈54, sombra própria; bob de 1 px em tempo real); a barra de células usa cheia/vazia. Faíscas: centradas (32,32) no ponto em que o feixe toca o zumbi, aditivas, em loop enquanto ele estiver no feixe (giradas aleatoriamente a cada ciclo). Fumaça: âncora na base (32,52) sobre o cadáver carbonizado (tintura escura do zumbi é em tempo real), em loop por alguns segundos."},
+
+  {"id": "kmh_esfera", "nome": "Esfera de ki entre as mãos", "categoria": "Especial / FX",
+   "mecanica": "Kamehameha (KMH-01, KMH-06, KMH-09)",
+   "conceito": "A bola de energia que o herói junta entre as mãos antes de soltar a onda. Cresce em cinco tamanhos (raio do corpo 3, 7, 11, 15 e 18 px), sempre em camadas nítidas: aura azul translúcida, corpo azul-claro, miolo ciano e núcleo branco deslocado para cima-esquerda, com arcos claros girando por dentro e partículas sendo sugadas com rastro. Na carga cheia pulsa entre dois tamanhos com um anel fino em volta. Na sobrecarga perde a forma redonda: vira branco-dourada, a borda treme, e raios em zigue-zague e faíscas escapam dela, avisando que vai estourar.",
+   "partes": [
+    {"parte": "Aura", "descricao": "#2c48d0 (alfa 110) até 1,45× do raio e #3a6ae8 (alfa 170) até 1,2×."},
+    {"parte": "Corpo e miolo", "descricao": "Corpo azul-claro #8cc4ff até 1×, miolo ciano #5ff2ff até 0,72×, #a8fbff até 0,5×."},
+    {"parte": "Núcleo", "descricao": "Branco #ffffff até 0,3×, deslocado 15% para cima-esquerda (luz da lua), com brilho em cruz pequena nos tamanhos maiores."},
+    {"parte": "Arcos internos", "descricao": "2 arcos de 1 px #e6feff girando 40° por quadro dentro do corpo (a partir do raio 7)."},
+    {"parte": "Partículas", "descricao": "6-10 pontinhos ciano com cabeça branca e rastro de 2-4 px apontando para fora, cada vez mais perto do centro."},
+    {"parte": "Sobrecarga", "descricao": "Paleta dourada (#b8601a, #f2c230, #ffe68a, #fffbe0, branco), borda irregular que muda a cada quadro, 3-4 raios zigue-zague #fff6c8 de 8-12 px e faíscas soltas."}
+   ],
+   "paleta": [
+    {"nome": "Aura azul", "hex": "#2c48d0"}, {"nome": "Aura clara", "hex": "#3a6ae8"}, {"nome": "Corpo azul-claro", "hex": "#8cc4ff"},
+    {"nome": "Miolo ciano", "hex": "#5ff2ff"}, {"nome": "Núcleo", "hex": "#ffffff"},
+    {"nome": "Ouro escuro", "hex": "#b8601a"}, {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Ouro claro", "hex": "#ffe68a"}],
+   "arquivo": "sprites/kmh_esfera.png", "fw": 64, "fh": 64, "cols": 10,
+   "quadros": ["raio 3", "raio 7", "raio 11", "raio 15", "raio 18", "carga cheia A", "carga cheia B", "sobrecarga 1", "sobrecarga 2", "sobrecarga 3"],
+   "anims": [
+    {"nome": "carregando", "quadros": [0, 1, 2, 3, 4], "dur": [140, 140, 140, 140, 140], "loop": false},
+    {"nome": "carga cheia", "quadros": [5, 6], "dur": [140, 140], "loop": true},
+    {"nome": "sobrecarga", "quadros": [7, 8, 9], "dur": [60, 60, 60], "loop": true}],
+   "uso": "Centro (32,32) posicionado entre as mãos do herói, camada acima do herói, blend aditivo. O tamanho é escolhido pela carga (0,4–1,5 s → quadros 0-4); depois loop 5-6; após 1,5 s, loop 7-9 com tremor de tela. 'Reduzir flashes': manter o quadro 4 parado no lugar da pulsação."},
+
+  {"id": "kmh_carga_chao", "nome": "Chão durante a carga do ki", "categoria": "Especial / Chão",
+   "mecanica": "Kamehameha (KMH-01)",
+   "conceito": "Enquanto o herói carrega, o chão em volta dos pés reage: um anel de poeira e pedrinhas se expande para fora em elipse (visto em 3/4) e o piso ganha um brilho elíptico azul em degraus, refletindo a esfera. Com a carga alta o calçamento racha em linhas que saem do centro e se ramificam, brilhando azul por dentro; depois do disparo as rachaduras ficam frias, escuras, com lascas claras nas bordas. É o que vende o peso do golpe antes da onda sair.",
+   "partes": [
+    {"parte": "Brilho do piso", "descricao": "Elipse centrada em (64,44), rx 18→34 conforme o quadro, ry 0,38×rx, em 3 degraus: #2c48d0 (alfa 70), #5fb4ff (alfa 110), #bff8ff (alfa 150)."},
+    {"parte": "Anel de poeira", "descricao": "Anel elíptico rx 20/36/52 com tufos de poeira #9c8a70/#c8b898 com contorno escuro, falhas e pedrinhas #77736e subindo; vai ficando mais fino e ralo ao crescer."},
+    {"parte": "Rachaduras", "descricao": "8 rachaduras ramificadas de 18-50 px saindo do centro, linha #120c10 de 1-2 px com lascas #8e8a84; versão brilhando com fio #5ff2ff/#ffffff por dentro e halo azul."}
+   ],
+   "paleta": [
+    {"nome": "Brilho azul", "hex": "#2c48d0"}, {"nome": "Brilho claro", "hex": "#5fb4ff"}, {"nome": "Poeira", "hex": "#9c8a70"},
+    {"nome": "Poeira clara", "hex": "#c8b898"}, {"nome": "Pedrinha", "hex": "#77736e"}, {"nome": "Rachadura", "hex": "#120c10"},
+    {"nome": "Lasca", "hex": "#8e8a84"}, {"nome": "Ciano", "hex": "#5ff2ff"}],
+   "arquivo": "sprites/kmh_carga_chao.png", "fw": 128, "fh": 64, "cols": 5,
+   "quadros": ["carga 1 (anel pequeno)", "carga 2", "carga 3 (anel grande)", "rachaduras brilhando", "rachaduras frias"],
+   "anims": [
+    {"nome": "carga", "quadros": [0, 1, 2], "dur": [130, 130, 130], "loop": true}],
+   "uso": "Centro (64,44) nos pés do herói, camada de chão (abaixo do herói). O anel (0-2) toca em loop durante a carga; as rachaduras (3) aparecem a partir de ~70% da carga por baixo do anel e passam para o quadro 4 no disparo, esmaecendo em ~3 s em tempo real."},
+
+  {"id": "kmh_onda", "nome": "Onda de ki (peças)", "categoria": "Especial / FX",
+   "mecanica": "Kamehameha (KMH-02, KMH-05, KMH-06, KMH-09)",
+   "conceito": "A onda de energia que sai das mãos: mais grossa e viva que o laser, em quatro camadas nítidas — aura azul em três degraus (2,6×), corpo azul-claro (1,6×), miolo ciano (1×) e núcleo branco (0,45×). Duas espirais de luz giram em volta do feixe, passando por trás (azul, apagadas) e pela frente (brancas), e raios finos em zigue-zague estalam na aura. A boca é uma explosão em pétalas onde ficam as mãos; a cabeça é um bulbo arredondado maior que o corpo, empurrando arcos de choque à frente e espirrando faíscas para trás. A versão de sobrecarga é dourada, 20% mais grossa, com raios brancos mais frequentes.",
+   "partes": [
+    {"parte": "Aura", "descricao": "#2230a8 (alfa 80) até 2,6×, #2c48d0 (alfa 120) até 2,25×, #3a6ae8 (alfa 165) até 1,9× da meia-largura do miolo (8 px) — onda com ~42 px de altura."},
+    {"parte": "Corpo azul-claro", "descricao": "#6aa8ff até 1,6× e #8cc4ff até 1,3×, com riscos claros correndo."},
+    {"parte": "Miolo e núcleo", "descricao": "Ciano #5ff2ff até 1×, #a8fbff até 0,75×, branco até 0,45×."},
+    {"parte": "Espirais", "descricao": "Duas hélices de período 64 px e amplitude 1,75×: metade de trás #7ab8ff 1 px (fica sob o núcleo), metade da frente branca 2 px com borda #bff8ff; giram 1/3 de volta por quadro."},
+    {"parte": "Raios zigue-zague", "descricao": "Trechos de 20-40 px de raio de 1 px #dff8ff/branco na aura de cima e de baixo, diferentes a cada quadro, tileáveis."},
+    {"parte": "Início (mãos)", "descricao": "Explosão em 6 pétalas centrada em (30,48), raio de aura ~26 px, com núcleo branco grande, raios curtos e brilho em degraus."},
+    {"parte": "Cabeça", "descricao": "Bulbo 1,6-1,8× mais largo centrado em x≈84, 2-3 arcos de choque brancos à frente e 8 faíscas jogadas para trás."},
+    {"parte": "Sobrecarga", "descricao": "Paleta #8a3a10/#b8601a/#e0901f/#f2c230/#ffd95a/#fff0a0/#fffbe0/branco, meia-largura 9,6 px, espirais branco-douradas, mais raios."}
+   ],
+   "paleta": [
+    {"nome": "Aura externa", "hex": "#2230a8"}, {"nome": "Aura", "hex": "#2c48d0"}, {"nome": "Aura clara", "hex": "#3a6ae8"},
+    {"nome": "Corpo azul-claro", "hex": "#6aa8ff"}, {"nome": "Corpo claro", "hex": "#8cc4ff"}, {"nome": "Miolo ciano", "hex": "#5ff2ff"},
+    {"nome": "Núcleo", "hex": "#ffffff"}, {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Ouro claro", "hex": "#ffd95a"}],
+   "arquivo": "sprites/kmh_onda.png", "fw": 128, "fh": 96, "cols": 10,
+   "quadros": ["início (mãos)", "meio 1", "meio 2", "meio 3", "cabeça 1", "cabeça 2", "cabeça 3", "meio sobrecarga 1", "meio sobrecarga 2", "meio sobrecarga 3"],
+   "anims": [
+    {"nome": "meio girando", "quadros": [1, 2, 3], "dur": [70, 70, 70], "loop": true},
+    {"nome": "cabeça", "quadros": [4, 5, 6], "dur": [70, 70, 70], "loop": true},
+    {"nome": "meio sobrecarga", "quadros": [7, 8, 9], "dur": [60, 60, 60], "loop": true}],
+   "uso": "Eixo em y=48 em todas as peças. INÍCIO com o centro da explosão (30,48) entre as mãos do herói (no lugar da kmh_esfera); MEIO repetido na horizontal (tileável, coluna 127 casa com 0) até a cabeça; CABEÇA com o bulbo (84,48) na posição atual da ponta, que viaja a ~1100 px/s — enquanto viaja, o comprimento do meio cresce. Tudo girado pelo ângulo da mira, blend aditivo. Pulsação ±10%, overshoot de abertura e escala de carga/sobrecarga (até ×1,7) são escala vertical em tempo real. O fantasma (KMH-05) é o último quadro do meio com alfa caindo em 1,3 s. Sobrecarga: trocar o meio pelos quadros 7-9 (início/cabeça tingidos de dourado em tempo real). 'Reduzir flashes': linha ciano simples ou meio 2 parado."},
+
+  {"id": "kmh_cupula", "nome": "Cúpula de energia do impacto", "categoria": "Especial / FX",
+   "mecanica": "Kamehameha (KMH-04, KMH-09)",
+   "conceito": "Quando a onda bate, abre uma meia esfera de energia translúcida sobre o ponto de impacto, vista em 3/4: borda (fresnel) clara e opaca, miolo azul translúcido onde dá para ver a base de trás, um reflexo branco em crescente no alto à esquerda (luz da lua) e linhas de latitude tracejadas girando na superfície. No chão, um anel de choque branco-ciano corre para fora levantando tufos de poeira, e o piso embaixo brilha em degraus. Cresce em três quadros com overshoot, pulsa em dois e colapsa em dois — o último é uma implosão num ponto branco com riscos sendo puxados para dentro.",
+   "partes": [
+    {"parte": "Cúpula", "descricao": "Silhueta: semicírculo de raio R (altura 0,92R) sobre elipse de base (0,36R). R = 68 px no tamanho 100%. Halo #2440c8 (alfa 80) até 1,12, #3a6ae8 (alfa 130) até 1,06, miolo #3a7ae8 (alfa 100), banda #4a90f0 (alfa 140) em 0,7-0,86, borda #5fd0ff (alfa 210) em 0,86-1 e fio #c8faff em 0,93-0,99."},
+    {"parte": "Base de trás e latitudes", "descricao": "Elipse da base visível através da cúpula em #8ff0ff (alfa 140); 2 latitudes (altura 0,35 e 0,7) tracejadas, frente mais clara que trás, girando a cada quadro."},
+    {"parte": "Reflexo", "descricao": "Crescente branco/#e6feff no quadrante de cima-esquerda, entre 0,62 e 0,8 do raio."},
+    {"parte": "Anel de choque", "descricao": "Elipse no chão (raio 1,1-1,35R, máx. 92 px) de 3 px: branco no meio, #8ff0ff e #3a6ae8 por fora, com 10-14 tufos de poeira #9c8a70 e pedrinhas."},
+    {"parte": "Brilho do chão", "descricao": "Elipse em 3 degraus sob a cúpula (#2c48d0, #5fb4ff, #bff8ff)."},
+    {"parte": "Colapso", "descricao": "Quadro 6: cúpula 55% e mais apagada, faíscas saindo; quadro 7: ponto branco de raio ~10 com 12 riscos puxados para dentro."}
+   ],
+   "paleta": [
+    {"nome": "Halo", "hex": "#2440c8"}, {"nome": "Miolo", "hex": "#3a7ae8"}, {"nome": "Banda", "hex": "#4a90f0"},
+    {"nome": "Borda", "hex": "#5fd0ff"}, {"nome": "Fio da borda", "hex": "#c8faff"}, {"nome": "Branco", "hex": "#ffffff"},
+    {"nome": "Poeira", "hex": "#9c8a70"}],
+   "arquivo": "sprites/kmh_cupula.png", "fw": 192, "fh": 192, "cols": 7,
+   "quadros": ["crescendo 1 (40%, clarão)", "crescendo 2 (80%)", "crescendo 3 (overshoot 115%)", "pulsando A (100%)", "pulsando B (106%)", "colapsando 1 (55%)", "colapsando 2 (implosão)"],
+   "anims": [
+    {"nome": "abrir", "quadros": [0, 1, 2, 3], "dur": [60, 70, 90, 120], "loop": false},
+    {"nome": "pulsar", "quadros": [3, 4], "dur": [150, 150], "loop": true},
+    {"nome": "colapsar", "quadros": [5, 6], "dur": [250, 300], "loop": false}],
+   "uso": "Âncora no centro da base (96,140) = ponto de impacto no chão. Camada acima dos zumbis, blend aditivo. O raio de jogo (40-100 px, +40% na sobrecarga) é escala uniforme em tempo real sobre o quadro (100% = R 68). Abrir em 0,25 s (0-3), pulsar enquanto a onda dura (3-4), colapsar em 0,6 s (5-6). 'Reduzir flashes': pular o quadro 0 e não pulsar."},
+
+  {"id": "kmh_cratera", "nome": "Cratera, trilha queimada e cinzas", "categoria": "Especial / Chão",
+   "mecanica": "Kamehameha (KMH-05)",
+   "conceito": "O rastro que a onda deixa: uma trilha de chão queimado vindo da esquerda até uma cratera elíptica no ponto de impacto, com borda levantada de pedaços de paralelepípedo e asfalto, paredes internas escuras e rachaduras saindo para fora. Ela nasce incandescente azul-branca (o ki ainda vivo no fundo), passa para laranja de pedra quente, vira fuligem e esmaece até 35% ao longo de um minuto. Brasas azuis flutuam por cima por alguns segundos, e os zumbis mortos pela onda viram um montinho de cinza com pontos azuis brilhando e fiapos subindo.",
+   "partes": [
+    {"parte": "Fuligem e trilha", "descricao": "Mancha irregular #2a2228 de ~90×40 px em volta da cratera e faixa de ~14 px de altura vindo da borda esquerda (x 0→50), com textura e respingos; no centro da trilha um risco que brilha conforme o estado."},
+    {"parte": "Cratera", "descricao": "Elipse centrada em (78,56), rx 30, ry 13, fundo #0f0c10, parede de trás visível #3a3236 em crescente, borda com 18-22 lascas de pedra #8e8a84/#77736e e asfalto #3a3638 com contorno."},
+    {"parte": "Rachaduras", "descricao": "10 rachaduras ramificadas #120c10 de 10-30 px saindo da borda; nos estados quentes, com fio de luz da cor do estado."},
+    {"parte": "Incandescência", "descricao": "Azul-branca: #2440c8 → #3fa0ff → #9ff4ff → branco em elipses no fundo; laranja: #8f2a14 → #c8401a → #ff8a2a → #ffd36a; brilho quantizado por cima."},
+    {"parte": "Brasas azuis", "descricao": "14 pontinhos com núcleo branco, cruz ciano e cantos azuis, subindo ~6 px por quadro com leve balanço (camada separada, fundo transparente)."},
+    {"parte": "Cinzas de zumbi", "descricao": "Montinho #5a5258 de ~44×16 px com topo #8a8288, pedaços de osso carbonizado #2a2228, 8-10 pontos azuis brilhando e 2 fiapos de fumaça; 2 quadros cintilando."}
+   ],
+   "paleta": [
+    {"nome": "Fuligem", "hex": "#2a2228"}, {"nome": "Fundo", "hex": "#0f0c10"}, {"nome": "Parede", "hex": "#3a3236"},
+    {"nome": "Pedra", "hex": "#8e8a84"}, {"nome": "Pedra escura", "hex": "#77736e"}, {"nome": "Asfalto", "hex": "#3a3638"},
+    {"nome": "Azul quente", "hex": "#3fa0ff"}, {"nome": "Ciano quente", "hex": "#9ff4ff"}, {"nome": "Laranja", "hex": "#ff8a2a"},
+    {"nome": "Amarelo", "hex": "#ffd36a"}, {"nome": "Cinza", "hex": "#5a5258"}],
+   "arquivo": "sprites/kmh_cratera.png", "fw": 128, "fh": 96, "cols": 9,
+   "quadros": ["incandescente azul-branco", "laranja", "fuligem", "esmaecida 35%", "brasas azuis 1", "brasas azuis 2", "brasas azuis 3", "cinzas brilhantes 1", "cinzas brilhantes 2"],
+   "anims": [
+    {"nome": "esfriar", "quadros": [0, 1, 2, 3], "dur": [600, 900, 1000, 1000], "loop": false},
+    {"nome": "brasas", "quadros": [4, 5, 6], "dur": [180, 180, 180], "loop": true},
+    {"nome": "cinzas", "quadros": [7, 8], "dur": [260, 260], "loop": true}],
+   "uso": "Decalque de chão, centro da cratera (78,56) no ponto de impacto, girado pelo ângulo da onda (a trilha aponta para o herói). A trilha da esquerda pode ser estendida repetindo a coluna 0-40 esticada. Incandescente→laranja→fuligem em ~2,5 s (cross-fade 0→1→2), depois alfa cai em tempo real até 35% em 60 s. Brasas (4-6): camada acima, espalhadas ao longo do trajeto por 2-3 s. Cinzas (7-8): no lugar do zumbi morto, base em (64,74)."}
+ ]}

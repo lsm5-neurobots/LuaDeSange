@@ -1,0 +1,172 @@
+<title>Abrigo · Marco Zero</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Abrigo: palco grande com câmera arrastável e a cena de entrada (recruta acende a fogueira),
+   controles de hora e de nível de cada estrutura, depois a tabela das estruturas por nível. Tema escuro fixo. */
+:root{ color-scheme:dark; --night:#120a1f; --panel:#1e1333; --panel2:#2a1b46; --line:#3d2a62; --ink:#f5eefe; --muted:#ac9dca;
+  --blood:#ff2e4d; --moon:#ffd23f; --cosmic:#3ed4ff; --fire:#ff9a3a;
+  --f-display:"Bungee", Impact, "Arial Black", sans-serif; --f-pix:"Pixelify Sans", "Courier New", monospace; --f-body:"Barlow", "Segoe UI", system-ui, sans-serif; }
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:24px 64px;
+  background:radial-gradient(circle at 50% -10%, rgba(255,154,58,.22), transparent 45%), var(--night)}
+:focus-visible{outline:3px solid var(--moon);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:24px}
+.eyebrow{font-family:var(--f-pix);text-transform:uppercase;letter-spacing:.12em;color:var(--cosmic);font-size:13px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6vw,66px);line-height:.95;margin:4px 0 8px;text-shadow:4px 4px 0 #c8501e,8px 8px 0 #000}
+h1 small{font-size:.38em;color:var(--moon);display:inline-block;vertical-align:.8em;margin-left:10px;text-shadow:3px 3px 0 #000}
+.lede{max-width:76ch;color:var(--muted);margin:0} .lede b{color:var(--ink)}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(20px,3vw,26px);margin:0 0 10px}
+h2 small{display:block;font-family:var(--f-pix);font-size:13px;color:var(--fire);letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+.game{border:3px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 0 0 6px #0b0614,10px 10px 0 6px rgba(255,154,58,.3);background:#000}
+.stagewrap{position:relative;background:#000;cursor:grab;touch-action:pan-y}
+.stagewrap:active{cursor:grabbing}
+#stage{display:block;width:100%;height:auto;aspect-ratio:384/216;image-rendering:pixelated}
+.hud{position:absolute;left:10px;top:10px;display:flex;gap:8px;flex-wrap:wrap;pointer-events:none}
+.hud span{font-family:var(--f-pix);font-size:13px;background:rgba(10,5,20,.82);border:2px solid #000;border-radius:5px;padding:3px 9px;color:var(--muted)}
+.hud b{color:var(--moon)}
+.say{position:absolute;font-family:var(--f-pix);font-size:clamp(12px,1.8vw,16px);background:#fff;color:#000;border:3px solid #000;border-radius:10px;padding:3px 10px;transform:translate(-50%,-100%);pointer-events:none;display:none;white-space:nowrap}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;padding:12px 14px;background:var(--panel);border-top:2px solid var(--line);font-family:var(--f-pix)}
+.grp{display:grid;gap:6px;align-content:start}
+.lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button,.lvl button{font-family:var(--f-pix);font-weight:600;font-size:13px;cursor:pointer;padding:6px 10px;border-radius:5px;border:2px solid var(--line);background:var(--panel2);color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--moon);color:#1a0d00;border-color:#000;box-shadow:2px 2px 0 #000}
+.seg button[data-mode="lua"][aria-pressed="true"]{background:var(--blood);color:#fff}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:8px;padding:12px 14px 14px;background:#170e28;border-top:2px solid var(--line)}
+.lvl{display:grid;grid-template-columns:1fr auto;gap:6px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:6px 8px;font-family:var(--f-pix);font-size:13px}
+.lvl .nm{color:var(--ink)} .lvl .nm small{display:block;color:var(--muted);font-size:11px}
+.lvl .bt{display:flex;gap:3px}
+.lvl button{padding:3px 7px;font-size:12px}
+.lvl button[aria-pressed="true"]{background:var(--fire);color:#1a0d00;border-color:#000}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-pix);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.st{font-family:var(--f-pix);color:var(--moon);white-space:nowrap}
+td.lv{font-family:var(--f-pix);color:var(--fire);white-space:nowrap}
+td.cu{font-family:var(--f-pix);font-size:12px;color:var(--cosmic);white-space:nowrap}
+td.ds{color:var(--muted)}
+.box{background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+ul.rules{margin:0;padding-left:20px;display:grid;gap:6px;color:var(--muted)}
+ul.rules b{color:#fff}
+@media (prefers-reduced-motion:reduce){ *{animation:none!important} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Abrigo · Hub do jogo · Rolagem lateral</div>
+    <h1>Abrigo <small>Marco Zero</small></h1>
+    <p class="lede">O abrigo é a casa do squad entre uma expedição e outra. O jogador <b>começa só com a fogueira</b>: toda vez que o recruta principal entra, ele vai até ela, agacha e acende. As outras estruturas aparecem como terreno limpo com placa de "construir" e são erguidas com o que as expedições trazem. Cada estrutura sobe do nível 1 ao 5 na escada de materiais da doc: <b>lona e sucata → madeira → pedra → tijolo e metal → Lua de Sangue</b>.</p>
+  </header>
+
+  <section class="game" aria-label="Abrigo">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="384" height="216" role="img" aria-label="Abrigo em pixel art com fogueira e estruturas"></canvas>
+      <div class="hud"><span>Abrigo · <b id="hCount">só a fogueira</b></span><span id="hMode">Noite</span></div>
+      <div class="say" id="say"></div>
+    </div>
+    <div class="controls">
+      <div class="grp"><span class="lbl">Cena</span><div class="seg"><button id="bEnter">▶ Entrar no abrigo (acender a fogueira)</button></div></div>
+      <div class="grp"><span class="lbl">Hora</span><div class="seg" id="modes"><button data-mode="dia" aria-pressed="false">Dia</button><button data-mode="noite" aria-pressed="true">Noite</button><button data-mode="lua" aria-pressed="false">Lua de Sangue</button></div></div>
+      <div class="grp"><span class="lbl">Predefinições</span><div class="seg"><button id="pStart">Começo: só a fogueira</button><button id="pMid">Meio do jogo</button><button id="pMax">Tudo nível 5</button></div></div>
+    </div>
+    <div class="levels" id="levels"></div>
+  </section>
+
+  <section class="box">
+    <h2><small>Estruturas</small>Todas as estruturas e seus níveis</h2>
+    <div class="tbl"><table id="tbl"></table></div>
+    <p style="color:var(--muted);font-size:14px;margin:10px 0 0">Custos do nível 1 e custo base de evolução vêm da tabela de Abrigo e Evolução (mecanicas2). Do nível 2 ao 5 a regra é 1×, 2× + 8 pedra, 3,5× + 6 pedra + 6 peças, 6× + fragmento lunar. As descrições de cada nível resumem as docs de Objetos (fogueira, construções de produção e defesa, estações). Nenhuma construção passa do nível da fogueira.</p>
+  </section>
+
+  <section class="box">
+    <h2><small>Como o abrigo entra no jogo</small>Regras deste protótipo</h2>
+    <ul class="rules">
+      <li><b>Começo:</b> depois de criar o recruta inicial, o jogador cai aqui só com a fogueira. As outras 12 vagas mostram "construir".</li>
+      <li><b>Toda entrada:</b> o recruta principal atravessa o portão, vai até a fogueira, agacha, risca o isqueiro e a chama cresce, abrindo a luz quente no escuro. A fogueira cura e salva.</li>
+      <li><b>Loop:</b> as expedições trazem recrutas, pets, abates e recursos (madeira, sucata, pano, água, pedra, peças, gasolina, fragmento lunar), que constroem e evoluem as estruturas.</li>
+      <li><b>Leitura:</b> cada estrutura mantém a mesma função visível em todos os níveis (a cama na barraca, a bigorna na serralheria, o espantalho na horta, a escada no posto de guarda) e só troca o material.</li>
+      <li><b>Escala:</b> mesma escala da fase do Marco Zero. Portas de ~84 px e personagens a 70%.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{BATON}}
+{{HEROI}}
+{{ABRIGO}}
+(function(){
+'use strict';
+const W=ABRIGO.W, H=ABRIGO.H, KS=0.7; PIX.setK(KS);
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const ORDER=['fogueira','muralha','portao','barricada','posto_guarda','barraca','horta','coletor','serralheria','bancada','gerador','pilha_toras','ponto_coleta'];
+const S={mode:'noite', estruturas:{fogueira:1}, fogo:0, cam:0, scene:null, t:0};
+let saved=null; try{ saved=JSON.parse(localStorage.getItem('abrigo-niveis')||'null'); }catch(e){}
+if(saved && saved.fogueira) S.estruturas=saved;
+const save=()=>{ try{ localStorage.setItem('abrigo-niveis',JSON.stringify(S.estruturas)); }catch(e){} };
+const FOG=ABRIGO.SLOT.fogueira, FX=FOG.x+FOG.largura/2;
+// recruta principal (build salvo na criação, se existir)
+let cfg=HEROI.DEFAULT; try{ const c=JSON.parse((localStorage.getItem('lua-sangue-recruta-inicial')||localStorage.getItem('lds-heroi'))||localStorage.getItem('heroi-build')||'null'); if(c) cfg=Object.assign({},HEROI.DEFAULT,c); }catch(e){}
+const P={x:40, y:192, face:1, anim:'idle', fi:0, acc:0, crouch:0, visible:true};
+function setAnim(a){ if(P.anim!==a){ P.anim=a; P.fi=0; P.acc=0; } }
+function stepAnim(dt){ const A=HEROI.ANIMS[P.anim]; P.acc+=dt*1000; let d=A.dur(P.fi); while(P.acc>=d){ P.acc-=d; P.fi=(P.fi+1)%A.n; d=A.dur(P.fi); } }
+const sparks=[];
+function drawActors(c,cam){
+  if(!P.visible) return;
+  const cv=HEROI.frame(cfg,P.anim,P.fi), ax=HEROI.AX*KS, G=HEROI.GROUND*KS, sx=Math.round(P.x-cam);
+  c.fillStyle='rgba(10,4,16,.5)'; c.fillRect(sx-12,Math.round(P.y),24,2);
+  c.save(); c.translate(sx,Math.round(P.y)); if(P.face<0) c.scale(-1,1); c.scale(1,1-0.2*P.crouch); c.drawImage(cv,-ax,-G); c.restore();
+  sparks.forEach(s=>{ c.fillStyle=s.c; c.fillRect(Math.round(s.x-cam),Math.round(s.y),s.t<0.15?2:1,s.t<0.15?2:1); });
+}
+const sayEl=document.getElementById('say');
+function say(text,wx,wy){ if(!text){ sayEl.style.display='none'; return; } const sc=stage.clientWidth/W; sayEl.textContent=text; sayEl.style.display='block'; sayEl.style.left=((wx-S.cam)*sc)+'px'; sayEl.style.top=(wy*sc)+'px'; }
+function enter(){ S.fogo=0; P.x=FX-250; P.y=196; P.face=1; P.crouch=0; P.visible=true; setAnim('walk'); S.scene={phase:'walk',t:0}; S.cam=Math.max(0,P.x-120); }
+function updScene(dt){
+  const sc=S.scene; if(!sc){ stepAnim(dt); return; } sc.t+=dt;
+  if(sc.phase==='walk'){ const tx=FX-34; P.x=Math.min(tx,P.x+95*dt); P.y+=(190-P.y)*Math.min(1,dt*1.5); stepAnim(dt); S.cam+=((P.x-150)-S.cam)*Math.min(1,dt*3); if(P.x>=tx){ sc.phase='crouch'; sc.t=0; setAnim('idle'); } }
+  else if(sc.phase==='crouch'){ P.crouch=Math.min(1,sc.t/0.25); S.cam+=((FX-W/2)-S.cam)*Math.min(1,dt*3); if(sc.t>0.35){ sc.phase='spark'; sc.t=0; } }
+  else if(sc.phase==='spark'){ if(Math.random()<0.5) for(let k=0;k<3;k++) sparks.push({x:FX-14+Math.random()*6,y:FOG.gy-8,vx:(Math.random()-.2)*40,vy:-20-Math.random()*40,t:0,c:Math.random()<.5?'#ffe08a':'#ff9a3a'}); if(sc.t>0.25 && sc.t<0.3) say('tchk… tchk',FX-20,FOG.gy-56); if(sc.t>0.7){ sc.phase='grow'; sc.t=0; say(''); } }
+  else if(sc.phase==='grow'){ S.fogo=Math.min(1,sc.t/1.4); if(sc.t>1.5){ sc.phase='stand'; sc.t=0; } }
+  else if(sc.phase==='stand'){ P.crouch=Math.max(0,1-sc.t/0.3); if(sc.t>0.5){ say('Lar, doce lar.',P.x,P.y-62); } if(sc.t>2.3){ say(''); S.scene=null; } }
+  stepAnim(dt*0.5);
+}
+let drag=null; const sw=document.getElementById('sw');
+sw.addEventListener('pointerdown',e=>{ drag={x:e.clientX,cam:S.cam}; sw.setPointerCapture(e.pointerId); });
+sw.addEventListener('pointermove',e=>{ if(!drag) return; S.cam=drag.cam-(e.clientX-drag.x)*W/stage.clientWidth; });
+const end=()=>{ drag=null; }; sw.addEventListener('pointerup',end); sw.addEventListener('pointercancel',end);
+let last=performance.now();
+function loop(now){ const dt=Math.min(0.05,(now-last)/1000); last=now; S.t+=dt;
+  updScene(dt);
+  sparks.forEach(s=>{ s.t+=dt; s.x+=s.vx*dt; s.y+=s.vy*dt; s.vy+=60*dt; }); for(let i=sparks.length-1;i>=0;i--) if(sparks[i].t>0.6) sparks.splice(i,1);
+  S.cam=Math.max(0,Math.min(ABRIGO.WORLD-W,S.cam));
+  ABRIGO.draw(g,S.cam,{estruturas:S.estruturas,fogo:S.fogo,noite:S.mode!=='dia',lua:S.mode==='lua'},S.t,{drawActors});
+  const n=Object.entries(S.estruturas).filter(([k,v])=>v>0 && k!=='fogueira').length;
+  document.getElementById('hCount').textContent=n?('fogueira nv '+S.estruturas.fogueira+' + '+n+' estrutura(s)'):'só a fogueira';
+  document.getElementById('hMode').textContent={dia:'Dia',noite:'Noite',lua:'Lua de Sangue'}[S.mode];
+  requestAnimationFrame(loop); }
+// controles
+function press(sel,attr,val){ document.querySelectorAll(sel+' button[data-'+attr+']').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.querySelectorAll('#modes button').forEach(b=>b.onclick=()=>{ S.mode=b.dataset.mode; press('#modes','mode',S.mode); });
+document.getElementById('bEnter').onclick=enter;
+const lv=document.getElementById('levels');
+function buildLevels(){ lv.innerHTML=ORDER.map(id=>{ const st=ABRIGO.STRUCT[id], cur=S.estruturas[id]||0, min=id==='fogueira'?1:0;
+  return `<div class="lvl"><span class="nm">${st.nome}<small>${cur?ABRIGO.MATNOME[cur]:'não construída'}</small></span><span class="bt">${[0,1,2,3,4,5].filter(n=>n>=min).map(n=>`<button data-id="${id}" data-n="${n}" aria-pressed="${n===cur}" aria-label="${st.nome} nível ${n}">${n||'–'}</button>`).join('')}</span></div>`; }).join('');
+  lv.querySelectorAll('button').forEach(b=>b.onclick=()=>{ const id=b.dataset.id, n=+b.dataset.n; S.estruturas[id]=n;
+    if(id==='fogueira'){ for(const k in S.estruturas) if(k!=='fogueira' && S.estruturas[k]>n) S.estruturas[k]=n; }
+    else if(n>S.estruturas.fogueira){ S.estruturas.fogueira=n; }
+    if(S.fogo===0) S.fogo=1; save(); buildLevels(); const s=ABRIGO.SLOT[id]; if(s && id!=='muralha') S.cam=s.x+s.largura/2-W/2; }); }
+const preset=o=>{ S.estruturas=Object.assign({fogueira:1},o); S.fogo=1; save(); buildLevels(); };
+document.getElementById('pStart').onclick=()=>{ preset({}); enter(); };
+document.getElementById('pMid').onclick=()=>preset({fogueira:3,muralha:2,portao:2,barricada:2,posto_guarda:2,barraca:3,horta:2,coletor:2,serralheria:3,bancada:2,gerador:1,pilha_toras:2,ponto_coleta:1});
+document.getElementById('pMax').onclick=()=>preset(Object.fromEntries(ORDER.map(k=>[k,5])));
+// tabela
+const RES={madeira:'madeira',sucata:'sucata',pano:'pano',agua:'água',pedra:'pedra',pecas:'peças',gasolina:'gasolina',fragmento_lunar:'fragmento lunar'};
+document.getElementById('tbl').innerHTML='<thead><tr><th>Estrutura</th><th>Nível</th><th>Custo</th><th>Efeito</th><th>Como fica</th></tr></thead><tbody>'+ORDER.map(id=>{ const st=ABRIGO.STRUCT[id];
+  return st.niveis.map((nv,i)=>`<tr>${i===0?`<td class="st" rowspan="5">${st.nome}</td>`:''}<td class="lv">${nv.n} · ${ABRIGO.MATNOME[nv.n]}</td><td class="cu">${Object.entries(nv.custo).map(([k,v])=>v+' '+(RES[k]||k)).join(' · ')||'já existe'}</td><td>${nv.efeito}</td><td class="ds">${nv.desc}</td></tr>`).join(''); }).join('')+'</tbody>';
+buildLevels(); enter(); requestAnimationFrame(loop);
+})();
+</script>

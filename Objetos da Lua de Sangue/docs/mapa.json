@@ -1,0 +1,209 @@
+{"grupo": "mapa", "titulo": "Objetos de mapa, boss e spawn", "ordem": 14,
+ "resumo": "Peças do mundo da expedição que contam regras: grades da arena do boss, gerador das regiões escuras, postes e suas luzes, portal e avisos de spawn, runas e feixe do respawn da Lua de Sangue, obstáculos que os recrutas abrem, ícones do mapa, luzes do herói e decalques de sangue. Ferro enferrujado, madeira gasta e concreto do Recife, sempre com o vermelho-lua como sinal de perigo.",
+ "itens": [
+  {"id": "map_grades", "nome": "Grades da arena do boss", "categoria": "Boss",
+   "mecanica": "Boss (BOSS-01 No way back, BOSS-11 Vitória)",
+   "conceito": "Uma grade levadiça de ferro batido, tirada de um armazém do cais e montada às pressas na boca da arena do boss. Fica pendurada num lintel de vigas de aço rebitadas entre dois pilares de concreto rachado, com correntes grossas que descem de roldanas até contrapesos nos pilares. Quando o herói cruza a linha de entrada, a grade despenca com um clangor: as pontas afiadas cravam no chão, saem faíscas e poeira. Na vitória ela sobe rangendo, soltando ferrugem. O ferro é marrom-ferrugem com manchas alaranjadas, barras quadradas com travessas rebitadas e pontas de lança escuras sujas de sangue seco; um pano vermelho rasgado amarrado no pilar marca a arena.",
+   "partes": [
+     {"parte": "Pilares", "descricao": "2 pilares de concreto 22×142 px (x 18..40 e 216..238) com rachaduras, fuligem #2a2228, faixa de aviso vermelha e cinza, sapata mais larga no chão; o esquerdo tem um pano vermelho #c8323a amarrado"},
+     {"parte": "Lintel", "descricao": "caixa de aço 244×40 px no topo (y 2..42, tampa clara em cima e frente #6b747a) que esconde a grade recolhida, rebites #c9ced4 a cada 12 px, 3 chapas de reforço, placa de aviso amarela/preta, ferrugem #8a4e2e escorrendo e 2 roldanas de 18 px nas pontas; correntes laterais descem a contrapesos que sobem quando a grade desce"},
+     {"parte": "Correntes", "descricao": "elos alternados (ovais 4×6 e barras 2×6) cinza-ferro #6b6a66 descendo das roldanas até ganchos nos pilares; balançam 1 px no clangor"},
+     {"parte": "Grade", "descricao": "13 barras verticais de 5 px a cada 14 px (x 40..216), 3 travessas horizontais de 6 px com rebites, ferro #7a4a32/#5e3826 com manchas laranja #b0603a; pontas de lança #3a2a24 de 10 px com sangue seco #5a1418. A altura de baixo varia: recolhida (só as pontas aparecem sob o lintel, y≈54), fechando (y≈100 e 146), fechada (y≈180)"},
+     {"parte": "Efeitos", "descricao": "clangor: faíscas amarelas/brancas #fff6c8 #ffd36a nas pontas, estrela de impacto, poeira #9c8a70 e lascas; abrindo: poeira de ferrugem caindo e brilho dourado de vitória"}
+   ],
+   "paleta": [{"nome": "Ferro enferrujado", "hex": "#7a4a32"}, {"nome": "Ferro escuro", "hex": "#5e3826"}, {"nome": "Ferrugem viva", "hex": "#b0603a"}, {"nome": "Ponta", "hex": "#3a2a24"}, {"nome": "Concreto", "hex": "#8e8a84"}, {"nome": "Aço do lintel", "hex": "#6b747a"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Corrente", "hex": "#6b6a66"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Faísca", "hex": "#ffd36a"}],
+   "arquivo": "sprites/map_grades.png", "fw": 256, "fh": 192, "cols": 6,
+   "quadros": ["aberta (recolhida)", "fechando 1", "fechando 2", "fechada - clangor (faíscas)", "fechada", "abrindo (vitória)"],
+   "anims": [{"nome": "fechar (BOSS-01)", "quadros": [0, 1, 2, 3, 4], "dur": [120, 70, 70, 260, 400], "loop": false},
+             {"nome": "abrir (BOSS-11)", "quadros": [4, 5, 2, 1, 0], "dur": [200, 220, 220, 220, 400], "loop": false}],
+   "uso": "Âncora no centro da base (128, 180), gy = 180. Fica na camada dos objetos, por cima do chão da entrada da arena; a colisão da saída só existe nos quadros 3 e 4. O tremor da tela no clangor é da câmera, não do sprite."},
+
+  {"id": "map_gerador_regiao", "nome": "Gerador da região escura", "categoria": "Mapa",
+   "mecanica": "Câmera (CAM-09 Região de escuridão), Vasculhar (bateria do carro), LUA-02 (gerador ligado nunca reseta)",
+   "conceito": "Um gerador a diesel velho, pintado de verde-oliva de prefeitura e todo descascado, que alimenta a iluminação de uma região inteira. Ele morreu quando a cidade caiu: o encaixe da bateria na frente está vazio e com fios soltos. O jogador traz uma bateria de carro (loot do carro), encaixa e puxa a alavanca: o motor tosse, saem faíscas azuladas e fumaça, a lâmpada do poste ao lado pisca e acende, e a escuridão da região some. Ao lado, um poste de madeira com cruzeta e isoladores leva os fios até a lâmpada. Tem mostrador de agulha, escapamento enferrujado, adesivos de aviso e uma lona rasgada por cima.",
+   "partes": [
+     {"parte": "Base e skid", "descricao": "estrado de aço 80×8 px (x 12..92, y 140..148) com pés, parafusos e manchas de óleo #1a1418 no chão"},
+     {"parte": "Corpo do gerador", "descricao": "caixa 72×56 px (x 16..88, y 86..142) verde-oliva #5f6a3a/#4a5430 descascada mostrando metal #7d848c e ferrugem #8a4e2e; grelha de ventilação com 6 ripas, faixa de aviso amarela/preta #e0b030 e adesivo de raio, tampa do tanque e lona #4a6139 dobrada no topo"},
+     {"parte": "Encaixe da bateria", "descricao": "recesso escuro 22×16 px na frente (x 24..46, y 112..128) com 2 terminais e fios soltos vermelho/preto; com bateria: caixa preta #2a2a2e com tampa vermelha #a8302e, terminais de chumbo #b0b0a8 e etiqueta amarela"},
+     {"parte": "Painel", "descricao": "mostrador redondo 12 px com agulha (repouso à esquerda, ligado à direita no verde), LED (apagado #3a2a2a, ligando âmbar, ligado verde #6fdc7a) e alavanca vermelha que muda de cima para baixo"},
+     {"parte": "Escapamento", "descricao": "cano 6 px subindo atrás à esquerda com ponta curva preta; fumaça cinza saindo nos quadros ligando (escura) e ligado (fina)"},
+     {"parte": "Poste e fios", "descricao": "poste de madeira #7d5430 de 6 px em x≈106 subindo até y 14, cruzeta com 2 isoladores brancos, braço curto e luminária; fio preto em catenária do gerador até o poste; lâmpada apagada #3a3640, piscando âmbar e acesa #ffd36a com brilho e halo"}
+   ],
+   "paleta": [{"nome": "Verde-oliva", "hex": "#5f6a3a"}, {"nome": "Verde escuro", "hex": "#4a5430"}, {"nome": "Metal", "hex": "#7d848c"}, {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Aviso amarelo", "hex": "#e0b030"}, {"nome": "Bateria", "hex": "#2a2a2e"}, {"nome": "Tampa da bateria", "hex": "#a8302e"}, {"nome": "Madeira do poste", "hex": "#7d5430"}, {"nome": "Lâmpada", "hex": "#ffd36a"}, {"nome": "Faísca azul", "hex": "#bfe8ff"}],
+   "arquivo": "sprites/map_gerador_regiao.png", "fw": 128, "fh": 160, "cols": 6,
+   "quadros": ["desligado (encaixe vazio)", "bateria encaixada", "ligando 1 (faíscas)", "ligando 2 (tosse e fumaça)", "ligado 1", "ligado 2 (luz pulsando)"],
+   "anims": [{"nome": "ligando", "quadros": [1, 2, 3, 2, 3], "dur": [300, 90, 110, 90, 140], "loop": false},
+             {"nome": "ligado", "quadros": [4, 5], "dur": [260, 260], "loop": true}],
+   "uso": "Âncora na base (52, 148), gy = 148. Ao ligar, o jogo troca a região de escura para normal e soma a luz da lâmpada (use map_luz_poste em (106, 30) projetado no chão). Estado salvo para sempre (LUA-02). Tremor do motor = wobble de 1 px em tempo real."},
+
+  {"id": "map_poste", "nome": "Poste de luz da rua", "categoria": "Mapa",
+   "mecanica": "Dia e noite (DN-04 luzes, DN-05 postes em cascata, DN-02 postes avermelhados)",
+   "conceito": "Poste de ferro fundido no estilo do Recife Antigo, com lanterna de quatro vidros no alto, sobrevivente do fim do mundo mas maltratado: o vidro está trincado, a pintura preta descascou em ferrugem, um fio cortado pende da cruzeta e há fita isolante, cartaz rasgado e respingos de sangue na base. De noite ele acende em cascata e às vezes pisca antes de firmar; na Lua de Sangue a luz fica vermelha. É a fonte de luz mais comum das ruas e o lugar onde o modo automático se esconde à noite.",
+   "partes": [
+     {"parte": "Base", "descricao": "pedestal 18×20 px (x 23..41, y 128..148) com saia larga, frisos e parafusos, ferrugem #8a4e2e e sangue seco #5a1418 respingado"},
+     {"parte": "Coluna", "descricao": "fuste de 6 px (x 29..35) de ferro preto #2e2c34 com anéis a cada ~26 px, cartaz de papel rasgado #cfc6ae, fita isolante #1a1a1e e escorrido de ferrugem"},
+     {"parte": "Cruzeta", "descricao": "braço curto em y≈44 com 2 isoladores #d8d2c2 e um fio preto cortado pendurado balançando"},
+     {"parte": "Lanterna", "descricao": "copa 18×28 px (x 23..41, y 10..38): telhado em ponta, 4 vidros (vistos 2) com montantes, uma trinca; apagado #3a3a46 escuro-azulado; aceso #ffe9a8/#ffd36a com núcleo branco; vermelho #ff5a5a/#c8323a; brilho glow em volta quando aceso"}
+   ],
+   "paleta": [{"nome": "Ferro preto", "hex": "#2e2c34"}, {"nome": "Ferro realce", "hex": "#4a4652"}, {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Vidro apagado", "hex": "#3a3a46"}, {"nome": "Luz", "hex": "#ffd36a"}, {"nome": "Luz clara", "hex": "#ffe9a8"}, {"nome": "Luz da lua", "hex": "#ff5a5a"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Cartaz", "hex": "#cfc6ae"}],
+   "arquivo": "sprites/map_poste.png", "fw": 64, "fh": 160, "cols": 5,
+   "quadros": ["apagado", "piscando 1 (fraco)", "piscando 2 (quase apagado)", "aceso", "aceso vermelho (Lua de Sangue)"],
+   "anims": [{"nome": "acender (DN-05)", "quadros": [0, 1, 2, 1, 2, 3], "dur": [200, 60, 90, 50, 120, 400], "loop": false},
+             {"nome": "piscar", "quadros": [1, 2], "dur": [80, 140], "loop": true}],
+   "uso": "Âncora (32, 148), gy = 148. O halo no chão é o sprite separado map_luz_poste, desenhado na camada de luz/chão embaixo dos personagens; o atraso da cascata é do jogo. Na Lua de Sangue troca para o quadro 4 e o halo vermelho."},
+
+  {"id": "map_luz_poste", "nome": "Halo de luz do poste no chão", "categoria": "Mapa",
+   "mecanica": "Dia e noite (DN-04, DN-02)",
+   "conceito": "A poça de luz que o poste projeta na calçada: uma elipse achatada em perspectiva 3/4, com raio de ~3 tiles, feita em degraus de transparência (pixel art, sem degradê liso). O centro é mais forte e quente, levemente deslocado para baixo do poste, e as bordas se desfazem em anéis com pontilhado. A versão da Lua de Sangue é vermelha, mais fraca e com o centro rosado, para o mundo ficar tenso mesmo perto da luz.",
+   "partes": [
+     {"parte": "Elipse de luz", "descricao": "elipse 188×116 px centrada em (96, 64), 6 degraus de alpha (~16 a 120) em #ffd36a/#ffe9a8; borda com pontilhado em xadrez entre degraus"},
+     {"parte": "Núcleo", "descricao": "elipse interna 40×22 px mais clara #fff2c8 (normal) ou #ff9a8a (vermelho)"}
+   ],
+   "paleta": [{"nome": "Luz quente", "hex": "#ffd36a"}, {"nome": "Núcleo", "hex": "#fff2c8"}, {"nome": "Luz vermelha", "hex": "#ff5a5a"}, {"nome": "Núcleo vermelho", "hex": "#ff9a8a"}],
+   "arquivo": "sprites/map_luz_poste.png", "fw": 192, "fh": 128, "cols": 2,
+   "quadros": ["normal", "vermelho (Lua de Sangue)"],
+   "uso": "Centro (96, 64) colocado no chão na base do poste. Desenhar com mistura aditiva (ou 'screen') na camada de luz; para o mapa de luz do DN-04 o alpha serve de intensidade. O tremular é variação de alpha/escala em tempo real."},
+
+  {"id": "map_portal", "nome": "Portal de spawn da Lua de Sangue", "categoria": "Spawn",
+   "mecanica": "Spawn (SPW-03 Open a portal, SPW-04 Drop it in)",
+   "conceito": "Um rasgo no ar, vermelho como carne viva, que se abre acima do ponto de spawn para o zumbi cair dele. Começa como uma fenda fina e torta, se alarga numa elipse escura com bordas irregulares que pulsam, rodeada por dois anéis de runas finas girando em sentidos opostos. Do lábio de baixo pingam gotas de sangue luminoso, e um brilho vermelho ilumina o chão. Ao fechar, a fenda se costura num risco e some em fagulhas. Lê de longe como 'vai cair coisa aqui'.",
+   "partes": [
+     {"parte": "Fenda", "descricao": "elipse vertical torta centrada em (64, 50): abrindo 4×20 → 16×34 → 30×44 px; aberta 34×46 px; miolo preto-roxo #120810 com estrelas de pontos #3a1430, borda serrilhada #c8323a/#ff5a5a de 2-3 px com dentes"},
+     {"parte": "Anéis", "descricao": "2 elipses de 50×20 e 60×24 px em volta da fenda, tracejadas em #ff5a5a/#c8323a com runas de 3 px, girando 30° por quadro em sentidos opostos (parte de trás atrás da fenda)"},
+     {"parte": "Gotas", "descricao": "gotas de 2×3 px #c8323a com brilho #ff9a8a caindo do lábio de baixo, posições diferentes por quadro; respingos no chão em y≈112"},
+     {"parte": "Brilho", "descricao": "glow vermelho em volta (raio 48) e mancha de luz no chão (elipse 40×10 em y 112)"}
+   ],
+   "paleta": [{"nome": "Vazio", "hex": "#120810"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Brilho", "hex": "#ff5a5a"}, {"nome": "Rosado", "hex": "#ff9a8a"}, {"nome": "Sangue escuro", "hex": "#6a1420"}],
+   "arquivo": "sprites/map_portal.png", "fw": 128, "fh": 128, "cols": 8,
+   "quadros": ["abrindo 1", "abrindo 2", "abrindo 3", "aberto 1", "aberto 2", "aberto 3", "fechando 1", "fechando 2"],
+   "anims": [{"nome": "abrir (0,5 s)", "quadros": [0, 1, 2], "dur": [160, 170, 170], "loop": false},
+             {"nome": "aberto", "quadros": [3, 4, 5], "dur": [110, 110, 110], "loop": true},
+             {"nome": "fechar (0,4 s)", "quadros": [6, 7], "dur": [200, 200], "loop": false}],
+   "uso": "Âncora no chão (64, 112): o portal fica ~60 px acima do ponto de spawn. Camada de efeitos, por cima dos personagens. O zumbi cai de (64, 50) com a sombra de map_aviso_spawn crescendo."},
+
+  {"id": "map_aviso_spawn", "nome": "Aviso de spawn no chão", "categoria": "Spawn",
+   "mecanica": "Spawn (SPW-01 aviso, SPW-04 sombra, SPW-05 rachadura, BF-06 minions saem do chão)",
+   "conceito": "Tudo o que aparece no chão antes e depois de um zumbi chegar. A marca de aviso é um círculo vermelho pulsante pintado em perspectiva, com um anel externo que fecha até o centro em 1 s e um '!' no meio. A versão grande, para zumbis que caem 'do céu', tem duas voltas e marcas de mira. Depois vem a sombra que cresce enquanto o corpo cai, a rachadura do impacto com torrões, que fica e some, e a terra que estufa, racha e se abre quando o zumbi 'sai do chão'. Tudo em tons de vermelho-lua e terra escura, legível sobre paralelepípedo e asfalto.",
+   "partes": [
+     {"parte": "Marca de aviso", "descricao": "disco 60×30 px centrado em (64, 54) em #c8323a com alpha ~110, borda #ff5a5a, '!' vermelho/branco de 5×12 px; anel externo que fecha: 120×60 → 96×48 → 76×38 → 62×31 px"},
+     {"parte": "Marca grande (do céu)", "descricao": "duas voltas 110×56 e 80×40, 4 marcas de mira em cruz e '!' maior; 2 quadros de pulso"},
+     {"parte": "Sombra crescendo", "descricao": "elipse roxa-escura #3a2850 com alpha 90/130/170 de 30×12, 60×24 e 96×38 px"},
+     {"parte": "Rachadura", "descricao": "estrela de rachaduras pretas #1a1014 de 70×36 px com borda clara #6a5a4a, torrões #5a4632 em volta e poeira; quadro 2 mais transparente (sumindo)"},
+     {"parte": "Terra abrindo", "descricao": "monte estufado #5a4632/#3e3024 com rachas, depois buraco escuro #140c0c com bordas levantadas e torrões voando, e brilho vermelho no fundo"}
+   ],
+   "paleta": [{"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Brilho", "hex": "#ff5a5a"}, {"nome": "Sombra", "hex": "#3a2850"}, {"nome": "Terra", "hex": "#5a4632"}, {"nome": "Terra escura", "hex": "#3e3024"}, {"nome": "Buraco", "hex": "#140c0c"}, {"nome": "Racha", "hex": "#1a1014"}],
+   "arquivo": "sprites/map_aviso_spawn.png", "fw": 128, "fh": 96, "cols": 7,
+   "quadros": ["aviso 1 (anel longe)", "aviso 2", "aviso 3", "aviso 4 (anel fechado)", "aviso grande do céu 1", "aviso grande do céu 2", "sombra pequena", "sombra média", "sombra grande", "rachadura de chegada", "rachadura sumindo", "terra estufando", "terra rachando", "terra aberta (sai do chão)"],
+   "anims": [{"nome": "aviso (1 s)", "quadros": [0, 1, 2, 3], "dur": [250, 250, 250, 250], "loop": true},
+             {"nome": "aviso grande", "quadros": [4, 5], "dur": [180, 180], "loop": true},
+             {"nome": "sombra caindo", "quadros": [6, 7, 8], "dur": [150, 150, 150], "loop": false},
+             {"nome": "rachadura", "quadros": [9, 10], "dur": [4000, 2000], "loop": false},
+             {"nome": "sai do chão (0,6 s)", "quadros": [11, 12, 13], "dur": [200, 200, 200], "loop": false}],
+   "uso": "Centro no chão (64, 54) = ponto de spawn. Camada de chão (decal), embaixo dos personagens; a seta da borda da tela e os bipes são do HUD. O pulso da marca pode ganhar escala em tempo real."},
+
+  {"id": "map_runas_respawn", "nome": "Círculo de runas do respawn", "categoria": "Lua de Sangue",
+   "mecanica": "Lua de Sangue (LUA-05 respawn de boss e mini boss)",
+   "conceito": "O círculo que anuncia que um boss vai renascer: brota do chão onde ele estava, girando e crescendo em 0,4 s. São dois anéis concêntricos brilhando em vermelho-lua, com uma faixa de runas angulosas entre eles, raios ligando os anéis e um crescente de lua no centro, tudo achatado em perspectiva. As linhas parecem queimadas na pedra, com brasas e fumaça fina, e o centro ganha um brilho que prepara o feixe que vai descer. Nada de símbolo religioso: são runas inventadas da lua.",
+   "partes": [
+     {"parte": "Anéis", "descricao": "anel externo 176×88 px e interno 120×60 px (em escala no quadro 4), linha dupla #c8323a com núcleo #ff5a5a e pontos brancos rosados"},
+     {"parte": "Runas", "descricao": "12 runas de 5×7 px entre os anéis, girando 15° por quadro, cor #ff5a5a com contorno escuro"},
+     {"parte": "Centro", "descricao": "crescente de lua 22×12 px e 6 raios finos; brilho glow vermelho"},
+     {"parte": "Escala por quadro", "descricao": "0,35 / 0,6 / 0,85 / 1,0 do tamanho, com brasas subindo"}
+   ],
+   "paleta": [{"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Brilho", "hex": "#ff5a5a"}, {"nome": "Rosado", "hex": "#ffb0a0"}, {"nome": "Queimado", "hex": "#2a0e12"}],
+   "arquivo": "sprites/map_runas_respawn.png", "fw": 192, "fh": 128, "cols": 4,
+   "quadros": ["brotando (0,35)", "crescendo (0,6)", "crescendo (0,85)", "completo"],
+   "anims": [{"nome": "crescer (0,4 s)", "quadros": [0, 1, 2, 3], "dur": [100, 100, 100, 100], "loop": false}],
+   "uso": "Centro (96, 64) no ponto de respawn, camada de chão. Depois do quadro 3 o jogo pode girá-lo em tempo real; o feixe map_feixe_lua desce no centro."},
+
+  {"id": "map_feixe_lua", "nome": "Feixe de luz vermelha da lua", "categoria": "Lua de Sangue",
+   "mecanica": "Lua de Sangue (LUA-05; LUA-06 usa a mesma forma tingida de dourado)",
+   "conceito": "Um pilar de luz vermelha que desce do céu sobre o círculo de runas, como se a própria Lua de Sangue apontasse o lugar. Começa como um fio fino, explode num feixe largo com flash branco no chão, fica estável com estrias que descem e partículas subindo, e se desfaz de cima para baixo deixando brasas. O núcleo é quase branco-rosado e as bordas vermelho-lua em degraus de transparência.",
+   "partes": [
+     {"parte": "Feixe", "descricao": "coluna vertical centrada em x 48 de y 0 até o chão (y 232): fino 6 px, largo 60 px, estável 40 px, sumindo 30 px com a parte de cima já apagada; 4 faixas de alpha #c8323a → #ff5a5a → #ffb0a0 → núcleo #fff0ec"},
+     {"parte": "Impacto no chão", "descricao": "elipse 80×20 px em y 232, flash branco no quadro 2"},
+     {"parte": "Partículas", "descricao": "fagulhas 1-2 px subindo e estrias horizontais mais claras descendo"}
+   ],
+   "paleta": [{"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Brilho", "hex": "#ff5a5a"}, {"nome": "Rosado", "hex": "#ffb0a0"}, {"nome": "Núcleo", "hex": "#fff0ec"}],
+   "arquivo": "sprites/map_feixe_lua.png", "fw": 96, "fh": 256, "cols": 4,
+   "quadros": ["fino", "largo com flash", "estável", "sumindo"],
+   "anims": [{"nome": "feixe", "quadros": [0, 1, 2, 3], "dur": [120, 140, 400, 200], "loop": false}],
+   "uso": "Âncora no chão (48, 232) = centro do círculo de runas. Camada de efeitos, aditiva. Tremor e estalo são da câmera/som."},
+
+  {"id": "map_barricada_caminho", "nome": "Barricada de madeira no caminho", "categoria": "Mapa",
+   "mecanica": "Grupo (GRP-11 especialidade na expedição: Madeira derruba barricadas)",
+   "conceito": "Uma barricada improvisada por sobreviventes que já não estão lá: dois cavaletes em X de caibro, tábuas pregadas atravessadas, uma porta velha e uma placa de 'PARE' pintada à mão. Bloqueia um atalho e só o recruta lenhador consegue derrubar a machadadas. Primeiro inteira, depois rachada com lascas e uma tábua pendurada num prego, e por fim derrubada: tábuas espalhadas no chão, cavalete tombado e serragem. Madeira gasta e cinzenta com pregos tortos, arame enrolado e sangue seco.",
+   "partes": [
+     {"parte": "Cavaletes", "descricao": "2 X de caibro #7d5430/#5a3a22 de 8 px nas pontas (x 14..36 e 92..114), com amarração de arame #8d969c"},
+     {"parte": "Tábuas", "descricao": "4 tábuas horizontais 100×10 px #9a6a3c/#8b5e34 com veios, nós, pregos #c9c3b0, uma com listras vermelho/branco de aviso, outra com 'PARE' sugerido em vermelho"},
+     {"parte": "Danos", "descricao": "rachada: rachaduras pretas, lascas claras #c9a070 caindo, uma tábua pendurada torta; derrubada: tábuas no chão em ângulos, cavalete caído, serragem e lascas"}
+   ],
+   "paleta": [{"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Tábua 2", "hex": "#7d5430"}, {"nome": "Tábua escura", "hex": "#5a3a22"}, {"nome": "Prego", "hex": "#c9c3b0"}, {"nome": "Lasca", "hex": "#c9a070"}, {"nome": "Aviso vermelho", "hex": "#c8323a"}, {"nome": "Arame", "hex": "#8d969c"}],
+   "arquivo": "sprites/map_barricada_caminho.png", "fw": 128, "fh": 128, "cols": 3,
+   "quadros": ["inteira", "rachada", "derrubada"],
+   "anims": [{"nome": "derrubar", "quadros": [0, 1, 2], "dur": [300, 300, 600], "loop": false}],
+   "uso": "Âncora (64, 112), gy = 112. Colisão nos quadros 0 e 1; no 2 vira passagem. Chacoalhar a cada machadada é wobble em tempo real; lascas são partículas."},
+
+  {"id": "map_porta_emperrada", "nome": "Porta de enrolar emperrada", "categoria": "Mapa",
+   "mecanica": "Grupo (GRP-11 especialidade na expedição: Construção abre portas emperradas)",
+   "conceito": "A porta de aço de enrolar de uma loja do centro do Recife, amassada e emperrada no trilho, bloqueando a entrada de um atalho ou de um depósito. O recruta construtor força com pé de cabra: a porta sobe torta alguns centímetros com faíscas e poeira, depois mais um pouco, e por fim enrola de vez na caixa do alto, revelando o interior escuro. O aço ondulado cinza está riscado, com amassados, pichação vermelha, um cadeado arrebentado e ferrugem nas canaletas; a moldura é de concreto rachado com azulejo quebrado.",
+   "partes": [
+     {"parte": "Moldura", "descricao": "parede de concreto #8e8a84/#77736e de 120×140 px com batentes de 12 px, rachaduras, pedaços de azulejo azul #4a7ea8 e fuligem; trilhos laterais de aço #6b747a"},
+     {"parte": "Caixa do rolo", "descricao": "caixa de chapa 104×18 px no topo (y 16..34) #7d848c com parafusos e ferrugem; no aberto mostra o rolo grosso"},
+     {"parte": "Porta", "descricao": "lâminas onduladas horizontais de 5 px #8d969c/#6b747a, um amassado grande, pichação vermelha #c8323a, puxador e cadeado #c9c3b0 quebrado na base; forçando: sobe 10 px torta (−3°) e 26 px com fresta escura e faíscas"},
+     {"parte": "Interior", "descricao": "escuro #120e14 com caixas e prateleira sugeridas em roxo-escuro, uma lata no chão e luz fraca entrando pela fresta"}
+   ],
+   "paleta": [{"nome": "Concreto", "hex": "#8e8a84"}, {"nome": "Concreto escuro", "hex": "#77736e"}, {"nome": "Chapa", "hex": "#8d969c"}, {"nome": "Chapa escura", "hex": "#6b747a"}, {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Pichação", "hex": "#c8323a"}, {"nome": "Azulejo", "hex": "#4a7ea8"}, {"nome": "Interior", "hex": "#120e14"}],
+   "arquivo": "sprites/map_porta_emperrada.png", "fw": 128, "fh": 160, "cols": 4,
+   "quadros": ["fechada emperrada", "forçando 1", "forçando 2", "aberta"],
+   "anims": [{"nome": "forçar", "quadros": [1, 2], "dur": [160, 160], "loop": true},
+             {"nome": "abrir", "quadros": [0, 1, 2, 3], "dur": [300, 200, 200, 500], "loop": false}],
+   "uso": "Âncora (64, 148), gy = 148, encostada numa parede de prédio. Colisão até o quadro 2; no 3 vira passagem. Tremor ao forçar é wobble em tempo real."},
+
+  {"id": "map_sobrevivente_marca", "nome": "Ícones do mapa", "categoria": "Interface",
+   "mecanica": "Câmera / Mapa (minimapa e mapa inteiro; CAM-09, BOSS-13, REC-01, LUA-06)",
+   "conceito": "Os pinos que aparecem no minimapa e no mapa da expedição, cada um num medalhão redondo de chapa com aro escuro para ler sobre qualquer fundo. Baú marcado tem um baú de madeira com '?' dourado; o boss é uma caveira com chifres sobre fundo vermelho-lua; o mini boss é uma caveira menor sem chifres em laranja; região limpa é um ✓ verde; região escura é uma lâmpada apagada sobre preto-roxo; sobrevivente é um rosto com balão de fala; abrigo é uma barraca com fogueira; e o herói é uma seta-pino com camisa vermelha. Formas grandes e chapadas com 1 px de brilho para ler em 16 px de longe.",
+   "partes": [
+     {"parte": "Medalhão", "descricao": "disco 52×52 px centrado em (32, 30) com aro de 3 px escuro #1e1418 e borda interna clara, fundo da cor do tipo; sombra embaixo"},
+     {"parte": "Baú ?", "descricao": "baú 26×18 #9a6a3c com cintas #c9c3b0 e '?' #f2c230"},
+     {"parte": "Boss", "descricao": "caveira 24×22 #e8e0cc com olhos #c8323a, chifres curvos #3a2a24 sobre fundo #c8323a/#7a1a22"},
+     {"parte": "Mini boss", "descricao": "caveira 18×16 sem chifres com cicatriz, fundo laranja #d07a2a"},
+     {"parte": "Região limpa", "descricao": "✓ grosso #6fdc7a com contorno verde escuro sobre fundo #2a5a34"},
+     {"parte": "Região escura", "descricao": "lâmpada apagada #5a5a66 com rosca e fundo #140e1c, raios riscados"},
+     {"parte": "Sobrevivente", "descricao": "rosto #c48a5a com cabelo escuro e balão 💬 branco, fundo azul #4a8fe0"},
+     {"parte": "Abrigo", "descricao": "barraca #5f7a4a com fogueira laranja na frente, fundo #6a5030"},
+     {"parte": "Herói", "descricao": "pino em gota vermelho #d23a34 com rosto do herói e seta, sem medalhão; borda branca"}
+   ],
+   "paleta": [{"nome": "Aro", "hex": "#1e1418"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Verde", "hex": "#6fdc7a"}, {"nome": "Laranja", "hex": "#d07a2a"}, {"nome": "Azul", "hex": "#4a8fe0"}, {"nome": "Osso", "hex": "#e8e0cc"}],
+   "arquivo": "sprites/map_sobrevivente_marca.png", "fw": 64, "fh": 64, "cols": 8,
+   "quadros": ["baú marcado ?", "boss", "mini boss", "região limpa", "região escura", "sobrevivente", "abrigo", "posição do herói"],
+   "uso": "Âncora (32, 58) na ponta de baixo. Desenhar no minimapa reduzido (16-24 px) com NEAREST; o pulsar do boss e do herói é escala em tempo real."},
+
+  {"id": "map_lanterna_luz", "nome": "Luz da lanterna e círculo do twist", "categoria": "Mapa",
+   "mecanica": "Dia e noite (DN-04 lanterna ~2 tiles), Câmera (CAM-09 luz em volta do herói), Boss fases (BF-07 twist das luzes apagadas)",
+   "conceito": "As máscaras de luz que acompanham o herói no escuro. O halo da lanterna é um círculo quente de ~2 tiles, feito em degraus de transparência com pontilhado entre eles, e o cone é o facho da lanterna apontando para a direita (o jogo gira), mais forte na ponta da lente e se abrindo em leque. O círculo do twist do boss é mais frio e duro, com um anel de borda nítido, e vem também como máscara de escuridão: tudo preto-roxo com o furo do círculo, para pôr por cima da arena quando as luzes apagam.",
+   "partes": [
+     {"parte": "Halo", "descricao": "círculo de raio 60 px centrado (64, 64), 6 degraus de alpha 20..150 em #fff0c0/#ffd36a com núcleo branco-quente"},
+     {"parte": "Cone", "descricao": "leque de 50° saindo de (14, 64) para a direita até x 124, degraus de alpha por distância e por ângulo, mancha clara na ponta"},
+     {"parte": "Círculo do twist", "descricao": "círculo de raio 54 frio #e8e4ff com 4 degraus e anel de borda #ffffff alpha 160 de 2 px"},
+     {"parte": "Máscara escura", "descricao": "fundo #0c0814 alpha 235 com furo de raio 54 e degraus de penumbra de 6 px na borda"}
+   ],
+   "paleta": [{"nome": "Luz quente", "hex": "#ffd36a"}, {"nome": "Luz clara", "hex": "#fff0c0"}, {"nome": "Luz fria", "hex": "#e8e4ff"}, {"nome": "Escuridão", "hex": "#0c0814"}],
+   "arquivo": "sprites/map_lanterna_luz.png", "fw": 128, "fh": 128, "cols": 4,
+   "quadros": ["halo da lanterna", "cone da lanterna (direita)", "círculo do twist (luz)", "máscara de escuridão do twist"],
+   "uso": "Centro (64, 64) no centro do herói (o cone nasce em (14, 64) na mão e o jogo gira conforme a direção). Quadros 0-2 vão no mapa de luz (aditivo); o 3 vai por cima do mundo, escalado para cobrir a tela fora do quadro. Tremular = escala ±3% em tempo real."},
+
+  {"id": "map_sangue_decal", "nome": "Decalques de sangue no chão", "categoria": "Mapa",
+   "mecanica": "Mapas (ambientação das regiões)",
+   "conceito": "Manchas de chão para espalhar pelo mundo e contar o que aconteceu ali: uma poça seca que já escureceu nas bordas e racha no meio, um rastro de arrasto com marcas de dedos indo para fora do quadro, uma trilha de pegadas de tênis que vão sumindo e um grupo de respingos e gotas. Vermelho escuro quase marrom, com o centro ainda brilhante em algumas, para ficar sério sem ser exagerado. Achatados em perspectiva 3/4 e sem contorno preto, para assentar no chão.",
+   "partes": [
+     {"parte": "Poça seca", "descricao": "forma irregular 90×34 px #5a1418 com borda mais escura #3a0c10, miolo #7a1a22 e brilho #a8303a, rachas finas e gotas em volta"},
+     {"parte": "Rastro de arrasto", "descricao": "faixa 110×14 px que afina, com estrias paralelas, 4 marcas de dedos no fim e respingos"},
+     {"parte": "Pegadas", "descricao": "6 pegadas de tênis 7×12 px alternadas, ficando mais fracas (alpha 230 → 90)"},
+     {"parte": "Manchas", "descricao": "3 respingos com coroa de gotas e espirro alongado na direção do golpe"}
+   ],
+   "paleta": [{"nome": "Sangue seco", "hex": "#5a1418"}, {"nome": "Borda", "hex": "#3a0c10"}, {"nome": "Miolo", "hex": "#7a1a22"}, {"nome": "Brilho", "hex": "#a8303a"}],
+   "arquivo": "sprites/map_sangue_decal.png", "fw": 128, "fh": 64, "cols": 4,
+   "quadros": ["poça seca", "rastro de arrasto", "pegadas de sangue", "manchas"],
+   "uso": "Decal de chão, centro (64, 32), camada logo acima do chão (pode ir no cache da região, CAM-12). Pode espelhar e girar 180° para variar."}
+ ]}

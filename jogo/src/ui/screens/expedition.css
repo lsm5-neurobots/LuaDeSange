@@ -1,0 +1,185 @@
+/* Expedição: palco do beat 'em up automático, HUD, WARNING de chefe e resultado. */
+/* tela cheia imersiva: o palco cobre a viewport e tudo flutua por cima */
+.xps { position: fixed; inset: 0; overflow: hidden; background: #000; --g: max(10px, env(safe-area-inset-left, 0px)) }
+.xps-host, .xp, .xp-stage { position: absolute; inset: 0 }
+.xp { overflow: hidden; background: #000 }
+.xp-view { position: absolute; left: 50%; top: 50%; width: max(100vw, calc(100vh * 16 / 9)); aspect-ratio: 384 / 216; transform: translate(-50%, -50%) }
+.xp-view canvas { width: 100%; height: 100% }
+.xps-top { position: absolute; top: var(--g); left: 50%; transform: translateX(-50%); z-index: 6; display: flex; gap: 10px; align-items: center;
+  background: rgba(10, 5, 20, .78); backdrop-filter: blur(3px); border: 2px solid #000; border-radius: 10px; padding: 5px 8px }
+.xps-title { font-family: var(--f-display); font-size: 16px; line-height: 1.05; text-shadow: 2px 2px 0 #000; white-space: nowrap }
+.xps-title small { display: block; font-family: var(--f-pix); font-size: 10px; color: var(--blood); letter-spacing: .12em; text-transform: uppercase; text-shadow: none }
+.xps-ctl { display: flex; flex-wrap: nowrap; gap: 6px; align-items: center }
+.seg { display: flex; flex-wrap: wrap; gap: 4px }
+.seg button { font-size: 12px; padding: 4px 8px; border-radius: 5px; border: 2px solid var(--line); background: var(--panel2); color: var(--ink) }
+.seg button[aria-pressed="true"] { background: var(--moon); color: #1a0d00; border-color: #000; box-shadow: 2px 2px 0 #000 }
+.xp-stage { overflow: hidden }
+.xp-fx { position: absolute; inset: 0; pointer-events: none }
+.xp-hud { position: absolute; inset: var(--g) var(--g) auto var(--g); z-index: 5; display: flex; justify-content: space-between; gap: 10px; pointer-events: none; flex-wrap: wrap }
+.xp-team { display: flex; gap: 8px; flex-wrap: wrap }
+.xp-card, .xp-wave { background: rgba(10, 5, 20, .85); border: 2px solid #000; border-radius: 6px; padding: 4px 8px; font-family: var(--f-pix); font-size: 12px; color: var(--muted); min-width: 150px }
+.xp-card b, .xp-wave b { color: var(--ink); letter-spacing: .04em }
+.xp-wave { text-align: right; display: grid }
+/* relógio do mundo: hora · período · clima e a contagem da Lua de Sangue (pulsa durante a janela) */
+.xp-clock { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; margin-left: auto; font-family: var(--f-pix); font-size: 12px }
+.xp-clock span { background: rgba(10, 5, 20, .85); border: 2px solid #000; border-radius: 6px; padding: 2px 8px; color: var(--ink); white-space: nowrap }
+.xp-clock .xp-lua { color: var(--muted) }
+.xp-clock.warn .xp-lua { border-color: var(--blood); color: #ffb4c0; animation: xmoon 2s ease-in-out infinite }
+.xp-clock.lua .xp-lua { background: #4a0e1c; border-color: var(--blood); color: #fff; animation: xmoon 1s ease-in-out infinite }
+@keyframes xmoon { 50% { box-shadow: 0 0 0 3px rgba(255, 46, 77, .45); background: #6a1228 } }
+.bar { height: 7px; background: #2a1b46; border: 1px solid #000; margin-top: 3px; position: relative; overflow: hidden }
+.bar i { position: absolute; inset: 0 auto 0 0; display: block; transition: width .15s }
+.hp i { background: linear-gradient(#8bff6a, #2fb04a) }
+.sp i { background: linear-gradient(#7ae0ff, #2a8ad8) }
+.sp.full i { background: linear-gradient(#fff2a0, #ffb020); animation: xpulse .4s steps(2) infinite }
+@keyframes xpulse { 50% { filter: brightness(1.4) } }
+
+.xp-bossbar { position: absolute; z-index: 5; left: 50%; top: 74px; transform: translateX(-50%); width: min(70%, 520px); display: none; pointer-events: none; font-family: var(--f-pix); font-size: 12px; color: #fff; text-align: center; text-shadow: 1px 1px 0 #000 }
+.xp-bossbar.on { display: block }
+.xp-bossbar .bar { height: 10px; border: 2px solid #000; background: #2a0c18 }
+.xp-bossbar .bar i { background: linear-gradient(#ff6a5a, #c8323a) }
+.xp-bossbar.furia .bar i { background: linear-gradient(#ffd23f, #ff2e4d); animation: xpulse .3s steps(2) infinite }
+
+.xp-banner { position: absolute; left: 50%; top: 40%; transform: translate(-50%, -50%); font-family: var(--f-display); font-size: clamp(20px, 5vw, 52px); color: var(--moon); text-shadow: 3px 3px 0 #000; -webkit-text-stroke: 1.5px #000; pointer-events: none; display: none; white-space: nowrap }
+.xp-banner.on { display: block; animation: xpop .35s ease-out }
+.xp-banner.go { left: auto; right: 18px; transform: translateY(-50%); animation: xblink .4s steps(1) infinite }
+.xp-banner.fail, .xp-banner.furia { color: var(--blood) }
+@keyframes xblink { 50% { opacity: 0 } }
+@keyframes xpop { from { transform: translate(-50%, -50%) scale(1.6); opacity: 0 } }
+
+/* WARNING clássico de chefe: faixas zebradas, texto piscando, sirene */
+.xp-warning { position: absolute; inset: 0; display: none; place-content: center; justify-items: center; gap: 4px; pointer-events: none; background: radial-gradient(ellipse at center, rgba(120, 0, 10, .55), rgba(0, 0, 0, .25) 70%) }
+.xp-warning.on { display: grid; animation: xwin 3.1s linear forwards }
+.xp-stripes { width: 140%; height: clamp(10px, 2.4vw, 22px); background: repeating-linear-gradient(-45deg, #ffd23f 0 14px, #000 14px 28px); animation: xslide .6s linear infinite; box-shadow: 0 0 0 3px #000 }
+.xp-stripes.b { animation-direction: reverse }
+.xp-wtitle { font-family: var(--f-display); font-size: clamp(34px, 10vw, 110px); line-height: 1; color: #ff2e4d; -webkit-text-stroke: 2px #000; text-shadow: 4px 4px 0 #000, 0 0 24px rgba(255, 46, 77, .9); letter-spacing: .08em; animation: xblink .32s steps(1) infinite; margin: 6px 0 }
+.xp-wsub { font-family: var(--f-pix); font-weight: 700; font-size: clamp(13px, 2.4vw, 22px); color: #fff; background: #000; padding: 2px 14px; border: 2px solid #ff2e4d; letter-spacing: .14em; text-transform: uppercase }
+@keyframes xslide { to { background-position: 40px 0 } }
+@keyframes xwin { 0% { opacity: 0; transform: scaleY(.2) } 8% { opacity: 1; transform: scaleY(1) } 88% { opacity: 1 } 100% { opacity: 0 } }
+
+.xp-ia { position: absolute; z-index: 5; left: var(--g); bottom: 64px; font-family: var(--f-pix); font-size: 12px; background: rgba(10, 5, 20, .82); border: 2px solid #000; border-radius: 5px; padding: 3px 8px; color: var(--cosmic); pointer-events: none; max-width: 70% }
+.xp-keys { position: absolute; z-index: 5; right: var(--g); bottom: 58px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 3px 8px; max-width: min(460px, 62vw); pointer-events: none; font-family: var(--f-pix); font-size: 11px; line-height: 1.35; color: var(--cosmic); background: rgba(10, 5, 20, .82); border: 2px solid #000; border-radius: 5px; padding: 4px 8px }
+.xp-keys kbd { font-family: inherit; font-size: 11px; color: var(--ink); background: #2a1b46; border: 1px solid #000; border-radius: 3px; padding: 0 3px }
+.xp-keys .wait { opacity: .45 }
+.xp-keys .hot { color: var(--moon) }
+.xp-keys .hot kbd { border-color: var(--moon); color: var(--moon) }
+.xp-overlay { position: absolute; inset: 0; display: none; place-items: center; background: rgba(10, 5, 20, .55) }
+.xp-overlay.on { display: grid }
+.xp-pz { background: var(--panel); border: 3px solid #000; border-radius: 10px; padding: 12px 16px; font-family: var(--f-pix); color: var(--ink); min-width: 240px; text-align: center; box-shadow: 6px 6px 0 #000 }
+.xp-pz b { color: var(--moon) }
+.xp-pz .t { font-size: 22px; color: var(--blood) }
+
+.xp-route { position: absolute; z-index: 5; left: var(--g); right: var(--g); bottom: 40px; display: flex; gap: 2px; height: 10px }
+.xp-route i { flex: 1; background: #2a1b46; border: 1px solid #000 }
+.xp-route i.done { background: #4ad86a }
+.xp-route i.now { background: var(--moon) }
+.xp-route i.mb { outline: 2px solid #ff8a2a }
+.xp-route i.b { outline: 2px solid var(--blood) }
+.xp-bag { position: absolute; z-index: 5; left: var(--g); right: 110px; bottom: max(10px, env(safe-area-inset-bottom, 0px)); display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 3px 10px; font-family: var(--f-pix); font-size: 13px; color: var(--muted); background: rgba(10, 5, 20, .78); border: 2px solid #000; border-radius: 8px }
+.xp-bag b { color: var(--ink) }
+.xp-bag .proj { color: var(--moon) }
+
+.fx { position: absolute; pointer-events: none; font-family: var(--f-display); color: #fff; transform: translate(-50%, -50%) rotate(-8deg); text-shadow: 2px 2px 0 #000; -webkit-text-stroke: 1px #000; font-size: clamp(14px, 2.6vw, 28px); white-space: nowrap; animation: xrise .6s ease-out forwards }
+.fx.burst { background: var(--moon); color: var(--blood); padding: 2px 10px; -webkit-text-stroke: 0; text-shadow: none; clip-path: polygon(0 30%, 12% 22%, 8% 0, 28% 14%, 40% 0, 52% 16%, 70% 2%, 74% 20%, 100% 12%, 88% 40%, 100% 60%, 84% 70%, 96% 100%, 70% 84%, 56% 100%, 44% 82%, 24% 98%, 22% 76%, 0 84%, 10% 58%) }
+.fx.dmg { font-family: var(--f-pix); font-weight: 700; font-size: clamp(11px, 1.8vw, 18px); -webkit-text-stroke: 0; text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000; transform: translate(-50%, -50%) }
+.fx.dmg.big { color: var(--moon); font-size: clamp(13px, 2.2vw, 22px) }
+.fx.hurt { font-family: var(--f-pix); font-weight: 700; color: #ff6a6a; -webkit-text-stroke: 0; text-shadow: 1px 1px 0 #000; font-size: clamp(11px, 1.8vw, 18px); transform: translate(-50%, -50%) }
+.fx.bubble { background: #fff; color: #000; -webkit-text-stroke: 0; text-shadow: none; border: 3px solid #000; border-radius: 50%; padding: 4px 12px; transform: translate(-50%, -50%) rotate(4deg); font-size: clamp(11px, 2vw, 20px) }
+.fx.tag { font-family: var(--f-pix); font-size: clamp(11px, 1.7vw, 16px); background: #000; color: var(--moon); -webkit-text-stroke: 0; border: 2px solid var(--moon); border-radius: 4px; padding: 1px 7px; transform: translate(-50%, -50%); text-shadow: none }
+@keyframes xrise { 0% { margin-top: 6px; opacity: 0 } 15% { opacity: 1 } 100% { margin-top: -22px; opacity: 0 } }
+
+.xps-log { position: absolute; z-index: 6; right: var(--g); bottom: max(10px, env(safe-area-inset-bottom, 0px)); background: rgba(18, 10, 31, .9); border: 2px solid #000; border-radius: 8px; padding: 4px 10px }
+.xps-log[open] { width: min(380px, 70vw) }
+.xps-log summary { cursor: pointer }
+.xps-log ul { font-family: var(--f-pix); font-size: 12px; color: var(--muted); max-height: 34vh; overflow: auto; margin: 8px 0 0; padding: 0; list-style: none }
+.xps-log li { border-bottom: 1px solid #1e1333; padding: 1px 0 }
+
+/* resultado */
+.xr-ok { color: var(--ok); margin: 0 }
+.xr-bad { color: var(--blood); margin: 0 }
+.xr-proj { color: var(--moon); margin: 0 }
+.xr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px }
+.xr-grid p { margin: 2px 0 0 }
+.xr-kills { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 14px }
+.xr-loot { display: flex; flex-wrap: wrap; gap: 8px }
+.lt { background: var(--panel2); border: 2px solid var(--line); border-radius: 8px; padding: 6px 10px; font-family: var(--f-pix); font-size: 13px; display: grid; justify-items: center; min-width: 70px }
+.lt i { width: 10px; height: 10px; border: 1px solid #000; display: block }
+.lt b { font-size: 18px; color: var(--ink) }
+.xr-new { display: grid; gap: 10px }
+/* carta do recruta/pet encontrado: moldura de papel envelhecido + fundo iluminado (mesma linguagem das cartas do bestiário) */
+.xr-guy { display: flex; gap: 16px; align-items: center; background: linear-gradient(90deg, #33224f, var(--panel2) 40%); border: 2px solid var(--moon); border-radius: 12px; padding: 10px 14px 10px 10px; box-shadow: 0 4px 0 #0006 }
+.xr-new .xr-face { position: relative; flex: 0 0 auto; width: 128px; height: 128px; padding: 4px; border-radius: 12px; background: #e4d9c3; line-height: 0;
+  box-shadow: inset 0 0 0 1px rgba(42, 27, 27, .35), 0 2px 0 #0007, 0 8px 16px #0008 }
+.xr-new .xr-face::before { content: ''; position: absolute; inset: 4px; border-radius: 9px; pointer-events: none; z-index: 2; box-shadow: inset 0 0 0 1px rgba(42, 27, 27, .45), inset 0 -10px 18px rgba(20, 10, 30, .25) }
+.xr-new .xr-face canvas { width: 120px; height: 120px; image-rendering: pixelated; border-radius: 8px; display: block;
+  background: radial-gradient(circle at 50% 38%, #fff4d8 0 14%, #f0d9a6 34%, #b89a6e 72%, #7a6048); filter: drop-shadow(0 0 3px rgba(255, 236, 180, .55)) }
+.xr-new .xr-pet canvas { background: radial-gradient(circle at 50% 40%, #f4ffe2 0 14%, #cfe6a8 36%, #8aa86c 72%, #566a44) }
+.xr-new .xr-face .grade.corner { right: -9px; top: -9px; bottom: auto; z-index: 3 }
+.xr-info { min-width: 0; display: grid; gap: 2px }
+.xr-guy .xr-name { font-family: var(--f-display); font-weight: 400; font-size: 22px; line-height: 1.1; color: var(--ink); display: block }
+.xr-tipo { font-family: var(--f-pix); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; color: var(--moon) }
+.xr-sub { margin: 4px 0 0; font-size: 15px; line-height: 1.4; color: #d6cbe8 }
+.xr-sub b { color: var(--ink); font-weight: 700 }
+.xr-fim { margin: 2px 0 0; font-size: 15px; line-height: 1.4 }
+.xr-fim b { font-family: var(--f-display); font-weight: 400; font-size: 18px; color: var(--ok); margin-right: 8px }
+.xr-guy.bad .xr-fim b { color: var(--blood) }
+.xr-guy.bad .xr-face canvas { filter: saturate(.7) drop-shadow(0 0 3px rgba(255, 236, 180, .4)) }
+.xr-bonus { color: #d6cbe8 }
+@media (max-width: 520px) { .xr-new .xr-face { width: 96px; height: 96px } .xr-new .xr-face canvas { width: 88px; height: 88px } .xr-guy { gap: 12px } }
+.xr-moon { background: rgba(255, 46, 77, .15); border: 2px solid var(--blood); border-radius: 8px; padding: 8px 12px; animation: xpulse 1s steps(2) infinite }
+.xr-actions { display: flex; justify-content: flex-end }
+
+@media (max-width: 900px) {
+  .xps-top { top: auto; bottom: 62px; left: auto; right: var(--g); transform: none }
+  .xps-title { display: none }
+  .xp-ia { bottom: 112px }
+  .xp-keys { top: 8px; bottom: auto; max-width: min(280px, 70vw) }
+}
+@media (max-width: 600px) {
+  .xp-card { min-width: 0 }
+  .xp-wave { display: none }
+  .xp-bossbar { top: 64px; width: 86% }
+  .xp-bag { right: var(--g); bottom: 52px }
+  .xp-route { bottom: 88px }
+  .xps-top { bottom: 104px }
+  .xp-ia { display: none }
+}
+
+
+/* celular em pé: palco cabe na largura; HUD e controles ocupam as faixas de cima e de baixo */
+@media (orientation: portrait) {
+  .xps { background: radial-gradient(ellipse at 50% 0%, #2a1b46, #0b0614 60%) }
+  .xps.lua { background: radial-gradient(ellipse at 50% 0%, #4a0e1c, #0b0614 60%) }
+  .xp { background: transparent }
+  .xp-view { width: 100vw }
+  .xp-bossbar { top: calc(50% - 30vw - 34px) }
+}
+
+/* golpes especiais: chips de recarga no card do lutador + faixa curta quando um golpe sai */
+.xp-gs { display: flex; gap: 3px; margin-top: 3px; flex-wrap: wrap }
+.xp-gs i { --p: 0; position: relative; display: block; width: 28px; height: 28px; line-height: 0; font-style: normal }
+.xp-gs i img.ico { display: block; margin: 0; filter: saturate(.55) }
+.xp-gs i::after { content: ''; position: absolute; left: 2px; right: 2px; top: 2px; height: calc((1 - var(--p)) * (100% - 4px)); background: rgba(12, 6, 24, .62); pointer-events: none }
+.xp-gs i.ok img.ico { filter: none }
+.xp-gs i.ok::after { display: none }
+.xp-gs i.now { animation: xgs .18s steps(2) infinite }
+@keyframes xgs { 50% { filter: brightness(1.8) } }
+.xp-golpe { --gc: #ff3b55; position: absolute; z-index: 6; left: 50%; top: 18%; transform: translateX(-50%); display: none; pointer-events: none; text-align: center; font-family: var(--f-display); white-space: nowrap }
+.xp-golpe small { display: block; font-family: var(--f-pix); font-size: 11px; color: #fff; text-shadow: 1px 1px 0 #000 }
+.xp-golpe b { display: inline-block; font-size: clamp(16px, 3.4vw, 34px); color: #fff; background: #000; border: 3px solid var(--gc); box-shadow: 4px 4px 0 var(--gc); padding: 2px 14px; transform: skewX(-10deg); letter-spacing: .04em; text-shadow: 2px 2px 0 var(--gc) }
+.xp-golpe.on { display: block; animation: xgolpe 1.1s ease-out forwards }
+@keyframes xgolpe { 0% { opacity: 0; transform: translate(-50%, 0) scale(1.6) } 12% { opacity: 1; transform: translate(-50%, 0) scale(1) } 80% { opacity: 1 } 100% { opacity: 0; transform: translate(-50%, -10px) scale(1) } }
+.fx.bubble.golpe { background: #fff; color: #c8323a; font-size: clamp(12px, 2.2vw, 22px); border-width: 3px }
+
+/* tela de carregamento da expedição (pré-geração dos sprites) */
+.xp-loading { position: absolute; inset: 0; z-index: 20; display: grid; place-items: center; background: radial-gradient(ellipse at 50% 40%, #2a1240 0%, var(--night) 70%); opacity: 0; animation: xlin .25s ease-out .12s forwards; transition: opacity .35s }
+.xp-loading.off { opacity: 0 !important; animation: none; pointer-events: none }
+.xp-lbox { display: grid; gap: 8px; justify-items: center; min-width: min(360px, 80%); padding: 18px 22px; background: var(--panel); border: 3px solid #000; border-radius: 10px; box-shadow: 6px 6px 0 #000 }
+.xp-lbox small { font-family: var(--f-pix); font-size: 12px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase }
+.xp-lbox b { font-family: var(--f-display); font-weight: 400; font-size: clamp(20px, 4vw, 34px); color: var(--moon); text-shadow: 3px 3px 0 #000; -webkit-text-stroke: 1px #000 }
+.xp-lbar { width: 100%; height: 14px; background: #0b0614; border: 2px solid #000; border-radius: 4px; overflow: hidden }
+.xp-lbar i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(135deg, var(--blood) 0 8px, #c81f3c 8px 16px); transition: width .15s linear }
+.xp-lmsg { font-family: var(--f-pix); font-size: 12px; color: var(--ink) }
+@keyframes xlin { to { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .xp-loading { animation-duration: .01s } .xp-lbar i { transition: none } }
+.xps-plan { white-space: nowrap; box-shadow: 0 0 0 2px #000 }

@@ -1,0 +1,1236 @@
+ 
+ Mecânicas 
+ Lua de Sangue · mecânicas 
+ Cada aba explica uma mecânica, mostra uma demo e lista os requisitos para implementar. 
+ Visão geral 
+ Câmera 
+ Visibilidade 
+ HP 
+ Vasculhar 
+ Baús 
+ Recrutar 
+ Level Up 
+ Ataque 
+ Crítico 
+ Kill 
+ Arco 
+ Tiro 
+ Defesa 
+ Martelo 
+ Laser 
+ Kamehameha 
+ Rasengan 
+ Getsuga 
+ Chidori 
+ Diálogo 
+ Fogueira 
+ Barril 
+ Bombas 
+ Boss 
+ Boss: fases 
+ Abrigo 
+ Evolução 
+ Grupo 
+ Lua de Sangue 
+ Dia e noite 
+ Clima e estações 
+ Spawn 
+ IA inimigos 
+ Invasão 
+ Mapas 
+ O que é: o resumo de como o jogo funciona. É um idle : você monta o abrigo, escolhe para onde ir no mapa e manda o herói em expedição , no manual ou no automático . No automático ele avança sozinho de região em região até 8 horas . A cada 8 horas nasce a Lua de Sangue , que renasce bosses, mini bosses e baús no mapa todo, e o ciclo recomeça. 
+ Os 3 espaços 
+ Espaço Modo O que se faz Abas 
+ 🗺️ Mapa manual Ver as regiões descobertas, o que já foi limpo, onde tem boss, mini boss e baú, e escolher o destino da expedição Câmera, Lua de Sangue 
+ 🏕️ Abrigo sempre manual (mas produz sozinho) Construir, evoluir construções, colocar recrutas para trabalhar, montar o grupo, descansar e guardar o loot Abrigo, Evolução, Grupo 
+ 🧟 Expedição manual ou automático Lutar, vasculhar, abrir baús, recrutar, explodir barris e enfrentar mini boss e boss HP, Ataque, Vasculhar, Baús, Barril, Recrutar, Boss, Level Up 
+ Ciclo de 8 horas 
+ 🌕 
+ 🌕 
+ Lua de Sangue boss · mini boss · baús renascem 
+ Lua de Sangue o mapa "reseta" de novo 
+ 🤖 expedição automática: até 8 h 
+ 0 h 4 h 8 h 
+ região → região: mata zumbis · vasculha · abre baús com chave · recolhe loot · ganha XP 
+ zumbis comuns e contêineres pequenos voltam sozinhos; os grandes só na Lua 
+ O que renasce e quando 
+ Coisa Quando volta 
+ 🧟 Zumbis comuns Sozinhos, ao sair e voltar à região (zona de caça: 12 s depois de sair) 
+ 🗑️ Contêineres de vasculhar e 🛢️ barris Sozinhos, algum tempo depois de usados, sem depender da lua tempo: proposta 
+ 💀 Mini boss e 👹 Boss Só na Lua de Sangue (a cada 8 h) 
+ 🧰 Baús (madeira, ferro, Lua de Sangue) Só na Lua de Sangue 
+ 🗺️ Regiões descobertas, atalhos, geradores ligados, abrigo Nunca resetam 
+ Requisitos 
+ LOOP-01 Três espaços: Mapa, Abrigo e Expedição. O jogador vai do abrigo para o mapa, escolhe um destino e sai em expedição. Na volta, o loot entra no estoque. 
+ LOOP-02 O modo automático só existe na expedição. O Mapa e o Abrigo são sempre manuais, mas o abrigo produz sozinho (recrutas trabalhando, coletor, horta, obras). 
+ LOOP-03 Expedição automática: o herói avança região por região (pathfinding A*), mata zumbis, vasculha, abre baús com chave (BAU-14), recolhe o loot e ganha XP, com os 2 recrutas do grupo junto. 
+ LOOP-04 Teto de 8 h por expedição automática, contando também com o jogo fechado (o tempo fora é simulado quando o jogador volta). Ao chegar em 8 h, a expedição termina e o herói volta ao abrigo. 
+ LOOP-05 Outros fins da expedição antes das 8 h: mochila cheia ou HP baixo sem item de cura. Nos dois casos ele volta ao abrigo sozinho. proposta 
+ LOOP-06 Ciclo alinhado: a Lua de Sangue nasce a cada 8 h , o mesmo tamanho do teto da expedição. A cada ciclo, o mapa volta a ter boss, mini boss e baús para uma nova expedição. 
+ LOOP-07 Respawn em dois níveis: o pequeno (zumbis comuns, contêineres, barris) volta sozinho. O grande (boss, mini boss, baús) volta só na Lua de Sangue . 
+ LOOP-08 Resumo ao voltar: ao abrir o jogo ou terminar a expedição, aparece um resumo com tempo, regiões percorridas, zumbis mortos, loot, XP, level ups e o que ficou marcado no mapa (baús sem chave, bosses). 
+ LOOP-09 Dá para entrar no manual a qualquer momento durante a expedição automática (e voltar ao auto depois) para resolver um puzzle, enfrentar um boss ou recrutar alguém. proposta 
+ Em aberto: o modo automático enfrenta mini boss e boss sozinho, ou marca no mapa e espera você (como estão hoje CAM-10 e BOSS-13)? 
+ O que é: o golpe crítico. Às vezes o golpe sai com dano dobrado , e o jogo precisa deixar isso óbvio na hora: a arma brilha , o mundo congela com zoom no impacto, a tela pisca , um número grande salta e o zumbi é arremessado longe. O golpe normal continua com o game feel da aba Ataque. 
+ golpes 0 · críticos 0 crítico = dano ×2 · chance 10% 
+ ⚔ Atacar 
+ Golpe
+ Sempre crítico 
+ Chance de 10% 
+ Sempre normal 
+ ataque automático 
+ câmera lenta 0,25× 
+ Toque na tela ou aperte Espaço para atacar. Desligue um efeito por vez para ver o que ele acrescenta. 
+ Glow 
+ Big number 
+ Freeze 
+ Zoom 
+ Flash 
+ Launch 
+ Sequência do crítico 
+ Tempo Efeito O que acontece 
+ 0 ms ✨ Glow Herói e arma ganham brilho dourado e o arco do golpe fica dourado (some em 0,4 s) 
+ 0–50 ms ⚡ Flash Tela branca a 70% por 50 ms; o zumbi fica branco por 120 ms 
+ 0–60 ms 🔍 Zoom in A câmera dá zoom de 1,25× centrado no ponto de impacto 
+ 0–180 ms 🧊 Freeze Hit stop de 180 ms (o normal é 60 ms); o número já aparece durante o freeze 
+ 0–250 ms 💥 Big number Número 2× maior que o normal, degradê amarelo → laranja, contorno escuro e "CRÍTICO!" em cima; pop de 0 → 160% → 100% 
+ 180 ms 🚀 Launch O zumbi é arremessado em arco por ~3 tiles, girando, quica uma vez e fica atordoado; tremor de 0,25 s / 6 px e 20 partículas 
+ 180–480 ms 🔍 Zoom out A câmera volta a 1× com ease-out 
+ até 1 s 💥 Big number O número sobe 30 px e some nos últimos 0,3 s 
+ Requisitos 
+ CRT-01 Chance e dano: todo golpe do herói tem 10% de chance de ser crítico, com dano ×2. A chance é sorteada uma vez por golpe: se o golpe acertar vários zumbis, o crítico vale para todos. Bônus de pet, traço ou arma podem somar chance ou multiplicador depois. proposta 
+ CRT-02 Glow: no acerto, herói e arma ganham brilho dourado (contorno + aura) e o arco do golpe fica dourado. Some em 0,4 s. O big number também tem brilho laranja. 
+ CRT-03 Freeze: hit stop de 180 ms no crítico (60 ms no golpe normal, ATK-02). Vários acertos = 1 freeze. Durante o freeze, só o número, o flash e o zoom se mexem. 
+ CRT-04 Zoom: zoom de 1,25× centrado no ponto de impacto (média dos zumbis atingidos): entra em 60 ms, segura até o fim do freeze e volta a 1× em 0,3 s com ease-out. 
+ CRT-05 Flash: tela branca a 70% por 50 ms e zumbi branco por 120 ms (o normal é 80 ms, ATK-03). 
+ CRT-06 Big number: número de dano 2× maior que o normal, degradê amarelo → laranja, contorno escuro de 3 px e inclinação aleatória de até ±8°. Pop: 0 → 160% em 0,12 s → 100% em 0,13 s. "CRÍTICO!" pequeno em cima. Fica 1 s, sobe 30 px e some nos últimos 0,3 s. Com vários zumbis atingidos, os números se escalonam para não se sobrepor. 
+ CRT-07 Número normal: todo golpe mostra o dano em branco, tamanho 1×, subindo 40 px e sumindo em 0,6 s. 
+ CRT-08 Launch: quando o freeze termina, o zumbi é arremessado na direção do golpe em arco (sobe, gira ~2 voltas por segundo, cai com gravidade) por ~3 tiles. Quica uma vez com 40% da força e fica atordoado 0,8 s. No kill voa mais longe e some deitado. Substitui o knockback de ATK-06 no crítico. 
+ CRT-09 Arremesso bate: o zumbi arremessado que passa por outro zumbi o derruba: 5 de dano e atordoamento de 0,4 s. proposta 
+ CRT-10 Paredes: o arremesso não atravessa obstáculos; o zumbi bate, perde a velocidade e cai ali. 
+ CRT-11 Tremor e partículas: tremor de 0,25 s / 6 px (vale o mais forte, ATK-07) e 20 partículas, metade douradas e metade respingos. 
+ CRT-12 Som: impacto mais grave que o normal + um "ting" metálico agudo. O tom do crítico não varia, para ficar reconhecível. 
+ CRT-13 Boss, mini boss e Blindado de frente: o crítico mostra glow, número, flash e freeze, mas sem launch (só knockback de 6 px) e com zoom de 1,1×. proposta 
+ CRT-14 Modo Auto: sem zoom e com freeze de 100 ms, para não cansar em expedições longas. proposta 
+ CRT-15 Acessibilidade: "reduzir flashes" (EXP-12) troca o flash por um brilho suave; zoom e tremor podem ser desligados nas opções (ATK-10). 
+ O que é: o que acontece quando um inimigo morre , valendo para qualquer arma. O golpe final dá um flash e congela um instante; o corpo é arremessado girando; no ar ele incha e estoura (pop) em pedaços com uma lufada; quando várias mortes acontecem juntas, ou a última da onda, entra a câmera lenta ; e no chão fica uma marca de sangue que seca com o tempo. Matar precisa ser a melhor sensação do jogo. 
+ ⚪ Hit flash 
+ 🚀 Launch 
+ 💥 Pop 
+ 🐌 Slow motion 
+ 🩸 Leave a mark 
+ ⚔ Atacar 
+ 🌀 Giro (pega vários) 
+ 🧟 Nova onda 
+ Limpar chão 
+ 🐢 Câmera lenta 
+ Toque na tela para atacar naquela direção. Espaço / E ataca, Q faz o giro e WASD anda. Use o giro no meio do grupo para ver o multi-kill. Aqui os zumbis morrem com 1 golpe para focar só na morte. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Câmera lenta: quando entra 
+ Situação Câmera lenta Extra 
+ 1 morte não só hit stop de 60 ms 
+ 2 mortes no mesmo golpe 0,5× por 0,15 s - 
+ 3+ mortes em 0,5 s 0,25× por 0,4 s "TRIPLO!", "QUÁDRUPLO!", "MASSACRE!" + arpejo 
+ Última da onda 0,2× por 0,7 s zoom 1,3×, faixas de cinema, "ONDA LIMPA!", grave 
+ Golpe final de boss 0,15× por 1,2 s ver BF-11 
+ Requisitos 
+ KIL-01 Hit flash: o golpe que mata pinta o corpo de branco por 100 ms e congela o jogo por 60 ms (maior que o hit stop de um golpe comum, ATK-02). Vários kills no mesmo golpe = 1 freeze. 
+ KIL-02 Launch: o corpo vira um objeto físico (não é mais inimigo, não colide nem dá dano) e é arremessado na direção do golpe a 200–280 px/s, subindo (z) e girando 10–16 rad/s. 
+ KIL-03 Pop: aos 0,32 s de voo, o corpo incha 35% e fica branco por 80 ms (antecipação) e então estoura: lufada branca com anel, 14 pedaços com contorno que quicam e somem, e um "pop" cujo tom sobe a cada kill do mesmo golpe (dá ritmo ao multi-kill). 
+ KIL-04 Slow motion: só em momentos especiais (tabela acima). Durante ela, a tela escurece 18% e ganha faixas pretas em cima e embaixo. Nunca em toda morte, para não perder o valor. 
+ KIL-05 Leave a mark: no ponto do estouro fica uma poça com respingos na direção do golpe (às vezes com um osso). Ela "cresce" em 0,15 s, seca e escurece em 20 s e fica até a próxima Lua de Sangue (máx. 60 por região; as mais antigas somem). proposta 
+ KIL-06 Por arma: espada = launch + pop; flecha = sem pop (cai com a flecha cravada, ARC-09); tiro = launch curto + poça (TIR-07); explosão = arremesso alto e carbonizado (BMB-09); laser = carbonizado e fumaça (LSR-05). 
+ KIL-07 Drops: o loot do zumbi (XP, materiais, chaves) sai do ponto do pop, voando um pouco e sendo atraído para o herói. proposta fora da demo 
+ KIL-08 Modo Auto: mantém flash, launch, pop e marca, mas a câmera lenta só toca na última da onda, para não arrastar expedições de horas. proposta 
+ KIL-09 Opções: "violência reduzida" troca o sangue e os pedaços por fumaça e moedinhas; a marca vira só uma sombra. proposta fora da demo 
+ Tempos iniciais, para ajustar no playtest. 
+ O que é: o ataque à distância. O herói puxa a corda segurando o botão (draw it back): quanto mais tempo segura, mais longe e mais forte vai a flecha. Ao soltar, a corda estala (snap release) e a flecha voa em arco com rastro . Quando acerta, entra com um thunk seco e fica cravada tremendo (let it quiver). As flechas que caem no chão, no alvo ou no toco podem ser recolhidas andando por cima delas. 
+ 🏹 Draw it back 
+ 💥 Snap release 
+ 〰️ Arc + trail 
+ 🎯 Thunk 
+ 〽️ Let it quiver 
+ 🏹 Segurar e soltar 
+ Encher aljava 
+ 🧟 +3 zumbis 
+ 🐢 Câmera lenta 
+ Toque e segure na tela para puxar, arraste para mirar e solte para atirar. No teclado, segure Espaço ou E (mira no zumbi mais perto) e ande com WASD . Solte quando o anel ficar dourado para o tiro perfeito. Se segurar demais, o braço cansa e a mira treme. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Sequência do tiro 
+ Fase Tempo O que acontece 
+ 🏹 Draw it back 0–0,8 s Corda puxa com ease-out, o arco enverga, o herói inclina para trás e anda mais devagar. A trajetória prevista aparece e cresce. Toca um rangido que vai subindo. 
+ ✨ Carga cheia 0,8–1,15 s "Ding", brilho na ponta da flecha e anel dourado: é a janela do tiro perfeito (dano ×2) 
+ 😣 Cansaço > 1,15 s Anel vermelho e o arco treme; a flecha sai com desvio que cresce com o tempo 
+ 💥 Snap release 0–0,35 s A corda estala e vibra, o arco recua 4 px, o herói recua 2–4 px, a tela dá um tranco contrário ao tiro e toca um "twang" 
+ 〰️ Arc + trail voo A flecha sobe e desce (altura separada do chão, com sombra), gira acompanhando a curva e deixa um rastro que some (dourado no tiro perfeito) 
+ 🎯 Thunk impacto Hit stop de 50 ms (90 ms no perfeito), zumbi pisca branco e é empurrado, lascas ou sangue, som seco e grave e número de dano 
+ 〽️ Let it quiver 0–0,6 s A flecha cravada vibra e vai parando; o alvo balança. Um "boing" grave acompanha. 
+ Requisitos 
+ ARC-01 Draw it back: segurar o botão puxa a corda por até 0,8 s . A carga (0–100%) define o alcance (3 → 13 tiles), a velocidade (230 → 560 px/s) e o dano (6 → 20). Soltar com menos de 8% cancela sem gastar flecha. 
+ ARC-02 Leitura da carga: a corda recua até 11 px (ease-out), o arco enverga, o herói inclina para trás, um anel em cima da cabeça enche e um rangido sobe de tom. Puxando, o herói anda a ~40% da velocidade e vira para a mira. 
+ ARC-03 Mira: no toque, a mira segue o dedo; no teclado ou no modo Auto, mira no zumbi mais perto (ou à frente, se não houver). Uma linha pontilhada mostra o arco previsto e um anel marca onde a flecha cai. 
+ ARC-04 Tiro perfeito: carga cheia dá "ding" + brilho. Soltar nos 0,35 s seguintes = tiro perfeito, com dano ×2, rastro dourado e hit stop maior. Depois disso o braço cansa: a mira treme e a flecha ganha desvio de até ±0,25 rad. proposta 
+ ARC-05 Snap release: no disparo, a corda vibra (5 px, decaindo em 0,35 s), o arco recua 4 px por 0,12 s, o herói é empurrado 2–4 px para trás e a tela dá um tranco de 1–3 px por 70 ms no sentido contrário ao tiro. Som "twang", mais agudo quanto maior a carga. 
+ ARC-06 Arc + trail: a flecha tem altura (z) separada da posição no chão, com gravidade e sombra no chão. O sprite gira seguindo a velocidade na tela, e o voo foi calculado para cair exatamente no ponto mirado (até o alcance máximo). O rastro tem os últimos 14 pontos, afinando e sumindo. 
+ ARC-07 Colisão: acerta o zumbi se passar pela hitbox dele a menos de 28 px de altura. Alvos e tocos têm altura própria. Com altura maior, a flecha passa por cima. Ao tocar o chão, crava ali. 
+ ARC-08 Thunk: hit stop de 50 ms (90 ms no perfeito), flash branco de 90 ms, empurrão de 6–18 px na direção da flecha, 8 partículas e número de dano. Som seco: grave curto + ruído abafado, com um "ting" no perfeito. No alvo, acertar no centro mostra "NA MOSCA!". 
+ ARC-09 Let it quiver: a flecha cravada vibra ±(0,18 a 0,43) rad com decaimento exponencial (≈ 0,6 s), com amplitude maior quanto mais forte o tiro. Alvos de madeira balançam junto. Flecha no zumbi acompanha o corpo e cai no chão quando ele morre. 
+ ARC-10 Aljava: 10 flechas, mostradas no HUD. Sem flecha, o botão dá um clique seco e "aljava vazia". Flechas no chão, no alvo ou no toco ficam 40 s e voltam para a aljava (+1) quando o herói passa perto. Flecha que sai da tela se perde. proposta 
+ ARC-11 Relação com o corpo a corpo: o arco é uma arma secundária: a flecha mata o zumbi comum em 2–5 tiros, contra 2 golpes da espada (ATK). Serve para pegar de longe, acionar barris (EXP-02) e acertar alvos de puzzle. proposta fora da demo 
+ ARC-12 Modo Auto: usa o arco quando o alvo está a mais de 4 tiles e há flechas. Puxa até a carga cheia e solta na janela do tiro perfeito em ~60% das vezes. Recolhe flechas no caminho. proposta fora da demo 
+ ARC-13 Recrutas arqueiros: recrutas com especialidade "proteção" podem usar arco nas defesas do abrigo (INV), com o mesmo game feel em escala menor. proposta fora da demo 
+ Tempos e valores iniciais, para ajustar no playtest. 
+ O que é: armas de fogo, como pistola, escopeta e fuzil. Um tiro "gostoso" junta 7 coisas: o disparo (clarão na boca do cano + fumaça), o projétil (traçante esticado, rápido demais para ver inteiro), o impacto (flash, sangue na direção do tiro, micro hit stop), o recuo (arma volta, herói e câmera são empurrados, a mira abre), as partículas e cápsulas (cápsula ejetada que quica e fica no chão), o som em camadas e o kill . Desligue cada um para sentir a diferença. 
+ 💥 The shot 
+ ➖ Bullet 
+ 🎯 The hit 
+ ↩️ Recoil 
+ 🥫 Particles + shell 
+ 🔊 Sound 
+ ☠️ The kill 
+ 🔫 Atirar 
+ Arma Pistola Escopeta Fuzil (automático) 
+ Recarregar 
+ 🧟 +4 zumbis 
+ Limpar chão 
+ 🐢 Câmera lenta 
+ Toque na tela para atirar onde tocou (no fuzil, segure). No mouse, a mira segue o cursor. Espaço / E atira com mira automática no zumbi mais perto, R recarrega e WASD anda. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Armas 
+ Arma Pente Cadência Dano Recuo Recarga 
+ Pistola 12 0,22 s 12 3 px · tremor 2 1,0 s 
+ Escopeta 6 0,70 s 9 × 6 balins 8 px · tremor 5 1,6 s 
+ Fuzil 30 0,09 s (auto) 8 2 px · tremor 1,5 + mira sobe 1,4 s 
+ Zumbi comum: 36 de vida (3 tiros de pistola ou 1 de escopeta de perto). 
+ Requisitos 
+ TIR-01 The shot: clarão na boca do cano por 50 ms (núcleo branco + coroa laranja + brilho, 1,6× na escopeta), desenhado em modo aditivo, com 3 fiapos de fumaça que sobem e somem em ~0,8 s. 
+ TIR-02 Bullet: o projétil é rápido (800–1100 px/s) e desenhado como um traço esticado na direção do voo (até 26 px), com núcleo claro e halo, nunca como um ponto. A colisão é testada em sub-passos para não atravessar zumbis. 
+ TIR-03 The hit: flash branco de 60 ms, hit stop de 25 ms, empurrão de ~10 px, 6 gotas de sangue na direção do tiro e 2 lascas de volta, e número de dano. Tiro que acerta parede deixa um buraco e solta pó. 
+ TIR-04 Recoil: a arma volta 40% do comprimento e retorna em ~0,1 s; o herói recua metade do coice; a câmera dá um tranco no sentido contrário (amortece em ~0,15 s) mais um tremor curto. A mira abre a cada tiro (bloom) e fecha quando você para. No fuzil, a mira sobe 2–4 px por tiro. 
+ TIR-05 Particles + shell: cada tiro ejeta uma cápsula para o lado da arma, girando, que quica 3 vezes (45%) com um "tlim" e fica no chão (máx. 80; as mais antigas somem). Cápsula da escopeta é vermelha e maior. 
+ TIR-06 Sound: o disparo tem 4 camadas: estalo agudo de 15 ms, corpo de ruído, soco grave e cauda/eco, com tom variando ±8% a cada tiro. A escopeta é mais grave e longa. Clique seco com o pente vazio, sons de recarga (soltar, encaixar) e "tlim" das cápsulas. 
+ TIR-07 The kill: hit stop maior (70 ms), câmera lenta 0,35× por 0,18 s, "✖" vermelho, o corpo é arremessado girando na direção do tiro e cai deitado, e uma poça de sangue fica no chão. Som de confirmação (grave + dois "tins"). 
+ TIR-08 Munição: pente mostrado no HUD; recarga automática ao esvaziar ou com R/botão, com barra de progresso. Munição extra é loot (vasculhar/baú), separada por tipo de arma. proposta 
+ TIR-09 Barulho atrai: cada tiro faz barulho num raio (pistola 6, fuzil 8, escopeta 10 tiles) e acorda/atrai zumbis da região. É o custo da arma de fogo frente ao arco e à espada. proposta fora da demo 
+ TIR-10 Modo Auto: usa arma de fogo só contra mini boss/boss ou hordas (5+ zumbis), para economizar munição e não fazer barulho à toa. proposta fora da demo 
+ Valores iniciais, para ajustar no playtest. 
+ O que é: o escudo. Segurar o botão levanta o escudo num estalo (snap it up). Um golpe defendido solta faíscas e empurra o herói, que desliza para trás levantando poeira. Se o escudo subir bem na hora do golpe (até 0,15 s antes), é um parry perfeito : câmera lenta, faíscas douradas, e o inimigo fica atordoado (stagger) , aberto para um contra-ataque. Cuspe ácido devolvido com parry volta para quem cuspiu. 
+ 🛡️ Snap it up 
+ ✨ Sparks 
+ 💨 Slide back 
+ ⭐ Perfect parry 
+ 😵 Stagger 
+ 🛡 Defender (segure) 
+ ⚔ Atacar 
+ Ritmo calmo normal rápido 
+ 🐢 Câmera lenta 
+ Resetar 
+ Segure a tela (ou Espaço / E ) para defender; F ou o botão ataca. O ! amarelo é golpe normal e o ! vermelho é golpe pesado (gasta mais guarda). Levante o escudo logo antes do golpe. Depois do parry, ataque enquanto as estrelas giram. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Defender, defender bem e parry 
+ Situação Resultado 
+ Sem escudo Leva o dano (14 normal / 22 pesado) e é empurrado 
+ Escudo erguido Sem dano. Faíscas laranja, "clang", desliza 10–20 px, gasta 20 (pesado 40) de guarda 
+ Escudo erguido há ≤ 0,15 s Parry perfeito: freeze 120 ms + câmera lenta 0,3×, anel e faíscas douradas, "PERFEITO!", +10 de guarda, inimigo atordoado 1,4 s 
+ Guarda chega a 0 Guarda quebrada: o escudo cai e o herói fica tonto 1,1 s sem poder defender 
+ Ataque no atordoado Contra-ataque: 40 de dano (10× o normal), freeze 160 ms, tremor e empurrão 
+ Requisitos 
+ DEF-01 Snap it up: o escudo sobe em 60 ms com overshoot (passa um pouco e volta) e um squash rápido, com som curto de couro/metal. Com o escudo erguido, o herói anda a ~40% da velocidade e não ataca. 
+ DEF-02 Bloqueio: defende golpes que vêm pela frente . O dano vai a zero, mas consome a guarda (barra azul): 20 no golpe normal e 40 no pesado. A guarda recarrega 30/s depois de 0,6 s com o escudo abaixado. 
+ DEF-03 Sparks: no bloqueio, 8 faíscas (14 no pesado) saem do escudo na direção contrária ao golpe, como riscos em modo aditivo que caem com gravidade. Som metálico "clang" com tom variando. Hit stop de 50 ms. 
+ DEF-04 Slide back: o golpe empurra o herói para trás (180 px/s normal, 300 px/s pesado), freando de forma exponencial, com poeira saindo dos pés durante o deslize. Tremor de 2 px (4 px no pesado). 
+ DEF-05 Perfect parry: se o golpe chega até 0,15 s depois do escudo subir: freeze 120 ms, câmera lenta 0,3× por 0,45 s com leve tom dourado, flash, anel que expande, 22 faíscas douradas, som agudo "tiiing" + grave e "PERFEITO!". Recupera 10 de guarda e não consome nada. Durante a janela, o escudo brilha. 
+ DEF-06 Anti-spam: se o escudo foi abaixado há menos de 0,3 s, a nova subida não tem janela de perfeito (aviso no HUD). Ficar batendo o botão não funciona; precisa ler o golpe. 
+ DEF-07 Stagger: o inimigo que sofre parry é empurrado, balança tonto com estrelas por 1,4 s e não ataca. Um ataque nesse tempo é um contra-ataque (×10, freeze 160 ms, partículas douradas) e encerra o stagger. 
+ DEF-08 Projéteis: cuspe/flecha inimiga também pode ser defendido. Com parry perfeito, o projétil é refletido de volta para o atirador com o dobro da velocidade. 
+ DEF-09 Guarda quebrada: com a guarda em 0, o escudo cai, o herói fica tonto 1,1 s e não pode defender (som de quebra + "GUARDA QUEBRADA"). 
+ DEF-10 Telegrafia inimiga: todo golpe defensável tem aviso: "!" amarelo (normal, 0,6 s) ou "!" vermelho com aura (pesado, 0,85 s), mais a clava indo para trás. Golpes impossíveis de defender (agarrão) usam outra cor (roxo). proposta 
+ DEF-11 Boss: o parry no boss não dá stagger completo: só um "tranco" de 0,4 s e 50% de chance de abrir contra-ataque. Na fúria, não há stagger. proposta fora da demo 
+ DEF-12 Modo Auto: defende golpes pesados (bloqueio normal) e acerta parry perfeito em ~25% das vezes. Jogar no manual rende mais. proposta fora da demo 
+ Janela e valores iniciais, para ajustar no playtest. 
+ O que é: uma arma pesada (martelo/marreta). O peso é vendido pelo tempo . Primeiro vem o windup : o herói ergue o martelo atrás da cabeça, agacha e fica parado (segurar carrega mais). Depois o martelo desce rápido e, no impacto, o jogo congela mais tempo que um golpe comum, a tela treme na vertical e sai uma onda de choque no chão que empurra todo mundo em volta, levanta destroços e racha o chão. Por fim vem a recuperação : o martelo fica preso no chão por meio segundo e o herói fica vulnerável. É esse risco que paga o dano. 
+ ⏫ Windup 
+ 🧊 Freeze 
+ 📳 Shake 
+ 🌀 Shockwave 
+ ⏳ Recovery 
+ 🔨 Martelada (segure p/ carregar) 
+ 🧟 +4 zumbis 
+ Resetar 
+ 🐢 Câmera lenta 
+ Toque na tela (ou Espaço / E ) para golpear na direção do toque. Segure para carregar até 1 s: a área cresce e a cabeça do martelo brilha. Durante a recuperação, a barra fica azul quando já dá para cancelar com outro toque. WASD anda (só fora do golpe). 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Linha do tempo da martelada 
+ Fase Tempo O que acontece 
+ ⏫ Windup 0,45 s (+ até 1 s carregando) Martelo sobe com ease-out até atrás da cabeça, o herói agacha (squash 112% × 88%), som de esforço. Não anda nem vira. Um anel pontilhado mostra a área. Carga cheia: brilho + "ting" 
+ ⬇️ Descida 0,07 s Muito rápida (o contraste com o windup é o que dá peso), stretch vertical, "vuush" 
+ 🧊 Freeze 110–180 ms Hit stop longo + flash branco; zumbis atingidos ficam brancos 
+ 📳 Shake 0,35–0,5 s Tremor mais vertical que horizontal (o peso cai), 5–10 px conforme a carga 
+ 🌀 Shockwave 0,5 s 2 anéis no chão, 16–26 destroços, poeira e rachadura que fica 20 s. Empurra e joga para cima quem estiver no raio 
+ ⏳ Recovery 0,55 s Martelo preso no chão, herói curvado. Cancelável depois de 0,3 s 
+ Requisitos 
+ HAM-01 Windup (0,45 s): o martelo gira de baixo até atrás da cabeça com ease-out cúbico, o herói agacha (squash) e fica parado e travado na direção . Som de esforço/rangido. Um anel pontilhado no chão mostra onde e quanto o golpe vai pegar. Telegrafa o golpe também para os inimigos (IA). 
+ HAM-02 Carregar: segurar depois do windup carrega até 1 s (o martelo treme de leve). A carga aumenta o raio (48 → 92 px), o dano (30 → 60), o freeze e o tremor. Na carga cheia, a cabeça do martelo brilha e toca um "ting"; o golpe solta sozinho 0,4 s depois. 
+ HAM-03 Descida: 70 ms, com stretch vertical. O contraste entre o windup lento e a descida rápida é o que vende o peso. 
+ HAM-04 Freeze: hit stop de 110 ms (até 180 ms carregado), com flash branco a 55% e os zumbis atingidos pintados de branco. É o dobro do golpe comum (ATK-02). 
+ HAM-05 Shake: tremor de 0,35–0,5 s e 5–10 px, predominantemente vertical (senoide em y, ruído menor em x), decaindo. Diferente do tremor genérico das outras armas. 
+ HAM-06 Shockwave: 2 anéis em elipse (o segundo menor e 60 ms atrasado), 16–26 destroços com sombra que quicam, 8 nuvens de poeira e uma rachadura no chão que fica 20 s. Atinge todos no raio (área, não arco), empurra para longe do centro com força maior perto do centro e dá um "pulinho" (z) nos sobreviventes. Atordoa 0,8 s. Quebra caixas. 
+ HAM-07 Recovery (0,55 s): o martelo fica cravado no chão e o herói, curvado, não anda nem defende. Uma barra sobre a cabeça mostra o tempo; a partir de 0,3 s fica azul e outro toque cancela (sai mais rápido, mas sem golpe extra). É a janela de punição para os inimigos. 
+ HAM-08 Equilíbrio: DPS parecido com a espada, mas em área e com controle de multidão, pagando com tempo travado (windup + recovery ≈ 1 s por golpe). Ideal para hordas e para quebrar estruturas (barricadas, paredes rachadas: BMB-10). proposta 
+ HAM-09 Boss: no boss, o shockwave não empurra; acertar a martelada carregada durante o "exausto" (BF-08) dá crítico garantido. proposta fora da demo 
+ HAM-10 Modo Auto: usa a martelada sem carregar quando há 3+ zumbis perto, e carregada só em zumbi atordoado ou exausto. proposta fora da demo 
+ Tempos e valores iniciais, para ajustar no playtest. 
+ O que é: uma arma de laser (rara, item de fim de jogo). Segurar carrega : energia é sugada para o cano, o zumbido sobe de tom e o herói treme. Ao soltar, sai um feixe grosso que atravessa todos os zumbis na linha, pulsando de largura, e que você pode arrastar devagar. O chão fica com uma marca queimada que começa em brasa e vira fuligem. A tela treme forte no disparo e de leve enquanto o feixe dura. No fim, o feixe afina e some (fade out), e a arma solta vapor esfriando. 
+ 🔋 Charge up 
+ ⚡ Thick beam 
+ 🔥 Burn mark 
+ 📳 Screen shake 
+ 🌫️ Fade out 
+ ⚡ Carregar e soltar 
+ 🧟 +5 zumbis 
+ Limpar chão 
+ 🐢 Câmera lenta 
+ Segure na tela para carregar, solte para disparar e arraste para varrer o feixe (ele gira devagar). Espaço / E mira no zumbi mais perto. Precisa de pelo menos 0,3 s de carga (a marca branca na barra). 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Requisitos 
+ LSR-01 Charge up (0,3–1,2 s): partículas ciano são sugadas para a boca do cano, um brilho cresce ali, um zumbido (serra + quadrada filtrada) sobe de 80 para 340 Hz, abrindo o filtro, e o herói treme até 1,2 px. Aparece uma mira pontilhada fina mostrando a linha. Na carga cheia, "ding" e o brilho pulsa. Carregando, o herói anda a 35% da velocidade. 
+ LSR-02 Carga mínima e escala: soltar antes de 0,3 s cancela. A carga define a largura (×0,6 → ×1,2), o dano (36 → 72 por segundo) e a duração do feixe (0,45 → 1,3 s). 
+ LSR-03 Thick beam: 3 camadas aditivas (halo azul 2,2×, corpo ciano e núcleo branco 0,4×) com pontas arredondadas e brilho na origem e no fim. Abre com overshoot (140% em 60 ms) e a largura pulsa ±12%. Atravessa todos os zumbis e para nas paredes. 
+ LSR-04 Controle: durante o feixe, o herói fica parado e é empurrado de leve para trás (12 px/s), e a mira gira no máximo 1,4 rad/s, então dá para "varrer" uma fila. Zumbis atingidos ficam lentos, brilham e soltam faíscas. 
+ LSR-05 Burn mark: o feixe deixa uma trilha de marcas no chão e uma marca maior no ponto final. Cada marca nasce em brasa (laranja) e esfria até virar fuligem em 1,2 s, depois esmaece até 35% em 40 s. Zumbis mortos pelo laser ficam carbonizados e soltam fumaça. 
+ LSR-06 Screen shake: no disparo, tremor forte de 5 px por 0,1 s; durante o feixe, um tremor contínuo baixo de 1,5–3 px conforme a carga. Flash ciano rápido no disparo. 
+ LSR-07 Fade out (0,35 s): a largura cai com ease-in quadrático até virar um fio e sumir; o som desce e silencia. A arma fica vermelha e solta vapor, e há um tempo de resfriamento (~1,1 s, barra no HUD) antes de poder carregar de novo. 
+ LSR-08 Energia: cada disparo gasta 1 célula de energia (loot raro / gerador do abrigo). É uma arma de impacto para hordas e bosses, não de uso contínuo. proposta fora da demo 
+ LSR-09 Acessibilidade: "reduzir flashes" tira o flash e baixa o brilho do núcleo; o tremor segue a opção geral (ATK-10). 
+ Valores iniciais, para ajustar no playtest. 
+ O que é: o golpe especial de energia. Segurar carrega uma esfera entre as mãos: o chão racha, poeira e energia são sugadas e o herói treme. Ao soltar, a onda sai em camadas (aura, corpo, núcleo branco, espirais e raios), o herói sofre recuo e desliza para trás, e no ponto de impacto abre uma cúpula de energia que machuca tudo ao redor. Quando o golpe acaba, a energia persiste (rastro brilhante, brasas, cratera quente). Se continuar segurando além da carga cheia entra em sobrecarga : golpe muito maior, mas instável e com custo. 
+ 🔋 Charge 
+ 🌀 Layers 
+ 💨 Recoil 
+ 🔵 Dome 
+ ✨ Linger 
+ ☢️ Overcharge 
+ 🔵 Carregar e soltar 
+ 🧟 +5 zumbis 
+ Limpar chão 
+ 🐢 Câmera lenta 
+ Segure na tela para carregar, solte para disparar e arraste para mirar (a onda gira devagar). Espaço / E mira no zumbi mais perto. Marcas na barra: mínimo (0,4 s), carga cheia (1,5 s) e limite da sobrecarga (3,2 s, dispara sozinho). 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Requisitos 
+ KMH-01 Charge (0,4–1,5 s): esfera azul cresce entre as mãos (raio 3 → 18 px), partículas ciano e poeira do chão são sugadas para ela, um anel de poeira se expande no chão e o piso ganha um brilho elíptico. Zumbido sobe de 70 para 420 Hz com filtro abrindo. Herói treme até 1,5 px e anda a 30% da velocidade. Mira pontilhada fina mostra a linha. Na carga cheia: "ding" e a esfera pulsa. Soltar antes de 0,4 s cancela. 
+ KMH-02 Layers: a onda tem 4 camadas aditivas (aura azul 2,6×, corpo azul-claro 1,6×, miolo ciano 1× e núcleo branco 0,45×), pontas arredondadas, além de espirais de luz girando ao longo do feixe e raios finos em zigue-zague. A ponta viaja a ~1100 px/s (a onda "sai" da mão), abre com overshoot e pulsa ±10%. Atravessa todos os zumbis e para nas paredes. Desligado: uma linha ciano simples. 
+ KMH-03 Recoil: no disparo o herói é arremessado para trás (260–420 px/s) e desliza com atrito, soltando poeira nos pés, e continua sendo empurrado de leve enquanto a onda dura (90 px/s²). A câmera dá um coice de 8 px na direção oposta e treme forte por 0,12 s, depois baixo e contínuo. O herói fica parado durante a onda. Para na parede com um puff de poeira. 
+ KMH-04 Dome: quando a ponta chega ao alvo (parede ou borda), abre uma cúpula de energia: meia esfera com raio de 40 a 100 px conforme a carga, crescendo em 0,25 s com overshoot, anel de choque no chão e flash. Dentro dela, zumbis levam 45 de dano no estouro, são empurrados para fora e levam 25 de dano por segundo enquanto a onda durar. A cúpula pulsa e, quando a onda acaba, colapsa em 0,6 s. 
+ KMH-05 Linger: a energia não some de uma vez. A onda deixa um fantasma brilhante que esmaece em 1,3 s, brasas azuis flutuam por 2–3 s ao longo do trajeto, o chão fica com uma trilha queimada e uma cratera no impacto que começam incandescentes (azul-branco, depois laranja) e viram fuligem em ~2,5 s, esmaecendo até 35% em 60 s. Zumbis mortos viram cinzas brilhantes. Desligado: tudo some junto com a onda. 
+ KMH-06 Overcharge (1,5–3,2 s): segurar além da carga cheia faz a esfera ficar branco-dourada e instável (faíscas, tremor da tela, aviso "SOBRECARGA"). A sobrecarga vai de 0 a 100% e amplia largura (até ×1,7), duração (+1 s), raio da cúpula (+40%), dano (+80%) e recuo (+150 px/s). Em 3,2 s dispara sozinho. 
+ KMH-07 Custo da sobrecarga: após disparo sobrecarregado o herói fica atordoado por 0,8 s (sem mover) e a recarga passa de 1,0 s para até 3,0 s. Os dois escalam com a sobrecarga. 
+ KMH-08 Energia: cada disparo gasta 1 barra de ki (recupera sozinha, mais devagar em combate). A sobrecarga gasta 2. É golpe de impacto para hordas e bosses, não de uso contínuo. proposta fora da demo 
+ KMH-09 Acessibilidade: "reduzir flashes" corta o flash do disparo, o brilho do núcleo e a pulsação; tremor e coice da câmera seguem a opção geral (ATK-10). 
+ Valores iniciais, para ajustar no playtest. 
+ O que é: golpe corpo a corpo de esfera giratória. Segurar junta chakra na palma, a esfera cresce e gira. Ao soltar, o herói faz um avanço veloz com a esfera na frente, tritura o primeiro inimigo (ele gira preso nela) e termina com uma explosão que arremessa todos. O chão guarda a cicatriz em espiral. Segurando bastante, vira uma esfera gigante . 
+ 🌀 Gather 
+ ⭕ Rings 
+ 💨 Rush 
+ ⚙️ Grind 
+ 🕳️ Scar 
+ 🔵 Giant orb 
+ 🌀 Juntar e soltar 
+ 🧟 +5 zumbis 
+ Limpar chão 
+ 🐢 Câmera lenta 
+ Segure na tela para juntar chakra, solte para avançar na direção da mira. Espaço / E mira no zumbi mais perto. Marcas na barra: mínimo (0,3 s), esfera cheia (1,2 s) e gigante (2,4 s). 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Requisitos 
+ RSG-01 Gather (0,3–1,2 s): partículas ciano giram em espiral e são sugadas para a palma, a esfera cresce de 3 para 13 px, um anel de poeira se expande no chão, o zumbido sobe de 110 para 370 Hz e o herói anda a 40%. Mira gira rápido. Soltar antes de 0,3 s cancela. 
+ RSG-02 Rings: a esfera tem espirais internas brancas girando e 3 anéis em eixos diferentes (elipses que "viram" em 3D, 6–12 rad/s). Desligado: só uma bola brilhante. 
+ RSG-03 Rush: ao soltar, o herói avança até 230 px a 520 px/s com a esfera na frente, deixando imagens residuais azuis a cada 25 ms e poeira nos pés. Para na parede ou no primeiro inimigo tocado. Desligado: anda devagar (110 px/s). 
+ RSG-04 Grind: ao tocar um inimigo o herói trava e tritura por 0,9 s: o alvo gira preso na esfera e é empurrado, 80 de dano por segundo em tudo que encosta, faíscas em leque, tremor baixo e som de serra a cada 70 ms. Termina antes se não sobrar nada na esfera. 
+ RSG-05 Scar: o avanço deixa marcas em espiral no chão e a trituração cava uma cratera espiralada no ponto final. Nascem brilhando em azul e viram fuligem em 1,5 s, esmaecendo até 30% em 60 s. 
+ RSG-06 Explosão final: a esfera estoura com anel de choque e flash. Raio de 42 px e 45 de dano (gigante: 95 px e 90). Inimigos são arremessados para fora girando. 
+ RSG-07 Giant orb (2,4 s): a esfera cresce até 33 px com "ding" grave e tremor, avança mais devagar (380 px/s) mas por 300 px, tritura 1,5 s com 150 de dano/s, e a explosão é muito maior. Aparece "ESFERA GIGANTE" na barra. 
+ RSG-08 Custo: gasta chakra (1 barra, gigante gasta 3), com recarga de 0,4 s. proposta fora da demo 
+ RSG-09 Acessibilidade: "reduzir flashes" tira o flash branco e as imagens residuais; tremor segue a opção geral (ATK-10). 
+ Valores iniciais, para ajustar no playtest. 
+ O que é: golpe de espada que dispara uma lua crescente de energia. Segurar carrega reiatsu na lâmina. Ao soltar, a espada afia (brilho corre pela lâmina), o jogo congela num impact frame em negativo, e o corte sai voando. Inimigos atingidos são cortados ao meio , o chão fica com uma cicatriz brilhante, e com carga máxima sai a lua gigante . 
+ 🔋 Charge 
+ ✨ Sharpen 
+ 🩸 Scar 
+ 🖤 Impact frame 
+ ✂️ Split it 
+ 🌙 Giant moon 
+ 🌙 Carregar e soltar 
+ 🧟 +5 zumbis 
+ Limpar chão 
+ 🐢 Câmera lenta 
+ Segure na tela para carregar, solte para cortar na direção da mira. Espaço / E mira no zumbi mais perto. Marcas na barra: mínimo (0,3 s), carga cheia (1,1 s) e lua gigante (2,4 s). 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Requisitos 
+ GTS-01 Charge (0,3–1,1 s): a espada sobe atrás do ombro, aura vermelha e preta pulsa na lâmina e no herói, partículas escuras são sugadas, faíscas vermelhas sobem, zumbido grave sobe de 55 para 175 Hz e a tela vibra levemente. Herói a 36% da velocidade. Soltar antes de 0,3 s cancela. 
+ GTS-02 Sharpen (0,3 s): antes do corte, um brilho branco em cruz percorre a lâmina da guarda à ponta, com som agudo de aço. A onda sai mais fina e pontuda (a lua afina as pontas). Desligado: corte direto e a lua sai mais gorda. 
+ GTS-03 Impact frame: no instante do corte o jogo congela por 0,09 s (0,14 s na lua gigante), a imagem fica em negativo, aparecem linhas de velocidade radiais e uma faixa preta diagonal com borda branca. Depois volta ao normal. 
+ GTS-04 Onda: lua crescente preta com borda vermelha e fio branco, rastro vermelho aditivo, viaja a 480 px/s atravessando todos os inimigos (cada um é atingido uma vez), 50–90 de dano, até sair da tela ou bater na parede. Recuo curto no herói e tremor de 0,2 s. 
+ GTS-05 Split it: inimigo morto pela onda é partido na diagonal : as duas metades deslizam para lados opostos, giram e caem, com uma linha branca de corte que some em 0,5 s, faíscas e som de corte. Desligado: morre em fumaça. 
+ GTS-06 Scar: a onda cava um sulco escuro no chão por onde passou, com borda vermelha incandescente que apaga em 1,6 s e esmaece até 30% em 60 s. Na parede do fundo deixa um corte horizontal. 
+ GTS-07 Giant moon (2,4 s): a lua tem raio 64 px, halo de lua cheia pálida atrás, 380 px/s, 200 de dano (mata quase tudo), tremor de 0,5 s e escurece a tela por 3 s. O sulco é 3× mais largo. Aparece "LUA GIGANTE" na barra. 
+ GTS-08 Custo: 1 barra de reiatsu (lua gigante gasta 3), recarga de 0,35 s. proposta fora da demo 
+ GTS-09 Acessibilidade: "reduzir flashes" desliga o negativo do impact frame (mantém só o congelamento) e o flash branco. 
+ Valores iniciais, para ajustar no playtest. 
+ O que é: estocada elétrica de velocidade. Segurar faz a mão crepitar (arcos de raio e piado agudo que acelera). Ao soltar, o herói dá um dash em linha reta, deixando um rastro de raio e perfurando todos no caminho. Depois fica um brilho residual (rastro, herói e inimigos eletrificados) e, em seguida, o trovão cai do céu no ponto final e em quem foi perfurado. 
+ ⚡ Crackle 
+ 💨 Dash 
+ 〰️ Trail 
+ 🗡️ Pierce 
+ ✨ Afterglow 
+ 🌩️ Thunder 
+ ⚡ Carregar e soltar 
+ 🧟 +5 zumbis 
+ Limpar rastros 
+ 🐢 Câmera lenta 
+ Segure na tela para carregar, solte para disparar na direção da mira. Espaço / E mira no zumbi mais perto. Marcas na barra: mínimo (0,3 s) e carga cheia (1,2 s). 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Requisitos 
+ CHD-01 Crackle (0,3–1,2 s): uma esfera branco-azulada cresce na mão (5 → 14 px) com arcos de raio em zigue-zague para fora, para o corpo e para o chão. Piados agudos (3–6 kHz) começam a cada 160 ms e aceleram para 50 ms. Faíscas saem da mão, a tela vibra leve, herói a 33%. Na carga cheia, "ding" e tremor curto. 
+ CHD-02 Dash: ao soltar, o herói corre 240 a 360 px (conforme a carga) a 760 px/s na direção da mira, com imagens residuais azuis a cada 30 ms e flash curto. Para ao fim da distância ou na parede. Desligado: só um passo curto de 60 px. 
+ CHD-03 Trail: cada passo do dash desenha um raio zigue-zague branco com halo azul de 10 px, na linha percorrida, que vai ficando mais fraco. Desligado: sem rastro. 
+ CHD-04 Pierce: cada inimigo cruzado pelo caminho (16 px) é atingido uma vez sem parar o dash: 55–85 de dano, empurrão, faíscas, "⚡" e estalo. Desligado: o dash para no primeiro inimigo. 
+ CHD-05 Afterglow: o rastro persiste por 1,8 s com brilho azul que esmaece e faíscas ocasionais. O herói fica envolto por um halo elétrico por 1,6 s. Inimigos atingidos ficam eletrificados por 2,2 s: tremem, piscam em branco, soltam faíscas e não andam. Desligado: tudo some em 0,25 s. 
+ CHD-06 Thunder: 0,3 s após o dash, um raio cai do topo da tela no ponto final (raio 44 px, 40 de dano) e outro em cada perfurado (raio 26 px, 35 de dano), escalonados a cada 0,12 s. Cada raio tem 3 camadas, flash, trovão grave com atraso de 40 ms, tremor e marca de queimado no chão. 
+ CHD-07 Custo: 1 barra de chakra, recarga de 0,5 s. Dash e trovão não podem ser cancelados. proposta fora da demo 
+ CHD-08 Acessibilidade: "reduzir flashes" corta os flashes do trovão e do dash e reduz a vibração dos arcos. 
+ Valores iniciais, para ajustar no playtest. 
+ O que é: conversa com NPC. Chegar perto e apertar o botão de interação abre uma caixa de diálogo na parte de baixo. O texto aparece letra por letra (typewriter), com pausas nas pontuações, sons de voz por personagem, efeitos no texto (tremer, ondular, cor, grande, lento) e destaque para quem fala (nome, retrato, boca mexendo, o outro escurece). Apertar enquanto escreve completa a frase; apertar de novo avança. 
+ ⌨️ Typewriter 
+ ⏸️ Pauses 
+ 🔊 Sound 
+ 🌊 Text effects 
+ 🗣️ The speaker 
+ ▶ Avançar / completar 
+ ↺ Recomeçar 
+ Clique na tela, Espaço , E ou Enter para completar e avançar. Marcação do texto: [p=500] pausa em ms, <shake> <wave> <big> <slow> <red> <gold> . 
+ Requisitos 
+ DLG-01 Abrir: ao tocar no NPC (alcance de 1,5 tile) ou apertar interagir olhando para ele, o herói para, o NPC vira para o herói e a caixa de diálogo sobe de baixo. Combate e movimento ficam pausados durante a conversa. 
+ DLG-02 Typewriter: 1 letra a cada 30 ms. Interagir enquanto escreve completa a fala na hora. Quando termina, aparece o triângulo ▼ piscando; interagir de novo vai para a próxima fala. Na última, fecha a caixa. 
+ DLG-03 Pauses: pausa automática depois de vírgula (+140 ms), ponto, "!" e "?" (+220 ms), reticências (+300 ms), e pausas manuais com [p=ms] no texto. Desligado: ritmo constante. 
+ DLG-04 Sound: cada letra toca um "blip" curto com a voz do personagem (NPC: onda quadrada grave ~150 Hz; herói: triangular ~270 Hz), com variação de ±12% e vogais um pouco mais agudas. Pontuação final soa mais grave e longa. Espaços não tocam. 
+ DLG-05 Text effects: tags no texto: shake (treme 1,2 px), wave (ondula 2,5 px), big (fonte maior), slow (letras 2,8× mais lentas), red e gold (cor). Letras novas piscam em branco por 3 caracteres. Desligado: texto simples. 
+ DLG-06 The speaker: placa com o nome na cor do personagem, retrato com olhos que piscam a cada ~3 s e boca que abre e fecha enquanto escreve, borda da caixa na cor de quem fala, seta apontando para ele, o sprite de quem fala cresce e quica, e o outro fica escurecido. Desligado: caixa genérica sem nome nem retrato. 
+ DLG-07 Dados: cada fala tem speaker , texto com marcação e opcionalmente voz . Escolhas e gatilhos (dar item, abrir loja) ficam fora desta demo. proposta fora da demo 
+ DLG-08 Acessibilidade: opção de velocidade do texto (lenta, normal, instantânea) e de desligar efeitos de tremor/ondulação. 
+ Valores iniciais, para ajustar no playtest. 
+ O que é: a fogueira do abrigo. Toda vez que o herói retorna de uma expedição, ele caminha até ela e acende (se estiver apagada): tenta o isqueiro duas vezes, na terceira pega fogo. O fogo tem forma viva em camadas, ilumina o abrigo com luz quente que oscila e projeta sombras, solta brasas que sobem, faz som de crepitar e dá para alimentar com lenha para durar mais. Sem lenha ela apaga e vira brasa e fumaça. 
+ 🔥 Shape 
+ 💡 Light 
+ ✨ Ember 
+ 🔊 Sound 
+ 🪵 Feed it 
+ 🏠 Retornar ao abrigo 
+ 🪵 Alimentar 
+ 🚪 Sair em expedição 
+ 💨 Apagar 
+ Fogueira apagada: Retornar faz o herói acender. Com fogo ainda aceso ele só chega e a fogueira continua. Alimentar joga uma tora (+35% de lenha). A lenha dura cerca de 50 s sem alimentar. 
+ Requisitos 
+ FOG-01 Ritual de acender: ao retornar ao abrigo com a fogueira apagada, o herói caminha (70 px/s) até 62 px dela, para e tenta acender 3 vezes (0,5 s, 1,1 s, 1,8 s). Nas duas primeiras só saem faíscas e um "tic"; na terceira pega com "whoosh", flash quente e a chama sobe. Acende com 45% de lenha (2 toras). 
+ FOG-02 Shape: a chama é feita de 5 línguas em 4 camadas aditivas (vermelha, laranja, amarela, branca) em forma de gota, que balançam e variam de altura em frequências diferentes. Altura de 14 a 58 px conforme a lenha. A chama sobe rápido (5/s) e desce devagar (1,4/s). Desligado: retângulo laranja simples. 
+ FOG-03 Light: o abrigo fica escuro e só o entorno da fogueira é iluminado, com raio de 60 a 230 px conforme a chama. A luz oscila (3 senos, ±10%), há um brilho laranja aditivo e outro elíptico no chão, e o herói projeta sombra para longe do fogo. Brasa sem chama dá só um brilho vermelho de 26 px. Desligado: escuridão uniforme. 
+ FOG-04 Ember: brasas laranja sobem da chama (6 a 36 por segundo), balançando e apagando em 1,5–3,5 s. Um leito de carvão brilha sob a lenha e pulsa. Ao alimentar sai uma rajada de 26 brasas. Fogo fraco solta fumaça cinza, e ao apagar sobe uma nuvem. 
+ FOG-05 Sound: estalos curtos aleatórios (15–45 ms, ruído agudo) com frequência proporcional à chama, rugido grave baixo contínuo, "tic" do isqueiro, "whoosh" ao pegar, baque ao jogar lenha e chiado ao apagar. 
+ FOG-06 Feed it: o herói joga uma tora em arco até o fogo: +35% de lenha (máx. 100%), tora gira no ar, baque, labareda maior por 0,25 s e flash. Só funciona com fogo aceso. Desligado: botão sem efeito. 
+ FOG-07 Consumo: a lenha cai 2% por segundo, mesmo com o herói fora. Abaixo de 12% sai fumaça, em 0% a chama apaga e as brasas esfriam em ~20 s. Na demo o ciclo é acelerado; no jogo a duração vem do nível do abrigo. proposta 
+ FOG-08 Bônus: perto da fogueira acesa o herói recupera HP devagar e o abrigo conta como "iluminado" (menos zumbis se aproximam). Fora de combate, sem custo extra. proposta fora da demo 
+ Valores iniciais, para ajustar no playtest. 
+ O que é: uma camada de clima por cima do ciclo de dia e noite (DN). O ano tem 4 estações que mudam a cor do chão, a copa das árvores e a temperatura. Dentro de cada estação o tempo muda: sol, nublado, chuva, tempestade com raios, neve, nevoeiro e vendaval . O clima não é só visual: molha o chão e forma poças, acumula neve com pegadas, reduz a visão e a velocidade , e o frio pesa no herói. 
+ 🌸 Primavera 
+ ☀️ Verão 
+ 🍂 Outono 
+ ❄️ Inverno 
+ ☀️ Limpo 
+ ☁️ Nublado 
+ 🌧️ Chuva 
+ ⛈️ Tempestade 
+ ❄️ Neve 
+ 🌫️ Nevoeiro 
+ 💨 Vendaval 
+ Hora 
+ Velocidade pausado rápido (1 dia = 1 min) turbo (1 dia = 15 s) 
+ 🔁 Ciclo automático (estação a cada 25 s, tempo a cada 12 s) 
+ 💧 Molhado e poças 
+ ⛄ Neve acumulada 
+ ⚡ Raios 
+ 🍃 Vento 
+ 🌫️ Visão no nevoeiro 
+ 🔊 Som 
+ Ande com WASD . Escolha estação e tempo ou ligue o ciclo automático. Neve só cai com ≤ 1,5 °C: no inverno, e mais fácil à noite. Chuva em tempo frio vira neve sozinha. Os 3 zumbis perseguem o herói, então dá para ver a visão e a lentidão mudando. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Estações 
+ Estação Temp. base Visual Tempo comum Efeito no jogo 
+ 🌸 Primavera 17 °C Grama viva com flores, copas verdes com flores rosa, pétalas voando Chuva leve, nublado, sol Mais ervas e plantas no vasculhar; chuva frequente 
+ ☀️ Verão 30 °C Grama amarelada, copas cheias, calor ondulando, pólen no ar Sol forte, tempestades curtas à tarde Dias longos (noite mais curta); sede e cansaço maiores 
+ 🍂 Outono 11 °C Grama seca, copas laranja, folhas caindo e voando Vento, nevoeiro, chuva Mais nevoeiro de manhã (visão curta); folhas escondem baús 
+ ❄️ Inverno -2 °C Chão e telhados brancos, árvores nuas com neve, pingentes de gelo Neve, nevoeiro, nublado Frio tira vida sem fogueira; neve lenta e entrega pegadas dos zumbis 
+ Requisitos 
+ CLM-01 Calendário: o ano tem 4 estações de 7 dias de jogo cada (1 dia = 24 min reais, ver DN-01), então uma estação dura ~2h50 reais e o ano ~11h20. A estação atual aparece no HUD com ícone, junto com o clima, a hora e a temperatura. proposta 
+ CLM-02 Visual da estação: ao trocar, a cor da grama, a cor e a densidade das copas e as flores fazem transição suave (~1 s para 63%). Primavera tem flores e pétalas; verão tem pólen e calor ondulando; outono tem copas laranja e folhas caindo; inverno tem árvores nuas. 
+ CLM-03 Temperatura: base da estação + 6 °C × seno do dia (máxima às 15h, mínima às 3h) − 3 °C × chuva − 1,5 °C × nuvens. É ela que decide se a precipitação vira chuva ou neve (limite 1,5 °C) e se o frio causa dano. 
+ CLM-04 Tempo: 7 estados (limpo, nublado, chuva, tempestade, neve, nevoeiro, vendaval). Cada um define intensidade de chuva, nuvens, neblina, vento e raios. A troca é suave (~3 s). O sorteio é por tabela da estação, a cada 4–12 min reais, com duração de 3–15 min. proposta 
+ CLM-05 Chuva: até 520 gotas/s, riscos inclinados pelo vento, caindo até um ponto aleatório do chão; ao tocar, 40% fazem uma onda circular e metade solta respingos. Nuvens escurecem a cena em até 50%. O som é ruído agudo que sobe com a intensidade. 
+ CLM-06 Chão molhado: a chuva sobe a umidade (até 100% em ~1,5 min), que escurece o chão em até 28% e forma poças com reflexo a partir de 30%. Seca em ~50 s (~20 s com calor forte). Com umidade > 50% o herói e os zumbis ficam 8–10% mais lentos (lama). 
+ CLM-07 Neve: flocos lentos que balançam, com 2 tamanhos. A neve acumula no chão, nos telhados e nos galhos das árvores. Com mais de 25% de neve o herói deixa pegadas (somem em 30 s), e com mais de 40% fica 20% mais lento, como os zumbis. Derrete com > 1,5 °C (mais rápido com calor). Telhados ganham pingentes. 
+ CLM-08 Tempestade: chuva máxima, vento forte e raios a cada 3–9 s: um raio zigue-zague em 3 camadas, flash de tela e o trovão chega 0,25–1,35 s depois com tremor leve e som grave. Raios podem acertar objetos metálicos (postes) como perigo opcional. proposta 
+ CLM-09 Nevoeiro: manchas de neblina andam pela cena e um halo de visão fecha ao redor do herói (de ~230 px para ~70 px no pior caso). A visão dos zumbis cai até 75%, o que ajuda a fugir e a se esgueirar, mas esconde ameaças e baús. 
+ CLM-10 Vento: árvores balançam, folhas, pétalas e flocos são empurrados, a chuva cai inclinada e o assobio sobe. O vendaval (vento 100%) deixa o herói 5% mais lento e derruba folhas sem parar. 
+ CLM-11 Dia e noite: o clima se soma ao ciclo de DN: a noite escurece por cima, os postes acendem e as nuvens escurecem mais o dia. A Lua de Sangue (DN-02) ignora o clima visual e deixa o céu vermelho, mas a chuva continua molhando o chão. 
+ CLM-12 Frio e calor: abaixo de -5 °C sem estar perto da fogueira o herói perde 1 HP a cada 10 s; acima de 33 °C ao ar livre gasta mais fôlego. Roupas e a fogueira do abrigo (FOG) reduzem o efeito. proposta fora da demo 
+ CLM-13 Abrigo: dentro do abrigo não chove nem neva. A fogueira (FOG-07) gasta lenha mais rápido no frio, e telhados limpam a neve se o herói varrer. proposta fora da demo 
+ CLM-14 Acessibilidade: "reduzir flashes" corta o flash do raio e o tremor do trovão; opção para reduzir partículas de chuva e neve (50%) para aparelhos fracos. 
+ Valores iniciais, para ajustar no playtest. 
+ O que é: a câmera não segue o herói. Ela mostra uma região de 16×9 tiles por vez e fica parada, como o overworld do Zelda: A Link to the Past. Quando o herói passa da borda, a câmera desliza até a região vizinha e trava de novo. 
+ ▶ Auto-passeio 
+ Câmera
+ Por região (ALttP) 
+ Seguindo o herói (comparação) 
+ Duração do deslize 0,60 s 
+ Mova com WASD / setas ou o direcional. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Mapa inteiro (64×36 tiles · 4×4 regiões) 
+ o que a câmera mostra 
+ região travada 
+ herói 
+ Desempenho: só processar o que importa 
+ 🎥 Frustum culling 
+ 🌑 Occlusion culling 
+ 🌡️ LOD por região 
+ 🗺️ Ver temperatura no mapa 
+ Desligue as técnicas e veja os números subirem. Com o frustum desligado, o jogo desenha os 2.304 tiles e todos os zumbis do mapa a cada quadro, mesmo fora da tela. Com o LOD desligado, todos os zumbis das 16 regiões rodam a IA completa. Para ver o occlusion , ande até a região de escuridão (canto superior direito): o que está no escuro fora da luz nem é desenhado. No mapa inteiro, as regiões ficam quente , morna ou fria . 
+ Requisitos 
+ CAM-01 A tela mostra exatamente uma região de 16×9 tiles (512×288 px com tile de 32 px). O mundo é dividido em regiões desse tamanho, sem paredes entre elas. 
+ CAM-02 Dentro da região a câmera fica parada , não segue o herói. 
+ CAM-03 A transição dispara quando o centro da hitbox do herói cruza a borda da região. 
+ CAM-04 A câmera desliza em linha reta e velocidade constante até a região vizinha. Duração padrão 0,6 s , configurável. 
+ CAM-05 Durante o deslize o input fica travado e o herói é levado 6 px para dentro da região nova, com animação de andar. Se o ponto de destino estiver bloqueado, o herói fica onde está. 
+ CAM-06 Os zumbis da região nova nascem no início do deslize, parados, a pelo menos 5 tiles do ponto de entrada. Os da região antiga somem quando a câmera trava. 
+ CAM-07 Zumbis ficam presos à própria região: não atravessam a borda. 
+ CAM-08 Na borda do mundo o herói é bloqueado e não há transição. 
+ CAM-09 Região de escuridão : escuro só dentro daquela região, com luz em volta do herói, até ligar o gerador. 
+ CAM-10 Modo Auto (A* no grid) não entra sozinho em região de escuridão nem de mini boss. fora da demo 
+ CAM-11 Frustum culling (2D): só desenha tiles e entidades cujo retângulo cruza a câmera, com margem de 1 tile. Na câmera por região isso é quase de graça: a tela mostra 1 região (16×9 = 144 tiles) e, só durante o deslize, 2 regiões. Partículas e efeitos fora da tela também não são desenhados. 
+ CAM-12 Cache por região: a camada de chão de cada região é pré-desenhada num canvas fora da tela, quando a região esquenta, e reaproveitada a cada quadro. Tiles animados (água, fogo) ficam numa camada separada, atualizada a 8 fps. 
+ CAM-13 Occlusion culling (2D): o que está totalmente coberto não é desenhado. (a) Na região de escuridão , tiles e zumbis fora do raio de luz viram só preto. (b) Interiores de prédios cobertos por telhado não são desenhados com o herói do lado de fora; quando ele entra, o telhado some com fade e o interior aparece. (c) Com um menu, puzzle ou cinemática cobrindo a tela inteira , o mundo para de redesenhar e fica a última imagem. 
+ CAM-14 LOD de simulação por região (as "temperaturas"):
+ Quente : região atual (e a de destino durante o deslize). Desenho, IA completa, colisão, animação e partículas a 60 Hz. 
+ Morna : as 8 vizinhas. Não desenha; IA simplificada a 2 Hz (anda sem colisão fina), só para as posições fazerem sentido quando o herói entrar. 
+ Fria : o resto. Congelada: só dados (quantos zumbis, HP, timers de respawn e da Lua de Sangue). 
+ Ao entrar numa região, ela esquenta e os zumbis viram entidades a partir dos dados. Ao sair, esfriam sem perder o estado. 
+ CAM-15 LOD de tempo (idle): com o app em segundo plano ou fechado, nada é simulado quadro a quadro. A expedição automática é calculada por eventos (resultado por região: zumbis mortos, loot, XP, tempo gasto), o que alimenta o resumo ao voltar (LOOP-08). 
+ CAM-16 LOD visual: as partículas têm um orçamento por tela (ex.: máx. 150). Acima disso, cada efeito solta menos partículas. O mapa inteiro e o minimapa usam uma imagem em cache de 1 px por tile, redesenhada só quando algo muda. 
+ CAM-17 Meta: 60 fps num celular médio, com update + render abaixo de ~4 ms por quadro (o orçamento total é ~16 ms). 
+ CAM-18 Overlay de debug (só em build de desenvolvimento): tiles e entidades desenhados × total, IA completa/reduzida/congelada e ms por quadro, como o painel desta aba. 
+ O que é: em top-down, quem está "mais embaixo" na tela é desenhado por cima. Por isso, quando o herói passa atrás de uma casa, árvore, muro ou coluna, o sprite da estrutura cobre ele. Para o jogador não perder o personagem, a parte coberta aparece como uma silhueta colorida por cima da estrutura (azul = herói, verde = aliado, vermelho = zumbi), e a estrutura pode ficar translúcida . 
+ ▶ Passeio automático 
+ Estilo Silhueta Só contorno Pontilhado (dither) Nada (sem a mecânica) 
+ Estrutura translúcida 
+ Zumbis também (vermelho) 
+ Aliados (verde) 
+ Mostrar linhas de ordenação 
+ Ande com WASD /setas ou ligue o passeio. Passe atrás da casa, das árvores, do muro, da coluna e da banca. Teste "Nada" para ver o problema que a mecânica resolve. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Como funciona (por quadro) 
+ Passo O que faz 
+ 1. Ordenar Estruturas e personagens são desenhados em ordem de y da base (pé do personagem, linha do chão da estrutura). 
+ 2. Testar Para cada personagem: há alguma estrutura com base abaixo do pé dele e cujo sprite cruza o retângulo dele? Se não houver, pula (custo zero). 
+ 3. Máscara Num canvas fora da tela: desenha só o personagem (A) e, em outro, só as estruturas da frente (B). A ∩ B = pixels escondidos. 
+ 4. Pintar Os pixels escondidos viram cor sólida a 55% + contorno de 1 px (ou só contorno, ou pontilhado), desenhados por cima de tudo . 
+ Requisitos 
+ VIS-01 Ordem de desenho: tudo que fica de pé (personagens, estruturas, objetos altos) é ordenado pelo y da base. Estruturas têm uma linha de base (a frente do pé/colisão), separada da altura do sprite. 
+ VIS-02 Silhueta: só a parte do personagem que está realmente coberta por uma estrutura na frente dele aparece como silhueta: cor sólida a 55% + contorno de 1 px na mesma cor, desenhada depois de tudo. A parte visível continua normal. 
+ VIS-03 Cores: herói azul, aliados e recrutas verde, zumbis vermelho, boss vermelho escuro. Itens e baús não têm silhueta. proposta 
+ VIS-04 Estilos (opção): silhueta (padrão), só contorno ou pontilhado (dither 50%, estilo retrô). Todos usam a mesma máscara. 
+ VIS-05 Estrutura translúcida: quando a estrutura esconde o herói , ela vai a 50% de opacidade em ~0,15 s e volta ao normal quando ele sai. Só para estruturas grandes (casa, árvore, banca); muros baixos e colunas usam só a silhueta. proposta 
+ VIS-06 Telhados: ao entrar num prédio, o telhado some com fade (CAM-13 b). A silhueta vale para quando o herói passa por trás pelo lado de fora. 
+ VIS-07 Zumbis: zumbis atrás de estruturas também ganham silhueta vermelha, para o jogador não ser surpreendido por algo escondido. Configurável. 
+ VIS-08 Custo: o teste é por retângulos (barato); a máscara só é montada para quem está de fato coberto, e só na região quente (CAM-14). Em celular, usar um canvas fora da tela do tamanho do personagem, não da tela inteira. 
+ VIS-09 Escuridão: na região escura, a silhueta do herói continua aparecendo; a de zumbis só dentro do raio de luz (CAM-09). 
+ Valores iniciais, para ajustar no playtest. 
+ O que é: a barra de vida do herói. Ela não salta de um valor para outro: desce suave, deixa uma "barra fantasma" mostrando quanto você acabou de perder, reage ao golpe, muda de cor quando a vida está baixa e tem um estado de veneno que tira vida aos poucos. 
+ Dano leve −8 
+ Dano pesado −30 
+ Envenenar 
+ Curar +25 
+ Antídoto 
+ Resetar 
+ 🐢 Câmera lenta 
+ barra principal 
+ ghost bar (dano) 
+ prévia de cura 
+ veneno 
+ Requisitos 
+ HP-01 HP máximo 100 , valores inteiros. Barra no HUD, canto superior esquerdo, dividida em segmentos de 10. 
+ HP-02 Smooth drain: a barra principal vai do valor antigo ao novo em ~0,15 s (ease-out). Nunca salta. O HP lógico muda na hora; só o desenho é animado. 
+ HP-03 Ghost bar: uma camada clara atrás da principal guarda o valor de antes do dano. Fica parada por 0,5 s e depois drena a 40 HP/s até alcançar a principal. Dano novo durante a espera reinicia a espera, mas a ghost não sobe: o combo inteiro fica visível. 
+ HP-04 Cura: um segmento verde-claro mostra o HP novo na hora, e a barra principal enche atrás dele em ~0,4 s . 
+ HP-05 Hit: a barra pisca branco por 80 ms e treme por 0,2 s (amplitude proporcional ao dano, máx. 4 px). O herói pisca branco e ganha i-frames de 0,8 s (sprite piscando). Dano durante os i-frames é ignorado. 
+ HP-06 Dano pesado (≥ 20% do máximo): tremor de tela de 0,25 s , além do HP-05. 
+ HP-07 Cor por faixa: acima de 50% verde, de 25% a 50% amarelo, 25% ou menos vermelho. 
+ HP-08 Vida baixa (≤ 25%): a barra pulsa (~1,2 Hz) e aparece uma vinheta vermelha nas bordas da tela, mais forte quanto menos HP. Some ao passar de 25%. 
+ HP-09 Veneno: dura 5 s e tira 3 HP por segundo (15 no total). A barra fica roxa e aparece um ícone com o tempo restante. O tick não dá i-frames nem tremor, só um piscar roxo. 
+ HP-10 Veneno não mata : para em 1 HP. proposta 
+ HP-11 Reaplicar veneno renova a duração, sem acumular. Antídoto ou a fogueira do abrigo removem. 
+ HP-12 HP 0 → morte. Regras de morte ficam para outra aba. fora da demo 
+ Tempos e valores são iniciais, para ajustar no playtest. 
+ O que é: o herói revista contêineres do cenário (lixeira, caixa, carro, armário, geladeira) atrás de recursos. É preciso segurar a ação parado ao lado do contêiner enquanto um anel de progresso enche. Vasculhar faz barulho e atrai zumbis próximos, e ser tocado por um interrompe a busca. No fim, o contêiner "abre" com uma sequência de efeitos (esticar, bater no chão, luz, onda, estrelas e brilho), os itens saltam com a cor da raridade e são pegos ao passar por cima. 
+ ✋ Segurar para vasculhar 
+ Resetar região 
+ ✨ Efeitos ligados 
+ 🐢 Câmera lenta 
+ Mova com WASD / setas ou o direcional. Perto de um contêiner, segure E , Espaço ou o botão. 
+ Mochila 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Contêineres 
+ Tipo Tempo Itens Loot 
+ Lixeira 1,0 s 1–2 Sucata, Pano · Comida enlatada, Pilha · Antídoto 
+ Caixa 1,5 s 2–3 Madeira, Pregos · Corda, Fita adesiva · Munição 
+ Geladeira 1,5 s 1–3 Água · Comida enlatada · Antídoto 
+ Armário 2,0 s 1–2 Pano · Atadura · Kit médico 
+ Carro 2,5 s 2–3 Sucata, Peças · Gasolina · Bateria 
+ ■ comum 70% · ■ incomum 25% · ■ raro 5% . A bateria do carro pode ligar o gerador das regiões de escuridão. 
+ Requisitos 
+ VAS-01 Contêineres são objetos sólidos do cenário. Cada tipo tem tempo de busca, quantidade de itens e tabela de loot (tabela acima). 
+ VAS-02 Alcance: a ação fica disponível quando a hitbox do herói está a até 14 px do contêiner. Se houver mais de um, vale o mais próximo. Aparece um aviso "Vasculhar" com o tempo de busca. 
+ VAS-03 Segurar para vasculhar: o herói precisa estar parado e segurando a ação. Um anel de progresso enche sobre o contêiner e o herói anima revirando. 
+ VAS-04 Interrupção: andar, soltar a ação ou ser tocado por um zumbi para a busca. O progresso fica guardado no contêiner e continua de onde parou. proposta 
+ VAS-05 Toque de zumbi durante o jogo: empurra o herói 12 px e bloqueia a ação por 0,8 s . (Dano no HP segue as regras da aba HP.) 
+ VAS-06 Barulho: a cada 0,5 s de busca sai uma onda de ruído com raio de 4 tiles . Zumbis da região dentro do raio ficam alertas ( ! ) por 4 s e vão até o herói. 
+ VAS-07 Loot pop: ao completar, os itens saltam do contêiner em arco ( 0,5 s ) e caem a 30–50 px em volta, em ponto livre. Cada item tem a cor e o brilho da raridade. 
+ VAS-08 Coleta: o item é atraído (ímã) quando o herói está a até 1,5 tile e entra na mochila ao encostar. 
+ VAS-09 Contêiner vasculhado muda de visual (aberto, apagado, ✓) e não pode ser vasculhado de novo. 
+ VAS-10 Nas modalidades vasculhar e combate + vasculhar , o HUD mostra "vasculhados X/Y". Todos vasculhados = região concluída. 
+ VAS-11 Contêineres não reabastecem na mesma expedição. proposta 
+ VAS-12 Modo Auto vasculha todos os contêineres da região antes de seguir para a próxima. proposta fora da demo 
+ VAS-13 Limite de mochila/peso fica para outra aba. fora da demo 
+ Efeitos ao vasculhar (game feel) 
+ VAS-14 Wobble + squash: durante a busca o contêiner balança (até ±4°) e achata/estica de leve. A força e a velocidade crescem conforme o anel enche, criando expectativa. 
+ VAS-15 Stretch: ao completar, o contêiner estica para cima (+35% de altura, −20% de largura) e sobe 8 px em 0,12 s . 
+ VAS-16 Slam: desce com força em 0,1 s e achata (65% de altura, 130% de largura), depois volta ao normal com efeito elástico em ~0,3 s. No impacto: tremor leve de tela (0,15 s) e os itens saltam. 
+ VAS-17 Light: no impacto, um clarão com raios girando sai do contêiner por 0,6 s , na cor da maior raridade obtida. 
+ VAS-18 Shockwave: um anel no chão se expande até ~2 tiles em 0,4 s , ficando mais fino e sumindo. 
+ VAS-19 Stars: 6 a 8 estrelas girando saltam para os lados, caem com gravidade e somem em ~0,7 s. 
+ VAS-20 Magic dust: brilhinhos piscando sobem do contêiner por ~1,4 s, na cor da maior raridade. 
+ VAS-21 Os efeitos são só visuais e podem ser desligados nas opções (desempenho e conforto visual). Desligados, os itens saltam na hora. proposta 
+ Tempos, chances e tabelas são iniciais, para ajustar no playtest. 
+ O que é: baús são diferentes dos contêineres de vasculhar. Não se segura nada: você toca a ação uma vez e abre um mini puzzle . Cada tipo de baú tem um puzzle (gazua, memória ou luzes). Acertar abre o baú com os mesmos efeitos do vasculhar e loot melhor. Errar faz barulho alto , e 3 erros emperram o baú. O mundo não pausa: os zumbis continuam andando enquanto você resolve. Como o jogo é idle, existem chaves (bronze, prata e ouro) que abrem o baú na hora, sem puzzle. É assim que o modo Auto abre baús. 
+ 🔓 Abrir baú 
+ 🤖 Modo Auto 
+ Resetar 
+ Chaves 
+ No Auto, gastar chave melhor quando faltar a certa 
+ Mova com WASD / setas ou o direcional. Perto de um baú, toque E , Espaço ou o botão. Esc fecha o puzzle. 
+ Mochila 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Tipos de baú 
+ Baú Puzzle Chave Itens Raridade Loot 
+ Madeira Gazua · Números · Pares 🟫 Bronze 2–3 50 / 35 / 15% garante 1 incomum Munição, Atadura · Faca, Lanterna · Mapa da região 
+ Ferro Memória · Fios (4) · Canos 3×3 ⬜ Prata 3 30 / 45 / 25% garante 1 incomum Munição, Kit médico · Pistola, Colete · Chave do gerador 
+ Lua de Sangue Luzes · Canos 4×4 · Fios (5) 🟨 Ouro 3–4 0 / 60 / 40% garante 1 raro Fragmento lunar, Kit médico · Amuleto lunar, Machado 
+ Raridade na ordem comum / incomum / raro . 
+ Requisitos 
+ BAU-01 Baú ≠ vasculhar: é um toque só (não segura). O toque abre o mini puzzle do baú. Abrir o puzzle não faz barulho. 
+ BAU-02 Onde aparece: no fim da horda, como recompensa de mini boss e boss, e escondido em algumas regiões (no máximo 1 por região). proposta 
+ BAU-03 Cada tipo de baú tem um grupo de 3 puzzles da sua dificuldade (tabela acima). O puzzle é sorteado na primeira vez que você abre o baú e fica fixo nele, para não dar para fechar e reabrir até cair um mais fácil. 
+ BAU-04 O mundo não pausa durante o puzzle. O herói fica parado e os zumbis continuam andando. Se um zumbi encostar, o puzzle fecha e reinicia. proposta 
+ BAU-05 Erro: faz barulho alto (raio de 5 tiles ) que alerta os zumbis, e o baú chacoalha. O puzzle mostra as tentativas restantes. 
+ BAU-06 3 erros: o baú emperra e fica trancado pelo resto da expedição. proposta 
+ BAU-07 Fechar o puzzle (botão ou Esc ) reinicia o progresso dele, mas os erros já cometidos continuam contando. 
+ BAU-08 Gazua: um ponteiro gira em volta da fechadura. Toque quando ele estiver na zona verde. São 3 pinos ; a zona encolhe (50° → 40° → 30°) e a velocidade sobe ~25% a cada pino. Errar quebra a gazua e zera os pinos. 
+ BAU-09 Memória: 4 símbolos (☾ ✶ ☠ ✚) acendem em sequência, 0,6 s cada. Repita na mesma ordem. Errar conta como erro e mostra a mesma sequência de novo. 
+ BAU-10 Luzes: grade 3×3. Tocar uma casa inverte ela e as vizinhas (cima, baixo, lados). Acenda todas. É gerado a partir do resolvido, então sempre tem solução; mostra o mínimo de jogadas. Não tem erro, só um botão de reiniciar. 
+ BAU-11 Abertura: a tampa abre com a mesma sequência de efeitos do vasculhar (VAS-14 a VAS-20). 
+ BAU-12 Loot melhor que o de contêiner, com garantia mínima de raridade e itens exclusivos de baú (tabela acima). 
+ BAU-13 Baú aberto fica aberto e não reabastece. 
+ BAU-14 Modo Auto nunca joga puzzle. Ele vai até cada baú da região, abre com chave (BAU-17) e recolhe o loot antes de seguir. Se não tiver chave compatível, marca o baú no mapa com ? e segue. O jogador pode voltar depois e abrir no manual. 
+ BAU-15 Chaves: bronze abre baú de madeira, prata abre baú de ferro e ouro abre o baú da Lua de Sangue. Ficam num contador próprio (mochila e HUD), sem ocupar espaço de item. 
+ BAU-16 Chave melhor abre baú menor (ouro abre todos, prata abre ferro e madeira). Usa sempre a menor chave que serve . No Auto, gastar uma chave melhor quando falta a certa é uma opção desligada por padrão , para não queimar chave de ouro em baú de madeira. proposta 
+ BAU-17 Abrir com chave: abre na hora, sem puzzle, sem erro e sem barulho, e consome 1 chave. A chave aparece girando na fechadura por 0,45 s e depois vem a mesma sequência de efeitos da abertura (BAU-11). O loot é o mesmo de resolver o puzzle. 
+ BAU-18 No manual , o painel do puzzle mostra o botão "Usar chave" quando há chave compatível. Resolver o puzzle não gasta chave, então jogar no manual economiza chave. 
+ BAU-19 Baú emperrado (3 erros) ainda pode ser aberto com chave. proposta 
+ BAU-21 Sem repetição: o sorteio nunca escolhe o mesmo puzzle do último baú aberto. 
+ BAU-22 Números (madeira): os números de 1 a 6 aparecem espalhados numa grade 3×3. Toque em ordem em até 7 s . Tocar fora de ordem ou estourar o tempo conta como erro e embaralha de novo. 
+ BAU-23 Pares (madeira): 6 cartas viradas (3 pares de símbolos). Virar 2 diferentes mostra as duas por 0,6 s e esconde de novo. São 6 jogadas ; se acabarem, conta erro e embaralha. 
+ BAU-24 Fios (ferro com 4, Lua de Sangue com 5): cores na esquerda e as mesmas cores embaralhadas na direita. Toque um fio na esquerda e depois a mesma cor na direita para ligar. Cor errada conta como erro. 
+ BAU-25 Canos (ferro 3×3, Lua de Sangue 4×4): toque para girar cada cano 90° e ligar a entrada ▶ à saída ▶. O caminho ligado fica azul. Não tem erro, só um botão de reiniciar. É gerado a partir de um caminho válido, então sempre tem solução. 
+ BAU-20 Onde conseguir chaves: drop raro de vasculhar e de zumbis (bronze mais comum, ouro raro), recompensa de horda, mini boss e boss, e troca no abrigo. proposta fora da demo 
+ Tempos, ângulos e chances são iniciais, para ajustar no playtest. 
+ O que é: sobreviventes humanos (não zumbis) podem entrar no seu grupo. Chegue perto e fale com ele: antes de aceitar, ele pede uma missão , como matar X zumbis ou proteger ele de uma horda . Seu desempenho vira uma nota , e a nota vira a chance de recrutar , de 30% até no máximo 90% . Depois você tenta a sorte. 
+ ⚔️ Ação 
+ Missão Caçada: matar 8 zumbis Proteger da horda 
+ Resetar 
+ Mova com WASD / setas ou o direcional. E / Espaço ou o botão Ação: falar perto do sobrevivente, atacar no resto do tempo. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Como a chance é calculada 
+ Missão Objetivo (demo) Nota 
+ Caçada Matar 8 zumbis em 60 s 50% tempo + 50% vida do herói 
+ Proteger da horda Sobreviver a 3 ondas (4, 6 e 8 zumbis) que vão atrás do sobrevivente 70% vida do sobrevivente + 30% vida do herói 
+ Tempo: terminar em até 25 s vale 100%, e o valor cai em linha reta até 0% aos 60 s. Chance de recrutar = 30% + 60% × nota , ou seja, mínimo de 30% e máximo de 90%. 
+ Requisitos 
+ REC-01 Sobrevivente: NPC humano, não hostil, que aparece nas regiões de resgate . Tem um balão 💬 sobre a cabeça enquanto não foi recrutado. 
+ REC-02 Falar: a até 1 tile, a ação vira "Falar" em vez de atacar. Abre o diálogo com a missão, onde dá para aceitar ou recusar. Se recusar, ele continua no mesmo lugar e você pode voltar depois. 
+ REC-03 Tipos de missão: Caçada (matar X zumbis em T segundos) e Proteger da horda (3 ondas que vão atrás do sobrevivente, que tem 100 HP). Cada sobrevivente tem uma missão fixa, sorteada quando ele aparece. 
+ REC-04 Durante a missão: o HUD mostra o objetivo e o progresso (zumbis X/Y e tempo, ou onda X/3). Os zumbis entram pelas bordas da região. Na horda, eles miram o sobrevivente, mas trocam para o herói se ele chegar a menos de 70 px. 
+ REC-05 Sair da região durante a missão conta como abandonar. proposta fora da demo 
+ REC-06 Falha: acabar o tempo, o herói cair ou o sobrevivente morrer. Se o sobrevivente morrer, ele some. Nos outros casos dá para tentar a missão de novo. proposta 
+ REC-07 Nota da missão (0–100%): caçada = 50% tempo + 50% vida do herói; horda = 70% vida do sobrevivente + 30% vida do herói. Tempo: até 25 s vale 100%, depois cai em linha reta até 0% aos 60 s. 
+ REC-08 Chance de recrutar = 30% + 60% × nota , ou seja, entre 30% e 90% . Nunca chega a 100%. 
+ REC-09 Tela de resultado: mostra cada parte da nota e a chance final antes da tentativa. A tentativa é uma barra com um marcador que corre e para; se parar na faixa verde, o recrutamento deu certo. 
+ REC-10 Uma tentativa por missão. Se der certo, o sobrevivente entra no grupo, passa a seguir o herói e depois vai para o abrigo. Se der errado, ele fica, mas é preciso cumprir outra missão para tentar de novo. proposta 
+ REC-11 Presentes: oferecer comida ou remédio antes da tentativa soma +5% por item, respeitando o teto de 90%. proposta fora da demo 
+ REC-12 Modo Auto: aceita a missão, joga sozinho e tenta recrutar no fim. O combate automático tende a tirar nota menor, então jogar no manual dá mais chance. proposta fora da demo 
+ REC-13 Combate na demo (provisório, até ter a aba de combate): ataque em arco na frente do herói, cada zumbi morre com 2 golpes, e o toque de zumbi tira 10 HP do herói (i-frames de 0,8 s) ou 6 HP do sobrevivente a cada 0,6 s. 
+ Números iniciais, para ajustar no playtest. 
+ O que é: o herói ganha XP ao matar zumbis, vasculhar, abrir baús e recrutar. A barra de XP enche ( fill the bar ). Quando ela completa, vem uma carga (build up): energia é sugada para o herói. Depois vem a explosão (burst), o texto grande LEVEL UP! (big text) e as recompensas entrando uma a uma (show de rewards), com os atributos que o herói ganhou. 
+ 🧟 Matar zumbi +12 
+ 🗑️ Vasculhar +5 
+ 🧰 Abrir baú +25 
+ 🤝 Recrutar +60 
+ 💀 Boss +300 
+ Modo Auto (recompensas fecham sozinhas) 
+ 🐢 Câmera lenta 
+ Resetar 
+ No manual, toque na tela para fechar as recompensas. O "Boss +300" mostra vários level ups seguidos. 
+ XP e curva 
+ Fonte XP 
+ Matar zumbi 12 (mini boss 80, boss 300) 
+ Vasculhar contêiner 5 
+ Abrir baú 25 (madeira) · 40 (ferro) · 60 (Lua de Sangue) 
+ Recrutar sobrevivente 60 
+ XP para o próximo nível = 40 × nível 1,4 : nível 1→2 precisa de 40, 2→3 de 106, 3→4 de 186, 4→5 de 279 e 5→6 de 381. 
+ Requisitos 
+ LVL-01 Fontes de XP e curva conforme a tabela acima. 
+ LVL-02 Fill the bar: a barra de XP fica no rodapé do HUD, com o selo do nível à esquerda. Cada ganho anima a barra em ~0,4 s (ease-out) e mostra "+N XP" subindo do lugar do evento (sobe 20 px e some em 0,8 s). Acima de 85% a barra pulsa, avisando que está perto. 
+ LVL-03 Build up (0,7 s): a barra cheia pisca branco, a tela escurece até 35%, partículas douradas são sugadas para o herói e um brilho cresce em volta dele. O mundo fica em câmera lenta (0,2×) . 
+ LVL-04 Burst: flash branco (0,25 s), onda de choque até ~6 tiles (0,5 s), raios de luz, ~30 partículas para fora e tremor de tela (0,3 s). Zumbis a até 4 tiles são empurrados 1,5 tile , sem dano. proposta 
+ LVL-05 No burst o herói recupera todo o HP (já com o novo máximo) e ganha i-frames de 1 s. proposta 
+ LVL-06 Big text: "LEVEL UP!" entra com pop (0 → 135% → 100% em 0,3 s), com contorno escuro e degradê dourado → vermelho, e "Nível N" embaixo. Fica ~1,3 s e depois sobe sumindo. 
+ LVL-07 Show de rewards: as recompensas são ganhos automáticos de atributo , sem escolha. Todo nível dá +4 Vida (HP máx), +2 Força e +1 Defesa . 0,5 s depois do burst, uma carta por atributo entra uma a uma (0,15 s de intervalo, pop com overshoot), mostrando o ganho e o valor "antes → depois". valores: proposta 
+ LVL-08 Fechar: os atributos já foram aplicados, então a tela é só um aviso. No manual, toque para continuar (liberado depois de 0,8 s, para não fechar sem querer). No modo Auto fecha sozinho em 2,5 s. 
+ LVL-09 XP excedente passa para o próximo nível. Vários level ups seguidos tocam em sequência, mas os seguintes são mais curtos (build up de 0,3 s). 
+ LVL-10 O mundo nunca pausa por completo: só fica em câmera lenta durante o build up e o burst (~1 s). Durante as recompensas, o jogo segue normal. proposta 
+ LVL-11 Com os efeitos desligados nas opções, fica só o flash, o texto e as cartas. proposta fora da demo 
+ Tempos e valores iniciais, para ajustar no playtest. 
+ O que é: o golpe do herói. O dano é o mesmo com ou sem efeitos, mas o que faz o golpe parecer forte são 6 coisas que acontecem juntas no acerto: freeze (o jogo congela por alguns milissegundos), flash branco no zumbi, som de impacto, partículas , knockback (empurrão) e shake (tremor de tela). Desligue cada um abaixo para sentir a diferença. 
+ ⏸ Freeze 
+ ⚪ Flash 
+ 🔊 Som 
+ ✨ Partículas 
+ 💥 Knockback 
+ 📳 Shake 
+ ⚔️ Atacar 
+ Tudo ligado 
+ Tudo desligado 
+ 🐢 Câmera lenta 
+ Mova com WASD / setas ou o direcional. Ataque com E , Espaço ou o botão. Cada zumbi aguenta 3 golpes e outro aparece depois. Nesta demo os zumbis não causam dano. Se o celular estiver no silencioso, o som não toca. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Requisitos 
+ ATK-01 Golpe: ataque em arco na frente do herói (alcance ~24 px, ~120°). Dura 0,18 s, com recarga de 0,32 s. Um golpe pode acertar vários zumbis. 
+ ATK-02 Freeze (hit stop): o jogo congela por 60 ms no acerto e 100 ms no golpe que mata. Vários acertos no mesmo golpe geram um freeze só. O knockback e as partículas começam quando o freeze termina. 
+ ATK-03 Flash: o zumbi atingido fica todo branco por 80 ms , visível durante o freeze. 
+ ATK-04 Som: um "whoosh" em todo ataque, mesmo errando; um impacto seco no acerto; e um impacto mais grave e longo no kill. O tom varia ±10% a cada golpe para não cansar o ouvido. 
+ ATK-05 Partículas: 6–8 respingos saem na direção do golpe, caem com gravidade e somem em ~0,4 s, junto com uma faísca branca no ponto do impacto. No kill são 14 respingos. 
+ ATK-06 Knockback: o zumbi é empurrado 18 px (30 px no kill) na direção do golpe em 0,15 s, com ease-out, e fica atordoado 0,3 s . Não atravessa obstáculos. 
+ ATK-07 Shake: a tela treme 0,12 s / 3 px no acerto e 0,2 s / 5 px no kill. Tremores não se somam: vale o mais forte. 
+ ATK-08 Morte: o zumbi tomba (gira 90°) e some em 0,5 s. 
+ ATK-09 Esses efeitos valem para todo combate do jogo: missões de recrutar, horda, mini boss e boss. 
+ ATK-10 Som, tremor e flash podem ser desligados nas opções (acessibilidade). proposta 
+ ATK-11 No modo Auto , os efeitos continuam iguais, mas o som dos golpes fica mais baixo (−6 dB) para não cansar em sessões longas. proposta fora da demo 
+ Tempos e valores iniciais, para ajustar no playtest. 
+ O que é: barris explosivos espalhados em alguns mapas. Um golpe acende o pavio : o barril pisca, incha e chia ( antecipação ), e o círculo vermelho no chão mostra até onde a explosão alcança. Aí vem o estouro: um impact frame (1–2 quadros em preto e branco), o som grave, os destroços + fumaça e o tremor . Zumbis no raio morrem, e barris vizinhos explodem em cadeia . 
+ ⏳ Antecipação 
+ ⬛ Impact frame 
+ 🔊 Som 
+ 💨 Destroços + fumaça 
+ 📳 Shake 
+ ⚔️ Atacar 
+ 🧟 +4 zumbis 
+ Resetar barris 
+ 🐢 Câmera lenta 
+ Ande até um barril e ataque ( E , Espaço ou o botão), depois saia do círculo vermelho . Os dois barris da direita estão perto um do outro, para mostrar a reação em cadeia. O impact frame pisca forte; desligue se incomodar. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Requisitos 
+ EXP-01 Onde aparece: o barril é um objeto sólido e aparece só em alguns mapas, como cidade arruinada, posto, píer e regiões de horda, com 1 a 4 por região. proposta 
+ EXP-02 Acionar: 1 golpe do herói ou a explosão de outro barril acende o pavio. 
+ EXP-03 Antecipação (0,9 s): o barril pisca branco cada vez mais rápido, incha até 115%, balança e solta faíscas do topo, com um chiado de pavio. Um círculo vermelho no chão mostra o raio da explosão. É o tempo de fugir. 
+ EXP-04 Impact frame: no estouro, 2 quadros de alto contraste de ~40 ms cada: primeiro tela branca com silhuetas pretas, depois tela preta com a bola de fogo branca. O jogo congela nesse instante (80 ms). 
+ EXP-05 Som: chiado durante a antecipação; no estouro, um grave forte (80 → 30 Hz) com um ruído longo. O tom varia a cada explosão. 
+ EXP-06 Destroços + fumaça: uma bola de fogo cresce até o raio em 0,15 s. ~12 destroços giram, quicam no chão e somem em ~1,2 s. ~10 nuvens de fumaça crescem, sobem e somem em 1,2–1,8 s. Uma marca queimada fica no chão. 
+ EXP-07 Shake: tremor forte de 0,45 s / 8 px , diminuindo até parar, e um anel de choque no chão. 
+ EXP-08 Dano: raio de 2,5 tiles . Zumbis dentro morrem e são arremessados para fora. O herói dentro leva 30 de dano e é empurrado. proposta 
+ EXP-09 Reação em cadeia: barris dentro do raio acendem com uma antecipação curta (0,15 s) e explodem logo depois. 
+ EXP-10 Barril explodido não reaparece na mesma expedição. proposta 
+ EXP-11 Modo Auto: o herói só ataca o barril se houver 3 ou mais zumbis no raio e ele conseguir sair a tempo. Fora isso, desvia do barril. proposta fora da demo 
+ EXP-12 Acessibilidade: a opção "reduzir flashes" troca o impact frame por um flash suave. proposta 
+ Tempos e valores iniciais, para ajustar no playtest. 
+ O que é: bombas que o herói carrega e arremessa (diferente do barril, que fica parado no mapa). A bomba cai, quica, e o pavio chia enquanto ela pisca e incha cada vez mais rápido ( antecipação ). No estouro vêm o flash + freeze , uma onda de choque que distorce a tela e empurra quem estiver no caminho, destroços + fumaça , e por fim tremor + marca queimada que fica no chão. Bombas também abrem paredes rachadas . 
+ ⏳ Antecipação 
+ ⚡ Flash + freeze 
+ 🌀 Shockwave 
+ 💨 Destroços + fumaça 
+ 📳 Shake + scorch 
+ 💣 Arremessar 
+ Repor bombas 
+ 🧟 +4 zumbis 
+ Limpar marcas 
+ Resetar 
+ 🐢 Câmera lenta 
+ Toque no chão para jogar a bomba ali (até ~5 tiles). Espaço ou E joga para a frente, e WASD anda. Jogue uma perto da rachadura no muro para abrir a passagem, e duas juntas para ver a reação em cadeia. O flash pisca forte; desligue se incomodar. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Sequência da bomba 
+ Tempo Efeito O que acontece 
+ −0,16 s ⏳ Antecipação O herói ergue a bomba acima da cabeça, depois arremessa (whoosh) 
+ 0–1,8 s ⏳ Antecipação Voa em arco, quica (squash + "tum"), pavio encurta e solta faíscas. Pisca vermelho com bipe cada vez mais rápido (0,32 → 0,05 s) e pulsa. Círculo de perigo no chão 
+ 1,58–1,8 s ⏳ Inspira Fica branca e incha até 135%: o último aviso 
+ 0–90 ms ⚡ Flash + freeze Tela branca (~2 quadros), depois laranja sumindo; o jogo congela 90 ms 
+ 0–0,35 s 🌀 Shockwave Anel cresce até 2,2× o raio com refração (a cena fica levemente ampliada dentro da faixa). Empurra zumbis e deita a grama no momento em que passa por eles 
+ 0–2,4 s 💨 Destroços + fumaça 20 torrões e pedras quicam com sombra, 9 lufadas escuras rápidas, 7 colunas cinzas que sobem, 16 brasas, e o barulho dos destroços caindo 
+ 0–1 s 📳 Shake Tremor por "trauma" (intensidade²) suave, até 9 px e 1°, decaindo 
+ 0–60 s 📳 Scorch Marca queimada com rachaduras, brasas acesas por 4 s, grama queimada no raio. Esmaece até 35% e fica 
+ Requisitos 
+ BMB-01 Inventário: bombas são consumíveis, com no máximo 8 (o HUD mostra quantas tem). Vêm de loot de vasculhar/baú e da serralharia do abrigo (pólvora + sucata). No máximo 3 bombas acesas no chão ao mesmo tempo. proposta 
+ BMB-02 Arremesso: o toque escolhe o ponto (até ~5 tiles), e o teclado/Auto joga 3,5 tiles à frente. O herói ergue a bomba por 0,16 s (antecipação) e arremessa. A bomba voa em arco de 0,42 s, quica uma vez com 30% da força (squash + som) e rola até parar. 
+ BMB-03 Antecipação: pavio de 1,8 s que encurta e solta faíscas, com chiado crescente. A bomba pisca vermelho com bipe, e o intervalo cai de 0,32 s para 0,05 s, ficando mais agudo. Ela pulsa até 108%. Nos últimos 0,22 s fica branca e incha até 135%. Um círculo de perigo pontilhado mostra o raio. 
+ BMB-04 Flash + freeze: tela branca por ~2 quadros, depois um laranja que some em 0,14 s; hit stop de 90 ms. Com "reduzir flashes" (EXP-12), só o laranja suave. 
+ BMB-05 Shockwave: anel em elipse (perspectiva 0,6) que cresce até 2,2× o raio em 0,35 s (ease-out). A faixa do anel distorce a cena (refração ~6–10%). Zumbis entre 1× e 1,9× o raio são empurrados e piscam quando o anel chega neles , não no instante da explosão. Grama e objetos leves inclinam para fora e voltam. 
+ BMB-06 Destroços + fumaça: ~20 torrões e pedras com rotação e sombra, quicando 35%. Fumaça em 2 camadas: lufadas escuras rápidas para os lados (0,7–1 s) e colunas cinzas que sobem devagar (1,6–2,4 s). ~16 brasas sobem balançando. Ouve-se a chuva de destroços caindo de 0,35 a 0,9 s. 
+ BMB-07 Shake: tremor por trauma: cada explosão soma 0,85 (máx. 1), e o deslocamento é trauma² × 9 px com uma rotação de até 1°, usando ruído suave (não aleatório por quadro). O trauma cai 1,5 por segundo, então explosões em cadeia acumulam. 
+ BMB-08 Scorch: decalque no chão (gradiente escuro + 7 rachaduras irregulares) com brasas que piscam por 4 s. A grama no raio fica queimada. A marca esmaece até 35% em 60 s e fica até a próxima Lua de Sangue. proposta 
+ BMB-09 Dano: raio de 2,2 tiles . Zumbis dentro morrem e são arremessados girando. O herói dentro leva 20 e é empurrado. Caixas quebram e soltam madeira. Bombas no raio têm o pavio cortado para 0,15 s (cadeia). proposta 
+ BMB-10 Paredes rachadas: rachaduras visíveis em muros (estilo Zelda) só abrem com explosão, revelando passagens, baús ou atalhos. Barris (EXP) também abrem. 
+ BMB-11 Boss: bomba tira 15% da vida do mini boss e 5% do boss, sem arremessar. Alguns bosses têm fraqueza a bomba (ex.: abrir a armadura). proposta fora da demo 
+ BMB-12 Modo Auto: joga bomba só se houver 3+ zumbis num raio e o herói estiver fora dele, ou numa parede rachada marcada no mapa. Nunca joga com menos de 2 bombas. proposta fora da demo 
+ Tempos e valores iniciais, para ajustar no playtest. 
+ O que é: a luta contra o boss do mapa tem uma entrada encenada. Ao entrar na arena, as grades fecham atrás de você (no way back). Vem a tensão (build up): tudo treme, a poeira cai e a câmera vai até ele. O boss aparece da sombra (reveal), entra o nome dele em tela de cinema (name card) e ele ruge (roar). Então a barra de vida enche e a música começa. Ele é 3× maior que o herói. Abaixo de 30% de HP ele entra em fúria . 
+ ⚔️ Atacar 
+ ↺ Recomeçar 
+ 🎵 Música 
+ ⏩ Pular para 31% de HP 
+ 🛡️ Herói invencível 
+ Suba pela entrada da arena ( W / ↑ ). Ataque com E , Espaço ou o botão. Saia do círculo vermelho quando o boss for bater. O som só toca com o celular fora do modo silencioso. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Sequência de entrada 
+ Etapa Duração O que acontece 
+ No way back 0,6 s As grades fecham a entrada com um clangor 
+ Build up 1,6 s A tela escurece, o grave cresce, tudo treme, cai poeira e a câmera vai até o boss 
+ Reveal 1,0 s Ele sobe da sombra como silhueta de olhos vermelhos e um flash revela as cores 
+ Name card 1,8 s Entram as faixas de cinema, o nome desliza com o título embaixo 
+ Roar 1,0 s Rugido com tremor forte, 3 anéis de choque e o herói empurrado 
+ Boss bar 0,8 s A barra enche de 0 a 100%, a música começa e a luta libera 
+ São ~6,8 s no total, com o controle do herói travado. 
+ Requisitos 
+ BOSS-01 No way back: ao cruzar a linha de entrada da arena, as grades fecham a saída com um clangor. A câmera não troca de região até a luta acabar, então não dá para fugir. 
+ BOSS-02 Build up (1,6 s): o controle trava, a tela escurece, um grave cresce, o tremor aumenta aos poucos, cai poeira do teto e a câmera vai até o boss com zoom de 1,35× . 
+ BOSS-03 Reveal (1 s): o boss sobe da sombra como silhueta preta com olhos vermelhos . Um flash branco revela as cores. 
+ BOSS-04 Name card (1,8 s): faixas pretas de cinema entram em cima e embaixo. O nome entra grande, deslizando da esquerda, com um traço vermelho, e o título vem embaixo. Depois tudo sai deslizando. 
+ BOSS-05 Roar (1 s): o boss abre a boca, a tela treme forte (0,8 s / 8 px), saem 3 anéis de choque e toca o som do rugido. O herói é empurrado 1 tile, sem dano. 
+ BOSS-06 Boss bar: barra larga no rodapé com o nome do boss. Entra enchendo de 0 a 100% em 0,8 s e usa a mesma descida suave e ghost bar da aba HP (HP-02/03). Uma marca em 30% avisa onde começa a fúria. 
+ BOSS-07 Música: começa quando a barra enche, com batida e baixo em loop a 120 BPM . Na fúria acelera para 150 BPM e ganha uma camada mais pesada. Na vitória para, com um acorde final. 
+ BOSS-08 Scale: o boss tem 3× o tamanho do herói, com sombra grande. Os passos dele fazem a tela tremer de leve. 
+ BOSS-09 Ataque (demo): ele persegue devagar e, a cada 2,5 s, dá uma Pancada . Primeiro mostra um círculo vermelho por 0,8 s, depois bate: 20 de dano num raio de 2,2 tiles, com tremor e anel de choque. Depois fica 0,6 s vulnerável . 
+ BOSS-10 Fúria (< 30% HP) , acontece uma vez só: o boss para por 1,2 s (invulnerável) e ruge de novo , com zoom, tremor e flash vermelho. Fica com tinta vermelha pulsando e solta vapor. A barra fica vermelha pulsando com a palavra FÚRIA . Ele anda +50% mais rápido, avisa a pancada em 0,5 s, o raio cresce 20% e o dano sobe para 25. A música acelera. 
+ BOSS-11 Vitória: freeze de 0,2 s, flashes, o boss tomba, as grades abrem, a música termina, aparece "Região liberada" e surge um baú da Lua de Sangue (BAU-02). proposta 
+ BOSS-12 Derrota: o herói cai e a luta recomeça do começo. As regras de morte ficam para outra aba. 
+ BOSS-13 Modo Auto não enfrenta boss: para na entrada da arena, marca no mapa e espera o jogador. proposta 
+ BOSS-14 Pular a cena: a partir da segunda luta contra o mesmo boss, segurar a ação pula a entrada (vai direto para a barra enchendo). proposta fora da demo 
+ Tempos e valores iniciais, para ajustar no playtest. 
+ O que é: a luta do boss depois da entrada (aba Boss). A barra de vida tem marcadores de fase . Ao passar por um, vem a transição : o boss fica imune, pula para o centro, ruge, e a arena muda. Em cada fase ele ganha golpes novos e chama minions . Na fase 3 (a fúria , abaixo de 30%) vem o twist : as luzes apagam e ele saca um segundo cutelo. Perto do fim, o desespero : uma sequência de golpes e depois ele fica exausto. Se você cair, o retry recomeça na fase em que parou. Há misericórdia quando sua vida está baixa. No fim, golpe final em câmera lenta, a morte em etapas e as recompensas . 
+ ⚔️ Atacar 
+ → Fase 2 
+ → Fase 3 (fúria) 
+ → Desespero 
+ → Golpe final 
+ ❤ Vida baixa (misericórdia) 
+ ☠ Cair (retry) 
+ Resetar luta 
+ 🐢 Câmera lenta 
+ invencível 
+ 🔊 música 
+ Ande com WASD e ataque com Espaço , E , o botão ou tocando na tela. Fuja das áreas vermelhas: elas mostram onde o golpe vai cair. Os botões "→" pulam direto para cada momento. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Roteiro da luta 
+ Momento Vida O que acontece 
+ Fase 1 · O Açougueiro 100–65% Golpe de cutelo (cone) e investida (linha). Se bater na parede, fica tonto. Música a 96 BPM. 
+ 🔶 Transição 65% Freeze, marcador estilhaça, boss imune pula ao centro, onda empurra o herói, rugido, banner "FASE 2", arena avermelha 
+ Fase 2 · Hora da carne 65–30% Novo: pisão (salta no herói, cria anel de choque para pular/esquivar) e minions que saem do chão; imune enquanto invoca. 120 BPM. 
+ 🔶 Transição + twist 30% Entra em fúria : corpo vermelho, aura, 40% mais rápido, avisos 25% mais curtos. Twist : as luzes apagam (só o herói ilumina, olhos do boss brilham) e ele saca o 2º cutelo. Novo: combo de 3 golpes. 146 BPM. 
+ 💢 Desespero 10% Rugido, "ÚLTIMO SUSPIRO", 5 pisões seguidos mirando o herói (170 BPM), depois fica exausto 3 s de joelhos, levando dano ×2 
+ 🕊️ Misericórdia herói < 25% O boss ataca mais devagar, os avisos duram 50% mais, e minions sempre soltam coração (+20). Termina quando o herói volta a 50%. 
+ 🔁 Retry herói 0 Câmera lenta, herói cai, "VOCÊ CAIU" mostra quanto faltou. Recomeça na fase atual, sem a entrada. Da 3ª tentativa em diante, o grupo ajuda (+25% dano). 
+ ⚡ Golpe final 0 Freeze 0,35 s, câmera lenta 0,15× por 1,2 s, zoom 1,45×, flash e "GOLPE FINAL!" 
+ 💀 Morte 0–3,6 s Ajoelha e treme, pisca branco, 3 estouros (0,9 · 1,5 · 2,1 s), explosão final, a música para e a luz volta 
+ 🏆 Recompensas depois Baú cai do céu (tum), abre com raios e fanfarra, e 5 cartas entram uma a uma 
+ Requisitos 
+ BF-01 Phase markers: a barra do boss mostra marcadores dourados nos limites de fase (65% e 30%). O nome da fase aparece ao lado do nome do boss. A cor da barra muda por fase. Na fase 3 aparece uma linha pontilhada no limite do desespero (10%). 
+ BF-02 Sem pular fase: o dano que atravessa um marcador é cortado nele; a fase sempre toca a transição, mesmo com golpe forte. 
+ BF-03 Transição (~2,1 s): freeze 150 ms + flash, o marcador estilhaça (som de vidro), o boss fica imune e pula até o centro, uma onda empurra o herói para longe (sem dano), rugido com tremor de 0,9 s e banner "FASE N · nome". Os ataques em andamento são cancelados. 
+ BF-04 Fúria (≤ 30%): o boss fica 40% mais rápido, os avisos encurtam 25%, a cor fica vermelha com aura pulsante e o dano do golpe sobe de 14 para 18. Mantém a regra de BOSS-11. 
+ BF-05 Golpes novos por fase: F1 = cutelo (cone 78 px) e investida (linha 300 px; bater na parede = tonto 1,1 s). F2 soma pisão (salto até o herói + anel de choque de 130 px) e invocar. F3 soma combo (3 golpes). Todo golpe tem telegrafia vermelha que enche até o momento do dano. 
+ BF-06 Minions: na fase 2 o boss invoca 3 zumbis que saem do chão (0,6 s, com terra). Ele fica imune enquanto invoca e só invoca se houver menos de 2 vivos. Minions morrem com 2 golpes e podem soltar coração. 
+ BF-07 Twist (fase 3): algo muda a regra da luta. Aqui as luzes apagam e só um círculo em volta do herói fica claro. Os olhos do boss brilham no escuro e as telegrafias são desenhadas por cima da escuridão , para continuar justo. Cada boss tem o seu twist (ex.: inundar a arena, trocar de forma). proposta 
+ BF-08 Desespero (≤ 10%, uma vez): imune enquanto ruge, depois 5 pisões rápidos (aviso de 0,42 s) mirando a posição do herói. Termina exausto por 3 s: de joelhos, suando, dano recebido ×2. É a recompensa por sobreviver. 
+ BF-09 Retry: ao cair, câmera lenta 0,3×, o herói tomba, a tela escurece e aparece quanto de vida faltava ao boss. "Tentar de novo" recomeça na fase atual , com o boss no limite dela, herói com vida cheia, sem a entrada e sem os minions. O número da tentativa fica no HUD. 
+ BF-10 Mercy: com o herói abaixo de 25%, o boss espera 30% mais entre ataques e os avisos ficam 50% mais longos; minions mortos sempre soltam coração (+20). Da 3ª tentativa em diante, o grupo ajuda com +25% de dano até o fim da luta. proposta 
+ BF-11 Golpe final: o golpe que zera a vida dá freeze de 0,35 s, câmera lenta 0,15× por 1,2 s, zoom 1,45× no boss, flash branco, 30 partículas e "GOLPE FINAL!". Os minions somem junto. 
+ BF-12 Morte: o boss ajoelha tremendo e piscando, 3 estouros com tremor crescente, e aos 2,7 s a explosão final. A música para (silêncio) e a escuridão e o tom vermelho vão embora. 
+ BF-13 Recompensas: um baú cai do céu (sombra cresce, "tum", poeira) e abre sozinho em 1,2 s ou com um toque, com raios de luz e fanfarra. 5 cartas entram a cada 0,28 s: XP, arma do boss, chave de ouro, material e "região libertada". Tudo é aplicado na hora (ver LVL-07). 
+ BF-14 Música por fase: o ritmo acelera (96 → 120 → 146 → 170 BPM no desespero) e ganha camadas (bumbo → chimbal → baixo). 
+ BF-15 Modo Auto: enfrenta só se o boss estiver marcado como "auto permitido" e o grupo tiver nível recomendado. Caso contrário, marca no mapa (BOSS-13). No auto, o retry é automático, até 2 vezes. proposta fora da demo 
+ Vida do boss nesta demo: 120 (golpe do herói = 4). Valores iniciais, para ajustar no playtest. 
+ O que é: o abrigo é a base do jogador. O jogo alterna entre dois momentos: na expedição você enfrenta zumbis e junta recursos, e no abrigo você constrói (serralheria, coletor de água, horta…) e descansa . Para construir, você escolhe o prédio e aparece uma prévia translúcida (ghost). Ao confirmar, o prédio cai encaixando (drop it in) com poeira e som , e os vizinhos reagem. 
+ 🧟 Expedição lutar · vasculhar · baús · recrutar · boss 
+ ⇄ 
+ 🏕️ Abrigo construir · descansar · guardar · produzir 
+ 🔨 Construir aqui 
+ ✕ Cancelar 
+ ♾️ Recursos infinitos 
+ ↺ Resetar abrigo 
+ Escolha uma construção abaixo. Celular: toque para posicionar a prévia e toque de novo no mesmo lugar (ou em "Construir aqui") para confirmar. PC: mova o mouse e clique. Esc cancela. 
+ Estoque 
+ Bônus de vizinhança ativos nenhum ainda 
+ Construções 
+ Construção Tamanho Custo Função 
+ 🔥 Fogueira 1×1 fixa Cura total e salva o jogo (já existe no abrigo) 
+ ⚒️ Serralheria 2×2 10 Sucata · 5 Madeira Fabrica e melhora armas e ferramentas 
+ 💧 Coletor de água 1×1 6 Madeira · 2 Pano Produz Água com o tempo 
+ 🌱 Horta 2×1 4 Madeira · 2 Água Produz Comida com o tempo 
+ 🪚 Bancada 2×1 8 Madeira Craft básico (ataduras, barricadas, gazuas) 
+ ⛺ Barraca 2×1 4 Pano · 4 Madeira Descanso e moradia de sobreviventes recrutados 
+ ⚡ Gerador 1×1 6 Peças · 8 Sucata · 1 Gasolina Energia para as outras construções 
+ 🪵 Barricada 1×1 2 Madeira Defesa quando uma horda ataca o abrigo 
+ Bônus de vizinhança 
+ Par lado a lado Bônus 
+ 💧 Coletor + 🌱 Horta Horta produz +25% de comida 
+ ⚡ Gerador + ⚒️ Serralheria Serralheria trabalha 2× mais rápido 
+ ⛺ Barraca + 🔥 Fogueira Descanso +50% 
+ 🪚 Bancada + ⚒️ Serralheria Craft custa −20% 
+ "Lado a lado" = até 1 tile de distância, diagonal incluída. 
+ Requisitos 
+ ABR-01 Loop: o jogo alterna entre expedição (sair, lutar, juntar) e abrigo (construir, descansar, guardar). Ao voltar, tudo da mochila vai para o estoque do abrigo, e a fogueira cura e salva. 
+ ABR-02 Área de construção: grade de 14×7 tiles dentro da cerca, com a fogueira fixa no centro. Expandir a área (cerca maior) fica para depois. proposta 
+ ABR-03 Construções, tamanhos e custos conforme a tabela acima. 
+ ABR-04 Ghost: ao escolher uma construção, uma prévia translúcida (55%) segue o dedo ou o cursor, encaixada na grade. Verde = pode construir; vermelho = não pode, com o motivo (ocupado, fora da área ou falta recurso). Ela também mostra, antes de construir, as linhas dos bônus que vai ganhar. 
+ ABR-05 Confirmar: no celular, o 1º toque posiciona a prévia e o 2º toque no mesmo lugar (ou o botão "Construir aqui") confirma. No PC, um clique confirma. Esc ou o botão cancela. 
+ ABR-06 Drop it in: a construção cai de ~4 tiles de altura em 0,25 s , acelerando. Ao tocar o chão, achata (125% × 75%) e volta com efeito elástico em 0,3 s . 
+ ABR-07 Dust: 10–14 nuvens de poeira saem da base para os lados e somem em ~0,6 s, com um tremor leve (0,1 s / 2 px). 
+ ABR-08 Sound: um baque grave mais o som do material: estalo de madeira , tinido de metal ou abafado de pano . O tom varia ±8%. Escolher no menu faz um "blip". 
+ ABR-09 Neighborhood (reação): construções a até ~2,5 tiles dão um pulinho de até 3 px e balançam por 0,4 s quando algo cai perto. Quanto mais longe, mais fraco. 
+ ABR-10 Neighborhood (bônus): os pares da tabela ganham bônus quando ficam lado a lado. Ao construir, sobe um texto com o bônus e uma linha dourada liga os dois. Os bônus ativos ficam listados. proposta 
+ ABR-11 Recursos: o custo sai do estoque na hora. Sem recurso suficiente não dá para confirmar, e a prévia vermelha diz o que falta. 
+ ABR-12 Mover / demolir: segurar numa construção dá as opções de mover (volta a ser prévia) ou demolir (devolve 50% do custo). proposta fora da demo 
+ ABR-13 Produção: coletor e horta produzem mesmo com o herói em expedição (é um jogo idle). O estoque tem limite por construção, para valer voltar ao abrigo. proposta fora da demo 
+ ABR-14 Tempo de obra: construções simples ficam prontas na hora. Serralheria e gerador levam alguns minutos com andaime e podem ficar sendo construídos durante a expedição. proposta fora da demo 
+ Custos, tamanhos e bônus iniciais, para ajustar no playtest. 
+ O que é: cada construção do abrigo tem níveis de 1 a 5 , como no Clash of Clans. Melhorar custa recursos e leva um tempo de obra ; ao terminar, o efeito fica mais forte e o visual evolui . A Fogueira é o prédio principal: nenhuma construção passa do nível dela . Cada obra ocupa um construtor , e você começa com 1. 
+ 👷 +1 construtor (sobrevivente) 
+ ♾️ Recursos infinitos 
+ ↺ Resetar 
+ Estoque 
+ Folha de assets por nível 
+ Cada célula é um asset diferente. Toda construção sobe na mesma escada de materiais , então dá para saber o nível de longe, pelo material. 
+ Escada de materiais 
+ Nível Material Parede Telhado Detalhe que marca o nível 
+ 1 Lona e sucata Lona verde remendada, cordas Lona azul caída Tudo torto e improvisado, estacas 
+ 2 Madeira Tábuas na vertical com pregos Ripas de madeira Paliçada, barril de madeira, bancos de tronco 
+ 3 Pedra Blocos de pedra cinza com argamassa Telha de barro Chaminé de pedra, cisterna, ameias 
+ 4 Tijolo e metal Tijolo vermelho com faixas de metal rebitado Chapa de metal ondulada Lâmpada acesa, caixa-d'água, arame farpado 
+ 5 Lua de Sangue Pedra escura com acabamento dourado Ardósia preta com cumeeira dourada Runas vermelhas pulsando, bandeira, fogo e brilho vermelhos 
+ O tamanho na grade não muda, só o asset. A Muralha segue a mesma escada e é ela que segura a invasão da Lua de Sangue (aba Invasão). 
+ Efeito por nível 
+ Custo e tempo 
+ Para o nível Custo Tempo real Tempo na demo 
+ 2 1× o custo base 1 min 3 s 
+ 3 2× + 8 Pedra 15 min 5 s 
+ 4 3,5× + 6 Pedra + 6 Peças 1 h 7 s 
+ 5 6× + Fragmento lunar 4 h 9 s 
+ Custo base: Fogueira 10 Madeira + 5 Sucata · Serralheria 12 Sucata + 6 Madeira · Coletor 8 Madeira + 3 Pano · Horta 6 Madeira + 2 Água · Muralha 8 Madeira + 4 Sucata. 
+ Requisitos 
+ EVO-01 Níveis 1–5 para toda construção. Subir de nível melhora o efeito (tabela acima) e muda o visual. 
+ EVO-02 Fogueira = prédio principal (como o Centro da Vila do CoC). O nível dela é o teto das outras construções: com a Fogueira no nível 2, nada passa do nível 2. O painel avisa "Precisa da Fogueira nível N". 
+ EVO-03 Custo cresce a cada nível (1×, 2×, 3,5× e 6× o custo base). O nível 5 pede Fragmento lunar , que vem de baú da Lua de Sangue e de boss. 
+ EVO-04 Tempo de obra: nível 2 em 1 min, nível 3 em 15 min, nível 4 em 1 h e nível 5 em 4 h. A obra continua contando durante a expedição e com o jogo fechado (idle). tempos: proposta 
+ EVO-05 Construtores: cada obra ocupa 1 construtor. Você começa com 1; cada sobrevivente recrutado pode virar construtor, até no máximo 3. Sem construtor livre, o botão Melhorar fica bloqueado com aviso. 
+ EVO-06 Durante a obra, a construção continua funcionando no nível atual, para não travar o idle. proposta 
+ EVO-07 Visual da obra: andaime em volta, martelo batendo com faíscas, poeira de vez em quando e uma barra de tempo com contagem regressiva em cima. O som de marteladas toca enquanto a tela está aberta. 
+ EVO-08 Obra pronta: a construção dá um pulo (squash/stretch), um brilho passa por ela, saem estrelas, o selo do nível pulsa, sobe o texto "Nível N!" e toca uma fanfarra curta. Se o jogador estava fora, aparece um aviso "Obra pronta" quando ele volta. 
+ EVO-09 Um asset por nível: cada construção tem 5 sprites bem diferentes, seguindo a escada de materiais (lona → madeira → pedra → tijolo e metal → Lua de Sangue). A troca de nível muda o material da parede, do telhado e os detalhes, para ser reconhecível de longe. O tamanho na grade não muda. 
+ EVO-13 Material no custo: subir para o nível 3 pede Pedra , para o 4 pede Pedra + Peças (metal) e para o 5 pede Fragmento lunar , combinando com o material novo. 
+ EVO-14 Muralha evolui como as outras (300 → 600 → 1000 → 1600 → 2500 HP) e é a primeira linha de defesa na invasão da Lua de Sangue. 
+ EVO-10 Selo de nível sempre visível em cada construção. Tocar nela abre o painel com o nível atual e o próximo lado a lado, custo (em vermelho o que falta), tempo e botão Melhorar. 
+ EVO-11 Acelerar: o item "Kit de ferramentas" (de baú) termina a obra na hora. Colocar um sobrevivente extra ajudando corta 50% do tempo. proposta 
+ EVO-12 Cancelar uma obra devolve 50% dos recursos. proposta fora da demo 
+ Valores iniciais, para ajustar no playtest. 
+ O que é: você pode recrutar vários sobreviventes , mas na expedição só vão o herói + 2 recrutas . Os outros ficam morando na base , andando por lá, e cada um pode ser colocado para trabalhar conforme sua especialidade : proteger o abrigo, cortar madeira, coletar recursos ou acelerar obras. A referência é o Palworld : você pega o recruta e "joga" ele na estação, ele trabalha sozinho, se cansa, vai dormir e depois volta. 
+ 🤖 Trabalho automático (ociosos procuram estação sozinhos) 
+ ↺ Resetar 
+ Como usar: toque num recruta (na tela ou na lista) e depois toque numa estação para mandar ele para lá. Ele só aceita estações da própria especialidade. 
+ Expedição: herói + 2 
+ Produção da base 
+ Especialidades e estações 
+ Especialidade Estação na base O que faz Na expedição 
+ 🛡️ Defesa Posto de guarda Aumenta a defesa do abrigo contra hordas (+10 por nível) Recebe parte do dano no lugar do herói 
+ 🪓 Madeira Pilha de toras Corta Madeira Derruba barricadas de madeira no caminho 
+ 🧺 Coleta Ponto de coleta Junta Sucata e Pano Vasculha 30% mais rápido 
+ 🔨 Construção Obra Acelera as obras da aba Evolução (+50% por nível) Abre portas e grades emperradas 
+ ⚔️ Combate — Não trabalha na base Luta ao lado do herói (dano e vida) 
+ Nível da especialidade: ★ = 1×, ★★ = 1,5×, ★★★ = 2× de rendimento. 
+ Requisitos 
+ GRP-01 Recrutar vários: não há limite de recrutamento, mas os moradores são limitados pelas camas: 2 por barraca, subindo com o nível da barraca. proposta 
+ GRP-02 Expedição = herói + até 2 recrutas , escolhidos na base antes de sair. Quem vai para a expedição não trabalha na base, e ao sair caminha até o portão. 
+ GRP-03 Ficha do recruta: 1 ou 2 especialidades, cada uma com nível de 1 a 3 (⚔️ Combate, 🛡️ Defesa, 🪓 Madeira, 🧺 Coleta, 🔨 Construção), e 1 traço de personalidade (ex.: Trabalhador +20% rendimento, Econômica −20% de cansaço, Dorminhoco descansa mais devagar). 
+ GRP-04 Vagar: sem trabalho, o recruta anda pela base, para, olha em volta e às vezes solta um emote (❓ 🎵). A energia dele recupera devagar. 
+ GRP-05 Atribuir (estilo Palworld): toque no recruta e depois na estação; ele é arremessado em arco até lá, cai com poeira e começa a trabalhar. Só vale se tiver a especialidade da estação; senão a estação chacoalha e aparece "não sabe fazer isso". 
+ GRP-06 Trabalho automático (ligado por padrão): quem está ocioso procura sozinho uma estação com vaga da sua especialidade, indo pela de maior nível primeiro. Dá para desligar e escolher tudo na mão. 
+ GRP-07 Estações: Posto de guarda, Pilha de toras, Ponto de coleta e Obra, cada uma com 2 vagas . As vagas aumentam com o nível da construção (aba Evolução). proposta 
+ GRP-08 Rendimento = base × nível da especialidade (1× / 1,5× / 2×) × traço. Cada produção solta um "+1 Madeira" subindo da estação. 
+ GRP-09 Energia de 0 a 100: trabalhar gasta e vagar recupera devagar. Abaixo de 15 o recruta larga o trabalho, vai dormir na barraca (💤) até encher e depois volta sozinho para o mesmo posto, que fica guardado para ele. 
+ GRP-10 Animação por trabalho: machado batendo com lascas, martelo com faíscas, agachar e jogar coisas no cesto, e o guarda patrulhando de um lado para o outro. 
+ GRP-11 Especialidade na expedição: cada uma dá um bônus fora da base (coluna "Na expedição" da tabela). proposta fora da demo 
+ GRP-12 Sem morte permanente: um recruta que cai na expedição volta ferido e fica um tempo sem trabalhar. proposta fora da demo 
+ GRP-13 Idle: a base continua trabalhando com o jogo fechado. Ao voltar, aparece um resumo: "Enquanto você esteve fora: +120 Madeira, +40 Sucata…". proposta fora da demo 
+ GRP-14 Comida do estoque (da Horta) recupera a energia mais rápido ao dormir. Sem comida, os recrutas descansam mais devagar. proposta fora da demo 
+ Na demo os tempos estão acelerados. Valores iniciais, para ajustar no playtest. 
+ O que é: a cada 8 horas de tempo real nasce a Lua de Sangue , que renasce o que é grande no mapa todo : boss , mini boss e baús . É ela que "reseta" o mapa para a próxima expedição de 8 h. Zumbis comuns e contêineres pequenos não dependem dela: voltam sozinhos. Antes, o jogo avisa ; na hora, toca uma cinemática curta e cada boss renasce com uma animação de respawn . 
+ 🌕 Ativar agora 
+ ⚔️ Limpar a região (matar tudo e abrir os baús) 
+ ⏳ Pular para o aviso 
+ 🔊 Som 
+ Na demo, 8 h = 40 s . Repare: depois de limpar a região, os zumbis comuns voltam sozinhos em poucos segundos, mas o boss, o mini boss e os baús só voltam quando a Lua de Sangue nasce. O som só toca com o celular fora do modo silencioso. 
+ Ciclo 
+ Fase Tempo real Demo O que acontece 
+ Normal ~7 h 50 min 32 s Contagem regressiva no HUD (lua branca). É a janela da expedição automática. 
+ Aviso últimos 10 min 8 s A lua do HUD vai ficando vermelha e pulsa, a tela ganha um tom vermelho e o coração bate cada vez mais rápido 
+ Ativação ~3 s ~3 s Faixas de cinema, a tela escurece, a lua vermelha sobe e aparece o título 
+ Respawn ~3 s ~3 s Boss e mini boss renascem do chão; baús voltam com um feixe de luz 
+ Lua de Sangue ativa 10 min 8 s Tela avermelhada, inimigos mais fortes e mais variantes raras 
+ Requisitos 
+ LUA-01 Ciclo de 8 h de tempo real, o mesmo tamanho do teto da expedição automática (LOOP-04/06). Usa o relógio do servidor, não o do aparelho, para não dar para burlar, e conta mesmo com o jogo fechado. 
+ LUA-02 O que renasce na lua, no mapa todo: boss , mini boss e baús (madeira, ferro e Lua de Sangue). Não dependem da lua: zumbis comuns, contêineres de vasculhar e barris, que voltam sozinhos (LOOP-07). Nunca resetam: regiões descobertas, atalhos, geradores ligados e o abrigo. 
+ LUA-03 Aviso (últimos 10 min): o ícone da lua no HUD passa de branco para vermelho e pulsa, a tela ganha um tom vermelho leve e uma batida de coração começa devagar e acelera. 
+ LUA-04 Ativação (~3 s) , com o controle travado se o herói estiver em expedição manual: faixas de cinema, a tela escurece, uma lua vermelha enorme sobe brilhando e entra o título "A LUA DE SANGUE NASCEU" , com gongo e coro grave. 
+ LUA-05 Animação de respawn de boss e mini boss , um depois do outro:
+ Um círculo de runas vermelhas gira e cresce no chão (0,4 s). 
+ Um feixe de luz vermelha desce do céu, com flash, tremor e um estalo. 
+ A terra racha e espirra. 
+ O boss sai do chão : primeiro as mãos, depois o corpo (0,6 s). 
+ Os olhos acendem em vermelho e ele solta um grunhido. 
+ LUA-06 Respawn dos baús: um feixe de luz dourada desce, o baú cai fechado com poeira e solta um brilho. No mapa, o ícone do baú reaparece. 
+ LUA-07 Distância segura: nada renasce a menos de 4 tiles do herói. Esses pontos esperam ele se afastar. 
+ LUA-08 Durante a Lua de Sangue (10 min): tela avermelhada e inimigos com aura vermelha, +25% de vida e velocidade . A chance de variante rara sobe de 5% para 20%. proposta 
+ LUA-09 Variante rara: contorno dourado brilhante e etiqueta "RARO" acima da cabeça. Ao derrotar uma, ela é registrada no bestiário. 
+ LUA-10 Herói no abrigo quando a lua nasce: uma horda ataca a base . A defesa dos guardas (aba Grupo) e as barricadas (aba Evolução) decidem o estrago. proposta fora da demo 
+ LUA-11 Idle / jogo fechado: o reset acontece em silêncio. Ao abrir, entra no resumo (LOOP-08): "A Lua de Sangue nasceu: bosses e baús voltaram ao mapa". 
+ LUA-12 A partir da segunda vez, tocar na tela pula a cinemática (o respawn acontece igual). proposta fora da demo 
+ Tempos e valores iniciais, para ajustar no playtest. 
+ O que é: cada mapa tem um relógio e passa por um ciclo de dia e noite . A luz muda de cor (amanhecer rosado, dia claro, entardecer dourado, noite azul). As sombras giram e esticam com o sol. À noite os postes acendem um a um, as janelas e a fogueira iluminam em volta e o herói acende a lanterna. O dia muda o jogo: de dia os zumbis são poucos, lentos e alguns dormem na sombra ; de noite são mais, mais rápidos, enxergam longe e os olhos brilham. Na noite de Lua de Sangue , a noite fica vermelha. 
+ Hora 
+ Velocidade pausado jogo (1 dia = 24 min) rápido (1 dia = 1 min) turbo (1 dia = 15 s) 
+ 🌅 Amanhecer 
+ ☀️ Meio-dia 
+ 🌇 Entardecer 
+ 🌙 Noite 
+ Sombras do sol 
+ Luzes da cidade 
+ Zumbis reagem à hora 
+ 🩸 Noite de Lua de Sangue 
+ Ande com WASD . A cena é uma praça no estilo Marco Zero (rosa dos ventos, calçada de pedra, sobrados). Arraste a hora ou acelere para ver a passagem. De dia, chegue perto de um zumbi dormindo para acordá-lo. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Períodos do dia 
+ Período Horas Luz Zumbis 
+ 🌅 Amanhecer 5h–7h Rosado → dourado, sombras longas para oeste; postes apagam Voltam a ficar lentos, alguns deitam na sombra 
+ ☀️ Manhã / Tarde 7h–17h Claro, sombras curtas ao meio-dia 3 por região, velocidade 14 px/s, visão 2 tiles, dormindo longe do herói 
+ 🌇 Entardecer 17h–19h30 Dourado → roxo, sombras longas para leste; postes acendem em cascata Acordam e aumentam aos poucos 
+ 🌙 Noite / Madrugada 19h30–5h Azul escuro; só vê onde há luz (postes, janelas, fogueira, lanterna) 8 por região, 40 px/s, visão 7 tiles, olhos acesos 
+ Requisitos 
+ DN-01 Relógio: cada mapa tem uma hora de jogo. 1 dia de jogo = 24 min reais (1 h = 1 min), contando com o jogo fechado. A hora aparece no HUD com um arco de sol/lua e o nome do período. proposta 
+ DN-02 Lua de Sangue: o ciclo de 8 h reais da Lua de Sangue (LUA-01) não depende do relógio do mapa. Quando ela nasce, a noite do mapa vira noite de Lua de Sangue: o ambiente fica vermelho, os postes ficam avermelhados e os zumbis ficam 30% mais rápidos. Se for de dia no mapa, o céu escurece e vira noite vermelha durante a lua. proposta 
+ DN-03 Cor da luz: o ambiente é uma cor interpolada por hora (tabela de keyframes), multiplicada sobre a cena (mapa de luz). Amanhecer rosado, dia branco, entardecer dourado → roxo, noite azul escura. 
+ DN-04 Luzes: à noite, a luz vem só de fontes: postes (raio ~3 tiles), janelas acesas (algumas, sorteadas por casa), fogueira (tremula), lanterna do herói (~2 tiles) e olhos dos zumbis. As luzes são somadas no mapa de luz antes de multiplicar; o núcleo de cada lâmpada ganha um brilho aditivo. 
+ DN-05 Postes acendem em cascata: quando escurece (noite > 35%), cada poste acende com um pequeno atraso em relação ao anterior e às vezes pisca antes de firmar. Apagam no amanhecer. 
+ DN-06 Sombras do sol: sombras projetadas no chão (paralelogramo) para prédios, árvores, postes e personagens. A direção segue o sol (nasce a leste às 6h, se põe a oeste às 18h), o comprimento cresce quando o sol está baixo e a opacidade some à noite. 
+ DN-07 Zumbis de dia: 3 por região, lentos (14 px/s) e com visão curta (2 tiles). Os longe do herói dormem deitados (ícone "z"); acordam quando ele chega a ~2 tiles. É o melhor horário para vasculhar e explorar. 
+ DN-08 Zumbis de noite: até 8 por região (spawn com aviso, SPW-01), rápidos (40 px/s), com visão de ~7 tiles e olhos vermelhos que brilham no escuro. Mais XP e loot por zumbi à noite (+25%). valores: proposta 
+ DN-09 Transição suave: quantidade, velocidade e visão dos zumbis variam de forma contínua com a "escuridão" (0 = dia, 1 = noite), não por troca brusca. Os que sobram ao amanhecer somem com fade fora da visão do herói. 
+ DN-10 Partículas de ambiente: de dia, poeira dourada no ar; à noite, vagalumes perto das árvores e fagulhas da fogueira. 
+ DN-11 Identidade por mapa: cada mapa tem sua paleta por período e seu detalhe noturno (ex.: Marco Zero acende a rosa dos ventos, 25 de Março acende letreiros, Cristo Redentor fica iluminado ao longe). Ver MAP-05. proposta 
+ DN-12 Eventos por hora: sobreviventes para recrutar aparecem só de dia; alguns baús e variantes só aparecem de noite (ex.: Enluarado com chance maior à noite, VAR-02). proposta fora da demo 
+ DN-13 Abrigo: o abrigo usa a mesma hora. A horta só produz de dia, o coletor de água rende mais de madrugada (orvalho) e os recrutas dormem à noite (GRP-09). proposta fora da demo 
+ DN-14 Modo Auto: de dia, prioriza vasculhar e baús; de noite, fica perto das luzes, evita regiões escuras sem gerador (CAM-09) e só luta quando é atacado. proposta fora da demo 
+ DN-15 Custo: o mapa de luz é 1 canvas do tamanho da tela, redesenhado por quadro só na região quente. Fontes de luz fora da tela são ignoradas (CAM-11). Em celular fraco, o mapa de luz pode ser feito em meia resolução. 
+ Horários e valores iniciais, para ajustar no playtest. 
+ O que é: como um inimigo aparece . Ele nunca surge do nada na cara do jogador. Primeiro vem o aviso (marca vermelha no chão + bipe + seta na borda), depois a entrada: abre um portal (Lua de Sangue), cai do céu (brutamontes) ou sai do chão (comum). Na chegada, o chão treme (anel, poeira e rachadura), e o zumbi fica caído alguns instantes até acordar : se contorce, levanta, os olhos acendem, ele ruge, aparece um "!" e só então começa a andar. 
+ ⚠️ Warn the player 
+ 🌀 Open a portal 
+ ⬇️ Drop it in 
+ 📳 Shake the ground 
+ 👁️ Wake it up 
+ 🧟 Comum (do chão) 
+ 🌀 Lua de Sangue (portal) 
+ 💪 Brutamontes (do céu) 
+ 🌊 Horda ×5 
+ Limpar 
+ 🐢 Câmera lenta 
+ Ande com WASD . Os spawns nunca acontecem a menos de 3 tiles do herói. Desligue o aviso e o acordar para ver como fica injusto. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Tipos de entrada 
+ Tipo Quando Sequência 
+ 🧟 Do chão Respawn normal de zumbis comuns Aviso 1 s → chão racha (tremor leve) → sai da terra em 0,8 s → anda 
+ 🌀 Portal Lua de Sangue (LUA), hordas (INV), invocação de boss Aviso 1 s → portal vermelho abre no ar (0,5 s) → zumbi cai esticado → impacto → caído 0,8 s → acorda 
+ ⬇️ Do céu Brutamontes, mini boss Aviso 1 s (marca maior) → sombra cresce → cai de 260 px esticado → impacto forte (tremor 7 px, anel 90 px, rachadura) → caído 1,1 s → acorda 
+ Requisitos 
+ SPW-01 Warn the player: todo spawn é anunciado 1 s antes : marca vermelha pulsante no chão com um anel que fecha, um "!" e 3 bipes. Se o ponto estiver longe do herói, uma seta pisca na borda da tela apontando para lá. 
+ SPW-02 Distância segura: nunca surge a menos de 3 tiles do herói, nem em cima de outro spawn ou obstáculo. Em hordas, os spawns são escalonados (0,35 s entre cada). 
+ SPW-03 Open a portal: um rasgo vermelho abre no ar sobre o ponto em 0,5 s (elipse escura, anéis girando, brilho e gotas caindo), fica aberto enquanto o zumbi cai e fecha em 0,4 s. Som grave subindo. 
+ SPW-04 Drop it in: a sombra no chão cresce conforme o corpo se aproxima. O corpo cai com gravidade e estica na vertical conforme a velocidade (até 150%). Som de vento caindo. 
+ SPW-05 Shake the ground: no impacto: tremor (3 px comum, 7 px grande, mais forte na horizontal), anel de poeira (50/90 px), 10–18 torrões e uma rachadura que fica 4 s e some em 2 s. Se o herói estiver perto, aparece "cuidado!" (sem dano). sem dano: proposta 
+ SPW-06 Wake it up: o zumbi fica caído 0,8 s (1,1 s o grande) e se contorce. Depois levanta em 0,35 s com squash, os olhos acendem piscando com brilho vermelho, ele ruge e aparece um "!" vermelho. Só então passa a perseguir e causar dano. É a janela para o jogador se posicionar ou atacar primeiro. 
+ SPW-07 Invulnerável ao chegar? Não: durante o "caído", o zumbi pode ser atacado e leva dano dobrado (recompensa por ler o aviso). proposta fora da demo 
+ SPW-08 Fora da tela: spawns em regiões que não estão na câmera não tocam a sequência; o zumbi já aparece de pé (economia, CAM-14). 
+ SPW-09 Modo Auto: o herói se afasta das marcas de aviso e ataca zumbis caídos primeiro. proposta fora da demo 
+ Tempos iniciais, para ajustar no playtest. 
+ O que é: a inteligência dos zumbis, inspirada nos fantasmas do Pac-Man. Todos usam a mesma regra simples de navegação: em cada cruzamento, escolhem a direção que deixa mais perto de um tile-alvo , sem dar meia-volta. O que muda o comportamento é como cada tipo escolhe o alvo : o Perseguidor mira no herói (chase), o Emboscador mira 4 tiles à frente dele (ambush), o Cercador fecha a pinça com o Perseguidor e o Ladrão vai atrás do loot e foge (steal). De tempos em tempos todos entram em respiro (relief): cada um recua para o seu canto e dá uma folga ao jogador. 
+ ⚔ Atordoar 
+ Modo Ciclo automático Sempre perseguição Sempre respiro 
+ mostrar alvos (X) 
+ 🐢 Câmera lenta 
+ Resetar 
+ ● Perseguidor (chase) 
+ ● Emboscador (ambush) 
+ ● Cercador (pinça) 
+ ● Ladrão (steal) 
+ Ande com WASD /setas e use Espaço / E ou toque na tela para atordoar quem estiver perto. O X colorido mostra o alvo de cada zumbi. Ligue um tipo por vez para entender cada um. Bata no Ladrão para ele soltar o saque antes de chegar à saída. 
+ ▲ 
+ ◀ ▶ 
+ ▼ 
+ Tipos e alvos 
+ Tipo Inspiração Alvo na perseguição Alvo no respiro 
+ Perseguidor · chase Blinky O tile do herói Canto de cima à direita 
+ Emboscador · ambush Pinky 4 tiles à frente de para onde o herói olha: chega pela frente e corta o caminho Canto de cima à esquerda 
+ Cercador · pinça Inky Ponto P = 2 tiles à frente do herói; alvo = P + (P − Perseguidor). Fica do lado oposto ao Perseguidor e fecha o cerco Canto de baixo à direita 
+ Ladrão · steal (novo) Loot mais próximo no chão. Sem loot: a mochila do herói. Carregando: a saída (foge mais rápido) Canto de baixo à esquerda (se não estiver carregando) 
+ Ciclo de modos (como o nível 1 do Pac-Man): respiro 7 s → perseguição 20 s → respiro 7 s → perseguição 20 s → respiro 5 s → perseguição 20 s → respiro 5 s → perseguição sem fim. 
+ Requisitos 
+ IA-01 Navegação por tile-alvo: o zumbi anda de centro em centro de tile. Ao chegar num tile, olha as saídas livres (menos a de onde veio) e escolhe a que deixa o próximo tile mais perto do alvo (distância em linha reta). Empate: cima, esquerda, baixo, direita. Só volta pelo mesmo caminho em beco sem saída. É barato (sem A*) e dá comportamentos diferentes só trocando o alvo. 
+ IA-02 Chase (Perseguidor): alvo = tile do herói. É o mais previsível e o mais insistente; anda na velocidade base (72 px/s). 
+ IA-03 Ambush (Emboscador): alvo = 4 tiles à frente da direção em que o herói está olhando. Tende a aparecer pela frente . Virar de costas muda o alvo dele, e isso dá para explorar. 
+ IA-04 Pinça (Cercador): alvo = P + (P − posição do Perseguidor), com P = 2 tiles à frente do herói. Junto com o Perseguidor, cerca o herói pelos dois lados. Sozinho, parece errático. 
+ IA-05 Relief (respiro): em alguns momentos do ciclo, todos os zumbis trocam o alvo para o seu canto e se afastam. É a janela para vasculhar, abrir baú ou se curar. Visual: olhos azuis, tela levemente azulada e contador "RESPIRO Ns" no topo; velocidade cai para 60 px/s. 
+ IA-06 Troca de modo: ao trocar entre perseguição e respiro, todos invertem a direção na hora (regra do Pac-Man), e a borda da tela pisca na cor do novo modo com um som. O jogador percebe a mudança antes de ler o HUD. 
+ IA-07 Steal (Ladrão): não causa dano. Vai até o loot mais próximo no chão e o pega. Sem loot, persegue o herói e, ao encostar, rouba 1 item da mochila. Carregando, corre para a saída da região (85 px/s) e ignora o respiro. Se chegar, o item é perdido ("ROUBADO!") e ele volta para casa 2,5 s depois. 
+ IA-08 Recuperar: acertar o Ladrão carregando faz ele soltar o saque no chão onde está, e o herói pode pegar de volta. Item roubado nunca é chave nem Fragmento lunar. proposta 
+ IA-09 Atordoar: qualquer golpe atordoa por 2 s (o zumbi para e as estrelas giram). Contato com Perseguidor/Emboscador/Cercador tira 10 de vida (i-frames de 1 s). 
+ IA-10 No jogo: cada espécie de zumbi recebe um destes 4 "cérebros" (ex.: comum = Perseguidor, Corredor = Emboscador, Saqueador = Ladrão). Bosses podem trocar de cérebro por fase (BF). O ciclo de modos é por região e reinicia ao entrar nela. proposta 
+ IA-11 Grade de navegação: cada região tem uma grade de tiles caminháveis (a mesma da colisão). Fora da região quente, os zumbis usam a versão simplificada (CAM-14). 
+ IA-12 Modo Auto: o herói automático usa o respiro para vasculhar e abrir baús, e prioriza atordoar o Ladrão quando ele está carregando. proposta fora da demo 
+ Velocidades e tempos iniciais, para ajustar no playtest. 
+ O que é: a cada Lua de Sangue uma horda invade o abrigo . A muralha e os guardas seguram o que der. Se a horda for mais forte, a muralha cede, os zumbis entram e as construções ficam danificadas (produzem menos) ou destruídas (param). Depois é preciso reconstruir com material . A horda fica mais forte a cada lua que passa , então você precisa estar sempre evoluindo e restaurando a base. 
+ Luas de Sangue já passadas: 3 
+ Nível da muralha: 2 
+ Guardas no posto (aba Grupo): 1 
+ Nível das construções: 2 
+ 🧟 Força horda 
+ 🛡️ Defesa 
+ 🌕 Começar invasão 
+ ↺ Restaurar tudo (sem custo) 
+ Como a invasão é calculada 
+ Item Fórmula / valor 
+ 🧟 Força da horda 80 × 1,18 luas já passadas : 80 na 1ª lua, ~183 depois de 5, ~418 depois de 10 e ~2.190 depois de 20 
+ 🛡️ Defesa Muralha (nível 1–5 = 60 / 120 / 200 / 320 / 500) + 30 por guarda (aba Grupo, × nível de Defesa) 
+ 🧱 Dano na muralha Força ÷ (2 × Defesa), até 100% 
+ 🏚️ Dano nas construções Só se Força > Defesa. Pontos de dano = 4 × (Força − Defesa) ÷ Defesa. Cada ponto piora uma construção sorteada: intacta → danificada → destruída 
+ 🛟 Proteções A Fogueira nunca é destruída , e no máximo metade das construções é destruída numa mesma noite 
+ Estados e reconstrução 
+ Estado Visual Efeito Custo para reparar 
+ Intacta Normal Funciona 100% — 
+ Danificada Rachaduras, fuligem, fumaça e foguinho Produção −50% 25% do custo do nível atual 
+ Destruída Monte de escombros do material do nível, vigas queimadas e fumaça Para de funcionar 60% do custo do nível atual. O nível não se perde 
+ 🧱 Muralha Trechos rachados e uma brecha aberta se cedeu Defesa proporcional ao HP que sobrou Proporcional ao HP perdido 
+ Requisitos 
+ INV-01 Toda Lua de Sangue invade o abrigo , com o herói lá ou em expedição. Com o jogo fechado, a invasão é simulada e entra no resumo ao voltar (LOOP-08). 
+ INV-02 A horda escala com o número de luas já passadas (fórmula acima), então a destruição cresce ao longo do jogo se a defesa não acompanhar. 
+ INV-03 Muralha em volta do abrigo, com portão. Evolui do nível 1 ao 5 na mesma escada de materiais (lona → madeira → pedra → tijolo e metal → Lua de Sangue, EVO-14) e é a principal fonte de defesa. 
+ INV-04 Guardas (recrutas com Defesa no Posto de guarda, aba Grupo) somam defesa e aparecem em cima da muralha atirando nos zumbis durante a invasão. 
+ INV-05 Animação da invasão (~7 s): a noite fica vermelha e toca um sino de alarme → os zumbis chegam pelas bordas e batem na muralha (trechos tremem e rachaduras aparecem, a barra de HP da muralha desce) → os guardas derrubam alguns → se a horda for mais forte, um trecho desaba (destroços, poeira, tremor) e os zumbis entram → as construções atingidas piscam, pegam fogo e mudam de estado → amanhece , os zumbis restantes queimam e some o tom vermelho. 
+ INV-06 Estados : intacta, danificada (produção −50%) ou destruída (para), cada um com visual próprio para o nível e o material da construção. 
+ INV-07 Proteções: a Fogueira nunca é destruída, no máximo metade das construções é destruída por noite e o nível nunca se perde , só o estado. 
+ INV-08 Relatório da invasão ao amanhecer: número da lua, força × defesa, dano na muralha, a lista do que foi danificado ou destruído e o custo para reparar cada coisa. 
+ INV-09 Reconstruir: 25% do custo do nível atual para danificada, 60% para destruída, e a muralha conforme o HP perdido. Ocupa um construtor (EVO-05) e mostra uma animação curta de obra; ao terminar, a construção dá um pulo e volta intacta. 
+ INV-10 Estoque: se a muralha cair, a horda leva 10% dos recursos guardados (menos Fragmento lunar). proposta fora da demo 
+ INV-11 Herói no abrigo durante a invasão: ele pode lutar (manual), e cada zumbi que ele mata reduz o dano final. proposta fora da demo 
+ INV-12 Aviso antes: no aviso da Lua de Sangue (LUA-03) o jogo mostra "Força esperada da horda: X · sua defesa: Y", para dar tempo de reforçar. 
+ Fórmulas e valores iniciais, para ajustar no playtest. 
+ O que é: os mapas de expedição são pontos turísticos do Brasil , para o jogador se identificar e querer jogar "na cidade dele". Nada de esgoto genérico. Cada mapa tem o cenário do lugar, um boss temático , uma variante rara local para o bestiário, uma comida regional que cura e um detalhe próprio quando a Lua de Sangue nasce. 
+ Cartões-postais (mapas principais) 
+ Todos os mapas 
+ Mapa Regiões (4×4) Boss · Mini boss Variante rara Loot regional Na Lua de Sangue 
+ Marco Zero Recife · PE Praça do Marco Zero (rosa dos ventos), Rua do Bom Jesus, cais e armazéns, ponte, Mercado de São José, Parque das Esculturas no mar O Estivador (cais, guindaste) · O Ambulante Zumbi Frevista (sombrinha de frevo) Bolo de rolo A rosa dos ventos do chão acende em vermelho 
+ Olinda PE Ladeiras de pedra, casario colorido, Alto da Sé (mirante), ateliês O Boneco Gigante · O Mestre do Bloco Zumbi Mascarado Tapioca Os bonecos gigantes acordam 
+ Pelourinho Salvador · BA Largo do Pelourinho, ladeiras, casarões coloridos, Elevador Lacerda, Mercado Modelo, Farol da Barra O Ascensorista (topo do Elevador) · O Vendedor de Fitas Zumbi Percussionista Cocada O farol gira uma luz vermelha 
+ Cristo Redentor Rio de Janeiro · RJ Trilha do Corcovado (mata atlântica), mirante, Arcos da Lapa, calçadão de Copacabana, Pão de Açúcar ao fundo O Salva-vidas (posto de praia) · O Vendedor de Mate Zumbi de Bloco (fantasia de carnaval) Mate gelado O céu atrás do Corcovado fica vermelho 
+ 25 de Março São Paulo · SP Rua das barracas, galerias, Ladeira Porto Geral, Mercadão, viaduto, prédios do centro O Rei do Atacado (sacolões gigantes) · O Camelô Zumbi Sacoleiro Sanduíche de mortadela Os letreiros piscam em vermelho 
+ Teatro Amazonas Manaus · AM Largo de São Sebastião, teatro (cúpula colorida), porto flutuante, encontro das águas, floresta O Maestro · O Barqueiro do Porto Zumbi Seringueiro Tucumã O teatro acende por dentro e se ouve uma ópera ao longe 
+ Ver-o-Peso Belém · PA Mercado de ferro azul, feira, docas, barcos, Estação das Docas O Peixeiro · A Erveira Zumbi Barqueiro Açaí A maré fica vermelha 
+ Esplanada Brasília · DF Eixo Monumental, Congresso (cenário), Catedral (cenário), ministérios, Lago Paranoá, cerrado O Vigia · O Despachante Zumbi Engravatado Pequi As cúpulas refletem a lua vermelha 
+ Cataratas Foz do Iguaçu · PR Passarelas, Garganta do Diabo, mata, trilhas, barco O Barqueiro · O Guia Quati Zumbi Chipa A água das quedas fica vermelha 
+ Ouro Preto MG Ladeiras, igrejas barrocas (cenário), praça Tiradentes, minas antigas O Minerador (dentro da mina) · O Tropeiro Zumbi Lampião Pão de queijo Os lampiões da rua ficam vermelhos 
+ Todos os nomes de boss, variante e loot são propostas para discutir. A feira de São Paulo pode ser a 25 de Março (comércio de rua) ou a Liberdade, se preferir. 
+ Requisitos 
+ MAP-01 Cada mapa de expedição é um lugar icônico do Brasil , reconhecível à primeira vista (ponto turístico, rua famosa, mercado, paisagem). Nada de mapas genéricos. 
+ MAP-02 Estrutura: cada mapa tem 4×4 regiões (aba Câmera) com as modalidades do design do mundo. O ponto turístico principal fica numa região de destaque, visível de longe, e a arena do boss é um lugar marcante do mapa. 
+ MAP-03 Identidade própria por mapa: paleta e tiles do lugar (pedra portuguesa, paralelepípedo, casario colorido, calçadão), objetos de vasculhar típicos (carrinho de mate, barraca de feira, banca de revista, barco), música e sons de ambiente (mar, feira, sinos, floresta). 
+ MAP-04 Conteúdo por mapa: 1 boss temático, 1 mini boss, 1 ou 2 variantes raras locais (bestiário) e 1 comida regional que cura e aparece em contêineres e baús do mapa. 
+ MAP-05 Lua de Sangue local: além do efeito geral (LUA-03 a LUA-08), cada mapa tem um detalhe só dele quando a lua nasce (tabela acima). 
+ MAP-06 Tela do Mapa: um mapa do Brasil estilizado, com um pin em cada destino mostrando nível recomendado, boss vivo ou derrotado e baús disponíveis. É dali que sai a expedição. fora da demo 
+ MAP-07 Progressão: começa no Marco Zero , e os próximos mapas abrem por nível do herói ou da Fogueira. Sugestão de ordem: Marco Zero → Olinda → Pelourinho → Ver-o-Peso → Teatro Amazonas → Esplanada → 25 de Março → Cristo Redentor → Ouro Preto → Cataratas. proposta 
+ MAP-08 Respeito: monumentos e templos religiosos (Cristo Redentor, igrejas, Catedral) são cenário e mirante : nunca viram inimigos, não são destruídos e não servem de arena de luta. Bosses e variantes vêm de ofícios e figuras do cotidiano e da festa (estivador, ambulante, salva-vidas, boneco de carnaval), nunca de etnias ou religiões. 
+ MAP-09 Sem marcas reais: nada de logos ou nomes comerciais de lojas e produtos. Placas e letreiros usam textos genéricos ("PROMOÇÃO", "MERCADINHO"). 
+ MAP-10 Falas regionais: sobreviventes de cada mapa falam com expressões locais leves ("oxe", "visse", "mermão", "meu"), sem caricatura. proposta 

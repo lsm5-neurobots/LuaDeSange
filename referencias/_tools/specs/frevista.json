@@ -1,0 +1,118 @@
+{
+ "titulo": "Zumbi Frevista (Olinda) - figurino, sombrinha e carnaval",
+ "pasta": "zumbis-olinda/frevista",
+ "secoes": [
+  {
+   "nome": "Sombrinha de frevo",
+   "n": 14,
+   "busca": [
+    "frevo umbrella",
+    "sombrinha de frevo",
+    "frevo sombrinha colorida",
+    "colorful umbrella carnival dancer",
+    "passista de frevo sombrinha"
+   ],
+   "depth": 0,
+   "cats": [
+    "Frevo"
+   ]
+  },
+  {
+   "nome": "Passista de frevo em pose",
+   "n": 14,
+   "busca": [
+    "frevo dancer",
+    "passista de frevo",
+    "frevo dance Recife",
+    "frevo dançarino pulando",
+    "frevo dancers street Olinda"
+   ],
+   "depth": 0,
+   "cats": [
+    "Frevo"
+   ]
+  },
+  {
+   "nome": "Figurino do frevo (camisa, calcao, meia)",
+   "n": 12,
+   "busca": [
+    "frevo costume",
+    "fantasia de frevo",
+    "frevo dancer costume colorful",
+    "frevo roupa passista",
+    "carnival costume Pernambuco"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Chapeu, fita e adereco de cabeca",
+   "n": 8,
+   "busca": [
+    "straw hat ribbon carnival",
+    "chapéu de palha fita colorida",
+    "colorful hat carnival Brazil",
+    "carnival headgear Olinda"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Orquestra de frevo e metais",
+   "n": 12,
+   "busca": [
+    "frevo orchestra",
+    "orquestra de frevo",
+    "trumpet brass band Brazil street",
+    "trombone carnival band",
+    "banda de frevo Olinda"
+   ],
+   "depth": 0,
+   "cats": [
+    "Frevo"
+   ]
+  },
+  {
+   "nome": "Carnaval de rua de Olinda",
+   "n": 16,
+   "busca": [
+    "Carnaval de Olinda",
+    "Olinda carnival street",
+    "Olinda carnaval ladeira",
+    "Carnival in Olinda"
+   ],
+   "depth": 0,
+   "cats": [
+    "Carnival in Olinda",
+    "Carnaval de Olinda"
+   ]
+  },
+  {
+   "nome": "Ladeiras, casario e igrejas de Olinda",
+   "n": 14,
+   "busca": [
+    "Olinda ladeira",
+    "Olinda casario colonial",
+    "Olinda Alto da Sé",
+    "Olinda Carmo church",
+    "Olinda historic centre street"
+   ],
+   "depth": 0,
+   "cats": [
+    "Olinda"
+   ]
+  },
+  {
+   "nome": "Sombrinhas e guarda-chuvas (materiais, varetas)",
+   "n": 10,
+   "busca": [
+    "umbrella ribs open",
+    "colorful umbrellas",
+    "umbrella fabric close up",
+    "sombrinha de pano"
+   ],
+   "depth": 0,
+   "cats": [
+    "Umbrellas"
+   ]
+  }
+ ]
+}

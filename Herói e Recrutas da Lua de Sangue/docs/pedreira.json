@@ -1,0 +1,56 @@
+{
+ "id": "pedreira",
+ "nome": "Pedreira",
+ "tipo": "recruta",
+ "conceito": "Mestre de obras que não aceita serviço porco nem no fim do mundo. Capacete de obra arranhado com adesivo da bandeira, colete refletivo sujo de massa e colher de pedreiro sempre na mão; assenta tijolo no prumo para levantar e consertar as barricadas do abrigo. Postura firme, pés afastados, ombros largos, olhar de quem confere se a parede está reta.",
+ "aptidoes": {"principal": "Construção (evoluir e reparar construções)", "secundaria": "Serralheria", "contraria": "Medicina"},
+ "corpo": "f",
+ "cor_uniforme": "#c98a2e",
+ "partes": [
+  {"parte": "Cabeça/rosto", "descricao": "Cabeçorra padrão do esqueleto (crânio 30 px de diâmetro + queixo puxado p/ direita, ~30x33 px). Pele sorteada (4 tons). Mancha de cimento cinza-claro (#b8b2a6, 3 px) na bochecha de trás e um risco de poeira na testa logo abaixo da aba. Inclina com o tronco (hrot = lean/2)."},
+  {"parte": "Cabelo", "descricao": "Rabo de cavalo grosso saindo por baixo da nuca do capacete (cadeia de 4 segmentos, 7->3 px de largura, ~20 px de comprimento) preso com elástico vermelho #c9343a; franja curta visível entre a aba e a sobrancelha e uma mecha na frente da orelha. Cor sorteada (5 cores), textura de fios em tom 25% mais escuro. O rabo balança no walk (±3 px), chicoteia para trás no ataque e no hurt."},
+  {"parte": "Olhos/sobrancelhas", "descricao": "Olhos padrão femininos (esclera 5x5, íris castanha #3a2414 olhando p/ direita, cílio extra). Sobrancelhas grossas (2 px) da cor do cabelo escurecida, levemente franzidas por padrão: cara de quem está medindo. Fecha no quadro 2 do idle (piscada); 'angry' no ataque; 'happy' (^ ^) no fim do especial; 'x' na morte."},
+  {"parte": "Boca/expressão", "descricao": "Linha reta curta (5 px) com canto da frente 1 px abaixo = meio-sorriso cético. 'grit' (dentes cerrados) ao erguer a marreta e ao apertar o tijolo, 'open' no impacto, 'smile' quando o nível dá bolha no meio."},
+  {"parte": "Orelhas/nariz", "descricao": "Orelha de trás (7x10 px) parcialmente coberta pela mecha; nariz triangular de 5 px puxado para a direita com luz forte. Lápis de carpinteiro amarelo atrás da orelha (ver acessório)."},
+  {"parte": "Pescoço/gola", "descricao": "Pescoço 9 px de largura; gola careca da camiseta marcada por linha mais escura e costura clara; gola do colete em V aberto."},
+  {"parte": "Tronco/roupa de cima", "descricao": "Camiseta cinza mescla (#bdb8ac, 3 tons, textura de malha) por dentro da calça. Por cima, colete refletivo laranja-ocre (#d9862a, cor do uniforme) aberto na frente, termina na cintura; 2 faixas refletivas prateadas horizontais (#d8dde2, 3 px, com brilho e borda escura) cortadas na abertura; bolso de peito com aba e caderninho de anotação; respingos de massa (pontos #cfc6b4) e manchas de terra na barra. Respira no idle (sobe/desce 1 px)."},
+  {"parte": "Braços", "descricao": "Manga curta da camiseta (cobre 60% do braço superior), antebraços de pele à mostra; braço de trás escurecido 18% p/ profundidade. Braço da frente segura a ferramenta e fica por cima da roupa."},
+  {"parte": "Mãos/luvas", "descricao": "Luvas pigmentadas de obra (malha branco-encardida #e6e0d0 com palma de pontinhos de borracha laranja #e0702a), punho canelado mais claro. Mão da frente r=4 px; mão de trás mais escura."},
+  {"parte": "Pernas/calça", "descricao": "Calça jeans (#3e5c88, 3 tons, textura de sarja) com costura lateral clara, cinto de couro marrom (#6a4024) com fivela de metal; joelheira de borracha preta (#34343a, 8x9 px com alça) no joelho da frente; joelho de trás desbotado; respingos de cimento nas canelas. Pernas dobram no especial (agachada)."},
+  {"parte": "Pés/calçado", "descricao": "Botina de couro nobuck caramelo (#9a6a38) com biqueira mais escura, cano curto com cadarço (pixels cruzados) e solado tratorado escuro (#2e2218, 2 px). Passos marcam no walk (quadros 0 e 4)."},
+  {"parte": "Ferramenta", "descricao": "Colher de pedreiro: lâmina em losango de aço (#c4cad0 com borda escura e reflexo branco, 13x9 px) com massa grudada na ponta, pescoço de ferro curvo e cabo de madeira (#8a5a30, 8 px) com virola. Fica na mão em idle/walk/hurt/death/especial. No ataque usa a marreta pequena (cabo de madeira 21 px, cabeça de aço #5a5e66 15x8 px com faces de bater claras), que normalmente fica pendurada no cinto do lado de trás."},
+  {"parte": "Acessório/marca do ofício", "descricao": "Capacete de obra amarelo-laranja (#f0a81c, luz #ffd45a) com nervura central, aba mais longa na frente, arranhões escuros e adesivo de bandeirinha do Brasil (5x4 px). Lápis amarelo com borracha rosa atrás da orelha. Trena amarela (#f2c230, caixa 6x6 com fita metálica) presa no cinto da frente. Marreta pendurada no cinto atrás. Na morte o capacete voa e rola no chão."},
+  {"parte": "Silhueta/postura", "descricao": "Corpo 'f' do esqueleto (~97 px de altura com capacete), base larga: pés afastados, ombros abertos pelo colete, capacete aumenta a cabeça em ~4 px no topo e a aba sobressai 7 px à frente. Silhueta lida de longe pelo capacete amarelo + colete laranja com faixas."}
+ ],
+ "paleta": [
+  {"nome": "capacete", "hex": "#f0a81c"}, {"nome": "capacete luz", "hex": "#ffd45a"},
+  {"nome": "colete (uniforme)", "hex": "#d9862a"}, {"nome": "faixa refletiva", "hex": "#d8dde2"},
+  {"nome": "camiseta mescla", "hex": "#bdb8ac"}, {"nome": "jeans", "hex": "#3e5c88"},
+  {"nome": "joelheira", "hex": "#34343a"}, {"nome": "cinto", "hex": "#6a4024"},
+  {"nome": "botina", "hex": "#9a6a38"}, {"nome": "solado", "hex": "#2e2218"},
+  {"nome": "luva", "hex": "#e6e0d0"}, {"nome": "pontos da luva", "hex": "#e0702a"},
+  {"nome": "aço colher", "hex": "#c4cad0"}, {"nome": "cabo madeira", "hex": "#8a5a30"},
+  {"nome": "aço marreta", "hex": "#5a5e66"}, {"nome": "massa/cimento", "hex": "#b8ae9c"},
+  {"nome": "tijolo", "hex": "#b5532f"}, {"nome": "trena", "hex": "#f2c230"},
+  {"nome": "elástico", "hex": "#c9343a"}
+ ],
+ "animacoes": {
+  "idle": "4 quadros: respira (tronco desce 0-1,2 px), colher apontando para baixo-frente na mão, rabo de cavalo acompanha; quadro 2 pisca.",
+  "walk": "8 quadros: passada firme de botina, braços alternam, colher balança com a mão (±8°), rabo de cavalo oscila em sentido contrário ao passo, inclinação 4° para frente.",
+  "attack": "6 quadros com a marreta pequena (sai do cinto): 0 ergue (grit), 1 marreta lá atrás por cima da cabeça, 2 desce, 3 impacto na frente com estrela + lascas de reboco, 4 acompanha, 5 volta à guarda. Rabo de cavalo chicoteia.",
+  "hurt": "4 quadros: 0 flash branco, 1 recua tingida de vermelho com olhos fechados, 2-3 recupera; capacete inclina para trás.",
+  "death": "6 quadros: 0 flash, 1 cambaleia, 2 cai de joelhos, 3 tomba e o capacete voa, 4 corpo no chão e capacete quica, 5 deitada com estrelinhas e capacete parado no chão (fade do jogo).",
+  "special": "6 quadros 'Assentar tijolo' com mureta de 4 fiadas à frente: 0 carrega massa na colher, 1 agacha e espalha a massa na fiada, 2 traz o tijolo na mão (colher passa para a mão de trás), 3 assenta o tijolo (massa espirra, poeira), 4 bate com o cabo da colher (toc, estrelinha), 5 confere com o nível de bolha: bolha no meio, brilho, sorriso."
+ },
+ "especial": "Assentar Tijolo",
+ "ferramenta": "Colher de pedreiro (e marreta pequena no ataque)",
+ "fala": "Muro torto aqui não fica de pé.",
+ "eventos": {
+  "idle": {"2": "respira"},
+  "walk": {"0": "passo_botina", "4": "passo_botina"},
+  "attack": {"0": "tira_marreta", "1": "puxa_ar", "3": "marretada", "4": "lasca_reboco"},
+  "hurt": {"0": "dor_f", "1": "capacete_bate"},
+  "death": {"0": "grito_f", "2": "joelho_chao", "3": "capacete_voa", "4": "queda_corpo", "5": "capacete_rola"},
+  "special": {"0": "massa_colher", "1": "espalha_massa", "2": "pega_tijolo", "3": "tijolo_assenta", "4": "toc_toc", "5": "nivel_ok"}
+ }
+}

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Folha de animação</title>
+<style>
+  body { margin: 0; background: #2a2d36; color: #eee; font: 12px monospace }
+  canvas { display: block; image-rendering: pixelated }
+</style>
+<script src="../art/art-exp.js"></script>
+<script src="../art/art-hub.js"></script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+// Uso: /tools/sheet.html?b=EXP&f=ERR&form=comum&k=1.25[&anims=idle,walk][&cfg=hero]
+// Desenha todas as animações (linhas) × quadros (colunas) na escala de alta resolução do jogo,
+// com linha do chão, guia de 130 px (altura alvo de personagem comum) e um quadro 960×540 de referência.
+const q = new URLSearchParams(location.search);
+const B = q.get('b') === 'HUB' ? window.ART_HUB : window.ART_EXP;
+const F = B[q.get('f') || 'ERR'];
+const K = +(q.get('k') || 1.25);
+const form = q.get('form') || 'comum';
+B.PIX.setK(K);
+const call = (anim, fi) => {
+  const n = q.get('f');
+  if (n === 'HEROI') return F.frame({ ...F.DEFAULT, nome: 'x', arma: q.get('arma') || 'bastao', tier: q.get('tier') || 'comum' }, anim, fi);
+  if (n === 'VIGIA') return F.frame(q.get('skin') || 'media', q.get('tier') || 'comum', anim, fi);
+  if (n === 'OBJ' || n === 'BAU') return F.frame(anim, q.get('state') || 'fechado', fi, 5);
+  if (n === 'SERRALHEIRO' || n === 'PEDREIRA' || n === 'LENHADOR') return F.frame(q.get('skin') || 'media', null, anim, fi);
+  if (n === 'CAPO' || n === 'ENFE' || n === 'AGRI' || n === 'CATA') return F.frame(q.get('skin') || 'media', anim, fi);
+  return F.frame(form, anim, fi, 5);
+};
+let anims, frames;
+if (q.get('f') === 'OBJ') { anims = Object.keys(F.KINDS); }
+else if (q.get('f') === 'BAU') { anims = Object.keys(F.TIPOS); }
+else anims = (q.get('anims') ? q.get('anims').split(',') : Object.keys(F.ANIMS));
+const rows = anims.map((a) => {
+  const n = (q.get('f') === 'OBJ' || q.get('f') === 'BAU') ? 5 : F.ANIMS[a].n;
+  const cvs = []; for (let i = 0; i < n; i++) { try { cvs.push(call(a, i)); } catch (e) { cvs.push(null); console.error(a, i, e); } }
+  return { a, cvs };
+});
+const cellW = Math.max(...rows.flatMap((r) => r.cvs.filter(Boolean).map((c) => c.width))) + 8;
+// altura do pulo (trilha z das anims, px lógicos × 2,5 = px de tela) — sobra em cima da célula
+const ZUP = Math.max(0, ...anims.map((a) => Math.max(0, ...((F.ANIMS[a] && F.ANIMS[a].z) || [0])))) * 2.5;
+const cellH = Math.max(...rows.flatMap((r) => r.cvs.filter(Boolean).map((c) => c.height))) + 18 + ZUP;
+const cols = Math.max(...rows.map((r) => r.cvs.length));
+const c = document.getElementById('c'); c.width = Math.max(980, 90 + cols * cellW); c.height = rows.length * cellH + 20;
+const g = c.getContext('2d'); g.imageSmoothingEnabled = false;
+rows.forEach((r, y) => {
+  const oy = 10 + y * cellH;
+  g.fillStyle = '#ffd23f'; g.fillText(r.a, 4, oy + 12); const nm = F.ANIMS[r.a] && F.ANIMS[r.a].nome; if (nm && q.get('names')) { g.fillStyle = '#aab'; g.fillText(nm.slice(0, 13), 4, oy + 26); g.fillText(nm.slice(13, 26), 4, oy + 38); }
+  r.cvs.forEach((cv, x) => {
+    const ox = 90 + x * cellW;
+    g.fillStyle = (x + y) % 2 ? '#30343f' : '#343845'; g.fillRect(ox, oy, cellW - 4, cellH - 4);
+    if (!cv) { g.fillStyle = '#f44'; g.fillText('ERRO', ox + 4, oy + 20); return; }
+    const zz = ((F.ANIMS[r.a] && F.ANIMS[r.a].z) || [])[x] || 0;
+    g.drawImage(cv, ox + 2, oy + 2 + ZUP - zz * 2.5);
+    // linha do chão (GROUND) e guia de 130 px a partir do chão
+    if (F.GROUND && F.FH) { const gy = oy + 2 + ZUP + F.GROUND * (cv.height / F.FH); g.fillStyle = 'rgba(62,212,255,.6)'; g.fillRect(ox, gy, cellW - 4, 1); g.fillStyle = 'rgba(255,90,90,.5)'; g.fillRect(ox, gy - 130, 6, 1); }
+  });
+});
+document.title = 'ok';
+</script>
+</body>
+</html>

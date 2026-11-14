@@ -1,0 +1,62 @@
+{
+  "id": "heroi_cabelos",
+  "nome": "Herói — Cabelos e Barba",
+  "tipo": "heroi",
+  "conceito": "Penteados e barba do líder criado pelo jogador. Cada estilo é uma camada tingível (desenhada em branco/cinzas, a página multiplica pela cor escolhida) presa ao crânio do esqueleto compartilhado (P['head'], P['hrot']), com silhueta bem distinta em 1x. Estilos com volume atrás do corpo (longo, rabo, cacheado, black, chanel) ganham uma segunda folha hair_back pintada antes do corpo.",
+  "partes": [
+    {"parte": "Sistema de coordenadas", "descricao": "Todo penteado é desenhado em coordenadas locais da cabeça (origem = P['head'], x para a frente/direita, y para baixo) e girado por P['hrot'] em torno do centro do crânio. Crânio = círculo r15 em (0,-2) (topo em y=-17) + queixo 12x9 em (3,7); orelha em (-13,3) 3.5x5; olhos em (-1,2) e (9,2); sobrancelhas em y=-4 (pixels até y=-6). Cada quadro é composto com pixkit.compose(F, tint=P['tint'], rotate=P['rotate']) sem sombra, então a tinta de dano (flash/vermelho) e o tombo do desmaio saem idênticos às outras camadas."},
+    {"parte": "Linha do cabelo (zona proibida)", "descricao": "Retângulo local x>=-6.5, y>=-6.5 (girado com a cabeça) recorta TODO cabelo e a parte de cima da barba: nada pinta olhos, sobrancelhas, nariz ou bochecha da frente. A borda do recorte vira o contorno escuro de 1 px da linha do cabelo, ~1 px acima da sobrancelha. Franjas estilizadas (longo, chanel, cacheado) param exatamente nessa linha. O gerador confere pixel a pixel, em todos os quadros, que os olhos/sobrancelhas ficam livres."},
+    {"parte": "Costeleta", "descricao": "Faixa de 3-4 px entre o olho de trás e a orelha (x -11..-7), descendo até y≈+2 nos estilos masculinos (curto, topete, raspado) e mais curta/fina nos femininos presos (rabo, coque). Na barba ela continua para baixo e liga no cavanhaque pela mandíbula."},
+    {"parte": "Nuca", "descricao": "Atrás do crânio (x<-12) o cabelo desce até y≈-1 nos curtos (acima da orelha), cobre a orelha nos soltos (longo, chanel, cacheado, black) e some sob o rabo/coque nos presos. Na hair_back a nuca vira a massa escura que aparece entre a cabeça e as costas."},
+    {"parte": "Brilho de lua e sombreado", "descricao": "Massa em cinza claro #e4e1e6 com sombra roxa do pixkit embaixo/direita (dark 0.3) e contorno escuro; mechas em #b5afbb (2º tom) e fundo/camadas internas em #8e8698 (3º tom); brilho de lua em branco puro #ffffff: arco curto de 4-8 px no alto-esquerda de cada volume (no black e no cacheado, 1-2 px por cacho). Como a página MULTIPLICA, o branco vira exatamente a cor escolhida e os cinzas viram tons mais escuros dela."},
+    {"parte": "Tingimento", "descricao": "tint=true, cor base #ffffff. A página multiplica cada pixel pela cor do cabelo (hair_color). Contorno e sombra já saem escuros/roxos e continuam legíveis em qualquer das 6 cores. O elástico do rabo e a presilha do coque são cinza escuro (#6e6874) para ler como acessório mais escuro que o cabelo. A barba usa a mesma cor do cabelo."},
+    {"parte": "Movimento secundário", "descricao": "Inércia calculada da própria pose: compara P['head'] com o quadro anterior (idle/walk cíclicos; demais linhas partem do idle 0) e empurra as pontas no sentido contrário ao movimento (até 7 px na horizontal, 4 px na vertical), ponderado pelo comprimento (raiz 0 → ponta 1). No walk soma um vai-e-vem de 1.5 px a cada passo e um leve arrasto para trás. Resultado: no ataque a cabeça vai para trás e as pontas jogam para a frente; no golpe a cabeça avança e o cabelo fica para trás; no dano o tranco joga as mechas para a frente; no desmaio tudo gira junto com o corpo."},
+    {"parte": "Curto (m)", "descricao": "Corte social baguncinha: capacete de cabelo de 4-6 px de altura sobre o crânio (topo em y≈-21), dois montinhos de volume no alto, risca do lado de trás e 3 pontinhas de franja apontando para a frente na linha do cabelo; costeleta até y=+2. 3 mechas curvas penteadas para a frente, brilho em arco no alto-esquerda. Só camada hair. Mexe 1 px nas pontas da franja com a inércia."},
+    {"parte": "Raspado (m)", "descricao": "Máquina zero/um: película de 1-2 px que segue exatamente o contorno do crânio (topo y=-18), sem volume, com pontilhado denso (textura 0.4) para parecer cabelo curtinho, cor um pouco mais cinza (#cfcad3) e entradas arredondadas na testa; costeleta curta. Só camada hair. Não balança."},
+    {"parte": "Topete (m)", "descricao": "Laterais raspadas (película cinza #bdb7c2 como o raspado) + topete alto que nasce no alto da cabeça e se projeta para a frente e para cima (ponta em (19,-20), altura total até y=-27), enrolando para baixo na frente sem passar de y=-8. 4 mechas longas acompanhando a curva, brilho largo no dorso do topete. Só camada hair. A ponta do topete chicoteia 1-3 px com a inércia (para trás no golpe, para a frente na preparação e no dano)."},
+    {"parte": "Black / black power (m)", "descricao": "Bola grande e redonda (elipse 22x18 centrada em (-2,-11), topo y≈-30, de x=-24 a x=+20), contorno 'nuvem' feito de 14 bolinhas r4 na borda e textura crespa (pontilhado 0.28) com pontinhos de brilho no alto-esquerda. A frente desce até a linha do cabelo; atrás cobre a orelha. hair_back: a mesma massa um pouco maior e 3 px mais baixa em cinza #8e8698, aparecendo como volume escuro por trás do pescoço/ombro. Quica 1 px (vertical) com a inércia."},
+    {"parte": "Moicano (m)", "descricao": "Laterais raspadas (película cinza #b0aab6) + crista de 6 espetos do alto da testa (x≈+9) até a nuca (x≈-15), espetos de 7-11 px apontando radialmente para fora, base em faixa de 4 px. Cada espeto com lado iluminado em branco e lado sombreado. Só camada hair. Espetos se inclinam junto com a inércia (até 3 px na ponta)."},
+    {"parte": "Careca (m/f)", "descricao": "Sem camada (item sem arquivo); a cabeça do corpo aparece."},
+    {"parte": "Longo (f)", "descricao": "Cabelo solto até o meio das costas. hair: tampa com franja lateral varrida para a frente parando na linha do cabelo, e uma mecha grossa (9→5 px) que desce por cima da orelha até y≈+17. hair_back: cortina comprida (de y=-18 até y≈+30) atrás da cabeça e das costas, aparecendo também à direita do pescoço; ponta em zigue-zague de 3 bicos. 5 mechas verticais em 2º tom. Balança: pontas com inércia total (até 7 px) — vai-e-vem no walk, joga para a frente na preparação e para trás no golpe/estocada, voa no dano."},
+    {"parte": "Rabo de cavalo (f)", "descricao": "hair: tampa justa penteada para trás (linhas de pente convergindo para o elástico), elástico cinza escuro em (-15,-10). hair_back: rabo grosso em corrente de 5 gomos (8→3 px) saindo do elástico, caindo para trás e para baixo até y≈+20, com mechas internas e brilho no 1º gomo. É o estilo que mais balança: a ponta segue a inércia com peso crescente e faz um 'S' no walk."},
+    {"parte": "Coque (f)", "descricao": "hair: tampa justa penteada para cima-trás + coque redondo (elipse 7.5x6.5) no alto-trás em (-8,-20) desenhado ANTES da tampa (a tampa sobrepõe a base e cria a linha interna), espiral de 2 voltas em 2º tom, presilha cinza escura e uma mechinha solta na nuca. Só hair. O coque quica 1 px na vertical."},
+    {"parte": "Cacheado (f)", "descricao": "Cachos redondos individuais (r3.5-5) cada um com contorno próprio, miolo em 'C' no 2º tom e 1 px de brilho. hair: coroa de 13 cachos sobre o topo/linha do cabelo (franja de cachos parando acima da sobrancelha) e 5 cachos descendo sobre a orelha até y≈+12. hair_back: massa de 16 cachos maiores atrás da cabeça e do pescoço até y≈+20 em tom mais escuro. Cachos de baixo quicam com a inércia (peso pelo y)."},
+    {"parte": "Chanel (f)", "descricao": "Bob reto na altura do queixo: tampa lisa com franja reta cortada na linha do cabelo, painel lateral cobrindo a orelha e terminando reto em y≈+11 (um pouco mais comprido na frente — corte A), 4 mechas verticais e brilho em faixa horizontal. hair_back: painel do outro lado aparecendo à direita do queixo/pescoço e fundo escuro sob a nuca. A barra balança 1-2 px com a inércia."},
+    {"parte": "Barba (m)", "descricao": "Camada beard (antes do hair). Costeleta grossa (x -11..-7) descendo pela mandíbula como faixa de 4-5 px até o cavanhaque volumoso (elipse 7x5 em (6,17), passa 3-4 px abaixo do queixo) + bigode de 2 px acima da boca. A boca nunca é coberta: furo recortado conforme P['mouth'] (linha/sorriso = fenda; 'open' = elipse 3.6x3.2 e o cavanhaque desce 1.5 px; 'grit' = retângulo e desce 1 px; 'o' = elipse pequena). Mechas curtas em 2º tom e brilho de 2 px no queixo. Nunca cobre olhos nem nariz."}
+  ],
+  "paleta": [
+    {"nome": "Base tingível (vira a cor escolhida)", "hex": "#ffffff"},
+    {"nome": "Massa", "hex": "#e4e1e6"},
+    {"nome": "Mecha 2º tom", "hex": "#b5afbb"},
+    {"nome": "Fundo/camada interna 3º tom", "hex": "#8e8698"},
+    {"nome": "Laterais raspadas", "hex": "#bdb7c2"},
+    {"nome": "Elástico/presilha", "hex": "#6e6874"},
+    {"nome": "Cor de cabelo: preto", "hex": "#1d1410"},
+    {"nome": "Cor de cabelo: castanho escuro", "hex": "#4a2e1a"},
+    {"nome": "Cor de cabelo: castanho claro", "hex": "#8a5a2b"},
+    {"nome": "Cor de cabelo: loiro", "hex": "#d9a441"},
+    {"nome": "Cor de cabelo: ruivo", "hex": "#b8382c"},
+    {"nome": "Cor de cabelo: grisalho/branco", "hex": "#e6e1d6"}
+  ],
+  "animacoes": {
+    "idle": "Cabelo parado preso à cabeça; respiração do corpo desce 0-1 px e as pontas (rabo, longo, cachos) atrasam meio pixel.",
+    "walk": "Pontas balançam em vai-e-vem de 1.5 px a cada passo e ficam levemente para trás; quique vertical acompanhando o bob.",
+    "attack": "Preparação: cabeça vai para trás e pontas/topete jogam para a frente; golpe: cabeça avança e tudo fica para trás (até 7 px na ponta do rabo/longo).",
+    "hurt": "Tranco para trás joga as mechas para a frente no quadro 0-1; tinta de dano aplicada igual às outras camadas.",
+    "death": "Cai de joelhos (quique das pontas para cima) e tomba com P['rotate'] junto com o corpo.",
+    "special": "Movimento pequeno da cabeça; pontas acompanham pela inércia.",
+    "attack_fire": "Coice do tiro empurra a cabeça para trás 2 px e as pontas para a frente 1 px.",
+    "attack_knife": "Estocada rápida: cabeça avança e rabo/longo ficam bem para trás."
+  },
+  "opcoes": {
+    "hair_m": ["curto", "raspado", "topete", "black", "moicano", "careca"],
+    "hair_f": ["longo", "rabo", "coque", "cacheado", "chanel", "careca"],
+    "hair_color": ["#1d1410", "#4a2e1a", "#8a5a2b", "#d9a441", "#b8382c", "#e6e1d6"],
+    "beard": ["sem", "com"],
+    "hair_back": {"m": ["black"], "f": ["longo", "rabo", "cacheado", "chanel"]}
+  },
+  "especial": "—",
+  "ferramenta": "—",
+  "fala": "—",
+  "eventos": {}
+}

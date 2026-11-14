@@ -1,0 +1,151 @@
+<title>O Açougueiro · Chefe</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>.show{align-items:start;background:var(--panel)!important} .stagewrap{min-height:0!important;align-self:start} #stage{height:auto!important;aspect-ratio:320/210;object-fit:contain!important} .fr canvas{width:153px;height:173px}
+.seg.forms button[data-form="furia"][aria-pressed="true"]{background:var(--blood);color:#fff}
+.fx.tag{font-family:var(--f-pix);font-size:clamp(12px,1.8vw,16px);background:#000;color:var(--moon);-webkit-text-stroke:0;border:2px solid var(--moon);border-radius:4px;padding:2px 8px;text-shadow:none;transform:translate(-50%,-50%)}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bestiário · Chefe B01 · Direção de arte cósmica</div>
+    <h1>O Açougueiro <small>Chefe B01</small></h1>
+    <p class="lede">O dono de um açougue que virou o primeiro senhor da Lua de Sangue. Enorme e pesado, carrega <b>um cutelo do tamanho de uma porta</b> e anda com ganchos e correntes. Persegue devagar, com passos que tremem a tela, e <b>a cada 2,5 s dá a Pancada</b>: círculo vermelho de aviso, impacto em área e 0,6 s vulnerável. É o chefe do molhe no fim da fase do Marco Zero.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="320" height="210" role="img" aria-label="O Açougueiro animado no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Fase</span>
+        <div class="seg forms" id="forms"><button data-form="normal" aria-pressed="true">Normal</button><button data-form="furia" aria-pressed="false">Fúria (&lt;30% vida)</button></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho no jogo</span>
+        <div class="real"><div><canvas id="r2" width="161" height="182"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">Quadro de 230×260 px na ficha. No jogo (70%) ele fica com ~115 px de altura, quase o dobro do Vigia (~76 px), e o cutelo erguido passa do topo da porta.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">Na Pancada, os quadros 2 e 3 (500 ms) são o aviso, com o círculo vermelho no chão. O 4º é o golpe (60 ms) e o 5º o impacto com tremor. Os quadros 6 a 8 somam 600 ms: é a janela em que ele fica vulnerável com o cutelo cravado no chão.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><img alt="Sprite atual do Açougueiro" src="data:image/png;base64,{{OLDPNG}}"><figcaption>Atual · pixel chunky, contorno uniforme</figcaption></figure>
+        <figure><canvas id="afterCv" width="230" height="260"></canvas><figcaption>Novo · 4 tons, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor · <span id="formName">Normal</span></h2>
+      <div class="ramps" id="ramps"></div>
+      <p class="note" style="margin-top:10px">O cutelo é o objeto mais claro da cena (aço quase branco). O jogador acompanha a lâmina pra ler a telegrafia da Pancada mesmo no meio da horda.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead>
+      <tbody>
+        <tr><td>Cabeça</td><td>Larga e careca, cicatrizes costuradas atravessando o crânio. Máscara de couro tapando a boca, presa com fivelas. Olhos vermelhos pequenos sob sobrancelhas grossas.</td><td>Cabeça pequena pro corpo, pra ele parecer ainda maior. Duas cicatrizes com pontos cruzando o crânio, sobrancelha grossa e olho vermelho fundo. A máscara de couro tem rebites e uma tira até a fivela prateada atrás da orelha.</td></tr>
+        <tr><td>Tronco</td><td>Barriga enorme sob avental de couro marrom manchado de sangue seco. Correntes cruzando o peito com ganchos pendurados. Sem camisa, pele pálida e rosada.</td><td>Barriga oval que domina a silhueta, avental com alças, costuras e manchas de sangue escorrendo. Duas correntes em X com ganchos de açougue. Ombros e peito de pele rosada aparecendo.</td></tr>
+        <tr><td>Braços</td><td>Grossos como troncos. Direita com cutelo gigante, lâmina lascada e manchada. Esquerda arrasta corrente com gancho.</td><td>Braços de 17 px de grossura com cicatriz costurada. O cutelo tem ~96 px de lâmina (mais que meio corpo), cabo de madeira com rebites, furo, lascas no fio e sangue. Fora do ataque fica apoiado no ombro. A corrente da mão de trás arrasta no chão, com o gancho na ponta.</td></tr>
+        <tr><td>Pernas</td><td>Calça de lona escura e botas de borracha brancas de açougueiro, sujas de sangue até o joelho.</td><td>Calça de lona com vinco e botas brancas altas, bem visíveis contra o chão escuro, com respingos de sangue até o cano.</td></tr>
+        <tr><td>Movimento</td><td>Persegue devagar, passos que tremem a tela. A cada 2,5 s ergue o cutelo, círculo vermelho de aviso, impacto em área, 0,6 s vulnerável.</td><td>Andar de 8 quadros com tremor nos 2 pisões. Pancada de 9 quadros com aviso, rastro, impacto (anéis, entulho, tremor forte) e a janela vulnerável marcada. Ataque extra: o gancho de corrente lançado à frente.</td></tr>
+        <tr><td>Fúria</td><td>Abaixo de 30% de vida: pele vermelha pulsando, vapor saindo das costas, máscara arrebentada mostrando os dentes.</td><td>Animação própria de entrada (rugido com os braços abertos). Na fase de Fúria a pele fica vermelha com brilho pulsando, sobe vapor das costas sem parar e a máscara rasgada mostra as duas fileiras de dentes.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{ACOU}}
+(function(){
+'use strict';
+const SW=320, SH=210, SGROUND=200, FW=ACOU.FW, FH=ACOU.FH, GROUND=ACOU.GROUND;
+{{BG}}
+const S={form:'normal', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, rings:[], bits:[], steam:[], shake:0};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+const KST=0.78, OX=24, OY=SGROUND-Math.round(GROUND*KST); const SF=(f,a,i,st)=>{ PIX.setK(KST); const c=ACOU.frame(f,a,i,st); PIX.setK(1); return c; };
+const impactX=()=>{ const cv=SF(S.form,'attack',4,5); return OX+cv._blade.x; };
+let last=performance.now(), T=0;
+function onFrame(){ const A=ACOU.ANIMS[S.anim];
+  if(S.anim==='walk' && A.stomp.includes(S.fi)){ S.shake=Math.max(S.shake,0.12); for(let k=0;k<6;k++) S.bits.push({x:OX+ACOU.AX*KST+(Math.random()-.3)*30,y:SGROUND,vx:(Math.random()-.5)*30,vy:-10-Math.random()*16,t:0,c:'#8a7a8a'}); }
+  if(S.anim==='attack' && S.fi===A.hit){ S.shake=0.35; const x=impactX(); S.rings.push({x,y:SGROUND+2,t:0}); for(let k=0;k<22;k++) S.bits.push({x:x+(Math.random()-.5)*30,y:SGROUND,vx:(Math.random()-.5)*120,vy:-30-Math.random()*70,t:0,c:Math.random()<.5?'#6a5a6a':'#9a8a9a'}); }
+  if(S.anim==='hook' && S.fi===A.throwAt) S.shake=Math.max(S.shake,0.06);
+}
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=ACOU.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); onFrame(); updStrip(); } }
+  if(S.anim==='walk' && S.playing) S.scroll+=dt*(S.slow?5:10);
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+function draw(dt){
+  const sx=S.shake>0?Math.round((Math.random()-.5)*S.shake*22):0, sy=S.shake>0?Math.round((Math.random()-.5)*S.shake*10):0; S.shake=Math.max(0,S.shake-dt);
+  g.save(); g.translate(sx,sy);
+  drawBG(g,S.form==='furia'?'plenilunar':'comum',S.scroll,T);
+  const A=ACOU.ANIMS[S.anim], cv=SF(S.form,S.anim,S.fi,S.step);
+  // círculo vermelho de aviso
+  if(S.anim==='attack' && A.warn.includes(S.fi)){ const x=impactX(), pulse=0.5+0.5*Math.sin(T*24); g.strokeStyle='rgba(255,40,50,'+(0.6+0.4*pulse)+')'; g.lineWidth=2; g.beginPath(); g.ellipse(x,SGROUND+3,34,8,0,0,Math.PI*2); g.stroke(); g.fillStyle='rgba(255,40,50,'+(0.18+0.12*pulse)+')'; g.beginPath(); g.ellipse(x,SGROUND+3,34,8,0,0,Math.PI*2); g.fill(); }
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-3;y<=3;y++){ const w=Math.floor(Math.sqrt(1-(y/4)**2)*40); g.fillRect(OX+ACOU.AX*KST-w+6,SGROUND+y+1,w*2,1); }
+  g.drawImage(cv,OX,OY);
+  if(S.form==='furia' && S.step>=5){ const b=cv._back; glow(OX+b.x+10,OY+b.y+20,60,'rgba(255,40,30,'+(0.12+0.08*Math.sin(T*6))+')'); if(Math.random()<0.5) S.steam.push({x:OX+b.x+(Math.random()-.5)*14,y:OY+b.y,t:0,vx:-6-Math.random()*8}); glow(OX+cv._eye.x,OY+cv._eye.y,6,'rgba(255,200,60,.7)'); }
+  if(S.anim==='rage' && S.fi>=1 && S.fi<=3 && Math.random()<0.8){ const b=cv._back; S.steam.push({x:OX+b.x+(Math.random()-.5)*20,y:OY+b.y,t:0,vx:-10-Math.random()*10}); }
+  S.steam.forEach(p=>{ p.t+=dt; p.y-=22*dt; p.x+=p.vx*dt; const r=2+p.t*8; g.fillStyle='rgba(240,230,240,'+Math.max(0,0.5-p.t*0.5)+')'; g.fillRect(Math.round(p.x-r/2),Math.round(p.y-r/2),Math.round(r),Math.round(r)); }); S.steam=S.steam.filter(p=>p.t<1);
+  S.rings.forEach(r=>{ r.t+=dt; for(let k=0;k<3;k++){ const rr=r.t*160-k*12; if(rr<4) continue; g.strokeStyle='rgba(255,240,200,'+Math.max(0,0.9-r.t*1.4)+')'; g.lineWidth=1; g.beginPath(); g.ellipse(r.x,r.y,rr,rr*0.25,0,0,Math.PI*2); g.stroke(); } }); S.rings=S.rings.filter(r=>r.t<0.7);
+  S.bits.forEach(b=>{ b.t+=dt; b.x+=b.vx*dt; b.y+=b.vy*dt; b.vy+=200*dt; if(b.y>SGROUND+4){ b.y=SGROUND+4; b.vy=0; b.vx*=0.8; } g.fillStyle=b.c; g.globalAlpha=Math.max(0,1-b.t); g.fillRect(Math.round(b.x),Math.round(b.y),2,2); g.globalAlpha=1; }); S.bits=S.bits.filter(b=>b.t<1);
+  if(S.anim==='attack' && S.fi===A.hit && S.step>=3){ const x=impactX(); g.fillStyle='#fff'; for(let k=0;k<10;k++){ const a=-Math.PI+k/9*Math.PI; for(let r=10;r<22;r++) g.fillRect(Math.round(x+Math.cos(a)*r),Math.round(SGROUND+Math.sin(a)*r*0.6),1,1); } }
+  g.restore();
+  const vulnLeft=()=>{ let t=-S.acc; for(let j=S.fi;j<=A.vuln[A.vuln.length-1];j++) t+=A.dur(j); return Math.max(0,t)/1000; };
+  if(S.anim==='attack' && A.warn.includes(S.fi)) setFx('tag','PANCADA · saia do círculo',impactX(),SGROUND-150);
+  else if(S.anim==='attack' && (S.fi===A.hit||S.fi===A.hit-1)) setFx('burst','BLAM!',impactX(),SGROUND-40);
+  else if(S.anim==='attack' && A.vuln.includes(S.fi)) setFx('tag','VULNERÁVEL '+vulnLeft().toFixed(1).replace('.',',')+' s',OX+cv._head.x,OY+cv._head.y-18);
+  else if(S.anim==='hook' && S.fi>=2 && S.fi<=3) setFx('burst','CLANK!',OX+cv._hook.x+12,OY+cv._hook.y-20);
+  else if(S.anim==='rage' && S.fi>=1 && S.fi<=3) setFx('bubble','GRRAAAH!',OX+cv._head.x+40,OY+cv._head.y-20);
+  else if(S.anim==='hurt' && S.fi<=1) setFx('burst','CRAU!',OX+100,OY+70);
+  else if(S.anim==='walk' && A.stomp.includes(S.fi)) setFx('burst','TUM',OX+ACOU.AX*KST+30,SGROUND-14);
+  else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${A.n} · ${A.dur(S.fi)} ms`;
+  const r2=document.getElementById('r2').getContext('2d'); r2.imageSmoothingEnabled=false; r2.clearRect(0,0,161,182); PIX.setK(0.7); r2.drawImage(ACOU.frame(S.form,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(ACOU.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('anims','anim',S.anim); if(S.anim==='rage' && S.form!=='furia'){ S.form='furia'; press('forms','form','furia'); buildRamps(); after(); } buildStrip(); });
+document.querySelectorAll('#forms button').forEach(b=>b.onclick=()=>{ S.form=b.dataset.form; press('forms','form',S.form); buildStrip(); buildRamps(); after(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%ACOU.ANIMS[S.anim].n; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=ACOU.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(ACOU.frame(S.form,S.anim,i,S.step),0,0);
+    const tags=(A.warn&&A.warn.includes(i)?' ⚠':'')+(A.hit===i?' ✦':'')+(A.vuln&&A.vuln.includes(i)?' ◌':'');
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms${tags}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=ACOU.mats(S.form); document.getElementById('formName').textContent=S.form==='furia'?'Fúria':'Normal';
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(ACOU.NAMES).map(k=>`<div class="ramp"><span>${ACOU.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('')+
+  `<div class="ramp"><span>Contorno · Lua</span><i style="background:${PIX.OUTLINE}"></i><i style="background:${ACOU.RIM[S.form]}"></i><span></span><span></span></div>`; }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(ACOU.frame(S.form,'attack',2,5),0,0); }
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>

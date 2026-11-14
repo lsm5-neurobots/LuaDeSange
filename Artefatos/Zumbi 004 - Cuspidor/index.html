@@ -1,0 +1,485 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Cuspidor Nº 004</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: ficha de personagem de fliperama. Palco grande à esquerda com o sprite vivo, painel de controle à direita;
+   abaixo, quadros da animação, paleta, antes/depois e a tradução da ficha para a direção de arte. Tema escuro fixo. */
+:root{
+  color-scheme:dark;
+  --night:#120a1f; --panel:#1e1333; --panel2:#2a1b46; --line:#3d2a62;
+  --ink:#f5eefe; --muted:#ac9dca;
+  --blood:#ff2e4d; --moon:#ffd23f; --cosmic:#3ed4ff; --toxic:#8be35a;
+  --f-display:"Bungee", Impact, "Arial Black", sans-serif;
+  --f-pix:"Pixelify Sans", "Courier New", monospace;
+  --f-body:"Barlow", "Segoe UI", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:24px 64px;
+  background:radial-gradient(circle at 90% -10%, rgba(255,46,77,.25), transparent 40%), var(--night)}
+:focus-visible{outline:3px solid var(--moon);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:28px}
+.eyebrow{font-family:var(--f-pix);text-transform:uppercase;letter-spacing:.12em;color:var(--cosmic);font-size:13px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(36px,7vw,76px);line-height:.95;margin:4px 0 8px;
+  text-shadow:4px 4px 0 var(--blood),8px 8px 0 #000}
+h1 small{font-size:.38em;color:var(--moon);display:inline-block;vertical-align:.9em;margin-left:10px;text-shadow:3px 3px 0 #000}
+.lede{max-width:72ch;color:var(--muted);margin:0}
+.lede b{color:var(--ink)}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(20px,3vw,28px);margin:0 0 10px;text-wrap:balance}
+h2 small{display:block;font-family:var(--f-pix);font-size:13px;color:var(--blood);letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+
+.show{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0;border:3px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 0 0 6px #0b0614,10px 10px 0 6px rgba(255,46,77,.35);background:#000}
+.stagewrap{position:relative;min-width:0;background:#000}
+.stagewrap{min-height:320px;overflow:hidden}
+#stage{display:block;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;max-width:100%}
+.fx{position:absolute;pointer-events:none;font-family:var(--f-display);color:#fff;transform:translate(-50%,-50%) rotate(-8deg);
+  text-shadow:3px 3px 0 #000;-webkit-text-stroke:1.5px #000;font-size:clamp(20px,4vw,40px);white-space:nowrap}
+.fx.burst{background:var(--moon);color:var(--blood);padding:4px 14px;clip-path:polygon(0 30%,12% 22%,8% 0,28% 14%,40% 0,52% 16%,70% 2%,74% 20%,100% 12%,88% 40%,100% 60%,84% 70%,96% 100%,70% 84%,56% 100%,44% 82%,24% 98%,22% 76%,0 84%,10% 58%);text-shadow:none}
+.fx.bubble{background:#fff;color:#000;-webkit-text-stroke:0;text-shadow:none;border:3px solid #000;border-radius:50%;padding:6px 14px;transform:translate(-50%,-50%) rotate(4deg)}
+.tagfx{position:absolute;left:10px;top:10px;font-family:var(--f-pix);font-size:12px;background:rgba(10,5,20,.8);border:2px solid #000;border-radius:5px;padding:3px 8px;color:var(--muted)}
+.tagfx b{color:var(--moon)}
+.panel{background:var(--panel);border-left:2px solid var(--line);padding:14px;display:grid;gap:14px;align-content:start;font-family:var(--f-pix);min-width:0}
+.grp{display:grid;gap:6px}
+.lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font-family:var(--f-pix);font-weight:600;font-size:13px;cursor:pointer;padding:6px 10px;border-radius:5px;border:2px solid var(--line);background:var(--panel2);color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--moon);color:#1a0d00;border-color:#000;box-shadow:2px 2px 0 #000}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#b89cff}
+.seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:var(--blood);color:#fff}
+.real{display:flex;gap:12px;align-items:flex-end;background:#0d0818;border:1px solid var(--line);border-radius:6px;padding:8px}
+.real canvas{image-rendering:pixelated;display:block}
+.real span{font-size:11px;color:var(--muted);display:block;text-align:center}
+.note{font-family:var(--f-body);font-size:13px;color:var(--muted);margin:0}
+
+.strip{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px}
+.fr{flex:0 0 auto;display:grid;gap:4px;justify-items:center;background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:6px;cursor:pointer;font-family:var(--f-pix);font-size:11px;color:var(--muted)}
+.fr.on{border-color:var(--moon);color:var(--ink)}
+.fr canvas{width:104px;height:120px;image-rendering:pixelated;background:repeating-conic-gradient(#1a1030 0 25%, #221640 0 50%) 0 0/12px 12px}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:start}
+.box{background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.ramps{display:grid;gap:8px}
+.ramp{display:grid;grid-template-columns:90px repeat(4,1fr);gap:4px;align-items:center;font-family:var(--f-pix);font-size:12px}
+.ramp i{display:block;height:26px;border:2px solid #000;border-radius:3px}
+.ramp .hx{font-size:10px;color:var(--muted);text-align:center;font-family:var(--f-pix)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ba figure{margin:0;display:grid;gap:6px;justify-items:center;background:#0d0818;border:1px solid var(--line);border-radius:8px;padding:10px}
+.ba img,.ba canvas{image-rendering:pixelated;width:100%;max-width:220px;height:auto;aspect-ratio:auto}
+.ba figcaption{font-family:var(--f-pix);font-size:12px;color:var(--muted);text-align:center}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-pix);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td:first-child{font-family:var(--f-pix);color:var(--moon);white-space:nowrap}
+ul.rules{margin:0;padding-left:20px;display:grid;gap:6px}
+ul.rules b{color:#fff}
+.quote{border-left:4px solid var(--toxic);padding:6px 12px;margin:0 0 12px;color:#dfe9d2;font-style:italic;max-width:72ch}
+@media (max-width:860px){ .stagewrap{min-height:0} #stage{height:auto;aspect-ratio:200/140} .show{grid-template-columns:1fr} .panel{border-left:0;border-top:2px solid var(--line)} }
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:240/150;object-fit:contain!important} .fr canvas{width:128px;height:124px}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#5af0e0} .seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:#e05aa8;color:#fff}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bestiário · Zumbis comuns · Direção de arte cósmica</div>
+    <h1>Cuspidor <small>Nº 004</small></h1>
+    <p class="lede">O vírus encheu a garganta dele de ácido. Fica de longe, <b>incha o papo e cospe uma bola esverdeada que vira poça no chão</b> e envenena. Fica parado a 4 tiles do herói, incha o papo por 0,6 s com o pescoço brilhando e cospe. É o primeiro zumbi que ataca à distância, então a silhueta gira em torno do papo.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="240" height="150" role="img" aria-label="Cuspidor animado no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Forma</span>
+        <div class="seg forms" id="forms"><button data-form="comum" aria-pressed="true">Comum</button><button data-form="enluarado" aria-pressed="false">Enluarado</button><button data-form="plenilunar" aria-pressed="false">Plenilunar</button></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real no jogo</span>
+        <div class="real"><div><canvas id="r1" width="128" height="124"></canvas><span>ficha (100%)</span></div><div><canvas id="r2" width="90" height="87"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">Na ficha o quadro tem 128×124 px. No jogo ele entra a 70%, como os outros zumbis, pra ficar menor que as portas do mapa novo.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">No Cuspir, os 3 primeiros quadros somam 600 ms: é o "incha o papo por 0,6 s" da ficha, o aviso pro jogador sair da faixa. O 4º quadro (60 ms) é o cuspe, com a cabeça jogada pra frente e a mandíbula escancarada.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><img alt="Sprite atual do Cuspidor, 128 px" src="data:image/png;base64,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"><figcaption>Atual · pixel chunky, contorno uniforme, 2 tons</figcaption></figure>
+        <figure><canvas id="afterCv" width="128" height="124"></canvas><figcaption>Novo · papo translúcido, 4 tons, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor da forma <span id="formName">Comum</span></h2>
+      <div class="ramps" id="ramps"></div>
+      <p class="note" style="margin-top:10px">O ácido é a cor mais saturada da tela, e é de propósito. Papo, baba, furos na camisa, manchas na calça, cuspe e poça usam a mesma rampa, pra que o jogador ligue tudo ao perigo.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead>
+      <tbody>
+        <tr><td>Cabeça</td><td>Pescoço inchado como papo de sapo, pele esticada e translúcida mostrando o ácido verde. Mandíbula caída e torta, baba ácida no queixo. Olhos pequenos e amarelos. Pouco cabelo grudado na testa.</td><td>O papo é uma peça própria na frente do pescoço, com 3 camadas (pele, ácido escuro, ácido claro) e reflexo. Ele cresce no Cuspir e brilha (luz aditiva). A mandíbula é peça separada e a baba é um fio verde que estica quando a boca abre. Olhinhos amarelos fundos e mechas grudadas na testa.</td></tr>
+        <tr><td>Tronco</td><td>Camisa polo marrom, gola queimada, furos corroídos pelo ácido no peito. Corpo encurvado, costas arqueadas.</td><td>Polo marrom com carcela de 2 botões e gola chamuscada com pontos pretos. 4 furos com borda verde mostram a pele. O tronco fica inclinado 24° e as costas fazem uma corcunda.</td></tr>
+        <tr><td>Braços</td><td>Caídos ao lado do corpo. Uma mão apoiada no papo, como se o segurasse. Dedos com queimaduras de ácido.</td><td>O braço da frente usa cinemática inversa pra segurar o papo por baixo e acompanha quando ele incha. O de trás fica pendurado e balança. Pontas dos dedos queimadas.</td></tr>
+        <tr><td>Pernas</td><td>Calça social cinza com manchas verdes, um sapato de cada cor. Pernas afastadas pra aguentar o tranco.</td><td>Calça cinza com vinco e manchas de ácido. Sapato social preto na frente e marrom atrás. Base larga, que abre mais no cuspe.</td></tr>
+        <tr><td>Movimento</td><td>Para a 4 tiles, incha o papo 0,6 s com o pescoço brilhando e cospe. A bola cai e vira poça que borbulha e envenena.</td><td>Cuspir em 8 quadros. A bola sai da boca em arco com rastro e, ao cair, vira uma poça que borbulha e some em ~3 s (no jogo, causa veneno por segundo em quem pisa).</td></tr>
+        <tr><td>Enluarado</td><td>Pele azul e ácido turquesa.</td><td>Pele azul, ácido turquesa, luz de lua ciano.</td></tr>
+        <tr><td>Plenilunar</td><td>Pele magenta e três papos inchados, que cospem 3 bolas em leque.</td><td>Pele magenta, 3 papos (um atrás, mais escuro) e cuspe triplo em leque: as 3 bolas caem em faixas diferentes.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+/* ===== PIX: pipeline hi-bit compartilhado (vetor → quantiza → luz/sombra → contorno seletivo → luz de lua) ===== */
+const PIX=(function(){
+  const OUTLINE='#170b1c'; let K=1; const setK=k=>{K=k;}, getK=()=>K;
+  const rad=d=>d*Math.PI/180;
+  function hexRgb(h){ const n=parseInt(h.slice(1),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+  function toHex(r,g,b){ return '#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join(''); }
+  function mix(a,b,t){ const A=hexRgb(a),B=hexRgb(b); return toHex(A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,A[2]+(B[2]-A[2])*t); }
+  function ramp(h){ return [mix(h,'#fff2cc',.36),h,mix(h,'#3b2c63',.38),mix(h,'#1c1233',.64)]; }
+  const lp=(p,a,L)=>({x:p.x+Math.sin(rad(a))*L, y:p.y+Math.cos(rad(a))*L});
+  const lerp=(a,b,t)=>({x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t});
+  const P2=(x,y)=>({x,y});
+  function ik(S,W,L1,L2,elbowDown){
+    const dx=W.x-S.x, dy=W.y-S.y, d0=Math.hypot(dx,dy);
+    const d=Math.max(Math.abs(L1-L2)+0.5, Math.min(L1+L2-0.3, d0));
+    const base=Math.atan2(dy,dx), A=Math.acos(Math.max(-1,Math.min(1,(L1*L1+d*d-L2*L2)/(2*L1*d))));
+    const e1={x:S.x+Math.cos(base-A)*L1,y:S.y+Math.sin(base-A)*L1}, e2={x:S.x+Math.cos(base+A)*L1,y:S.y+Math.sin(base+A)*L1};
+    const E=elbowDown?(e1.y>e2.y?e1:e2):(e1.y<e2.y?e1:e2);
+    return {E, W:{x:S.x+Math.cos(base)*d, y:S.y+Math.sin(base)*d}};
+  }
+  function mkPen(ctx,used){
+    const F=c=>{ ctx.fillStyle=c; used.add(c); };
+    const circle=(p,r)=>{ ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill(); };
+    const cap=(a,b,wa,wb)=>{ const dx=b.x-a.x, dy=b.y-a.y, L=Math.hypot(dx,dy)||1, nx=-dy/L, ny=dx/L;
+      ctx.beginPath(); ctx.moveTo(a.x+nx*wa/2,a.y+ny*wa/2); ctx.lineTo(b.x+nx*wb/2,b.y+ny*wb/2); ctx.lineTo(b.x-nx*wb/2,b.y-ny*wb/2); ctx.lineTo(a.x-nx*wa/2,a.y-ny*wa/2); ctx.closePath(); ctx.fill(); circle(a,wa/2); circle(b,wb/2); };
+    const poly=pts=>{ ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); ctx.fill(); };
+    const ell=(x,y,rx,ry,r=0)=>{ ctx.beginPath(); ctx.ellipse(x,y,rx,ry,r,0,Math.PI*2); ctx.fill(); };
+    const rect=(x,y,w,h)=>ctx.fillRect(x,y,w,h);
+    const xf=(a,ox,oy)=>{ const c=Math.cos(a), s=Math.sin(a); ctx.setTransform(c*K,s*K,-s*K,c*K,ox*K,oy*K); };
+    const id=()=>ctx.setTransform(K,0,0,K,0,0);
+    return {F,circle,cap,poly,ell,rect,xf,id};
+  }
+  const tmpCache={};
+  function compose(o){ // o: {FW,FH,GROUND,parts,M,step,flash,rim,rimTop}
+    const {FW,FH,parts,M,step}=o; const key=FW+'x'+FH;
+    if(!tmpCache[key]){ const c=document.createElement('canvas'); c.width=FW; c.height=FH; tmpCache[key]=[c,c.getContext('2d',{willReadFrequently:true})]; }
+    const tctx=tmpCache[key][1];
+    const cinfo=new Map(); Object.entries(M).forEach(([k,r])=>r.forEach((h,t)=>{ if(!cinfo.has(h)) cinfo.set(h,{ramp:k,tone:t}); }));
+    const N=FW*FH, col=new Array(N).fill(null), part=new Int8Array(N).fill(-1);
+    parts.forEach((pt,k)=>{
+      tctx.setTransform(1,0,0,1,0,0); tctx.clearRect(0,0,FW,FH); const used=new Set(); pt.draw(tctx,used); if(!used.size) return;
+      const list=[...used].map(h=>[h,...hexRgb(h)]); const d=tctx.getImageData(0,0,FW,FH).data;
+      for(let i=0;i<N;i++){ if(d[i*4+3]<128) continue; let best=list[0][0], bd=1e9; const r=d[i*4],g=d[i*4+1],b=d[i*4+2];
+        for(const c of list){ const dd=(c[1]-r)**2+(c[2]-g)**2+(c[3]-b)**2; if(dd<bd){bd=dd;best=c[0];} }
+        col[i]=best; part[i]=k; }
+    });
+    const at=(x,y)=> (x<0||y<0||x>=FW||y>=FH)?-1:part[y*FW+x];
+    const out=new Array(N).fill(null);
+    for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){
+      const i=y*FW+x, c=col[i]; if(c===null) continue; const k=part[i];
+      if(step===1){ out[i]='#2a1d40'; continue; }
+      const info=cinfo.get(c); let oc=c;
+      if(step>=3 && info && !parts[k].noShade){
+        let tone=info.tone;
+        if(tone===1){ if(at(x-1,y)!==k||at(x-2,y)!==k||at(x,y+1)!==k||at(x,y+2)!==k) tone=2; else if(at(x+1,y)!==k||at(x,y-1)!==k) tone=0; }
+        const up2=at(x,y-2), ul=at(x+1,y-2); if((up2>k)||(ul>k)) tone=Math.min(3,tone+1);
+        if(step>=4){ const n=[at(x+1,y),at(x-1,y),at(x,y+1),at(x,y-1)]; if(n.some(q=>q>k && !parts[q].smear)) tone=3; }
+        if(parts[k].back) tone=Math.min(3,tone+1);
+        oc=M[info.ramp][tone];
+      }
+      if(o.flash && step>=3) oc='#ffffff';
+      out[i]=oc;
+    }
+    if(step>=5 && !o.flash && o.rim){ const lim=Math.min(FH,(o.GROUND||FH)-8); for(let y=0;y<lim;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]!==null && at(x-1,y)===-1 && !parts[part[i]].noShade && !parts[part[i]].noRim) out[i]=o.rim; } }
+    const cv=document.createElement('canvas'); cv.width=FW; cv.height=FH; const g=cv.getContext('2d'); const img=g.createImageData(FW,FH);
+    const put=(i,h)=>{ const [r,gg,b]=hexRgb(h); img.data[i*4]=r; img.data[i*4+1]=gg; img.data[i*4+2]=b; img.data[i*4+3]=255; };
+    for(let i=0;i<N;i++) if(out[i]) put(i,out[i]);
+    if(step>=4){ for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]!==null) continue; if(at(x+1,y)>=0||at(x-1,y)>=0||at(x,y+1)>=0||at(x,y-1)>=0) put(i,OUTLINE); } }
+    g.putImageData(img,0,0);
+    return cv;
+  }
+  return {setK,getK,OUTLINE,rad,hexRgb,toHex,mix,ramp,lp,lerp,P2,ik,mkPen,compose};
+})();
+
+/* ===== CUSPIDOR (nº 004): zumbi de ácido, hi-bit ===== */
+const CUSP=(function(){
+  const {rad,ramp,lp,lerp,P2,ik,mkPen,compose}=PIX;
+  const FW=128, FH=124, GROUND=118, AX=50;
+  const RIM={comum:'#c8f0a0', enluarado:'#a0f4ff', plenilunar:'#ffb0e0'};
+  function mats(form){
+    const m={
+      skin:['#d8dc8a','#a8b05a','#76803e','#4a5230'],
+      acid:['#f4ffb0','#b8f53a','#6ac21a','#2e7a10'],
+      polo:['#a8784e','#7a5232','#523620','#301e12'],
+      collar:['#5a3a26','#3a2416','#221408','#120a04'],
+      pants:['#9a98a2','#6e6c78','#4c4a58','#2e2c3a'],
+      shoeA:['#5a5660','#24222a','#16141a','#0a080c'],
+      shoeB:['#b07a4a','#7a4e2a','#50321a','#2e1c0e'],
+      hair:['#5a5040','#36301f','#221e14','#14110a'],
+      eye:['#fff6b0','#f2d23a','#b0901a','#6a540a'],
+      mouth:['#6a3434','#3a1a1e','#24100e','#140806'],
+      teeth:['#e8dca0','#c4b070','#8a7848','#54482a'],
+      burn:['#8a7a3a','#5a4a24','#3a2e16','#20180a'],
+    };
+    if(form==='enluarado'){ m.skin=['#b8d0ff','#7a98e0','#4e68a8','#2e3e6e']; m.acid=['#e0fffa','#5af0e0','#1ab0b0','#0a6a70']; m.eye=['#ffffff','#c8f0ff','#78c0e0','#3a7aa0']; m.polo=['#8a7a8e','#5e5066','#3e3446','#241e2a']; }
+    if(form==='plenilunar'){ m.skin=['#ffb0e0','#e05aa8','#9a2e72','#5a1444']; m.acid=['#fffcc0','#e8f53a','#a0c21a','#5a7a10']; m.eye=['#fffbe0','#ffd23f','#ff8a2a','#c2401a']; m.polo=['#8a5a4a','#5e3a2e','#3e241c','#24140e']; }
+    return m;
+  }
+  const NAMES={skin:'Pele',acid:'Ácido',polo:'Camisa polo',collar:'Gola queimada',pants:'Calça social',shoeA:'Sapato preto',shoeB:'Sapato marrom',eye:'Olho',burn:'Queimadura'};
+  const REST={hx:0,lean:24,head:-12,jaw:10,sac:0.15,aBs:-2,aBe:6,lFh:16,lFk:6,lBh:-16,lBk:-22,flash:0,spit:0,drip:0};
+  const ANIMS={
+    idle:{nome:'Parado',n:6,dur:()=>170,pose:i=>{ const p=i/6*Math.PI*2, s=Math.sin(p); return {sac:0.15+0.08*(s+1)/2, jaw:9+3*Math.max(0,Math.sin(p-0.4)), head:-12+2*Math.sin(p-0.8), lean:24+1.2*s, aBs:-2+2*s, aBe:6+3*s, drip:i%3}; }},
+    walk:{nome:'Andar',n:8,dur:()=>135,pose:i=>{ const p=i/8*Math.PI*2; const lFh=16+12*Math.sin(p), lBh=-16+12*Math.sin(p+Math.PI);
+      return {lFh, lFk:lFh-14*Math.max(0,Math.cos(p))-4, lBh, lBk:lBh-6-14*Math.max(0,Math.cos(p+Math.PI)), lean:24+2.5*Math.abs(Math.sin(p)), head:-12+3*Math.sin(2*p-0.7), sac:0.15+0.1*Math.abs(Math.sin(p)), aBs:-2+10*Math.sin(p), aBe:6+10*Math.sin(p), jaw:10, drip:i%3}; }},
+    attack:{nome:'Cuspir',n:8,spitAt:3,dur:i=>[200,200,200,60,140,160,160,140][i],pose:i=>[
+      {sac:0.4,head:-20,lean:18,jaw:4,hx:-1},
+      {sac:0.72,head:-26,lean:14,jaw:2,hx:-2,lFh:20,lBh:-20},
+      {sac:1,head:-30,lean:10,jaw:1,hx:-3,lFh:22,lBh:-22,lBk:-28},
+      {sac:0.25,head:6,lean:34,jaw:24,hx:4,spit:1,lFh:24,lFk:10,lBh:-22,lBk:-30},
+      {sac:0.1,head:2,lean:30,jaw:20,hx:3,lFh:22,lFk:8,lBh:-20,lBk:-28,drip:2},
+      {sac:0.1,head:-6,lean:26,jaw:14,hx:1},
+      {sac:0.12,head:-10,lean:24,jaw:12},
+      {sac:0.15,head:-12,lean:24,jaw:10}][i]},
+    hurt:{nome:'Dano',n:4,dur:i=>[80,110,120,150][i],pose:i=>[
+      {lean:4,head:-34,jaw:20,hx:-6,flash:1,aBs:-30,aBe:-20,sac:0.3},
+      {lean:8,head:-26,jaw:16,hx:-5,aBs:-20,aBe:-10,sac:0.25},
+      {lean:18,head:-16,jaw:12,hx:-2},
+      {}][i]},
+  };
+  function poseOf(anim,i){ return Object.assign({},REST,ANIMS[anim].pose(i)); }
+  function skeleton(P){
+    const hip={x:AX+P.hx,y:64};
+    const hipF={x:hip.x+3,y:hip.y}, hipB={x:hip.x-3,y:hip.y};
+    const kneeF=lp(hipF,P.lFh,21), ankleF=lp(kneeF,P.lFk,21), kneeB=lp(hipB,P.lBh,21), ankleB=lp(kneeB,P.lBk,21);
+    const dy=GROUND-Math.max(ankleF.y+4.5, ankleB.y+4.5);
+    [hip,hipF,hipB,kneeF,ankleF,kneeB,ankleB].forEach(p=>p.y+=dy);
+    const a=rad(P.lean), c=Math.cos(a), s=Math.sin(a);
+    const T=(lx,ly)=>({x:hip.x+lx*c-ly*s, y:hip.y+lx*s+ly*c});
+    const neck=T(3,-30), shF=T(5,-25), shB=T(-4,-26);
+    const ha=rad(P.lean+P.head), hc=Math.cos(ha), hs=Math.sin(ha);
+    const H=(lx,ly)=>({x:neck.x+lx*hc-ly*hs, y:neck.y+lx*hs+ly*hc});
+    const sacC=H(5,0);
+    const F=ik(shF,{x:sacC.x-1,y:sacC.y+9+P.sac*5},13,12,true);
+    const elB=lp(shB,P.aBs,13), wrB=lp(elB,P.aBe,12);
+    return {hip,hipF,hipB,kneeF,ankleF,kneeB,ankleB,neck,shF,shB,elF:F.E,wrF:F.W,elB,wrB,a,ha,H,T,sacC,eye:H(7,-15.5),mouth:H(12,-6)};
+  }
+  function drawArm(p,M,sh,el,wr,front){
+    p.id();
+    p.F(M.polo[1]); p.cap(sh,lerp(sh,el,0.45),7.4,6.6);
+    p.F(M.skin[1]); p.cap(lerp(sh,el,0.4),el,5,4.6); p.cap(el,wr,4.4,3.8);
+    p.F(M.burn[1]); const b=lerp(el,wr,0.6); p.circle(b,1.1);
+    const ang=Math.atan2(wr.y-el.y,wr.x-el.x); p.xf(ang,wr.x,wr.y);
+    p.F(M.skin[1]); p.poly([[-0.5,-2.6],[4,-3],[4.6,2.8],[-0.5,2.6]]);
+    for(let k=0;k<4;k++){ const y0=-2.2+k*1.5; p.F(M.skin[1]); p.cap(P2(4,y0),P2(7.2,y0+(front?1.6:0.6)),1.6,1.4); p.F(M.burn[2]); p.rect(6.4,y0+(front?1:0.2),1,1); }
+    p.id();
+  }
+  function drawLeg(p,M,hip,knee,ankle,front){
+    p.id();
+    p.F(M.pants[1]); p.cap(hip,knee,9.4,8.2); p.cap(knee,ankle,8.2,7);
+    p.F(M.acid[2]); const st=lerp(hip,knee,front?0.5:0.7); p.ell(st.x+1,st.y,2.2,1.6); if(front){ const s2=lerp(knee,ankle,0.4); p.ell(s2.x-1,s2.y,1.6,1.2); }
+    p.F(M.pants[0]); if(front) p.cap(lerp(hip,knee,0.1),lerp(knee,ankle,0.8),0.8,0.8);
+    const S=front?M.shoeA:M.shoeB, a=ankle;
+    p.F(S[1]); p.poly([[a.x-4,a.y-1.6],[a.x+3,a.y-1.8],[a.x+9.6,a.y+1.6],[a.x+10.4,a.y+3.8],[a.x-4.2,a.y+3.8]]);
+    p.F(S[3]); p.rect(a.x-4.2,a.y+3,14.6,1.2);
+    p.F(S[0]); p.rect(a.x+3.4,a.y-0.2,3,0.9);
+  }
+  function drawTorso(p,M,sk){
+    p.xf(sk.a,sk.hip.x,sk.hip.y);
+    p.F(M.polo[1]); p.poly([[-10,1.6],[9.4,1.6],[10,-8],[9,-16],[10.6,-22],[8,-28],[2,-31.6],[-6,-32],[-12,-27],[-13.6,-18],[-12,-8]]);
+    p.F(M.polo[2]); p.rect(-11,-24,1,10); p.rect(3.4,-27,1,9);
+    p.F(M.polo[0]); p.rect(4.4,-24,1,1); p.rect(4.4,-20.6,1,1);
+    p.F(M.collar[1]); p.poly([[-3,-31],[4,-33],[9,-29],[6.4,-27.4],[3,-29.6],[-1.6,-28.6]]);
+    p.F(M.collar[3]); [[-2,-29.4],[1,-30.6],[5.4,-29],[7.6,-28.4]].forEach(([x,y])=>p.rect(x,y,1.2,1));
+    // furos de ácido
+    [[0,-18,2.6,2],[5.6,-13,1.8,1.6],[-4,-10,2,1.6],[7,-21,1.4,1.2]].forEach(([x,y,rx,ry])=>{ p.F(M.acid[2]); p.ell(x,y,rx+0.9,ry+0.9); p.F(M.skin[2]); p.ell(x,y,rx,ry); });
+    p.F(M.acid[1]); p.rect(-0.6,-16.4,1,2.6); p.rect(6,-11.6,0.9,2);
+    p.F(M.pants[1]); p.poly([[-12,-2],[9.6,-2],[9.8,2.4],[-12.2,2.4]]); p.F(M.collar[1]); p.rect(-12,-2.4,21.6,1.4);
+    p.id();
+  }
+  function drawSac(p,M,sk,P,form,which){
+    const s=P.sac, list=form==='plenilunar'?[[5,0,1],[-1,4,0.7],[9,5,0.75]]:[[5,0,1]];
+    list.forEach(([dx,dy,k],idx)=>{ if(which==='back' && idx!==1) return; if(which==='front' && idx===1) return;
+      const c=sk.H(dx,dy); const rx=(8+s*5)*k, ry=(6.8+s*4.4)*k;
+      p.id(); p.F(M.skin[1]); p.ell(c.x,c.y+ry*0.25,rx,ry);
+      p.F(M.acid[2]); p.ell(c.x+0.6,c.y+ry*0.35,rx*0.72,ry*0.68);
+      p.F(M.acid[1]); p.ell(c.x+1,c.y+ry*0.25,rx*0.5,ry*0.46);
+      p.F(M.acid[0]); p.ell(c.x+rx*0.25,c.y-ry*0.05,rx*0.18,ry*0.16);
+      p.F(M.skin[2]); p.rect(c.x-rx*0.6,c.y+ry*0.9,rx*1.1,0.9);
+    });
+  }
+  function drawHead(p,M,sk,P){
+    p.xf(sk.ha,sk.neck.x,sk.neck.y);
+    p.F(M.skin[1]); p.cap(P2(0,3),P2(1,-6),6.6,6);
+    p.ell(-3.6,-13,2.2,3.2); p.ell(2,-14.4,8.6,9);
+    p.poly([[-2,-8],[10.6,-9.6],[12,-6],[4,-4.4],[-0.6,-5]]);
+    p.F(M.skin[3]); p.ell(-3.6,-13,0.9,1.8);
+    p.F(M.skin[2]); p.poly([[3,-19],[10.6,-18],[10.6,-16.4],[3,-17.2]]);
+    p.F(M.skin[3]); p.ell(7.2,-15.2,2.4,2); p.F(M.eye[1]); p.ell(7.4,-15.2,1.4,1.2); p.F(M.mouth[3]); p.rect(7.8,-15.6,0.8,0.8);
+    p.F(M.skin[3]); p.ell(11.2,-15.4,1.1,1.3); p.F(M.eye[1]); p.rect(11,-15.8,0.9,0.9);
+    p.F(M.skin[1]); p.poly([[10,-14.6],[13.2,-11],[10.6,-10.4]]);
+    p.F(M.mouth[1]); p.poly([[4,-8],[11.6,-8.4],[11.8,-5.4],[4,-5]]);
+    p.F(M.teeth[1]); p.rect(6,-8.4,1.3,1.6); p.rect(8.4,-8.5,1.3,1.4); p.rect(10.4,-8.4,1,1.2);
+    p.F(M.hair[1]); p.poly([[-6.6,-19],[-1,-23.4],[5,-23],[8,-20.6],[6,-20.4],[4,-18.2],[1.6,-20.6],[-1,-18.6],[-4,-19.6]]);
+    p.poly([[0.4,-19],[1.8,-15.6],[2.4,-19.4]]); p.poly([[4.6,-19.2],[5.4,-16.8],[6.2,-19.6]]);
+    p.id();
+  }
+  function drawJaw(p,M,sk,P){
+    const h=sk.H(0,-8); p.xf(sk.ha+rad(P.jaw),h.x,h.y);
+    p.F(M.skin[1]); p.poly([[-1.6,-1],[11.6,0.6],[12,3],[9.6,6],[3.6,6.6],[-1.6,3]]);
+    p.F(M.teeth[1]); p.rect(5.6,0.2,1.3,1.6); p.rect(8,0.4,1.3,1.4);
+    p.F(M.acid[1]); const L=3+P.drip*1.6+(P.jaw>14?3:0); p.poly([[9.4,5],[11.4,4.6],[10.8,5+L],[10,5+L+1.4]]); p.ell(10.4,5+L+1.6,1.2,1.2);
+    p.F(M.skin[2]); p.rect(3,5,6,1);
+    p.id();
+  }
+  const cache=new Map();
+  function frame(form,anim,fi,step=5){
+    const K=PIX.getK(), key=form+anim+fi+step+'@'+K; if(cache.has(key)) return cache.get(key);
+    const P=poseOf(anim,fi), M=mats(form), sk=skeleton(P);
+    const parts=[
+      {back:true, draw:(c,u)=>drawArm(mkPen(c,u),M,sk.shB,sk.elB,sk.wrB,false)},
+      {back:true, draw:(c,u)=>drawLeg(mkPen(c,u),M,sk.hipB,sk.kneeB,sk.ankleB,false)},
+      {back:true, draw:(c,u)=>drawSac(mkPen(c,u),M,sk,P,form,'back')},
+      {draw:(c,u)=>drawTorso(mkPen(c,u),M,sk)},
+      {draw:(c,u)=>drawLeg(mkPen(c,u),M,sk.hipF,sk.kneeF,sk.ankleF,true)},
+      {draw:(c,u)=>drawHead(mkPen(c,u),M,sk,P)},
+      {draw:(c,u)=>drawJaw(mkPen(c,u),M,sk,P)},
+      {draw:(c,u)=>drawArm(mkPen(c,u),M,sk.shF,sk.elF,sk.wrF,true)},
+      {draw:(c,u)=>drawSac(mkPen(c,u),M,sk,P,form,'front')},
+    ];
+    const cv=compose({FW:Math.round(FW*K),FH:Math.round(FH*K),GROUND:GROUND*K,parts,M,step,flash:P.flash,rim:RIM[form]});
+    const sc=q=>({x:q.x*K,y:q.y*K}); cv._sac=sc(sk.sacC); cv._mouth=sc(sk.mouth); cv._eye=sc(sk.eye); cv._sacR=(8+P.sac*5)*K;
+    cache.set(key,cv); return cv;
+  }
+  return {FW,FH,GROUND,AX,ANIMS,NAMES,RIM,mats,poseOf,frame};
+})();
+
+(function(){
+'use strict';
+const SW=240, SH=150, SGROUND=140, FW=CUSP.FW, FH=CUSP.FH, GROUND=CUSP.GROUND;
+/* ---------- stage background (pixel) ---------- */
+const BGP={
+  comum:{sky:['#0e0a26','#1c1440','#2e1f58','#46307a'], moon:'#f3eed6', moonD:'#cfc6a6', bld:'#23183f', bld2:'#2f2152', win:'#ffd86a', lamp:'rgba(255,214,120,', ground:['#5a4a5a','#4a3c4c','#3a2e3e'], dot:'rgba(160,190,255,.18)'},
+  enluarado:{sky:['#140a2c','#24124a','#3a1d6a','#5a2f92'], moon:'#efe0ff', moonD:'#c4a8f0', bld:'#26163f', bld2:'#352058', win:'#d6b8ff', lamp:'rgba(210,180,255,', ground:['#544468','#463858','#382c48'], dot:'rgba(210,180,255,.2)'},
+  plenilunar:{sky:['#1a0408','#3a0812','#64101e','#8e1a2a'], moon:'#ff4a3a', moonD:'#c42020', bld:'#2a0a14', bld2:'#3a1020', win:'#ff8a5a', lamp:'rgba(255,120,80,', ground:['#5a3438','#4a2a2e','#3a2024'], dot:'rgba(255,120,90,.2)'}
+};
+function hsh(n){ n=Math.sin(n*127.1)*43758.5453; return n-Math.floor(n); }
+function drawBG(g,form,scroll,t){
+  const B=BGP[form];
+  const bands=[0,34,62,86,SGROUND];
+  for(let b=0;b<4;b++){ g.fillStyle=B.sky[b]; g.fillRect(0,bands[b],SW,bands[b+1]-bands[b]);
+    if(b<3){ g.fillStyle=B.sky[b+1]; for(let y=bands[b+1]-4;y<bands[b+1];y++) for(let x=(y%2);x<SW;x+=2) if(y>=bands[b+1]-2 || (x+y)%4===0) g.fillRect(x,y,1,1); } }
+  for(let i=0;i<40;i++){ g.fillStyle=hsh(i)>.6?'#fff':'#9a8ac8'; g.fillRect(Math.floor(hsh(i*3)*SW),Math.floor(hsh(i*7)*60),1,1); }
+  // halftone ring around moon
+  const mx=152, my=30, mr=17;
+  g.fillStyle=B.dot; for(let y=my-34;y<my+34;y+=3) for(let x=mx-34;x<mx+34;x+=3){ const d=Math.hypot(x-mx,y-my); if(d>mr+2 && d<34 && hsh(x*13+y)>(d-mr)/18) g.fillRect(x,y,1,1); }
+  for(let y=-mr;y<=mr;y++){ const w=Math.floor(Math.sqrt(mr*mr-y*y)); g.fillStyle=B.moon; g.fillRect(mx-w,my+y,w*2+1,1); }
+  g.fillStyle=B.moonD; [[-6,-5,4],[5,3,3],[-2,8,2],[8,-8,2]].forEach(([dx,dy,r])=>{ for(let y=-r;y<=r;y++){ const w=Math.floor(Math.sqrt(r*r-y*y)); g.fillRect(mx+dx-w,my+dy+y,w*2+1,1); } });
+  // far casario (scroll 0.3)
+  const o1=Math.floor(scroll*0.3);
+  for(let i=-1;i<9;i++){ const bi=Math.floor(o1/30)+i; const x=bi*30-o1; const h=40+Math.floor(hsh(bi)*24);
+    g.fillStyle=B.bld; g.fillRect(x,SGROUND-h,29,h); g.fillRect(x+2,SGROUND-h-3,25,3);
+    if(hsh(bi+5)>.5){ g.fillRect(x+11,SGROUND-h-9,7,6); g.fillRect(x+13,SGROUND-h-12,3,3); }
+    for(let wy=0;wy<3;wy++) for(let wx=0;wx<3;wx++){ const lit=hsh(bi*11+wx+wy*5)>.72; g.fillStyle=lit?B.win:B.bld2; g.fillRect(x+4+wx*8,SGROUND-h+6+wy*11,4,6); } }
+  // lamps (scroll 0.7)
+  const o2=Math.floor(scroll*0.7);
+  for(let i=-1;i<3;i++){ const li=Math.floor(o2/110)+i; const x=li*110-o2+60;
+    g.fillStyle='#120a1c'; g.fillRect(x,SGROUND-58,2,58); g.fillRect(x,SGROUND-58,10,2); g.fillRect(x+8,SGROUND-57,4,3);
+    const fl=0.16+Math.sin(t*3+li)*0.02; g.fillStyle=B.lamp+fl+')'; g.beginPath(); g.moveTo(x+8,SGROUND-54); g.lineTo(x-6,SGROUND); g.lineTo(x+26,SGROUND); g.closePath(); g.fill(); }
+  // ground: pedra portuguesa
+  const o3=Math.floor(scroll);
+  g.fillStyle=B.ground[0]; g.fillRect(0,SGROUND,SW,SH-SGROUND); g.fillStyle='#120a1c'; g.fillRect(0,SGROUND,SW,1);
+  g.fillStyle=B.ground[1]; for(let y=SGROUND+2;y<SH;y+=3) for(let x=0;x<SW;x++){ const wx=(x+o3)%24; if(Math.abs(Math.sin((wx/24)*Math.PI*2)*2+ (y-SGROUND)%6-3)<0.8) g.fillRect(x,y,1,1); }
+  g.fillStyle=B.ground[2]; for(let x=-(o3%9);x<SW;x+=9) g.fillRect(x,SGROUND+1,1,SH-SGROUND);
+}
+
+
+const S={form:'comum', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, balls:[], pools:[]};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+const ACID={comum:['#f4ffb0','#b8f53a','#6ac21a','#2e7a10'],enluarado:['#e0fffa','#5af0e0','#1ab0b0','#0a6a70'],plenilunar:['#fffcc0','#e8f53a','#a0c21a','#5a7a10']};
+let last=performance.now(), T=0;
+const ox=()=>14, oy=()=>SGROUND-GROUND;
+function onFrame(){ if(S.anim==='attack' && S.fi===CUSP.ANIMS.attack.spitAt){ const cv=CUSP.frame(S.form,'attack',S.fi,5), m=cv._mouth; const n=S.form==='plenilunar'?3:1;
+  for(let k=0;k<n;k++){ const tx=ox()+m.x+120+(k-1)*(n>1?22:0), ty=SGROUND+3+(k-1)*(n>1?5:0); S.balls.push({x0:ox()+m.x,y0:oy()+m.y,x1:tx,y1:ty,t:0,d:0.55+k*0.04}); } } }
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=CUSP.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); onFrame(); updStrip(); } }
+  if(S.anim==='walk' && S.playing) S.scroll+=dt*(S.slow?7:14);
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+function draw(dt){
+  drawBG(g,S.form,S.scroll,T);
+  const cv=CUSP.frame(S.form,S.anim,S.fi,S.step), X=ox(), Y=oy(), A=ACID[S.form];
+  // poças
+  S.pools.forEach(p=>{ p.t+=dt; const a=Math.max(0,1-p.t/3), w=Math.round(16*Math.min(1,p.t*6)); g.globalAlpha=a; g.fillStyle=A[3]; g.fillRect(p.x-w-1,p.y-1,w*2+2,4); g.fillStyle=A[2]; g.fillRect(p.x-w,p.y-1,w*2,3); g.fillStyle=A[1]; g.fillRect(p.x-w+3,p.y-1,w*2-6,1);
+    if(Math.random()<0.25) p.b.push({x:p.x+(Math.random()-.5)*w*1.6,y:p.y,t:0}); p.b.forEach(b=>{ b.t+=dt; g.fillStyle=A[0]; const r=b.t<0.25?1:0; g.fillRect(Math.round(b.x),Math.round(b.y-2-b.t*6),1+r,1+r); }); p.b=p.b.filter(b=>b.t<0.4); g.globalAlpha=1;
+    if(S.step>=5) glow(p.x,p.y,14,'rgba(180,255,80,'+(0.18*a)+')'); }); S.pools=S.pools.filter(p=>p.t<3);
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-2;y<=2;y++){ const w=Math.floor(Math.sqrt(1-(y/3)**2)*22); g.fillRect(X+CUSP.AX-w+4,SGROUND+y+1,w*2,1); }
+  g.drawImage(cv,X,Y);
+  const P=CUSP.poseOf(S.anim,S.fi);
+  if(S.step>=5){ const s=cv._sac; glow(X+s.x+2,Y+s.y+4,cv._sacR*(0.9+P.sac),'rgba(170,255,70,'+(0.08+P.sac*0.4)+')'); }
+  // bolas
+  S.balls.forEach(b=>{ b.t+=dt/b.d; const t=Math.min(1,b.t), x=b.x0+(b.x1-b.x0)*t, y=b.y0+(b.y1-b.y0)*t-Math.sin(t*Math.PI)*34;
+    for(let k=1;k<5;k++){ const tt=Math.max(0,t-k*0.04), tx=b.x0+(b.x1-b.x0)*tt, ty=b.y0+(b.y1-b.y0)*tt-Math.sin(tt*Math.PI)*34; g.fillStyle=A[k<3?1:2]; g.globalAlpha=1-k*0.2; g.fillRect(Math.round(tx)-1,Math.round(ty)-1,2,2); }
+    g.globalAlpha=1; g.fillStyle='#170b1c'; g.fillRect(Math.round(x)-3,Math.round(y)-3,6,6); g.fillStyle=A[1]; g.fillRect(Math.round(x)-2,Math.round(y)-2,4,4); g.fillStyle=A[0]; g.fillRect(Math.round(x)-1,Math.round(y)-2,2,1);
+    if(S.step>=5) glow(x,y,8,'rgba(180,255,80,.5)');
+    if(b.t>=1){ b.done=true; S.pools.push({x:b.x1,y:b.y1,t:0,b:[]}); } }); S.balls=S.balls.filter(b=>!b.done);
+  if(S.anim==='attack' && S.fi<=2) setFx('bubble','glub…',X+cv._sac.x+10,Y+cv._sac.y-26);
+  else if(S.anim==='attack' && S.fi===3) setFx('burst','PTUI!',X+cv._mouth.x+26,Y+cv._mouth.y-12);
+  else if(S.anim==='hurt' && S.fi<=1) setFx('burst','CRAU!',X+40,Y+30);
+  else if(S.pools.length && S.anim==='attack' && S.fi>=5) setFx('bubble','tssss',S.pools[0].x,S.pools[0].y-16);
+  else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${CUSP.ANIMS[S.anim].n} · ${CUSP.ANIMS[S.anim].dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,128,124); r1.drawImage(cv,0,0);
+  const r2=document.getElementById('r2').getContext('2d'); r2.imageSmoothingEnabled=false; r2.clearRect(0,0,90,87); PIX.setK(0.7); r2.drawImage(CUSP.frame(S.form,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(CUSP.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('anims','anim',S.anim); buildStrip(); });
+document.querySelectorAll('#forms button').forEach(b=>b.onclick=()=>{ S.form=b.dataset.form; press('forms','form',S.form); buildStrip(); buildRamps(); after(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%CUSP.ANIMS[S.anim].n; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=CUSP.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(CUSP.frame(S.form,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms${A.spitAt===i?' ✦':''}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=CUSP.mats(S.form); document.getElementById('formName').textContent={comum:'Comum',enluarado:'Enluarado',plenilunar:'Plenilunar'}[S.form];
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(CUSP.NAMES).map(k=>`<div class="ramp"><span>${CUSP.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('')+
+  `<div class="ramp"><span>Contorno · Lua</span><i style="background:${PIX.OUTLINE}"></i><i style="background:${CUSP.RIM[S.form]}"></i><span></span><span></span></div>`; }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(CUSP.frame(S.form,'attack',2,5),0,0); }
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>
+
+</body></html>

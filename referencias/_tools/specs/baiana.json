@@ -1,0 +1,117 @@
+{
+ "titulo": "Zumbi Baiana do Acaraje (Pelourinho) - figurino e tabuleiro",
+ "pasta": "zumbis-pelourinho/baiana",
+ "secoes": [
+  {
+   "nome": "Baiana de acaraje no trabalho",
+   "n": 14,
+   "busca": [
+    "baiana de acarajé",
+    "baiana acarajé Salvador",
+    "acarajé vendedora tabuleiro",
+    "Bahian woman acarajé street vendor",
+    "baiana do acarajé Pelourinho"
+   ],
+   "depth": 0,
+   "cats": [
+    "Baianas de acarajé",
+    "Acarajé"
+   ]
+  },
+  {
+   "nome": "Turbante, bata de renda e saia rodada",
+   "n": 14,
+   "busca": [
+    "baiana traje típico",
+    "bata de renda branca",
+    "turbante branco baiana",
+    "saia rodada branca renda",
+    "Bahian traditional dress white lace",
+    "pano da costa"
+   ],
+   "depth": 0,
+   "cats": [
+    "Baianas"
+   ]
+  },
+  {
+   "nome": "Tabuleiro, fogareiro e tacho",
+   "n": 12,
+   "busca": [
+    "tabuleiro baiana acarajé",
+    "acarajé stall Salvador",
+    "street food stall Salvador Bahia",
+    "fogareiro carvão tacho",
+    "tabuleiro de baiana"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Panela de dende e fritura",
+   "n": 12,
+   "busca": [
+    "palm oil frying",
+    "azeite de dendê",
+    "acarajé frying",
+    "frying pan hot oil",
+    "deep frying cauldron street food",
+    "dendê oil"
+   ],
+   "depth": 0,
+   "cats": [
+    "Acarajé"
+   ]
+  },
+  {
+   "nome": "Acaraje, abara e comida de rua",
+   "n": 10,
+   "busca": [
+    "acarajé",
+    "abará",
+    "vatapá",
+    "comida de rua Salvador"
+   ],
+   "depth": 0,
+   "cats": [
+    "Acarajé"
+   ]
+  },
+  {
+   "nome": "Pelourinho: casario colorido e ladeiras",
+   "n": 16,
+   "busca": [
+    "Pelourinho Salvador",
+    "Pelourinho casarões coloridos",
+    "Largo do Pelourinho",
+    "Pelourinho ladeira",
+    "Pelourinho noite"
+   ],
+   "depth": 0,
+   "cats": [
+    "Pelourinho"
+   ]
+  },
+  {
+   "nome": "Poses: mulher de pe com bandeja, maos na cintura",
+   "n": 12,
+   "busca": [
+    "woman carrying tray on hip",
+    "woman standing stall vendor Brazil",
+    "vendedora de rua mulher Brasil",
+    "woman serving food street vendor"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Colares de contas simples e avental",
+   "n": 10,
+   "busca": [
+    "colar de contas",
+    "bead necklace Bahia",
+    "apron cook street vendor",
+    "avental de cozinheira"
+   ],
+   "depth": 0
+  }
+ ]
+}

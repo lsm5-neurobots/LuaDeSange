@@ -1,0 +1,161 @@
+{
+ "titulo": "Bugio Zumbi - guariba (Alouatta) anatomia e comportamento",
+ "pasta": "zumbis-amazonia/bugio",
+ "secoes": [
+  {
+   "nome": "Guariba-vermelho Alouatta seniculus",
+   "n": 12,
+   "busca": [
+    "Alouatta seniculus",
+    "red howler monkey",
+    "bugio guariba vermelho",
+    "red howler monkey portrait",
+    "red howler monkey Amazon",
+    "guariba-vermelho"
+   ],
+   "cats": [
+    "Alouatta seniculus",
+    "Alouatta"
+   ]
+  },
+  {
+   "nome": "Guariba-preto e outras especies",
+   "n": 6,
+   "busca": [
+    "Alouatta caraya",
+    "black howler monkey",
+    "Alouatta guariba brown howler",
+    "guariba-de-maos-ruivas Alouatta belzebul",
+    "Alouatta macconnelli"
+   ],
+   "cats": [
+    "Alouatta caraya",
+    "Alouatta belzebul"
+   ]
+  },
+  {
+   "nome": "Urro: boca aberta e garganta",
+   "n": 10,
+   "busca": [
+    "howler monkey howling",
+    "howler monkey roaring open mouth",
+    "bugio urrando",
+    "howler monkey vocalization",
+    "howler monkey mouth teeth",
+    "howler monkey throat beard"
+   ]
+  },
+  {
+   "nome": "Rosto, barba e olhos",
+   "n": 8,
+   "busca": [
+    "howler monkey face close",
+    "howler monkey eyes",
+    "monkey face close-up primate",
+    "howler monkey beard male",
+    "howler monkey juvenile face"
+   ]
+  },
+  {
+   "nome": "Pelagem ruiva (textura)",
+   "n": 6,
+   "busca": [
+    "howler monkey fur reddish",
+    "red howler fur close up",
+    "howler monkey shoulder fur",
+    "orange fur monkey texture"
+   ]
+  },
+  {
+   "nome": "Cauda preensil",
+   "n": 8,
+   "busca": [
+    "howler monkey prehensile tail",
+    "prehensile tail monkey branch",
+    "cauda preensil bugio",
+    "howler monkey hanging by tail",
+    "monkey tail gripping branch"
+   ]
+  },
+  {
+   "nome": "Maos e pes (preensao)",
+   "n": 6,
+   "busca": [
+    "howler monkey hand",
+    "monkey hand grasping",
+    "primate foot grasp",
+    "howler monkey feet branch"
+   ]
+  },
+  {
+   "nome": "Locomocao: andar nos galhos e salto",
+   "n": 10,
+   "busca": [
+    "howler monkey walking branch",
+    "howler monkey jumping",
+    "monkey leaping between trees",
+    "howler monkey climbing",
+    "howler monkey quadrupedal",
+    "howler monkey crossing bridge"
+   ]
+  },
+  {
+   "nome": "Bando e comportamento social",
+   "n": 6,
+   "busca": [
+    "howler monkey group",
+    "howler monkey troop",
+    "howler monkey mother infant",
+    "howler monkey sleeping branch",
+    "howler monkey resting"
+   ]
+  },
+  {
+   "nome": "Comendo folhas e frutos",
+   "n": 6,
+   "busca": [
+    "howler monkey eating leaves",
+    "howler monkey eating fruit",
+    "monkey eating fruit branch",
+    "howler monkey feeding"
+   ]
+  },
+  {
+   "nome": "Anatomia: esqueleto de primata e cranio",
+   "n": 8,
+   "busca": [
+    "howler monkey skull",
+    "Alouatta skull hyoid",
+    "primate skeleton",
+    "monkey skeleton",
+    "monkey skull teeth",
+    "hyoid bone howler"
+   ],
+   "cats": [
+    "Alouatta skulls"
+   ]
+  },
+  {
+   "nome": "Corrupcao: carcaca, fungo, pele exposta",
+   "n": 6,
+   "busca": [
+    "monkey carcass decomposition",
+    "animal skull moss forest",
+    "cordyceps fungus",
+    "mummified animal fur",
+    "mange mammal skin",
+    "animal bones forest floor"
+   ]
+  },
+  {
+   "nome": "Habitat: copa e arvores da Amazonia",
+   "n": 6,
+   "busca": [
+    "Amazon rainforest canopy branches",
+    "tree canopy monkey habitat",
+    "Cecropia tree",
+    "Amazon liana forest"
+   ]
+  }
+ ]
+}

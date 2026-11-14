@@ -1,0 +1,57 @@
+{
+  "id": "capoeirista",
+  "nome": "Capoeirista",
+  "tipo": "recruta",
+  "corpo": "m",
+  "aptidoes": {"principal": "Combate", "secundaria": "Defesa", "contraria": "Serralheria"},
+  "conceito": "Mestre de roda de bairro que nunca parou de gingar, nem com o mundo acabando: abadá branco, cordão verde-e-amarelo na cintura, descalço e com o berimbau atravessado nas costas. Corpo seco e atlético, dreads amarrados, sorriso de canto de quem já sabe o próximo golpe. Na expedição luta ao lado do herói na base da ginga e do martelo; na serralheria não acerta nem um prego.",
+  "partes": [
+    {"parte": "Cabeça/rosto", "descricao": "Cabeça grande do esqueleto (crânio elipse 15x15 px + queixo 12x9 puxado p/ direita), pele sorteada (4 tons) com luz quente em cima-esquerda e sombra roxa embaixo-direita. Cavanhaque curto (5x4 px) na cor do cabelo logo abaixo da boca. Acompanha a ginga: inclina com o tronco (hrot = metade da inclinação), joga para trás no martelo."},
+    {"parte": "Cabelo (dreads)", "descricao": "Dreads grossos na cor sorteada (5 tons): touca de cabelo sobre o crânio (32x17 px) com 4 sulcos escuros indo da testa para a nuca e pontas redondas na linha do cabelo; 3 dreads caem sobre a nuca/orelha na frente da cabeça e 5 dreads (largura 4-5 px, 18-26 px de comprimento) pendem atrás até o ombro, com listras claras/escuras a cada 2-3 px (textura de corda) e 2 contas (dourada #e3b23c e vermelha #c9343a). Os dreads de trás balançam com atraso: vão para a esquerda quando ele avança/chuta e voltam no fim."},
+    {"parte": "Olhos/sobrancelhas", "descricao": "Olhos do esqueleto (esclera 5x5 px, íris castanha olhando para a direita, brilho 1 px). Sobrancelhas de 1 px na cor do cabelo escurecida: relaxadas e confiantes no idle/walk; franzidas no ataque; olhos fechados de quem sente o toque nos quadros 2-3 do especial e '^ ^' feliz no fim. Pisca no idle quadro 2; X na morte."},
+    {"parte": "Boca/expressão", "descricao": "Sorriso de canto ('smile', 6 px) quase o tempo todo — o deboche de quem acha zumbi lento. Dentes cerrados preparando o chute, boca aberta gritando 'ê!' no impacto (quadros 2-3 do ataque), cantando de boca aberta no especial (quadro 4). 'o' de dor no hurt."},
+    {"parte": "Orelhas/nariz/brinco", "descricao": "Orelha 7x10 px atrás (meio coberta pelos dreads) com argola dourada #e3b23c de 2 px no lóbulo; nariz triangular 5x6 px apontando para a direita, só luz (sem contorno). Seguem a cabeça."},
+    {"parte": "Pescoço", "descricao": "Pescoço grosso 9 px, tom de pele um pouco mais escuro (12% para o roxo), com clavículas marcadas por linhas claras de 7 px para cada lado."},
+    {"parte": "Tronco (sem camisa)", "descricao": "Peito nu e definido no polígono do tronco do esqueleto (~30 px de largura no ombro): peitorais com linha inferior escura (2 curvas de 10 px) e luz por cima, esterno de 6 px, abdômen 'tanquinho' com linha central e 2 cortes horizontais em cada lado, umbigo escuro de 2 px logo acima do cós. Sombreado em 3 tons (luz lunar, base, sombra roxa). Gira com a inclinação da ginga (-18° no martelo)."},
+    {"parte": "Braços", "descricao": "Braços musculosos de pele (braço 8 px, antebraço 7 px), deltoide separado por um corte escuro de 3 px; braço de trás 18% mais escuro. Na ginga alternam a guarda: um antebraço sobe protegendo o rosto enquanto o outro balança para trás. Fitinha do Senhor do Bonfim amarela #f2c230 no pulso da frente (faixa de 2 px com rabicho de 2 px)."},
+    {"parte": "Mãos", "descricao": "Mãos redondas de 8 px na cor da pele. No ataque ficam em guarda (a da frente perto do queixo, a de trás aberta para trás equilibrando). No especial a mão da frente segura a verga do berimbau logo abaixo da cabaça e a de trás cruza o peito com a baqueta e o caxixi."},
+    {"parte": "Pernas/calça abadá", "descricao": "Abadá branco-creme #e8e2d0 (cor de uniforme) bem largo: coxas 15 px, gancho baixo tipo saruel (triângulo entre as coxas), canela que alarga de 13 para 15 px até a barra reta acima do tornozelo. 3 tons + dobras: 2 vincos longos na coxa, vinco atrás do joelho, 2 franzidos na boca da calça e barra com costura escura. Perna de trás 22% mais escura. Base aberta e joelhos dobrados na ginga; a perna da frente sobe até a altura da cabeça no martelo."},
+    {"parte": "Pés descalços", "descricao": "Pés de pele 13x6 px, com calcanhar, 2 risquinhos separando os dedos, unha clara e sola mais clara (rosada) na borda de baixo. No martelo o pé fica esticado na linha da canela (peito do pé é a superfície de contato); no resto acompanha o chão."},
+    {"parte": "Corda de graduação (cordão)", "descricao": "Cordão trançado verde #2f9a3a e amarelo #f2c230 (graduação) de 3 px dando a volta no cós do abadá, trança desenhada com pixels diagonais alternados; nó de 5 px no quadril da frente e duas pontas de 10-14 px com ponteiras (borlas) de 4x6 px. As pontas balançam: pêndulo no idle, atraso no walk e voam para trás/cima no chute."},
+    {"parte": "Berimbau", "descricao": "Verga de biriba marrom #9a6a34 (3 px, curva, ~78 px) com arame prateado #c8ccd4 de 1 px esticado entre as pontas e cabaça #d09a48/#a0682a (12x14 px) com faixa escura e boca escura virada para a barriga. Fica atravessado nas costas na diagonal (cabaça aparecendo atrás do quadril, ponta acima do ombro da frente). No especial vem para a frente: baqueta de madeira clara #d8b078 (2 px, faísca branca ao tocar o arame) e caxixi palha #e8c880 (cestinho trançado 6x8 px com fundo #7a4a20) na mão de trás."},
+    {"parte": "Silhueta/postura de ginga", "descricao": "Base aberta (pés ~34 px afastados), pélvis 3 px mais baixa, tronco balançando 3 px para os lados com inclinação de ±3°: a silhueta nunca fica parada. Topo do berimbau e dreads quebram a silhueta da cabeça e deixam o personagem reconhecível de longe, mesmo pequeno."}
+  ],
+  "paleta": [
+    {"nome": "Abadá (uniforme)", "hex": "#e8e2d0"},
+    {"nome": "Cordão verde", "hex": "#2f9a3a"},
+    {"nome": "Cordão amarelo", "hex": "#f2c230"},
+    {"nome": "Verga do berimbau", "hex": "#9a6a34"},
+    {"nome": "Cabaça", "hex": "#d09a48"},
+    {"nome": "Cabaça sombra", "hex": "#a0682a"},
+    {"nome": "Arame", "hex": "#c8ccd4"},
+    {"nome": "Baqueta", "hex": "#d8b078"},
+    {"nome": "Caxixi", "hex": "#e8c880"},
+    {"nome": "Argola/conta dourada", "hex": "#e3b23c"},
+    {"nome": "Conta vermelha", "hex": "#c9343a"},
+    {"nome": "Notas musicais", "hex": "#fff2a0"}
+  ],
+  "animacoes": {
+    "idle": "Ginga parada em 4 quadros: 0 tronco à esquerda, pé de trás recuado, antebraço da frente na guarda do rosto; 1 passagem ao centro; 2 tronco à direita, braço de trás sobe, pisca; 3 passagem. Pontas do cordão e dreads fazem pêndulo.",
+    "walk": "8 quadros do passo do esqueleto com joelhos mais dobrados, balanço lateral de ginga (±1,5 px) e braços soltos meio em guarda; dreads e pontas do cordão atrasam para trás.",
+    "attack": "Martelo: 0 ginga carregando (tronco para trás, guarda alta, sorriso some); 1 joelho da frente sobe dobrado (chambra) com dentes cerrados; 2 perna estica na altura da cabeça com rastro branco em arco, tronco -16°, grito; 3 impacto com estrela no peito do pé, tronco -18°; 4 perna recolhe; 5 volta à base de ginga.",
+    "hurt": "Padrão do esqueleto: 0 flash branco, 1 tinta vermelha jogado para trás de olhos fechados, 2-3 se recompõe. Dreads e cordão sacodem.",
+    "death": "Padrão do esqueleto: flash, cai de joelhos, tomba para trás com X nos olhos e estrelinhas; berimbau cai junto nas costas.",
+    "special": "Toque de berimbau (Angola de São Bento): 0 mão da frente alcança o berimbau por cima do ombro; 1 berimbau na frente, cabaça na barriga, baqueta pronta; 2 bate no arame — ondas de som saem da cabaça e sobe uma nota; 3 recolhe sacudindo o caxixi (risquinhos), olhos fechados; 4 bate de novo cantando, duas notas; 5 balança na ginga sorrindo '^ ^', três notas e brilho."
+  },
+  "especial": "Toque de Berimbau",
+  "ferramenta": "Berimbau (verga, arame, cabaça, baqueta e caxixi) e os próprios pés",
+  "fala": "Zumbi não sabe gingar.",
+  "eventos": {
+    "idle": {"0": "ginga"},
+    "walk": {"0": "passo_descalco", "4": "passo_descalco"},
+    "attack": {"1": "zunido", "3": "pancada"},
+    "hurt": {"0": "gemido"},
+    "death": {"0": "grito_curto", "4": "queda"},
+    "special": {"0": "berimbau_saca", "2": "berimbau", "3": "caxixi", "4": "berimbau"}
+  }
+}

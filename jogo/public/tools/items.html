@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Coletáveis</title>
+<style>
+  body { margin: 0; background: #1b1d24; color: #eee; font: 11px monospace }
+  canvas { display: block; image-rendering: pixelated }
+</style>
+<script src="../art/art-exp.js"></script>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+// Folha dos coletáveis: itens (linhas) × 6 quadros em K=1,25 (fundo escuro e claro), + K=2,5 e K=0,7 (quadro 0 e 3).
+// ?z=2 amplia a folha inteira (zoom inteiro) para inspeção.
+const q = new URLSearchParams(location.search), Z = +(q.get('z') || 1);
+const { ITEMS, PIX } = window.ART_EXP;
+const ids = ITEMS.IDS;
+const at = (k, id, fi) => { PIX.setK(k); const cv = ITEMS.frame(id, fi, 5), a = ITEMS.ANCHOR(id); return { cv, a }; };
+const c = document.getElementById('c');
+const rowH = 76, W = 1400;
+c.width = W * Z; c.height = (ids.length * rowH + 30) * Z;
+const g = c.getContext('2d'); g.imageSmoothingEnabled = false; g.scale(Z, Z);
+g.fillStyle = '#ffd23f';
+g.fillText('K=1,25 escuro (6 quadros)', 80, 12); g.fillText('K=1,25 claro', 80 + 6 * 40 + 10, 12); g.fillText('K=2,5 (q0, q3) escuro / claro', 590, 12); g.fillText('K=0,7 (6 quadros)', 1000, 12); g.fillText('in-game 2x', 1200, 12);
+ids.forEach((id, r) => {
+  const oy = 22 + r * rowH;
+  g.fillStyle = '#ffd23f'; g.fillText(id, 4, oy + 30);
+  const cell = (x, w, bg, k, fi, scale = 1) => {
+    g.fillStyle = bg; g.fillRect(x, oy, w, rowH - 6);
+    const { cv, a } = at(k, id, fi);
+    const gy = oy + rowH - 14;
+    g.fillStyle = 'rgba(10,6,20,.55)'; g.beginPath(); g.ellipse(x + w / 2, gy, 9 * k * scale, 2.6 * k * scale, 0, 0, 7); g.fill();
+    g.drawImage(cv, Math.round(x + w / 2 - a.ax * scale), Math.round(gy - a.gy * scale), cv.width * scale, cv.height * scale);
+  };
+  for (let f = 0; f < 6; f++) cell(80 + f * 40, 38, (f % 2 ? '#2a2d38' : '#30333f'), 1.25, f);
+  for (let f = 0; f < 6; f++) cell(80 + 6 * 40 + 10 + f * 40, 38, '#d8d2c0', 1.25, f);
+  cell(590, 92, '#2a2d38', 2.5, 0); cell(686, 92, '#2a2d38', 2.5, 3); cell(782, 92, '#c8c0aa', 2.5, 0); cell(878, 92, '#c8c0aa', 2.5, 3);
+  for (let f = 0; f < 6; f++) cell(1000 + f * 30, 28, '#2a2d38', 0.7, f);
+  cell(1190, 90, '#3a3448', 1.25, 2, 2);
+});
+document.title = 'ok';
+</script>
+</body>
+</html>

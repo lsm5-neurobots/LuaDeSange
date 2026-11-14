@@ -1,0 +1,116 @@
+{
+ "titulo": "Zumbi Turista (Pelourinho) - figurino, cameras e equipamento",
+ "pasta": "zumbis-pelourinho/turista",
+ "secoes": [
+  {
+   "nome": "Turista com camera na mao",
+   "n": 14,
+   "busca": [
+    "tourist taking photo",
+    "tourist with camera",
+    "tourist photographing street",
+    "turista fotografando",
+    "photographer tourist camera strap"
+   ],
+   "depth": 0,
+   "cats": [
+    "Tourists",
+    "Tourist photography"
+   ]
+  },
+  {
+   "nome": "Cameras compactas, flash e lentes",
+   "n": 12,
+   "busca": [
+    "compact digital camera",
+    "camera flash",
+    "DSLR camera strap",
+    "vintage camera flash bulb",
+    "point and shoot camera"
+   ],
+   "depth": 0,
+   "cats": [
+    "Digital cameras",
+    "Camera flashes"
+   ]
+  },
+  {
+   "nome": "Chapeu de aba, bone e viseira",
+   "n": 14,
+   "busca": [
+    "sun hat tourist",
+    "wide brim hat tourist",
+    "bucket hat",
+    "chapéu de aba turista",
+    "baseball cap tourist"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Mochila, pochete e colete de viagem",
+   "n": 12,
+   "busca": [
+    "tourist backpack",
+    "fanny pack",
+    "travel vest pockets",
+    "pochete turista",
+    "daypack tourist street"
+   ],
+   "depth": 0,
+   "cats": [
+    "Backpacks"
+   ]
+  },
+  {
+   "nome": "Camisa florida, bermuda e sandalia",
+   "n": 10,
+   "busca": [
+    "Hawaiian shirt",
+    "tourist shorts sandals",
+    "camisa florida turista",
+    "summer tourist clothing",
+    "sandals socks tourist"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Grupo de turismo, guia e bandeirinha",
+   "n": 10,
+   "busca": [
+    "tour group guide",
+    "tourist group flag guide",
+    "guided tour street",
+    "excursão turistas guia",
+    "tourists crowd historic centre"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Turistas no Pelourinho e em Salvador",
+   "n": 20,
+   "busca": [
+    "tourists Pelourinho",
+    "turistas Pelourinho Salvador",
+    "Salvador Bahia tourists",
+    "Pelourinho turistas fotografando",
+    "Elevador Lacerda turistas"
+   ],
+   "depth": 0,
+   "cats": [
+    "Pelourinho"
+   ]
+  },
+  {
+   "nome": "Mapas, guias, cracha e lembrancinhas",
+   "n": 8,
+   "busca": [
+    "tourist map",
+    "guide book",
+    "lanyard badge",
+    "souvenir stall Bahia",
+    "fitas do Bonfim"
+   ],
+   "depth": 0
+  }
+ ]
+}

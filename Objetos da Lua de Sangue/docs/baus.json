@@ -1,0 +1,241 @@
+{
+ "grupo": "baus",
+ "titulo": "Baús, chaves e puzzles",
+ "ordem": 4,
+ "resumo": "Os três baús (madeira, ferro e Lua de Sangue) com todos os estados do puzzle/chave/abertura/emperrado, as chaves e a gazua, as peças de UI dos mini puzzles, os itens exclusivos de baú e o feixe dourado de respawn (LUA-06 / BF-13).",
+ "itens": [
+  {
+   "id": "bau_madeira",
+   "nome": "Baú de madeira",
+   "categoria": "Baú",
+   "mecanica": "Baús (BAU-01..07, BAU-11, BAU-13, BAU-15, BAU-17, BAU-19, BAU-22, BAU-23, BAU-08)",
+   "conceito": "Baú de carga de madeira de lei, daqueles de porão de casarão antigo do Recife, achado em casas saqueadas e no fim das hordas. Tampa abaulada (de pirata) feita de 6 ripas curvas, corpo de 4 tábuas horizontais, duas cintas verticais de ferro escuro com rebites e cantoneiras nas quinas. A fechadura é uma chapa de bronze em escudo com buraco de chave, e na tampa desce um ferrolho de bronze. Tem arranhões de unha de zumbi, um nó na madeira, uma mancha de sangue seco e ferrugem escorrendo das cintas. Em jogo lê como o baú mais simples: marrom quente e bronze, puzzles fáceis (gazua, números, pares) e chave de bronze.",
+   "partes": [
+    {"parte": "Corpo (frente)", "descricao": "72×28 px na frente + 5 px de lateral direita (vista 3/4, a lateral fica na sombra). 4 tábuas de 7 px alternando #9a6a3c/#8b5e34, frestas #5a3a22, veios curtos escuros, 1 nó, 3 arranhões claros de unha, mancha de sangue #5a1a1a."},
+    {"parte": "Cintas e cantoneiras", "descricao": "2 cintas de ferro de 6 px (#5d5f63, ferrugem #8a4e2e) atravessando corpo e tampa, cantoneiras de 4 px nas quinas, rebites 2×2 #c9c3b0 em cada tábua."},
+    {"parte": "Tampa abaulada", "descricao": "faixa frontal de 8 px + arco de 6 ripas (altura +9 px), cada ripa com tom próprio; gira na dobradiça de trás (0°, 35°, 75°, 108°). Aberta mostra o forro interno de tábua escura #5a3a22."},
+    {"parte": "Fechadura de bronze", "descricao": "chapa em escudo 14×14 px #b87333 com brilho #e0a85a, 4 rebites e buraco de chave preto; ferrolho de 8×7 px na tampa."},
+    {"parte": "Pés", "descricao": "4 tocos de madeira 6×3 px sob as quinas."},
+    {"parte": "Chave girando", "descricao": "chave de bronze na fechadura: quadro 1 o anel de frente (círculo 10 px com furo), quadro 2 de perfil (barra fina 3×11 px) + arcos de giro e faíscas."},
+    {"parte": "Interior", "descricao": "rim de 3 px, fundo #1a1214, parede de trás e lateral esquerda de tábua escura; aberto cheio tem luz dourada, raios (camada fx semi-transparente) e 3 itens pulando (faca, lanterna, mapa)."},
+    {"parte": "Emperrado", "descricao": "2 correntes de aço em X por cima da frente (elos de 6 px #8d969c), cadeado torto (−18°) no cruzamento, fumacinha cinza saindo da fechadura e selo de X vermelho #c8323a no canto superior direito."}
+   ],
+   "paleta": [
+    {"nome": "Tábua clara", "hex": "#9a6a3c"}, {"nome": "Tábua", "hex": "#8b5e34"}, {"nome": "Tábua escura/fresta", "hex": "#5a3a22"},
+    {"nome": "Ferro das cintas", "hex": "#5d5f63"}, {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Rebite", "hex": "#c9c3b0"},
+    {"nome": "Bronze", "hex": "#b87333"}, {"nome": "Bronze brilho", "hex": "#e0a85a"}, {"nome": "Sangue seco", "hex": "#5a1a1a"},
+    {"nome": "Luz dourada", "hex": "#ffe7a0"}
+   ],
+   "arquivo": "sprites/bau_madeira.png", "fw": 128, "fh": 128, "cols": 11,
+   "quadros": ["fechado", "chacoalhando 1 (erro, inclina p/ esquerda)", "chacoalhando 2 (erro, inclina p/ direita)", "chave girando 1 (de frente)", "chave girando 2 (de perfil)", "tampa abrindo 1 (35°)", "tampa abrindo 2 (75°)", "aberto com luz e itens", "aberto vazio", "emperrado 1", "emperrado 2"],
+   "anims": [
+    {"nome": "erro (chacoalhar)", "quadros": [1, 2, 1, 2, 0], "dur": [60, 60, 60, 60, 200], "loop": false},
+    {"nome": "abrir com chave", "quadros": [3, 4, 3, 4], "dur": [110, 115, 110, 115], "loop": false},
+    {"nome": "abrir", "quadros": [0, 5, 6, 7], "dur": [120, 90, 90, 700], "loop": false},
+    {"nome": "emperrado", "quadros": [9, 10], "dur": [320, 320], "loop": true}
+   ],
+   "uso": "Objeto de mapa 128×128, pivô no centro da base (64, 110), gy=110, camada dos objetos com sombra própria. Chacoalhar, esticar/achatar (VAS-14..16), raios girando, onda e estrelas (VAS-17..20) são transformações/efeitos em tempo real por cima; estes quadros dão a pose base. O quadro 'aberto vazio' fica no mapa depois de saqueado (BAU-13). Emperrado fica até o fim da expedição, mas ainda abre com chave (BAU-19)."
+  },
+  {
+   "id": "bau_ferro",
+   "nome": "Baú de ferro (militar)",
+   "categoria": "Baú",
+   "mecanica": "Baús (BAU-01..07, BAU-09, BAU-11, BAU-15..19, BAU-24, BAU-25)",
+   "conceito": "Caixa-forte militar de aço, pintada de verde-oliva do Exército, largada nos postos de bloqueio e nos caminhões do quartel quando a cidade caiu. Tampa chata e reforçada com aba, moldura de aço rebitada em todas as bordas, nervuras verticais, duas travas de alavanca nas laterais da frente e uma fechadura central de prata polida. A tinta está lascada nas quinas mostrando o aço, há ferrugem escorrendo dos rebites, estêncil de estrela e o número 07 meio apagados, e uma alça de carga em U na lateral e outra no topo. Lê como baú do meio: frio, cinza-esverdeado e prata, puzzles de memória, fios e canos, abre com chave de prata.",
+   "partes": [
+    {"parte": "Corpo (frente)", "descricao": "72×28 px, verde-oliva #4f5b3a com lascas de aço #8d969c nas quinas, moldura de aço de 3 px #6b747a com rebites #c9ced4 a cada 6 px, 2 nervuras verticais de 3 px, estêncil de estrela e '07' #d8d4c0 apagados, escorridos de ferrugem #8a4e2e."},
+    {"parte": "Travas", "descricao": "2 travas de alavanca 7×10 px de aço #7d848c nas laterais da frente, com pino e sombra."},
+    {"parte": "Fechadura de prata", "descricao": "placa 14×13 px #c9ced4 com brilho #f2f5f7, borda chanfrada, buraco de chave e 4 parafusos; aba de prata na tampa."},
+    {"parte": "Tampa chata", "descricao": "faixa frontal de 10 px e topo de 26 px de fundo (14 px na tela) com moldura rebitada, faixa de aviso amarelo/preto #d8b030/#1e1e1e e alça de carga em barra no topo. Aberta mostra o interior cinza com espuma #3a3f3a."},
+    {"parte": "Lateral", "descricao": "lado direito em sombra com alça em U de aço e rebites."},
+    {"parte": "Pés", "descricao": "2 esquis de aço 72×3 px sob o corpo."},
+    {"parte": "Interior aberto", "descricao": "fundo escuro, luz azul-branca de item raro #bfe0ff, raios e itens (pistola, kit médico)."},
+    {"parte": "Emperrado", "descricao": "correntes em X, cadeado torto, fumaça e X vermelho (igual ao de madeira)."}
+   ],
+   "paleta": [
+    {"nome": "Verde-oliva", "hex": "#4f5b3a"}, {"nome": "Oliva claro", "hex": "#65734a"}, {"nome": "Aço", "hex": "#6b747a"},
+    {"nome": "Aço lascado", "hex": "#8d969c"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Prata", "hex": "#c9ced4"},
+    {"nome": "Prata brilho", "hex": "#f2f5f7"}, {"nome": "Estêncil", "hex": "#d8d4c0"}, {"nome": "Faixa de aviso", "hex": "#d8b030"},
+    {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Luz azul", "hex": "#bfe0ff"}
+   ],
+   "arquivo": "sprites/bau_ferro.png", "fw": 128, "fh": 128, "cols": 11,
+   "quadros": ["fechado", "chacoalhando 1 (erro, inclina p/ esquerda)", "chacoalhando 2 (erro, inclina p/ direita)", "chave girando 1 (de frente)", "chave girando 2 (de perfil)", "tampa abrindo 1 (35°)", "tampa abrindo 2 (75°)", "aberto com luz e itens", "aberto vazio", "emperrado 1", "emperrado 2"],
+   "anims": [
+    {"nome": "erro (chacoalhar)", "quadros": [1, 2, 1, 2, 0], "dur": [60, 60, 60, 60, 200], "loop": false},
+    {"nome": "abrir com chave", "quadros": [3, 4, 3, 4], "dur": [110, 115, 110, 115], "loop": false},
+    {"nome": "abrir", "quadros": [0, 5, 6, 7], "dur": [120, 90, 90, 700], "loop": false},
+    {"nome": "emperrado", "quadros": [9, 10], "dur": [320, 320], "loop": true}
+   ],
+   "uso": "Igual ao baú de madeira: 128×128, pivô (64, 110), gy=110. Efeitos de abertura VAS-14..20 em tempo real; cor dos raios do jogo = maior raridade obtida."
+  },
+  {
+   "id": "bau_lua",
+   "nome": "Baú da Lua de Sangue",
+   "categoria": "Baú",
+   "mecanica": "Baús (BAU-01..07, BAU-10, BAU-11, BAU-15..19, BAU-24, BAU-25), BOSS-11, BF-13",
+   "conceito": "Relicário de pedra-obsidiana que só aparece com a Lua de Sangue, ao derrotar bosses e mini bosses. O corpo é de pedra quase preta, polida e lascada, com veios roxos, emoldurada por filetes e cantoneiras de ouro com espirais. Na frente brilha uma fileira de runas vermelhas entalhadas, e a tampa chanfrada tem no topo uma lua de sangue em esmalte vermelho com crateras, cercada por um aro dourado. A fechadura é uma peça de ouro em forma de lua crescente com um rubi, e pés de garra dourados seguram o baú. Uma aura vermelha pulsa em volta, e é o único baú que só abre com chave de ouro ou com os puzzles difíceis (luzes, canos 4×4, fios 5).",
+   "partes": [
+    {"parte": "Corpo (frente)", "descricao": "72×28 px de pedra #2e2836/#3c3446 com veios #4a3e58 e lascas, moldura dourada de 2 px #f2c230/#b8861a, cantoneiras de ouro com espiral nas 4 quinas, 6 runas vermelhas #c8323a com pixel de brilho #ff5a5a."},
+    {"parte": "Tampa chanfrada", "descricao": "faixa frontal de 8 px com filete dourado e mini lua, chanfro de 7 px, topo de 16 px (9 px na tela) com lua de sangue Ø14×9 px #c8323a com crateras #8a1e26 e aro dourado. Aberta mostra forro de veludo vermelho escuro #5a1420."},
+    {"parte": "Fechadura de ouro", "descricao": "lua crescente de ouro 14×14 px #f2c230 com sombra #b8861a, rubi #c8323a no centro e buraco de chave."},
+    {"parte": "Pés de garra", "descricao": "4 garras douradas 7×4 px nas quinas."},
+    {"parte": "Aura", "descricao": "brilho vermelho #c8323a radial atrás do baú (camada por baixo do sprite), mais forte quando aberto."},
+    {"parte": "Interior aberto", "descricao": "luz vermelha e dourada, raios vermelho-dourados e itens (fragmento lunar, amuleto)."},
+    {"parte": "Emperrado", "descricao": "correntes em X, cadeado torto, fumaça e X vermelho."}
+   ],
+   "paleta": [
+    {"nome": "Pedra escura", "hex": "#2e2836"}, {"nome": "Pedra", "hex": "#3c3446"}, {"nome": "Ardósia", "hex": "#1c1822"},
+    {"nome": "Veio roxo", "hex": "#4a3e58"}, {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Ouro escuro", "hex": "#b8861a"},
+    {"nome": "Runa", "hex": "#c8323a"}, {"nome": "Runa brilho", "hex": "#ff5a5a"}, {"nome": "Veludo", "hex": "#5a1420"}
+   ],
+   "arquivo": "sprites/bau_lua.png", "fw": 128, "fh": 128, "cols": 11,
+   "quadros": ["fechado", "chacoalhando 1 (erro, inclina p/ esquerda)", "chacoalhando 2 (erro, inclina p/ direita)", "chave girando 1 (de frente)", "chave girando 2 (de perfil)", "tampa abrindo 1 (35°)", "tampa abrindo 2 (75°)", "aberto com luz e itens", "aberto vazio", "emperrado 1", "emperrado 2"],
+   "anims": [
+    {"nome": "erro (chacoalhar)", "quadros": [1, 2, 1, 2, 0], "dur": [60, 60, 60, 60, 200], "loop": false},
+    {"nome": "abrir com chave", "quadros": [3, 4, 3, 4], "dur": [110, 115, 110, 115], "loop": false},
+    {"nome": "abrir", "quadros": [0, 5, 6, 7], "dur": [120, 90, 90, 700], "loop": false},
+    {"nome": "emperrado", "quadros": [9, 10], "dur": [320, 320], "loop": true}
+   ],
+   "uso": "128×128, pivô (64, 110), gy=110. A aura pode pulsar em tempo real (alpha). Usado também como baú de recompensa do boss (BF-13) junto com bau_respawn."
+  },
+  {
+   "id": "bau_chaves",
+   "nome": "Chaves de baú",
+   "categoria": "Chave / HUD",
+   "mecanica": "BAU-14..20",
+   "conceito": "As três chaves que abrem baús sem puzzle e o chaveiro que serve de contador no HUD. A de bronze é simples, de anel redondo e dentes quadrados, gasta e com pátina verde; a de prata tem anel em trevo, haste com colarinho e dentes em escada; a de ouro é ornamentada, com anel em moldura de lua crescente, rubi, filigrana e dentes em forma de runa. Cada chave tem também um quadro 'girando' de perfil fino (o anel visto de lado), usado em sequência com o de frente para a chave girar na fechadura por 0,45 s (BAU-17). O chaveiro do HUD é uma argola de aço com as três chaves penduradas em leque.",
+   "partes": [
+    {"parte": "Chave de bronze", "descricao": "diagonal 45°, ~50 px: anel Ø18 px com furo Ø8, haste de 4 px, 2 dentes quadrados; #b87333 / brilho #e0a85a / pátina #5f8a6a."},
+    {"parte": "Chave de prata", "descricao": "anel em trevo (3 lóbulos Ø9) com furo, colarinho de 2 anéis, dentes em escada; #c9ced4 / brilho #f2f5f7 / sombra #7d848c."},
+    {"parte": "Chave de ouro", "descricao": "anel Ø20 com lua crescente vermelha dentro e rubi, pontinhas de filigrana, colarinho duplo, dentes em runa; #f2c230 / #b8861a / rubi #c8323a; brilhinhos."},
+    {"parte": "Girando", "descricao": "mesma chave achatada a 22% no eixo perpendicular à haste (anel vira um traço fino de ~4 px) + 2 arcos de giro brancos."},
+    {"parte": "Chaveiro do HUD", "descricao": "argola de aço Ø16 px no topo e as 3 chaves menores (escala 0,6) penduradas em leque (−35°, 0°, +35°)."}
+   ],
+   "paleta": [
+    {"nome": "Bronze", "hex": "#b87333"}, {"nome": "Bronze brilho", "hex": "#e0a85a"}, {"nome": "Pátina", "hex": "#5f8a6a"},
+    {"nome": "Prata", "hex": "#c9ced4"}, {"nome": "Prata sombra", "hex": "#7d848c"}, {"nome": "Ouro", "hex": "#f2c230"},
+    {"nome": "Ouro escuro", "hex": "#b8861a"}, {"nome": "Rubi", "hex": "#c8323a"}, {"nome": "Aço da argola", "hex": "#8d969c"}
+   ],
+   "arquivo": "sprites/bau_chaves.png", "fw": 64, "fh": 64, "cols": 7,
+   "quadros": ["chave de bronze", "chave de prata", "chave de ouro", "bronze girando (perfil)", "prata girando (perfil)", "ouro girando (perfil)", "chaveiro do HUD (3 chaves)"],
+   "anims": [
+    {"nome": "bronze girando", "quadros": [0, 3], "dur": [110, 110], "loop": true},
+    {"nome": "prata girando", "quadros": [1, 4], "dur": [110, 110], "loop": true},
+    {"nome": "ouro girando", "quadros": [2, 5], "dur": [110, 110], "loop": true}
+   ],
+   "uso": "Ícones 64×64 da mochila e do contador de chaves no HUD (o número é desenhado pelo jogo ao lado). Os quadros de frente/perfil alternam para o efeito de chave girando sobre a fechadura (o baú já tem a chave desenhada nos quadros 3-4)."
+  },
+  {
+   "id": "bau_gazua",
+   "nome": "Gazua",
+   "categoria": "Ferramenta / Puzzle",
+   "mecanica": "BAU-08",
+   "conceito": "Gazua improvisada de sobrevivente: uma haste de aço de grampo de cabelo lixada com a ponta em gancho, cabo enrolado em fita isolante vermelha e preta, e a chave de tensão em L presa por um elástico. É o ícone do puzzle de gazua da fechadura redonda. Quando o jogador erra, a gazua quebra: a ponta em gancho se solta e voa, a haste fica rachada e saltam lasquinhas de metal e uma faísca.",
+   "partes": [
+    {"parte": "Haste e gancho", "descricao": "haste de 2-3 px de aço #c9ced4 com sombra #6b747a, ~34 px na diagonal, ponta em gancho de 5 px."},
+    {"parte": "Cabo", "descricao": "cabo 18×7 px enrolado em fita vermelha #c8323a e preta #1e1a1c em espiral, ponta com argola."},
+    {"parte": "Chave de tensão", "descricao": "L de aço escuro #8d969c, 20 px + dobra de 6 px, paralela à gazua."},
+    {"parte": "Quebrada", "descricao": "haste partida no meio: ponta solta deslocada e girada 25°, borda rachada, 3 lascas e faísca #fff4d0."}
+   ],
+   "paleta": [
+    {"nome": "Aço", "hex": "#c9ced4"}, {"nome": "Aço sombra", "hex": "#6b747a"}, {"nome": "Fita vermelha", "hex": "#c8323a"},
+    {"nome": "Fita preta", "hex": "#1e1a1c"}, {"nome": "Faísca", "hex": "#fff4d0"}
+   ],
+   "arquivo": "sprites/bau_gazua.png", "fw": 64, "fh": 64, "cols": 2,
+   "quadros": ["gazua inteira", "gazua quebrada"],
+   "uso": "Ícone 64×64 no painel do puzzle de gazua (contador de gazuas/pinos) e feedback de erro (troca para quebrada + tremor)."
+  },
+  {
+   "id": "bau_puzzle",
+   "nome": "Peças dos mini puzzles",
+   "categoria": "UI de puzzle",
+   "mecanica": "BAU-08, BAU-09, BAU-10, BAU-22, BAU-23, BAU-24, BAU-25",
+   "conceito": "Conjunto de peças de interface dos seis mini puzzles de baú, todas desenhadas como objetos físicos de metal, pedra e papel gasto, no mesmo estilo dos sprites (contorno, luz de cima-esquerda, rebites e desgaste). A fechadura redonda da gazua é um disco de aço com aro rebitado, zona verde e o pino; o ponteiro vem separado para girar em volta do centro. Os símbolos de memória são lajotas de pedra com o símbolo entalhado que acendem coloridos; as casas das luzes são lâmpadas em grade; as cartas de pares têm verso de lua e frentes de papel; os canos são de cobre/aço vistos de cima e ficam azuis quando ligados; as pontas de fio são cabos com terminal; e os botões de número são teclas de metal com dígitos desenhados à mão.",
+   "partes": [
+    {"parte": "Fechadura redonda", "descricao": "disco Ø58 px: aro de aço #6b747a com 8 rebites, face escura #2a2e33 com marcas de grau, zona verde #4fb06a em cunha de 50° no topo-direita com borda clara #8fe09a, pino de latão no meio da zona, miolo com buraco de chave."},
+    {"parte": "Ponteiro", "descricao": "agulha vermelha #c8323a de 26 px apontando para cima a partir do centro (32,32), contrapeso redondo e eixo prata; resto transparente. Gira em tempo real em volta de (32,32)."},
+    {"parte": "Pino travado", "descricao": "pino cilíndrico de latão #d9a05a 10×22 px com mola por baixo e brilho verde de confirmado (✓)."},
+    {"parte": "Símbolos de memória ☾ ✶ ☠ ✚", "descricao": "lajota de pedra 54×54 px com borda chanfrada; apagado: símbolo entalhado cinza-escuro #4a4450; aceso: símbolo colorido com brilho (☾ vermelho #c8323a, ✶ amarelo #f2c230, ☠ osso #e8e2d0 com fundo roxo, ✚ verde #4fb06a)."},
+    {"parte": "Casa das luzes", "descricao": "moldura de metal 56×56 px com lâmpada redonda Ø30: apagada vidro escuro #2e3a3e com reflexo; acesa amarela #ffd36a com filamento e brilho."},
+    {"parte": "Cartas de pares", "descricao": "carta 40×54 px: verso vermelho-escuro com moldura dourada, losangos e lua; frentes de papel #e8dcc0 com canto gasto e símbolo (lua, caveira, chave)."},
+    {"parte": "Canos", "descricao": "chapa de piso 64×64 com rebites nos cantos; cano de aço #7d848c de 16 px com flanges nas bordas; reto (esq-dir), curva (dir-baixo), T (esq-dir-baixo), entrada ▶ (válvula na esquerda + seta) e saída ▶ (ralo na direita + seta). Vazio: miolo escuro #22262a; ligado: água azul #3fa8ff com brilho #bfe8ff."},
+    {"parte": "Pontas de fio", "descricao": "cabo de 8 px vindo da esquerda que termina num terminal de latão com cobre descascado, em 5 cores: vermelho #c8323a, azul #3a6fd0, amarelo #e8c030, verde #3f9a4a, branco #e8e4dc."},
+    {"parte": "Botões de número", "descricao": "tecla de metal 52×52 px com bisel, parafusos e dígito 1-6 desenhado à mão (traço de 4 px) em creme #f4efe6 com sombra."}
+   ],
+   "paleta": [
+    {"nome": "Aço", "hex": "#6b747a"}, {"nome": "Face escura", "hex": "#2a2e33"}, {"nome": "Zona verde", "hex": "#4fb06a"},
+    {"nome": "Latão", "hex": "#d9a05a"}, {"nome": "Ponteiro", "hex": "#c8323a"}, {"nome": "Pedra", "hex": "#5a5462"},
+    {"nome": "Lâmpada acesa", "hex": "#ffd36a"}, {"nome": "Papel", "hex": "#e8dcc0"}, {"nome": "Água", "hex": "#3fa8ff"},
+    {"nome": "Ouro", "hex": "#f2c230"}
+   ],
+   "arquivo": "sprites/bau_puzzle.png", "fw": 64, "fh": 64, "cols": 8,
+   "quadros": ["fechadura redonda (fundo, zona verde, pino)", "ponteiro (gira em 32,32)", "pino travado",
+               "memória ☾ apagado", "memória ✶ apagado", "memória ☠ apagado", "memória ✚ apagado",
+               "memória ☾ aceso", "memória ✶ aceso", "memória ☠ aceso", "memória ✚ aceso",
+               "luz apagada", "luz acesa",
+               "carta verso", "carta frente lua", "carta frente caveira", "carta frente chave",
+               "cano reto vazio", "cano curva vazio", "cano T vazio", "entrada ▶ vazia", "saída ▶ vazia",
+               "cano reto ligado", "cano curva ligado", "cano T ligado", "entrada ▶ ligada", "saída ▶ ligada",
+               "fio vermelho", "fio azul", "fio amarelo", "fio verde", "fio branco",
+               "botão 1", "botão 2", "botão 3", "botão 4", "botão 5", "botão 6"],
+   "uso": "Peças 64×64 montadas pelo jogo no painel do puzzle. A zona verde muda de tamanho (50°→40°→30°) no jogo: o quadro mostra 50° como referência; o jogo pode desenhar a cunha por código e usar só o disco. Ponteiro e canos giram em tempo real (múltiplos de 90° nos canos; curva base = direita→baixo, T base = esquerda-direita-baixo)."
+  },
+  {
+   "id": "bau_loot",
+   "nome": "Itens exclusivos de baú",
+   "categoria": "Item",
+   "mecanica": "BAU-12 (tabela de loot dos baús)",
+   "conceito": "Os itens que só saem de baú, em ícones grandes e detalhados de 64×64 para a mochila e para o pop do loot. Vão de ferramentas de sobrevivência gastas (lanterna, faca, machado, kit de ferramentas, mapa rabiscado da região) a equipamento militar (pistola, colete, kit médico grande, chave do gerador) e às relíquias da Lua de Sangue (fragmento lunar de cristal vermelho com veios dourados e o amuleto lunar). Todos têm contorno escuro, luz de cima-esquerda, sombra no chão e marcas de uso: ferrugem, fita, arranhões, sangue seco.",
+   "partes": [
+    {"parte": "Fragmento lunar", "descricao": "3 cristais vermelhos #c8323a facetados (claro #ff6a6a, escuro #7a1622) brotando de pedra escura, veios dourados #f2c230, brilho e faíscas."},
+    {"parte": "Amuleto lunar", "descricao": "corrente dourada em arco, medalhão Ø26 de ouro #f2c230 com lua crescente de rubi e pontinhas de filigrana, pingente de gota."},
+    {"parte": "Kit de ferramentas", "descricao": "caixa de metal vermelha #a8322a 44×24 com alça, travas e amassados; chave inglesa e chave de fenda saindo por cima."},
+    {"parte": "Mapa da região", "descricao": "papel #d8c89a dobrado em 3 painéis com sombreado de dobra, ruas, rio azul (Capibaribe), X vermelho, mancha de café e canto rasgado."},
+    {"parte": "Lanterna", "descricao": "lanterna tática preta/oliva 40×12 em diagonal, anel serrilhado, botão, lente amarela acesa com cone de luz."},
+    {"parte": "Colete", "descricao": "colete tático oliva #55643f com placas, 3 bolsos com velcro, alças e fivelas pretas, remendo."},
+    {"parte": "Chave do gerador", "descricao": "chave de ignição com cabeça plástica preta, haste dentada e etiqueta amarela #e8c030 com raio, argola."},
+    {"parte": "Faca", "descricao": "faca de combate diagonal, lâmina #c9ced4 com fio claro e serrilha, guarda, cabo de paracord, sangue seco na ponta."},
+    {"parte": "Machado", "descricao": "machado de incêndio: cabo de madeira #9a6a3c com fita, cabeça vermelha #b8322a, fio de aço e sangue."},
+    {"parte": "Pistola", "descricao": "pistola preta #2e3236 de lado, ferrolho serrilhado, guarda-mato, empunhadura texturizada, brilho na arma."},
+    {"parte": "Kit médico grande", "descricao": "bolsa médica 46×34 branca-suja #e8e4dc com cruz vermelha, zíper, alça, faixa verde e bolso lateral."}
+   ],
+   "paleta": [
+    {"nome": "Cristal", "hex": "#c8323a"}, {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Vermelho ferramenta", "hex": "#a8322a"},
+    {"nome": "Papel", "hex": "#d8c89a"}, {"nome": "Oliva", "hex": "#55643f"}, {"nome": "Aço", "hex": "#c9ced4"},
+    {"nome": "Madeira", "hex": "#9a6a3c"}, {"nome": "Preto arma", "hex": "#2e3236"}, {"nome": "Branco sujo", "hex": "#e8e4dc"}
+   ],
+   "arquivo": "sprites/bau_loot.png", "fw": 64, "fh": 64, "cols": 6,
+   "quadros": ["Fragmento lunar", "Amuleto lunar", "Kit de ferramentas", "Mapa da região", "Lanterna", "Colete", "Chave do gerador", "Faca", "Machado", "Pistola", "Kit médico grande"],
+   "uso": "Ícone 64×64 de mochila e do item que salta do baú (VAS-07; o jogo pode reduzir a 50%). Brilho de raridade é aplicado pelo jogo por baixo."
+  },
+  {
+   "id": "bau_respawn",
+   "nome": "Feixe dourado de respawn do baú",
+   "categoria": "FX",
+   "mecanica": "LUA-06, BF-13, BOSS-11",
+   "conceito": "Quando a Lua de Sangue renasce o mundo, ou quando um boss cai, um feixe de luz dourada desce do céu, um baú despenca dentro dele, bate no chão levantando poeira e solta um brilho antes do feixe sumir. O feixe é uma coluna de luz em degraus (miolo branco-dourado, borda dourada translúcida) com partículas subindo e um disco de luz no chão. A sombra no chão cresce à medida que o baú se aproxima. São 6 quadros, uma linha para cada baú (madeira, ferro, Lua de Sangue).",
+   "partes": [
+    {"parte": "Feixe", "descricao": "coluna do topo até o chão (gy=180): fino 6 px no quadro 1, largo 34 px no 2-3 com miolo #fff6c8 e borda #f2c230 translúcida, faixas horizontais de energia e faíscas."},
+    {"parte": "Disco no chão", "descricao": "elipse dourada 40×8 px em volta do ponto de queda."},
+    {"parte": "Baú caindo", "descricao": "baú fechado (madeira/ferro/lua) no ar a ~70 px acima do chão no quadro 3, com sombra pequena; no chão nos quadros 4-6."},
+    {"parte": "Impacto", "descricao": "nuvens de poeira #9c8a70 dos dois lados, pedrinhas e anel de choque claro."},
+    {"parte": "Brilho", "descricao": "clarão radial dourado + estrelinhas sobre o baú (quadro 5)."},
+    {"parte": "Feixe sumindo", "descricao": "feixe fino e fraco, faíscas subindo (quadro 6)."}
+   ],
+   "paleta": [
+    {"nome": "Miolo do feixe", "hex": "#fff6c8"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Dourado escuro", "hex": "#b8861a"},
+    {"nome": "Poeira", "hex": "#9c8a70"}, {"nome": "Anel de choque", "hex": "#fff4d0"}
+   ],
+   "arquivo": "sprites/bau_respawn.png", "fw": 128, "fh": 192, "cols": 6,
+   "quadros": ["madeira: feixe fino", "madeira: feixe largo", "madeira: baú no ar com sombra", "madeira: impacto com poeira", "madeira: brilho", "madeira: feixe sumindo",
+               "ferro: feixe fino", "ferro: feixe largo", "ferro: baú no ar com sombra", "ferro: impacto com poeira", "ferro: brilho", "ferro: feixe sumindo",
+               "lua: feixe fino", "lua: feixe largo", "lua: baú no ar com sombra", "lua: impacto com poeira", "lua: brilho", "lua: feixe sumindo"],
+   "anims": [
+    {"nome": "respawn madeira", "quadros": [0, 1, 2, 3, 4, 5], "dur": [120, 160, 140, 140, 220, 260], "loop": false},
+    {"nome": "respawn ferro", "quadros": [6, 7, 8, 9, 10, 11], "dur": [120, 160, 140, 140, 220, 260], "loop": false},
+    {"nome": "respawn lua", "quadros": [12, 13, 14, 15, 16, 17], "dur": [120, 160, 140, 140, 220, 260], "loop": false}
+   ],
+   "uso": "FX 128×192 ancorado no ponto do baú: pivô (64, 180), o chão do quadro é y=180 (o baú no chão fica com a base em 180, igual ao sprite 128×128 com gy=110 deslocado 70 px). Depois do quadro 6 o jogo troca para o sprite fechado do baú. A queda pode ser interpolada em tempo real entre os quadros 3 e 4."
+  }
+ ]
+}

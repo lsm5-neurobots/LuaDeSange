@@ -1,0 +1,169 @@
+{
+ "titulo": "A Cobra-Grande - Eunectes murinus e lenda da Boiuna",
+ "pasta": "zumbis-amazonia/cobragrande",
+ "secoes": [
+  {
+   "nome": "Sucuri-verde Eunectes murinus (corpo inteiro)",
+   "n": 12,
+   "busca": [
+    "Eunectes murinus",
+    "green anaconda",
+    "sucuri",
+    "sucuri verde",
+    "anaconda snake water",
+    "giant anaconda",
+    "sucuri gigante"
+   ],
+   "cats": [
+    "Eunectes murinus",
+    "Green anaconda"
+   ]
+  },
+  {
+   "nome": "Cabeca e olhos (close)",
+   "n": 10,
+   "busca": [
+    "anaconda head",
+    "anaconda eye",
+    "anaconda head close up",
+    "sucuri cabeca",
+    "green anaconda face",
+    "anaconda snout nostrils top",
+    "anaconda tongue"
+   ]
+  },
+  {
+   "nome": "Escamas e manchas (textura)",
+   "n": 8,
+   "busca": [
+    "anaconda scales",
+    "anaconda skin pattern",
+    "anaconda dorsal spots",
+    "green anaconda coloration",
+    "snake scales close up olive",
+    "anaconda belly scales"
+   ]
+  },
+  {
+   "nome": "Mandibula, dentes e bote",
+   "n": 8,
+   "busca": [
+    "anaconda teeth",
+    "anaconda open mouth",
+    "snake skull anaconda",
+    "snake striking",
+    "anaconda strike",
+    "boa constrictor teeth skull"
+   ]
+  },
+  {
+   "nome": "Constricao (enrolada na presa)",
+   "n": 10,
+   "busca": [
+    "anaconda constricting",
+    "snake constriction prey",
+    "anaconda coiling",
+    "anaconda caiman",
+    "anaconda eating",
+    "boa constrictor coil around"
+   ]
+  },
+  {
+   "nome": "Corpo enrolado e espiras",
+   "n": 8,
+   "busca": [
+    "anaconda coiled",
+    "snake coil",
+    "anaconda resting coiled",
+    "large snake coils",
+    "anaconda body thickness"
+   ]
+  },
+  {
+   "nome": "Nadando e submersa",
+   "n": 10,
+   "busca": [
+    "anaconda swimming",
+    "anaconda underwater",
+    "sucuri nadando",
+    "sucuri mergulhada Bonito",
+    "anaconda in river",
+    "anaconda in flooded forest",
+    "snake swimming water head above"
+   ]
+  },
+  {
+   "nome": "Esqueleto e vertebras",
+   "n": 6,
+   "busca": [
+    "snake skeleton",
+    "anaconda skeleton",
+    "snake vertebrae ribs",
+    "python skeleton",
+    "snake skull anatomy"
+   ]
+  },
+  {
+   "nome": "Pele de cobra e muda",
+   "n": 4,
+   "busca": [
+    "snake shed skin",
+    "snake skin texture",
+    "anaconda skin",
+    "snake skin close up"
+   ]
+  },
+  {
+   "nome": "Lenda da Cobra-Grande / Boiuna / Cobra Norato",
+   "n": 8,
+   "busca": [
+    "Boiuna",
+    "Cobra Grande lenda",
+    "Cobra Norato",
+    "Cobra Grande folclore amazonico",
+    "Boiuna legend illustration",
+    "cobra grande ilustracao rio",
+    "Amazon river legend snake"
+   ],
+   "cats": [
+    "Brazilian legends",
+    "Folklore of Brazil"
+   ]
+  },
+  {
+   "nome": "Boto-cor-de-rosa (cenario da lenda)",
+   "n": 5,
+   "busca": [
+    "Inia geoffrensis",
+    "boto cor de rosa",
+    "Amazon river dolphin",
+    "boto rosa rio Negro"
+   ],
+   "cats": [
+    "Inia geoffrensis"
+   ]
+  },
+  {
+   "nome": "Rio, varzea e agua escura (arena)",
+   "n": 7,
+   "busca": [
+    "varzea Amazonas",
+    "Amazon river flooded forest",
+    "black water river reflection",
+    "varzea Solimoes",
+    "swamp water lilies Victoria amazonica",
+    "Amazon river sunset"
+   ]
+  },
+  {
+   "nome": "Lua, reflexo e agua noturna",
+   "n": 4,
+   "busca": [
+    "full moon river reflection",
+    "red moon lake",
+    "blood moon water reflection",
+    "moonlight river night"
+   ]
+  }
+ ]
+}

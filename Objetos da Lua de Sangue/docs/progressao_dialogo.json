@@ -1,0 +1,154 @@
+{"grupo": "progressao_dialogo", "titulo": "XP, recompensas e diálogo", "ordem": 2,
+ "resumo": "Interface de progressão (barra de XP, selos de nível, cartas de recompensa, burst de level up, barra de recrutar, resumo/relatório) e do sistema de diálogo (caixa, extras, retratos, balões/emotes). Tudo em moldura de madeira gasta e metal rebitado, com acento vermelho-lua e dourado; o texto é escrito pelo jogo por cima, o sprite só deixa os espaços.",
+ "itens": [
+  {"id": "ui_xp", "nome": "Barra de XP do rodapé", "categoria": "Interface",
+   "mecanica": "Progressão (LVL-02, LVL-03)",
+   "conceito": "Barra comprida que fica no rodapé do HUD, feita de uma régua de madeira escura presa por chapas de metal rebitadas, como se tivesse sido arrancada de uma placa de rua do Recife Antigo. À esquerda fica o selo do nível: um medalhão vermelho-lua com aro dourado e um disco escuro no meio onde o jogo escreve o número. A canaleta da barra é funda e escura, com marcas de 10 em 10%, e o preenchimento é ouro líquido em faixas (brilho em cima, ouro no meio, âmbar embaixo) com uma ponta mais clara. Acima de 85% a barra pulsa (dois quadros: normal e brilhando) e quando enche pisca branco antes do level up.",
+   "partes": [
+     {"parte": "Selo do nível", "descricao": "medalhão de 36×36 px em x 2..37, coroa de 12 dentes em vermelho-lua #c8323a com aro dourado #f2c230/#b8861a, disco central escuro #1e1418 de ~18 px de diâmetro VAZIO para o número, 4 rebites; nos quadros de pulso o aro ganha brilho"},
+     {"parte": "Casco da barra", "descricao": "régua de madeira #7d5430/#5a3a22 de 348×26 px (x 32..379, y 7..32) com veios, emendas de tábua a cada ~64 px, chapas de metal #7d848c nas pontas e no meio com rebites #c9ced4, ferrugem #8a4e2e e um respingo de sangue seco"},
+     {"parte": "Canaleta", "descricao": "fundo #1a1218 de 320×14 px (x 46..365, y 13..26) com borda interna escura, 9 marcas verticais de 10%, leve brilho roxo embaixo"},
+     {"parte": "Preenchimento", "descricao": "faixas horizontais: linha de luz #fff2b0, ouro #f2c230, ouro escuro #d9a020, âmbar #b8861a e linha #7a5410; ponta com 2 px clara; nos quadros de pulso fica mais clara e ganha halo; no quadro de cheia piscando vira branco #fffbea"}
+   ],
+   "paleta": [{"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Dourado escuro", "hex": "#b8861a"}, {"nome": "Madeira", "hex": "#7d5430"}, {"nome": "Madeira escura", "hex": "#5a3a22"}, {"nome": "Metal", "hex": "#7d848c"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Canaleta", "hex": "#1a1218"}],
+   "arquivo": "sprites/ui_xp.png", "fw": 384, "fh": 40, "cols": 7,
+   "quadros": ["vazia", "30%", "60%", "85% (pulso A)", "85% (pulso B, brilhando)", "cheia", "cheia piscando branco"],
+   "anims": [{"nome": "pulso", "quadros": [3, 4], "dur": [260, 260], "loop": true},
+             {"nome": "cheia", "quadros": [5, 6, 5, 6], "dur": [90, 90, 90, 90], "loop": false}],
+   "uso": "Âncora no canto inferior esquerdo do HUD. Os quadros de % são referência visual; no jogo o preenchimento real pode ser recortado do quadro 'cheia' (canaleta x 46..365) para qualquer valor, com o ease-out de 0,4 s. O número do nível é escrito pelo jogo centrado em (19, 19). '+N XP' é texto do jogo."},
+
+  {"id": "ui_selo_nivel", "nome": "Selo / brasão de nível", "categoria": "Interface",
+   "mecanica": "Progressão (LVL-02, LVL-06)",
+   "conceito": "Brasão redondo de metal com coroa dentada e duas fitas penduradas embaixo, mostrando a faixa de nível do herói. Cada tier troca o material e ganha enfeites: bronze simples e arranhado, prata com rebites, ouro com estrela e louros, lunar vermelho em pedra escura com lua crescente em cima, e lunar dourado com runas vermelhas brilhando em volta e raios de luz. O miolo é um disco escuro afundado onde o jogo escreve o número. Os tiers mais altos são reconhecíveis de longe pelo brilho e pela silhueta mais recortada.",
+   "partes": [
+     {"parte": "Coroa dentada", "descricao": "anel com 14 dentes, raio externo 22 px centrado em (32, 29); cor do tier com luz de cima-esquerda e arranhões"},
+     {"parte": "Aro interno", "descricao": "anel de 4 px em tom mais escuro do material, com rebites (prata em diante) ou runas (lunar dourado)"},
+     {"parte": "Miolo", "descricao": "disco #1e1418 de raio 11 px VAZIO para o número, borda de sombra e um brilho no canto superior esquerdo"},
+     {"parte": "Fitas", "descricao": "duas fitas de 9×16 px com ponta em V saindo de baixo (y 44..60): marrom (bronze), azul (prata), vermelha (ouro), vinho (lunar vermelho), preta com filete dourado (lunar dourado)"},
+     {"parte": "Enfeites", "descricao": "ouro: estrela em cima e ramos de louro; lunar vermelho: lua crescente vermelha em cima; lunar dourado: lua dourada, 6 runas vermelhas #ff5a5a e halo"}
+   ],
+   "paleta": [{"nome": "Bronze", "hex": "#b87333"}, {"nome": "Bronze escuro", "hex": "#7a4a22"}, {"nome": "Prata", "hex": "#c0c4cc"}, {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Pedra lunar", "hex": "#2e2836"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Runa brilho", "hex": "#ff5a5a"}],
+   "arquivo": "sprites/ui_selo_nivel.png", "fw": 64, "fh": 64, "cols": 5,
+   "quadros": ["tier 1 bronze (N1-9)", "tier 2 prata (N10-19)", "tier 3 ouro (N20-29)", "tier 4 lunar vermelho (N30-39)", "tier 5 lunar dourado com runas (N40+)"],
+   "uso": "Ícone de nível no perfil, no level up (embaixo de 'Nível N') e opcionalmente no lugar do selo da ui_xp (escalado 0,5×). Número centrado em (32, 29). Faixas de nível por tier são proposta."},
+
+  {"id": "ui_carta", "nome": "Cartas do show de recompensas", "categoria": "Interface",
+   "mecanica": "Progressão / Boss (LVL-07, BF-13)",
+   "conceito": "Cartas de recompensa que entram uma a uma com pop depois do level up ou do baú do boss. Cada carta tem moldura dourada com cantoneiras rebitadas e um fio de brilho na borda, uma janela de ícone com fundo escuro e halo na cor do tipo, uma faixa vazia para o título e um painel escuro embaixo para o texto 'antes → depois'. O verso é vinho escuro com uma lua de sangue dourada e treliça de losangos, usado quando a carta vira. Os ícones são grandes e bem detalhados: coração com curativo, punho com fita segurando um facão, escudo de tábuas, estrela de XP, cutelo ensanguentado do boss, chave de ouro com lua, fragmento lunar brilhando e bandeira fincada nos escombros.",
+   "partes": [
+     {"parte": "Moldura", "descricao": "retângulo 88×120 px (x 4..91, y 4..123) em dourado #f2c230/#b8861a com 3 px, linha interna na cor do tipo, cantoneiras de metal com rebite nos 4 cantos e brilho #fff2b0 piscado na borda externa"},
+     {"parte": "Janela do ícone", "descricao": "área 72×58 px (x 12..83, y 12..69) fundo #1e1820 com halo da cor do tipo; ícone de ~40 px centrado em (48, 41)"},
+     {"parte": "Faixa do título", "descricao": "fita 80×13 px (y 73..85) na cor do tipo, pontas dobradas, VAZIA para o nome"},
+     {"parte": "Painel de valor", "descricao": "painel escuro 68×26 px (x 14..81, y 90..115) com borda afundada e 2 rebites, VAZIO para '+4 HP' / 'antes → depois'"},
+     {"parte": "Verso", "descricao": "fundo vinho #4a141c com treliça dourada escura, lua crescente vermelha com aro dourado no centro, 4 estrelinhas"}
+   ],
+   "paleta": [{"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Ouro escuro", "hex": "#b8861a"}, {"nome": "Brilho", "hex": "#fff2b0"}, {"nome": "Fundo", "hex": "#1e1820"}, {"nome": "Vida", "hex": "#d8394a"}, {"nome": "Força", "hex": "#e0702a"}, {"nome": "Defesa", "hex": "#4a8fe0"}, {"nome": "XP", "hex": "#f2c230"}, {"nome": "Lunar", "hex": "#c8323a"}, {"nome": "Região", "hex": "#4fb06a"}, {"nome": "Verso vinho", "hex": "#4a141c"}],
+   "arquivo": "sprites/ui_carta.png", "fw": 96, "fh": 128, "cols": 9,
+   "quadros": ["verso", "Vida (+4 HP, coração)", "Força (punho e facão)", "Defesa (escudo)", "XP (estrela)", "Arma do boss (cutelo)", "Chave de ouro", "Material (fragmento lunar)", "Região libertada (bandeira)"],
+   "uso": "Centro da tela, uma carta por recompensa com 0,15 s (level up) ou 0,28 s (boss) de intervalo; pop com overshoot e virada (verso → frente) são transformações em tempo real (escala X). Título e valores são texto do jogo nas áreas vazias."},
+
+  {"id": "ui_levelup_fx", "nome": "Burst do level up", "categoria": "Efeito",
+   "mecanica": "Progressão (LVL-03, LVL-04)",
+   "conceito": "Efeito grande desenhado em volta do herói na hora do level up. Começa com o build up: faíscas douradas com rastro sendo sugadas para o centro enquanto um brilho cresce. Vem o flash branco-dourado em estrela, depois a onda de choque: um anel branco com borda dourada que se expande e vai esfriando para laranja e vermelho-lua, se quebrando nas pontas. Fecha com raios de luz dourados longos e curtos girando, com brilhinhos. É todo semitransparente, para somar com o herói e o mapa.",
+   "partes": [
+     {"parte": "Partículas", "descricao": "faíscas de 2-3 px #fff2b0/#f2c230 com rastro de 4-10 px apontando para o centro (build up) ou para fora (onda); 18-24 por quadro"},
+     {"parte": "Brilho central", "descricao": "halo radial em degraus #f2c230 → #fff6c8, raio 12 px (build 1), 22 px (build 2), 44 px (flash)"},
+     {"parte": "Onda de choque", "descricao": "anel com núcleo branco e bordas douradas, raio 30 / 56 / 84 px, espessura 9 / 6 / 3 px, alfa caindo, cor esfriando para #e0702a e #c8323a"},
+     {"parte": "Raios", "descricao": "12 raios em cunha alternando 90 e 60 px, ouro com miolo claro, e 6 brilhos em cruz"}
+   ],
+   "paleta": [{"nome": "Branco quente", "hex": "#fffbea"}, {"nome": "Brilho", "hex": "#fff2b0"}, {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Laranja", "hex": "#e0702a"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}],
+   "arquivo": "sprites/ui_levelup_fx.png", "fw": 192, "fh": 192, "cols": 7,
+   "quadros": ["build up 1 (partículas longe)", "build up 2 (partículas perto)", "flash", "onda 1", "onda 2", "onda 3", "raios de luz"],
+   "anims": [{"nome": "build", "quadros": [0, 1], "dur": [350, 350], "loop": false},
+             {"nome": "burst", "quadros": [2, 3, 4, 5, 6], "dur": [250, 160, 170, 170, 400], "loop": false}],
+   "uso": "Centro do quadro (96, 96) no centro do herói, camada acima do herói. A onda real até ~6 tiles é escala em tempo real dos quadros de onda; rotação lenta dos raios, câmera lenta, escurecer a tela e tremor são do jogo."},
+
+  {"id": "dlg_caixa", "nome": "Caixa de diálogo", "categoria": "Interface",
+   "mecanica": "Diálogo (DLG-01..06)",
+   "conceito": "Caixa larga que sobe do rodapé quando alguém fala. É uma moldura de tábuas escuras pregadas com cantoneiras de metal rebitadas, painel interno escuro levemente texturizado onde o texto é escrito, e à esquerda um nicho afundado para o retrato. Em cima, à esquerda, uma placa de nome pregada na borda. A cor da fita interna, da placa e das pedrinhas dos cantos muda com quem fala: vermelho-lua para o herói, âmbar para NPC sobrevivente, verde para recruta e cinza para mensagens do sistema. Tem marcas de faca, ferrugem e uma mancha de sangue seco para não parecer limpa demais.",
+   "partes": [
+     {"parte": "Moldura", "descricao": "retângulo 508×122 px (x 2..509, y 20..141), borda de tábua de 8 px #7d5430/#5a3a22 com veios e pregos #c9c3b0, cantoneiras de metal #7d848c 18×18 px com 3 rebites e uma pedra na cor de quem fala"},
+     {"parte": "Fita de cor", "descricao": "filete de 2 px dentro da tábua na cor de quem fala (herói #c8323a, NPC #e0902a, recruta #4fb06a, sistema #9a98a0) com brilho claro em cima"},
+     {"parte": "Nicho do retrato", "descricao": "quadrado 100×100 px (x 12..111, y 32..131) afundado, fundo #120c12, VAZIO para o dlg_retrato (96×96 em x 14, y 34)"},
+     {"parte": "Painel do texto", "descricao": "área x 120..500, y 30..133 fundo #231a22 com textura e vinheta, VAZIA para o texto; canto inferior direito reservado para o ▼"},
+     {"parte": "Placa de nome", "descricao": "placa 150×24 px (x 118..267, y 6..29) na cor de quem fala com 2 pregos, VAZIA para o nome"}
+   ],
+   "paleta": [{"nome": "Madeira", "hex": "#7d5430"}, {"nome": "Madeira escura", "hex": "#5a3a22"}, {"nome": "Metal", "hex": "#7d848c"}, {"nome": "Painel", "hex": "#231a22"}, {"nome": "Herói", "hex": "#c8323a"}, {"nome": "NPC", "hex": "#e0902a"}, {"nome": "Recruta", "hex": "#4fb06a"}, {"nome": "Sistema", "hex": "#9a98a0"}],
+   "arquivo": "sprites/dlg_caixa.png", "fw": 512, "fh": 144, "cols": 2,
+   "quadros": ["herói (vermelho-lua)", "NPC sobrevivente (âmbar)", "recruta (verde)", "sistema (cinza, sem retrato)"],
+   "uso": "Ancorada embaixo no centro da tela; sobe de baixo (tween do jogo). Retrato em (14, 34), nome em (126..260, 10..26), texto em (124..496, 36..128), ▼ em (~480, 118). No modo sem speaker (DLG-06 desligado) usar o quadro sistema."},
+
+  {"id": "dlg_extras", "nome": "Extras do diálogo", "categoria": "Interface",
+   "mecanica": "Diálogo (DLG-02, DLG-06)",
+   "conceito": "Peças pequenas que completam a caixa de diálogo. O triângulo ▼ dourado com borda vermelha indica que a fala terminou e pisca entre dois quadros. A cauda é uma ponta de madeira com o mesmo painel escuro da caixa, apontando para cima, para quem fala. A placa de nome vem em peças de 9-slice (ponta esquerda, meio repetível sem emenda, ponta direita) para caber qualquer nome. O botão de escolha é uma plaquinha de madeira com painel escuro; selecionado ganha borda dourada e seta ▶.",
+   "partes": [
+     {"parte": "Triângulo ▼", "descricao": "triângulo 16×12 px centrado em (32, 30), ouro #f2c230 com contorno #7a1a22; quadro B desce 3 px e escurece"},
+     {"parte": "Cauda", "descricao": "cunha de 40 px de base (y 63) e ponta em (26, 6), tábua #7d5430 nas laterais e miolo #231a22, base aberta para encaixar na borda da caixa"},
+     {"parte": "Placa (9-slice)", "descricao": "faixa de 24 px de altura (y 20..43): ponta esquerda chanfrada com prego, meio repetível 64 px com veio periódico, ponta direita espelhada; cor âmbar-madeira #9a6a3c com filete dourado"},
+     {"parte": "Botão de escolha", "descricao": "placa 60×36 px (x 2..61, y 14..49), tábua com painel #231a22 VAZIO; selecionado: borda #f2c230, brilho e seta ▶ vermelha à esquerda"}
+   ],
+   "paleta": [{"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Vinho", "hex": "#7a1a22"}, {"nome": "Madeira", "hex": "#7d5430"}, {"nome": "Madeira clara", "hex": "#9a6a3c"}, {"nome": "Painel", "hex": "#231a22"}],
+   "arquivo": "sprites/dlg_extras.png", "fw": 64, "fh": 64, "cols": 8,
+   "quadros": ["▼ aceso", "▼ apagado/baixo", "cauda apontando para cima", "placa ponta esquerda", "placa meio (repetível)", "placa ponta direita", "botão de escolha", "botão de escolha selecionado"],
+   "anims": [{"nome": "seta_piscando", "quadros": [0, 1], "dur": [400, 400], "loop": true}],
+   "uso": "▼ no canto inferior direito do painel de texto. Cauda posicionada no x do falante sobre a borda superior da caixa (pode espelhar). Placa: ponta esquerda + N meios + ponta direita, a peça útil ocupa y 20..43. Botões empilhados acima da caixa (escolhas fora da demo)."},
+
+  {"id": "dlg_retrato", "nome": "Retratos de sobreviventes", "categoria": "Interface",
+   "mecanica": "Diálogo (DLG-06)",
+   "conceito": "Retratos de busto de dois NPCs sobreviventes para a caixa de diálogo, numa moldura de madeira com cantos de metal e fundo de noite roxa com a lua de sangue atrás. Dona Socorro é uma senhora mais velha, pele negra, lenço vermelho estampado amarrado na cabeça, mechas grisalhas, brincos dourados, rugas e um xale; olhar cansado mas firme. Biu é um rapaz moreno de boné azul desbotado com remendo, camiseta listrada suja, curativo na bochecha e barba rala. Cada um tem 4 quadros para a boca mexer e os olhos piscarem.",
+   "partes": [
+     {"parte": "Moldura", "descricao": "96×96 px, tábua 4 px #7d5430 com cantoneiras de metal e rebites; fundo #2a1f3a com lua #c8323a parcial no canto superior direito e silhueta de prédios"},
+     {"parte": "Dona Socorro", "descricao": "cabeça ~36×40 px, pele #7a4a30, lenço #b8452e com bolinhas #e8c070 e nó atrás, cabelo grisalho #b0aab0 nas têmporas, brincos #f2c230, rugas, xale #6a5a8a sobre blusa #4a6a8a"},
+     {"parte": "Biu", "descricao": "cabeça ~34×40 px, pele #b07a50, boné #3f6a8c com aba e remendo #8a7a52, cabelo #2a1a14, curativo #e8dcc0 na bochecha, barba rala, camiseta listrada #c8323a/#2a2228 encardida"},
+     {"parte": "Olhos e boca", "descricao": "olhos 4×3 px (esclera, íris, brilho); piscando = linha de cílio; boca fechada = linha de 6 px; aberta = oval escura 6×4 px com dentes e língua"}
+   ],
+   "paleta": [{"nome": "Madeira", "hex": "#7d5430"}, {"nome": "Fundo noite", "hex": "#2a1f3a"}, {"nome": "Lua", "hex": "#c8323a"}, {"nome": "Pele Socorro", "hex": "#7a4a30"}, {"nome": "Lenço", "hex": "#b8452e"}, {"nome": "Pele Biu", "hex": "#b07a50"}, {"nome": "Boné", "hex": "#3f6a8c"}],
+   "arquivo": "sprites/dlg_retrato.png", "fw": 96, "fh": 96, "cols": 4,
+   "quadros": ["Socorro normal", "Socorro piscando", "Socorro boca aberta", "Socorro boca aberta + piscando", "Biu normal", "Biu piscando", "Biu boca aberta", "Biu boca aberta + piscando"],
+   "anims": [{"nome": "socorro_fala", "quadros": [0, 2, 0, 2, 3, 0], "dur": [110, 110, 110, 110, 110, 110], "loop": true},
+             {"nome": "socorro_pisca", "quadros": [0, 1, 0], "dur": [2900, 120, 10], "loop": true},
+             {"nome": "biu_fala", "quadros": [4, 6, 4, 6, 7, 4], "dur": [110, 110, 110, 110, 110, 110], "loop": true},
+             {"nome": "biu_pisca", "quadros": [4, 5, 4], "dur": [2900, 120, 10], "loop": true}],
+   "uso": "Encaixa no nicho da dlg_caixa em (14, 34). O jogo escolhe o quadro: boca abre/fecha enquanto o typewriter escreve, pisca a cada ~3 s (quadro +1)."},
+
+  {"id": "dlg_balao", "nome": "Balões e emotes", "categoria": "Interface",
+   "mecanica": "Recrutas / Diálogo (REC-01)",
+   "conceito": "Balõezinhos que flutuam sobre a cabeça dos personagens. O balão de fala 💬 com linhas cinzas marca o sobrevivente ainda não recrutado. Os emotes de recruta usam o mesmo balão creme com contorno escuro e rabicho: interrogação, notas musicais, Zz de sono, coração, exclamação vermelha e reticências. Os balões de missão têm borda colorida e ícone: caveira para Caçada e escudo para Proteger. Tudo com sombreado leve e um pouco de sujeira para combinar com o mundo.",
+   "partes": [
+     {"parte": "Balão", "descricao": "oval ~44×34 px centrado em (32, 26), creme #f4efe6 com luz e sombra, contorno #1a0f14, rabicho em (24..30, 44..54) apontando para baixo-esquerda, manchinha de sujeira"},
+     {"parte": "Ícones", "descricao": "? dourado #f2c230 / notas #4a3a6a / Zz azul #4a8fe0 / coração #d8394a / ! vermelho #c8323a / três pontos #4a4458 / caveira #e8e0d0 em balão de borda vermelha / escudo metal e madeira em balão de borda azul"}
+   ],
+   "paleta": [{"nome": "Creme", "hex": "#f4efe6"}, {"nome": "Contorno", "hex": "#1a0f14"}, {"nome": "Vermelho-lua", "hex": "#c8323a"}, {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Azul", "hex": "#4a8fe0"}],
+   "arquivo": "sprites/dlg_balao.png", "fw": 64, "fh": 64, "cols": 9,
+   "quadros": ["fala 💬 (não recrutado)", "❓", "🎵", "💤 Zz", "❤", "!", "...", "missão Caçada (caveira)", "missão Proteger (escudo)"],
+   "uso": "Pivô do rabicho em (24, 56): fica ~6 px acima da cabeça do NPC. Flutuar (sobe/desce 2 px) e pop de entrada são transformações em tempo real."},
+
+  {"id": "ui_recrutar", "nome": "Barra de tentativa de recrutar", "categoria": "Interface",
+   "mecanica": "Recrutas (REC-09)",
+   "conceito": "Barra de habilidade da tentativa de recrutamento: uma régua de madeira e metal com canaleta escura avermelhada e, no meio, a faixa verde do tamanho da chance. Um marcador dourado (ponteiro com setas em cima e embaixo) corre de um lado para o outro e para; se parar no verde, deu certo. No sucesso a faixa verde acende e solta brilhos; na falha a barra inteira fica vermelha e o marcador some no vermelho com uma rachadura. Há também um quadro só com o marcador para o jogo movimentar.",
+   "partes": [
+     {"parte": "Casco", "descricao": "régua 248×34 px (x 4..251, y 7..40) de madeira #7d5430 com chapas de metal rebitadas nas pontas e no centro"},
+     {"parte": "Canaleta", "descricao": "x 16..239, y 15..32 (224×18 px), fundo #3a1418 com listras diagonais escuras"},
+     {"parte": "Faixa verde", "descricao": "centrada em x 128; largura 30% / 60% / 90% da canaleta; verde #4fb06a com luz #9cf0a0 em cima e sombra #2a6a3a, bordas claras; no sucesso fica #9cff9c com halo"},
+     {"parte": "Marcador", "descricao": "haste 3×26 px #fff2b0 com setas douradas #f2c230 em cima (y 3..9) e embaixo (y 38..44), contorno escuro"}
+   ],
+   "paleta": [{"nome": "Verde", "hex": "#4fb06a"}, {"nome": "Verde claro", "hex": "#9cf0a0"}, {"nome": "Canaleta", "hex": "#3a1418"}, {"nome": "Ouro", "hex": "#f2c230"}, {"nome": "Falha", "hex": "#c8323a"}],
+   "arquivo": "sprites/ui_recrutar.png", "fw": 256, "fh": 48, "cols": 6,
+   "quadros": ["chance 30%", "chance 60%", "chance 90%", "sucesso (verde brilhando)", "falha (vermelho)", "só o marcador (x 128)"],
+   "uso": "Centro da tela de resultado. A largura real da faixa verde pode ser recortada do quadro 90% (centro em x 128). O marcador (quadro 6, centrado em x 128) é desenhado por cima e movido pelo jogo entre x 16 e 239."},
+
+  {"id": "ui_resumo", "nome": "Prancheta de resumo / relatório", "categoria": "Interface",
+   "mecanica": "Loop / Idle / Invasão (LOOP-08, GRP-13, INV-08)",
+   "conceito": "Prancheta de sobrevivente usada para o resumo ao voltar ('Enquanto você esteve fora') e para o relatório da invasão ao amanhecer. É uma placa de compensado gasta com prendedor de metal enferrujado em cima, segurando uma folha pautada amarelada com margem vermelha, canto dobrado, fita adesiva, marca de copo de café e manchas e digitais de sangue seco. As linhas ficam vazias para o jogo escrever. No relatório a folha ganha caixinhas de checagem na margem e um carimbo vermelho torto com a lua de sangue no canto.",
+   "partes": [
+     {"parte": "Prancheta", "descricao": "placa 240×174 px (x 8..247, y 14..187) #8a5a32/#6a4226 com veio, cantos arredondados lascados e furo de pendurar"},
+     {"parte": "Prendedor", "descricao": "clipe de metal 60×26 px (x 98..157, y 2..27) #8d969c com mola, 2 rebites, ferrugem #8a4e2e"},
+     {"parte": "Folha", "descricao": "papel #e8dfc8 (x 20..235, y 24..179) com 11 linhas azuis #9aa8c0 a cada 12 px, margem vermelha #c86060 em x 42, canto inferior direito dobrado, borda direita rasgada"},
+     {"parte": "Sujeira", "descricao": "mancha e respingos de sangue #6a1a1e/#8a2228, digital, anel de café #a88a60, fita adesiva #e8e0b0 translúcida"},
+     {"parte": "Carimbo (relatório)", "descricao": "círculo duplo vermelho #c8323a de ~44 px girado -14°, lua crescente no meio, tinta falhada; + caixinhas 6×6 px nas linhas"}
+   ],
+   "paleta": [{"nome": "Compensado", "hex": "#8a5a32"}, {"nome": "Papel", "hex": "#e8dfc8"}, {"nome": "Pauta", "hex": "#9aa8c0"}, {"nome": "Margem", "hex": "#c86060"}, {"nome": "Sangue seco", "hex": "#6a1a1e"}, {"nome": "Metal", "hex": "#8d969c"}, {"nome": "Carimbo", "hex": "#c8323a"}],
+   "arquivo": "sprites/ui_resumo.png", "fw": 256, "fh": 192, "cols": 2,
+   "quadros": ["resumo da volta / enquanto você esteve fora", "relatório da invasão (carimbo vermelho)"],
+   "uso": "Painel modal no centro da tela. Título na linha de cima (y ~34..46), uma linha de texto a cada 12 px a partir de y 52, x 48..226. Entra com pop/queda pelo jogo."}
+ ]}

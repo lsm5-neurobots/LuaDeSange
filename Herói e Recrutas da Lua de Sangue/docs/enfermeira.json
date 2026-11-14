@@ -1,0 +1,172 @@
+{
+  "id": "enfermeira",
+  "nome": "Enfermeira",
+  "tipo": "recruta",
+  "corpo": "f",
+  "conceito": "Técnica de enfermagem de posto de saúde (UBS do SUS) que emendou o último plantão com o fim do mundo e nunca mais tirou o pijama cirúrgico. Olheira funda, coque preso com caneta, máscara esquecida no queixo e o estetoscópio sempre no pescoço. Fala pouco, resolve rápido: senta aí que ela dá um jeito.",
+  "aptidao": {
+    "principal": "Medicina (enfermaria: cura recrutas feridos, faz ataduras)",
+    "secundaria": "Horta",
+    "contraria": "Madeira"
+  },
+  "partes": [
+    {
+      "parte": "Cabeça/rosto",
+      "descricao": "Cabeçorra padrão do esqueleto feminino (crânio elipse 30x30 px + queixo 24x18 puxado p/ direita), pele sorteada (4 tons). Bochecha corada de 2 px. Inclina junto com o tronco (hrot = lean/2); no especial inclina +4 a +6 graus olhando para o curativo."
+    },
+    {
+      "parte": "Cabelo/coque",
+      "descricao": "Cor sorteada (5 tons), 2 tons + textura de fios. Calota curta na cabeça com franja varrida para a frente e um fio solto caindo na têmpora (cansaço). Atrás, coque redondo de 14x12 px no alto da nuca (camada hair_back), preso com xuxinha rosa (#d0487a, 2 tons) e atravessado por uma caneta BIC azul (corpo translúcido + tampa azul, 2 px de largura, pontas de 3-4 px aparecendo dos dois lados). Mexe só com a cabeça."
+    },
+    {
+      "parte": "Olhos/sobrancelhas",
+      "descricao": "Olhos padrão (esclera 5x5 / 4x5, íris castanha), com cílio feminino e OLHEIRA: 1 linha arroxeada (pele misturada com roxo 35%) 1 px abaixo da pálpebra de baixo — cara de plantão. Sobrancelhas finas na cor do cabelo. Idle quadro 2 pisca; ataque 'angry'; especial: 'open' concentrada, depois 'happy' (^ ^) nos quadros 4-5."
+    },
+    {
+      "parte": "Boca/máscara/expressão",
+      "descricao": "Boca em linha (séria e cansada). Máscara cirúrgica azul-esverdeada (#a8d8d4, 3 tons, 3 pregas horizontais) puxada para o queixo: faixa de ~15x5 px logo abaixo do queixo, elástico branco de 1 px indo até a orelha. Ataque: dentes cerrados e boca em \"o\" pequena no impacto (não encosta na máscara). Especial: cerrada ao enrolar, sorriso no final."
+    },
+    {
+      "parte": "Orelhas/nariz",
+      "descricao": "Orelha padrão (7x10 px) com o elástico da máscara passando por trás e um brinquinho de bolinha dourada (1 px). Nariz padrão pequeno com luz na ponta."
+    },
+    {
+      "parte": "Pescoço/estetoscópio",
+      "descricao": "Pescoço padrão (9 px). Gola em V do pijama mostrando a pele. Estetoscópio grafite (#2b3140, tubo 2 px) passado por trás do pescoço: ponta de trás desce ~14 px e termina nas olivas prateadas em Y; ponta da frente desce ~20 px até o diafragma prateado (disco 5 px com brilho). Acompanha a inclinação do tronco."
+    },
+    {
+      "parte": "Tronco/pijama cirúrgico",
+      "descricao": "Blusa de pijama cirúrgico azul-claro (#a8cde3, 3 tons + trama de tecido pontilhada), decote em V com viés mais escuro, bolso no peito do lado de trás com duas canetas (tampa azul e vermelha) e um rolo de esparadrapo branco preso na borda. Barra com costura. Manchas: respingo de iodo/PVPI laranja-marrom e duas gotinhas de sangue seco na barra. Respira no idle (desce 0-1 px)."
+    },
+    {
+      "parte": "Braços/braçadeira",
+      "descricao": "Manga curta (até metade do braço) do pijama. Na manga da frente, braçadeira branca de 3 px com cruz vermelha (#c8262e) de 3x3 px — identifica a socorrista. No pulso de trás, relógio de pulso preto com mostrador claro (2x2 px), porque enfermeira vive de horário."
+    },
+    {
+      "parte": "Mãos/luvas",
+      "descricao": "Mãos de pele (círculo r4). No especial, a partir do quadro 1, calça luvas de procedimento azul-lilás (#8ea6e0, 2 tons) nas duas mãos."
+    },
+    {
+      "parte": "Pernas/calça",
+      "descricao": "Calça de pijama cirúrgico um tom mais escura (#8fb6d2), reta, com costura lateral clara, barra dobrada 1 px acima do tornozelo e uma mancha de sangue seco no joelho da frente. Meia branca curta aparece no tornozelo. Segue o ciclo padrão do esqueleto."
+    },
+    {
+      "parte": "Pés/calçado",
+      "descricao": "Tênis branco encardido (#e9e5da) de 13x6 px: sola cinza-clara de 1 px com risca, cadarço pontilhado, sujeira bege/marrom na ponta e no calcanhar. Pé de trás com sombra roxa."
+    },
+    {
+      "parte": "Ferramenta/maleta",
+      "descricao": "Maleta de primeiros socorros vermelha (#c8323a, 3 tons) de 16x11 px com cruz branca de 5x5 px, faixa de borda mais escura, fecho metálico de 2 px e alça grafite. Pendurada na mão da frente (balança no andar). No ataque gira por cima da cabeça e desce como uma marretada (golpe de maleta), com rastro de vento. No especial fica aberta no chão atrás dela."
+    },
+    {
+      "parte": "Crachá e marcas do ofício",
+      "descricao": "Crachá branco de 5x7 px pendurado num cordão verde (tom SUS) no peito: faixa azul no topo, fotinho 2x2 px e linhas de texto cinza. Braçadeira com cruz vermelha, estetoscópio, máscara no queixo e caneta no coque."
+    },
+    {
+      "parte": "Silhueta/postura",
+      "descricao": "Porte padrão feminino (ombros estreitos, quadril um pouco mais largo), cabeçorra dos zumbis, contorno escuro, sombra no chão. Silhueta reconhecível pelo coque com caneta saindo da nuca, pela maleta vermelha pendurada e pelo pijama azul-claro. Postura firme mas cansada."
+    }
+  ],
+  "paleta": [
+    {
+      "nome": "Pijama cirúrgico (blusa)",
+      "hex": "#a8cde3"
+    },
+    {
+      "nome": "Pijama cirúrgico (calça)",
+      "hex": "#8fb6d2"
+    },
+    {
+      "nome": "Uniforme sugerido / brilho",
+      "hex": "#d9e6ef"
+    },
+    {
+      "nome": "Estetoscópio",
+      "hex": "#2b3140"
+    },
+    {
+      "nome": "Metal do estetoscópio",
+      "hex": "#c9d2da"
+    },
+    {
+      "nome": "Máscara cirúrgica",
+      "hex": "#a8d8d4"
+    },
+    {
+      "nome": "Maleta vermelha",
+      "hex": "#c8323a"
+    },
+    {
+      "nome": "Cruz branca",
+      "hex": "#f4f1ea"
+    },
+    {
+      "nome": "Cruz vermelha da braçadeira",
+      "hex": "#c8262e"
+    },
+    {
+      "nome": "Cordão do crachá (verde SUS)",
+      "hex": "#2f9a5a"
+    },
+    {
+      "nome": "Xuxinha",
+      "hex": "#d0487a"
+    },
+    {
+      "nome": "Tênis encardido",
+      "hex": "#e9e5da"
+    },
+    {
+      "nome": "Luva de procedimento",
+      "hex": "#8ea6e0"
+    },
+    {
+      "nome": "Iodo (mancha)",
+      "hex": "#b8642a"
+    },
+    {
+      "nome": "Sangue seco",
+      "hex": "#7a2a26"
+    }
+  ],
+  "ferramenta": "Maleta de primeiros socorros vermelha com cruz branca (golpe de maleta no ataque; ataduras, esparadrapo e seringa no especial).",
+  "fala": "Senta aí que eu dou um jeito nisso.",
+  "especial": "Curativo de Plantão",
+  "animacoes": {
+    "idle": "4 quadros: respira (tronco desce 0-1 px), maleta pendurada na mão da frente oscila alguns graus; quadro 2 pisca (olheira continua).",
+    "walk": "8 quadros: passo padrão com tronco inclinado 4 graus, maleta balança para frente e para trás (grip 80-100 graus), estetoscópio acompanha o tronco.",
+    "attack": "Golpe de maleta. 0: ergue a maleta pela alça acima da cabeça (antebraço cruza o rosto), dentes cerrados; 1: carga máxima, maleta inclinada para trás sobre a cabeça; 2: desce em arco com rastro de vento branco; 3: impacto à frente com estrela de impacto na quina da maleta; 4: maleta passa do ponto para baixo; 5: volta a pendurar.",
+    "hurt": "4 quadros: 0 flash branco, 1 tinta vermelha e recua com olhos fechados, 2 recua, 3 se recompõe. Maleta balança para trás na mão.",
+    "death": "6 quadros: 0 flash, 1 cambaleia, 2 cai de joelhos, 3 tomba de lado, 4-5 deitada com a maleta caída no chão junto da mão e estrelinhas.",
+    "special": "Curativo de Plantão. 0: segura a maleta aberta na mão de trás e tira um rolo de atadura com a mão da frente; 1: larga a maleta aberta no chão, calça luvas e estica a atadura entre as mãos; 2: enrola a atadura num laço (concentrada, dentes cerrados); 3: ergue a seringa e dá um peteleco, gotinha brilhando na agulha; 4: corações vermelhos e cruzes verdes sobem à frente, olhos ^ ^; 5: joinha com sorriso, cruzes mais altas e brilho."
+  },
+  "eventos": {
+    "idle": {},
+    "walk": {
+      "0": "passo",
+      "4": "passo"
+    },
+    "attack": {
+      "0": "esforco",
+      "2": "zunido",
+      "3": "pancada_maleta"
+    },
+    "hurt": {
+      "0": "dor"
+    },
+    "death": {
+      "1": "gemido",
+      "2": "joelho",
+      "3": "maleta_cai",
+      "4": "queda"
+    },
+    "special": {
+      "0": "ziper",
+      "1": "luva_estalo",
+      "2": "atadura",
+      "3": "seringa",
+      "4": "cura",
+      "5": "brilho"
+    }
+  }
+}

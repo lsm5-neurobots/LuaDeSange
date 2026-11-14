@@ -1,0 +1,1495 @@
+{
+ "grupo": "estacoes",
+ "titulo": "Estações de trabalho e obras",
+ "ordem": 13,
+ "resumo": "Estações onde os recrutas trabalham (Posto de guarda, Pilha de toras, Ponto de coleta, Obra — 2 vagas cada), com 5 níveis × 3 estados na escada de materiais, mais os objetos animados do trabalho, o andaime de obra, o selo de nível, os marcadores da prévia de construção e as camas.",
+ "itens": [
+  {
+   "id": "est_posto_guarda",
+   "nome": "Posto de guarda",
+   "categoria": "Estação de trabalho",
+   "mecanica": "Grupo GRP-07, GRP-10; Invasão INV-04; Evolução EVO-09",
+   "conceito": "Ponto alto de onde os recrutas com especialidade Defesa vigiam a cerca do abrigo (2 vagas). Em todos os níveis é lido pela mesma silhueta: algo ALTO e estreito, com um lugar de vigia lá em cima, uma escada na frente e uma bandeirinha no topo. N1 é a gambiarra do primeiro dia: uma cadeira de plástico de bar em cima de caixotes de feira e um tambor enferrujado, com lona verde remendada amarrada em volta e uma lona azul de sombra em duas estacas tortas. N2 vira uma torre de madeira de pernas abertas com contraventamento em X, guarda-corpo de tábuas e telhadinho de ripas. N3 é uma guarita de pedra com ameias e casinha de telha de barro em cima. N4 é torre de tijolo cintada com faixas de metal rebitado, plataforma de grade, telhado de chapa ondulada, holofote aceso varrendo e arame farpado. N5 é a torre lunar de pedra escura com acabamento dourado, runas vermelhas e um braseiro de fogo vermelho no topo.",
+   "partes": [
+    {
+     "parte": "Base / corpo",
+     "descricao": "N1 caixotes de feira (ripas horizontais, fresta escura) + tambor de sucata enferrujado, ~60 px de largura; N2 quatro pernas de tronco com X; N3 tronco de pedra 68 px com seteira e porta de madeira; N4 tronco de tijolo 56 px com 2 faixas de metal rebitado e porta de chapa; N5 tronco de pedra lunar afunilado com cantoneiras douradas e runas."
+    },
+    {
+     "parte": "Plataforma de vigia",
+     "descricao": "N1 cadeira de plástico branca encardida em y~80; N2-N5 plataforma em y~56-70 com guarda-corpo do material do nível (tábuas pregadas / ameias / grade de metal / parapeito dourado)."
+    },
+    {
+     "parte": "Cobertura",
+     "descricao": "N1 lona azul inclinada presa por cordas; N2 telhado de ripas; N3 casinha de pedra com telha de barro; N4 chapa ondulada; N5 braseiro dourado com chama vermelha em vez de telhado."
+    },
+    {
+     "parte": "Escada",
+     "descricao": "Escada frontal de varas amarradas (N1), de madeira (N2), degraus de pedra/porta (N3), escada de metal lateral (N4), degraus dourados (N5) — marca a função em todos os níveis."
+    },
+    {
+     "parte": "Bandeira",
+     "descricao": "Trapo vermelho num pau (N1), bandeira de pano (N2-N4), estandarte vermelho com lua dourada (N5)."
+    },
+    {
+     "parte": "Detalhes",
+     "descricao": "Garrafa, cordas e chapa encostada (N1); barril (N2); tocha (N3); holofote com cone de luz amarela, lâmpada, arame farpado (N4); runas brilhando e brasas (N5)."
+    }
+   ],
+   "paleta": [
+    {
+     "nome": "Cadeira de plástico",
+     "hex": "#d4cebd"
+    },
+    {
+     "nome": "Trapo vermelho",
+     "hex": "#b8433a"
+    },
+    {
+     "nome": "Lona verde",
+     "hex": "#5f7a4a"
+    },
+    {
+     "nome": "Lona verde escura",
+     "hex": "#4a6139"
+    },
+    {
+     "nome": "Remendo",
+     "hex": "#8a7a52"
+    },
+    {
+     "nome": "Lona azul",
+     "hex": "#3f6a8c"
+    },
+    {
+     "nome": "Corda",
+     "hex": "#b59a62"
+    },
+    {
+     "nome": "Estaca",
+     "hex": "#8a6a42"
+    },
+    {
+     "nome": "Ferrugem",
+     "hex": "#8a4e2e"
+    },
+    {
+     "nome": "Sucata",
+     "hex": "#6b6a66"
+    },
+    {
+     "nome": "Tábua",
+     "hex": "#9a6a3c"
+    },
+    {
+     "nome": "Tábua 2",
+     "hex": "#7d5430"
+    },
+    {
+     "nome": "Madeira escura",
+     "hex": "#5a3a22"
+    },
+    {
+     "nome": "Prego",
+     "hex": "#c9c3b0"
+    },
+    {
+     "nome": "Ripa",
+     "hex": "#8b5e34"
+    },
+    {
+     "nome": "Pedra",
+     "hex": "#8e8a84"
+    },
+    {
+     "nome": "Pedra 2",
+     "hex": "#77736e"
+    },
+    {
+     "nome": "Argamassa",
+     "hex": "#b8b0a0"
+    },
+    {
+     "nome": "Telha",
+     "hex": "#b5562e"
+    },
+    {
+     "nome": "Telha escura",
+     "hex": "#8f3f22"
+    },
+    {
+     "nome": "Tijolo",
+     "hex": "#a5432e"
+    },
+    {
+     "nome": "Tijolo 2",
+     "hex": "#86351f"
+    },
+    {
+     "nome": "Rejunte",
+     "hex": "#c9b8a0"
+    },
+    {
+     "nome": "Metal",
+     "hex": "#7d848c"
+    },
+    {
+     "nome": "Rebite",
+     "hex": "#c9ced4"
+    },
+    {
+     "nome": "Chapa",
+     "hex": "#8d969c"
+    },
+    {
+     "nome": "Chapa escura",
+     "hex": "#6b747a"
+    },
+    {
+     "nome": "Lâmpada",
+     "hex": "#ffd36a"
+    },
+    {
+     "nome": "Pedra lunar",
+     "hex": "#2e2836"
+    },
+    {
+     "nome": "Pedra lunar 2",
+     "hex": "#3c3446"
+    },
+    {
+     "nome": "Dourado",
+     "hex": "#f2c230"
+    },
+    {
+     "nome": "Dourado escuro",
+     "hex": "#b8861a"
+    },
+    {
+     "nome": "Ardósia",
+     "hex": "#1c1822"
+    },
+    {
+     "nome": "Runa",
+     "hex": "#c8323a"
+    },
+    {
+     "nome": "Runa brilho",
+     "hex": "#ff5a5a"
+    },
+    {
+     "nome": "Fuligem",
+     "hex": "#2a2228"
+    },
+    {
+     "nome": "Viga queimada",
+     "hex": "#2a1a12"
+    }
+   ],
+   "arquivo": "sprites/est_posto_guarda.png",
+   "fw": 128,
+   "fh": 160,
+   "cols": 5,
+   "quadros": [
+    "N1 intacta",
+    "N2 intacta",
+    "N3 intacta",
+    "N4 intacta",
+    "N5 intacta",
+    "N1 danificada",
+    "N2 danificada",
+    "N3 danificada",
+    "N4 danificada",
+    "N5 danificada",
+    "N1 destruída",
+    "N2 destruída",
+    "N3 destruída",
+    "N4 destruída",
+    "N5 destruída"
+   ],
+   "uso": "1×1 tile. Pivô no centro da base (x=64, gy=148). Os guardas (sprites de recruta) aparecem sobre a plataforma; na invasão (INV-04) o jogo os desenha em cima da muralha. O cone do holofote do N4 é parte do sprite (camada fx). Selo de nível (est_selo) vai no canto superior direito."
+  },
+  {
+   "id": "est_pilha_toras",
+   "nome": "Pilha de toras",
+   "categoria": "Estação de trabalho",
+   "mecanica": "Grupo GRP-07, GRP-08, GRP-10; Evolução EVO-09",
+   "conceito": "Estação dos recrutas com especialidade Madeira (2 vagas): uma pilha de toras vista de topo (anéis do tronco virados para a câmera) à esquerda e um toco de cortar com machado cravado à direita, cercado de lascas. A pilha fica mais organizada a cada nível: N1 galhos e toras tortas amontoadas em cima de uma lona, com lona azul jogada por cima e estacas tortas; N2 pirâmide arrumada entre estacas de madeira, cavalete com tora; N3 pirâmide sobre base de blocos de pedra com pilares e telhadinho de telha; N4 estante de metal rebitado sobre tijolo, chapa ondulada, lâmpada e uma bancada de serra circular; N5 toras escuras com veios vermelhos brilhando nos anéis, base de pedra lunar com dourado e machado de lâmina dourada.",
+   "partes": [
+    {
+     "parte": "Pilha",
+     "descricao": "Toras com face de anéis (elipse ~18-22 px) e casca por cima; 3 a 4 fileiras em pirâmide (N2+), desarrumada no N1; à esquerda do quadro (x 14-140)."
+    },
+    {
+     "parte": "Toco de cortar",
+     "descricao": "Toco largo com anéis no topo, raízes e machado cravado inclinado; à direita (x ~190-240). N1 lâmina de sucata enferrujada, N5 cabo escuro e lâmina dourada."
+    },
+    {
+     "parte": "Lascas",
+     "descricao": "Lascas claras espalhadas pelo chão em volta do toco e serragem."
+    },
+    {
+     "parte": "Estrutura do nível",
+     "descricao": "Lona/estacas (N1), estacas e cavalete (N2), base e pilares de pedra com telha (N3), estante metálica, chapa ondulada, lâmpada e serra circular (N4), plinto lunar dourado e runa (N5)."
+    }
+   ],
+   "paleta": [
+    {
+     "nome": "Casca",
+     "hex": "#5a3e28"
+    },
+    {
+     "nome": "Cerne",
+     "hex": "#d6ad72"
+    },
+    {
+     "nome": "Anel",
+     "hex": "#a87a48"
+    },
+    {
+     "nome": "Lasca",
+     "hex": "#e2c28a"
+    },
+    {
+     "nome": "Veio lunar",
+     "hex": "#ff5a5a"
+    },
+    {
+     "nome": "Lona verde",
+     "hex": "#5f7a4a"
+    },
+    {
+     "nome": "Lona verde escura",
+     "hex": "#4a6139"
+    },
+    {
+     "nome": "Remendo",
+     "hex": "#8a7a52"
+    },
+    {
+     "nome": "Lona azul",
+     "hex": "#3f6a8c"
+    },
+    {
+     "nome": "Corda",
+     "hex": "#b59a62"
+    },
+    {
+     "nome": "Estaca",
+     "hex": "#8a6a42"
+    },
+    {
+     "nome": "Ferrugem",
+     "hex": "#8a4e2e"
+    },
+    {
+     "nome": "Sucata",
+     "hex": "#6b6a66"
+    },
+    {
+     "nome": "Tábua",
+     "hex": "#9a6a3c"
+    },
+    {
+     "nome": "Tábua 2",
+     "hex": "#7d5430"
+    },
+    {
+     "nome": "Madeira escura",
+     "hex": "#5a3a22"
+    },
+    {
+     "nome": "Prego",
+     "hex": "#c9c3b0"
+    },
+    {
+     "nome": "Ripa",
+     "hex": "#8b5e34"
+    },
+    {
+     "nome": "Pedra",
+     "hex": "#8e8a84"
+    },
+    {
+     "nome": "Pedra 2",
+     "hex": "#77736e"
+    },
+    {
+     "nome": "Argamassa",
+     "hex": "#b8b0a0"
+    },
+    {
+     "nome": "Telha",
+     "hex": "#b5562e"
+    },
+    {
+     "nome": "Telha escura",
+     "hex": "#8f3f22"
+    },
+    {
+     "nome": "Tijolo",
+     "hex": "#a5432e"
+    },
+    {
+     "nome": "Tijolo 2",
+     "hex": "#86351f"
+    },
+    {
+     "nome": "Rejunte",
+     "hex": "#c9b8a0"
+    },
+    {
+     "nome": "Metal",
+     "hex": "#7d848c"
+    },
+    {
+     "nome": "Rebite",
+     "hex": "#c9ced4"
+    },
+    {
+     "nome": "Chapa",
+     "hex": "#8d969c"
+    },
+    {
+     "nome": "Chapa escura",
+     "hex": "#6b747a"
+    },
+    {
+     "nome": "Lâmpada",
+     "hex": "#ffd36a"
+    },
+    {
+     "nome": "Pedra lunar",
+     "hex": "#2e2836"
+    },
+    {
+     "nome": "Pedra lunar 2",
+     "hex": "#3c3446"
+    },
+    {
+     "nome": "Dourado",
+     "hex": "#f2c230"
+    },
+    {
+     "nome": "Dourado escuro",
+     "hex": "#b8861a"
+    },
+    {
+     "nome": "Ardósia",
+     "hex": "#1c1822"
+    },
+    {
+     "nome": "Runa",
+     "hex": "#c8323a"
+    },
+    {
+     "nome": "Runa brilho",
+     "hex": "#ff5a5a"
+    },
+    {
+     "nome": "Fuligem",
+     "hex": "#2a2228"
+    },
+    {
+     "nome": "Viga queimada",
+     "hex": "#2a1a12"
+    }
+   ],
+   "arquivo": "sprites/est_pilha_toras.png",
+   "fw": 256,
+   "fh": 192,
+   "cols": 5,
+   "quadros": [
+    "N1 intacta",
+    "N2 intacta",
+    "N3 intacta",
+    "N4 intacta",
+    "N5 intacta",
+    "N1 danificada",
+    "N2 danificada",
+    "N3 danificada",
+    "N4 danificada",
+    "N5 danificada",
+    "N1 destruída",
+    "N2 destruída",
+    "N3 destruída",
+    "N4 destruída",
+    "N5 destruída"
+   ],
+   "uso": "2×1 tiles. Pivô no centro da base (x=128, gy=180). O recruta lenhador fica ao lado do toco; a animação do machado e lascas está em est_trabalho (linha 0). O '+1 Madeira' sobe do toco."
+  },
+  {
+   "id": "est_ponto_coleta",
+   "nome": "Ponto de coleta",
+   "categoria": "Estação de trabalho",
+   "mecanica": "Grupo GRP-07, GRP-08, GRP-10; Evolução EVO-09",
+   "conceito": "Onde os recrutas de Coleta juntam Sucata e Pano (2 vagas). Em todo nível há dois montes lado a lado, sucata cinza (engrenagens, latas, canos, chapas) e pano colorido (trouxas e rolos), e um cesto de palha na frente — assim a função é lida de longe. N1: carrinho de supermercado roubado lotado de tralha e um cesto, sobre lona, com placa de papelão. N2: caixotes de madeira abertos e empilhados, placa de tábua. N3: duas baias de pedra com toldo de telha. N4: caçamba de metal rebitada sobre base de tijolo, lâmpada no poste e arame farpado. N5: depósito lunar, um baú grande de pedra escura com cantos dourados, tampa aberta brilhando vermelho por dentro e runas.",
+   "partes": [
+    {
+     "parte": "Recipiente principal",
+     "descricao": "carrinho de arame (N1), caixotes de ripas (N2), baias de pedra em U (N3), caçamba trapezoidal de chapa com rebites (N4), baú lunar (N5); ~80-100 px de largura."
+    },
+    {
+     "parte": "Monte de sucata",
+     "descricao": "engrenagens com dentes, latas, cano, chapas tortas com ferrugem."
+    },
+    {
+     "parte": "Monte de pano",
+     "descricao": "trouxas e rolos de pano azul, vermelho, bege e verde com dobras e listras."
+    },
+    {
+     "parte": "Cesto",
+     "descricao": "cesto de palha trançada (linhas cruzadas) na frente, igual em todos os níveis (N5 com aro dourado)."
+    },
+    {
+     "parte": "Cobertura/extra",
+     "descricao": "placa de papelão (N1), placa de tábua (N2), toldo de telha (N3), poste com lâmpada (N4), estandarte e brilho (N5)."
+    }
+   ],
+   "paleta": [
+    {
+     "nome": "Palha",
+     "hex": "#c9a45a"
+    },
+    {
+     "nome": "Arame do carrinho",
+     "hex": "#a9b0b6"
+    },
+    {
+     "nome": "Pano vermelho",
+     "hex": "#b8433a"
+    },
+    {
+     "nome": "Pano bege",
+     "hex": "#d2c09a"
+    },
+    {
+     "nome": "Lona verde",
+     "hex": "#5f7a4a"
+    },
+    {
+     "nome": "Lona verde escura",
+     "hex": "#4a6139"
+    },
+    {
+     "nome": "Remendo",
+     "hex": "#8a7a52"
+    },
+    {
+     "nome": "Lona azul",
+     "hex": "#3f6a8c"
+    },
+    {
+     "nome": "Corda",
+     "hex": "#b59a62"
+    },
+    {
+     "nome": "Estaca",
+     "hex": "#8a6a42"
+    },
+    {
+     "nome": "Ferrugem",
+     "hex": "#8a4e2e"
+    },
+    {
+     "nome": "Sucata",
+     "hex": "#6b6a66"
+    },
+    {
+     "nome": "Tábua",
+     "hex": "#9a6a3c"
+    },
+    {
+     "nome": "Tábua 2",
+     "hex": "#7d5430"
+    },
+    {
+     "nome": "Madeira escura",
+     "hex": "#5a3a22"
+    },
+    {
+     "nome": "Prego",
+     "hex": "#c9c3b0"
+    },
+    {
+     "nome": "Ripa",
+     "hex": "#8b5e34"
+    },
+    {
+     "nome": "Pedra",
+     "hex": "#8e8a84"
+    },
+    {
+     "nome": "Pedra 2",
+     "hex": "#77736e"
+    },
+    {
+     "nome": "Argamassa",
+     "hex": "#b8b0a0"
+    },
+    {
+     "nome": "Telha",
+     "hex": "#b5562e"
+    },
+    {
+     "nome": "Telha escura",
+     "hex": "#8f3f22"
+    },
+    {
+     "nome": "Tijolo",
+     "hex": "#a5432e"
+    },
+    {
+     "nome": "Tijolo 2",
+     "hex": "#86351f"
+    },
+    {
+     "nome": "Rejunte",
+     "hex": "#c9b8a0"
+    },
+    {
+     "nome": "Metal",
+     "hex": "#7d848c"
+    },
+    {
+     "nome": "Rebite",
+     "hex": "#c9ced4"
+    },
+    {
+     "nome": "Chapa",
+     "hex": "#8d969c"
+    },
+    {
+     "nome": "Chapa escura",
+     "hex": "#6b747a"
+    },
+    {
+     "nome": "Lâmpada",
+     "hex": "#ffd36a"
+    },
+    {
+     "nome": "Pedra lunar",
+     "hex": "#2e2836"
+    },
+    {
+     "nome": "Pedra lunar 2",
+     "hex": "#3c3446"
+    },
+    {
+     "nome": "Dourado",
+     "hex": "#f2c230"
+    },
+    {
+     "nome": "Dourado escuro",
+     "hex": "#b8861a"
+    },
+    {
+     "nome": "Ardósia",
+     "hex": "#1c1822"
+    },
+    {
+     "nome": "Runa",
+     "hex": "#c8323a"
+    },
+    {
+     "nome": "Runa brilho",
+     "hex": "#ff5a5a"
+    },
+    {
+     "nome": "Fuligem",
+     "hex": "#2a2228"
+    },
+    {
+     "nome": "Viga queimada",
+     "hex": "#2a1a12"
+    }
+   ],
+   "arquivo": "sprites/est_ponto_coleta.png",
+   "fw": 128,
+   "fh": 160,
+   "cols": 5,
+   "quadros": [
+    "N1 intacta",
+    "N2 intacta",
+    "N3 intacta",
+    "N4 intacta",
+    "N5 intacta",
+    "N1 danificada",
+    "N2 danificada",
+    "N3 danificada",
+    "N4 danificada",
+    "N5 danificada",
+    "N1 destruída",
+    "N2 destruída",
+    "N3 destruída",
+    "N4 destruída",
+    "N5 destruída"
+   ],
+   "uso": "1×1 tile. Pivô no centro da base (x=64, gy=148). O recruta coletor agacha e joga coisas no cesto (est_trabalho linha 2); '+1 Sucata'/'+1 Pano' sobem daqui."
+  },
+  {
+   "id": "est_trabalho",
+   "nome": "Objetos do trabalho (animados)",
+   "categoria": "Estação de trabalho",
+   "mecanica": "Grupo GRP-08 (+1 recurso subindo), GRP-10 (animação por trabalho)",
+   "conceito": "Folha de animações de objetos que acompanham o recruta trabalhando, desenhadas para sobrepor a estação. Linha 0: toco com tora e machado descendo — levantado, no meio do golpe, impacto com estrela e lascas voando, machado cravado e lascas caindo. Linha 1: martelo batendo num prego sobre uma tábua num cavalete, com faíscas no impacto. Linha 2: cesto de palha recebendo coisas jogadas em arco (uma engrenagem e um trapo), que pula e solta poeira. Linhas 3-7: o texto '+1' com o ícone do recurso (Madeira, Sucata, Pano, Água, Comida) subindo e sumindo em 4 quadros; como são 5 recursos, cada recurso é UMA linha de 4 quadros (grade de 4 colunas × 8 linhas).",
+   "partes": [
+    {
+     "parte": "Machado",
+     "descricao": "cabo de madeira 30 px, lâmina de aço com fio claro; 4 posições de golpe."
+    },
+    {
+     "parte": "Toco e tora",
+     "descricao": "toco com anéis, tora curta em pé que racha no impacto."
+    },
+    {
+     "parte": "Lascas",
+     "descricao": "lascas claras #e2c28a de 2-4 px voando em leque e caindo."
+    },
+    {
+     "parte": "Martelo e cavalete",
+     "descricao": "martelo de cabeça de aço, tábua com prego no cavalete; faíscas amarelas e estrela de impacto."
+    },
+    {
+     "parte": "Cesto",
+     "descricao": "cesto trançado 34 px; achata ao receber; poeira."
+    },
+    {
+     "parte": "+1 e ícones",
+     "descricao": "'+1' creme com contorno escuro em fonte de pixel e ícone 18 px: tora (Madeira), engrenagem (Sucata), pano dobrado (Pano), gota azul (Água), espiga de milho (Comida); sobe ~40 px e fica transparente."
+    }
+   ],
+   "paleta": [
+    {
+     "nome": "Lasca",
+     "hex": "#e2c28a"
+    },
+    {
+     "nome": "Faísca",
+     "hex": "#ffd36a"
+    },
+    {
+     "nome": "Faísca branca",
+     "hex": "#fff6c8"
+    },
+    {
+     "nome": "Texto +1",
+     "hex": "#fff4e0"
+    },
+    {
+     "nome": "Água",
+     "hex": "#4a8fe0"
+    },
+    {
+     "nome": "Milho",
+     "hex": "#f2c230"
+    },
+    {
+     "nome": "Palha",
+     "hex": "#c9a45a"
+    },
+    {
+     "nome": "Aço",
+     "hex": "#9aa3ab"
+    }
+   ],
+   "arquivo": "sprites/est_trabalho.png",
+   "fw": 128,
+   "fh": 128,
+   "cols": 4,
+   "quadros": [
+    "machado 1",
+    "machado 2",
+    "machado 3",
+    "machado 4",
+    "martelo 1",
+    "martelo 2",
+    "martelo 3",
+    "martelo 4",
+    "cesto 1",
+    "cesto 2",
+    "cesto 3",
+    "cesto 4",
+    "+1 Madeira 1",
+    "+1 Madeira 2",
+    "+1 Madeira 3",
+    "+1 Madeira 4",
+    "+1 Sucata 1",
+    "+1 Sucata 2",
+    "+1 Sucata 3",
+    "+1 Sucata 4",
+    "+1 Pano 1",
+    "+1 Pano 2",
+    "+1 Pano 3",
+    "+1 Pano 4",
+    "+1 Água 1",
+    "+1 Água 2",
+    "+1 Água 3",
+    "+1 Água 4",
+    "+1 Comida 1",
+    "+1 Comida 2",
+    "+1 Comida 3",
+    "+1 Comida 4"
+   ],
+   "anims": [
+    {
+     "nome": "machado",
+     "quadros": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "dur": [
+      260,
+      90,
+      140,
+      220
+     ],
+     "loop": true
+    },
+    {
+     "nome": "martelo",
+     "quadros": [
+      4,
+      5,
+      6,
+      7
+     ],
+     "dur": [
+      200,
+      80,
+      120,
+      160
+     ],
+     "loop": true
+    },
+    {
+     "nome": "cesto",
+     "quadros": [
+      8,
+      9,
+      10,
+      11
+     ],
+     "dur": [
+      140,
+      140,
+      120,
+      260
+     ],
+     "loop": true
+    },
+    {
+     "nome": "+1 Madeira",
+     "quadros": [
+      12,
+      13,
+      14,
+      15
+     ],
+     "dur": [
+      140,
+      160,
+      180,
+      220
+     ],
+     "loop": false
+    },
+    {
+     "nome": "+1 Sucata",
+     "quadros": [
+      16,
+      17,
+      18,
+      19
+     ],
+     "dur": [
+      140,
+      160,
+      180,
+      220
+     ],
+     "loop": false
+    },
+    {
+     "nome": "+1 Pano",
+     "quadros": [
+      20,
+      21,
+      22,
+      23
+     ],
+     "dur": [
+      140,
+      160,
+      180,
+      220
+     ],
+     "loop": false
+    },
+    {
+     "nome": "+1 Água",
+     "quadros": [
+      24,
+      25,
+      26,
+      27
+     ],
+     "dur": [
+      140,
+      160,
+      180,
+      220
+     ],
+     "loop": false
+    },
+    {
+     "nome": "+1 Comida",
+     "quadros": [
+      28,
+      29,
+      30,
+      31
+     ],
+     "dur": [
+      140,
+      160,
+      180,
+      220
+     ],
+     "loop": false
+    }
+   ],
+   "uso": "Overlay 128×128 com chão em gy=112, centrado no recruta/estação. Linha r começa no índice 4*r. Os '+1' são soltos acima da estação e podem também ser movidos em tempo real (o sprite já traz a subida)."
+  },
+  {
+   "id": "est_obra_1x1",
+   "nome": "Obra de evolução (andaime 1×1)",
+   "categoria": "Estação de trabalho",
+   "mecanica": "Evolução EVO-05, EVO-07, EVO-08, EVO-11; Grupo GRP-07 (estação Obra); Invasão INV-09",
+   "conceito": "Overlay transparente que se põe por cima de QUALQUER construção de tamanho 1×1 enquanto ela evolui ou é reconstruída. Andaime de tubos galvanizados com braçadeiras amarelas, tábuas de piso em 2-3 andares, travas em X, rede de proteção verde (trama de pixels, deixa ver a construção) e uma lona verde remendada pendurada num canto. No chão: tábua listrada amarelo/preto, cone, balde de massa, pilha de tijolos e placa '!'. Um martelo bate numa tábua do andaime soltando faíscas (3 quadros), um quadro com nuvens de poeira, e dois quadros de 'obra pronta' sem andaime: brilho dourado, estrelas e cintilantes se abrindo (EVO-08).",
+   "partes": [
+    {
+     "parte": "Tubos",
+     "descricao": "verticais nas bordas (e no meio nos tamanhos largos), tubo #8d969c com braçadeira amarela #f2c230."
+    },
+    {
+     "parte": "Pisos",
+     "descricao": "tábuas #9a6a3c com pregos em cada andar, rodapé."
+    },
+    {
+     "parte": "Rede e lona",
+     "descricao": "rede verde em xadrez de pixels (transparente entre os fios) e lona #5f7a4a remendada amarrada com corda."
+    },
+    {
+     "parte": "Chão de obra",
+     "descricao": "cone laranja, balde, tijolos, tábua zebrada, placa de aviso."
+    },
+    {
+     "parte": "Martelo e faíscas",
+     "descricao": "martelo no andar de cima, estrela de impacto e faíscas amarelas."
+    },
+    {
+     "parte": "Obra pronta",
+     "descricao": "estrelas douradas, cintilantes brancos, anel de brilho na base; sem andaime."
+    }
+   ],
+   "paleta": [
+    {
+     "nome": "Tubo",
+     "hex": "#8d969c"
+    },
+    {
+     "nome": "Braçadeira",
+     "hex": "#f2c230"
+    },
+    {
+     "nome": "Tábua",
+     "hex": "#9a6a3c"
+    },
+    {
+     "nome": "Rede",
+     "hex": "#4f8a3a"
+    },
+    {
+     "nome": "Lona",
+     "hex": "#5f7a4a"
+    },
+    {
+     "nome": "Cone",
+     "hex": "#e0702a"
+    },
+    {
+     "nome": "Zebrado preto",
+     "hex": "#1c1820"
+    },
+    {
+     "nome": "Faísca",
+     "hex": "#ffd36a"
+    },
+    {
+     "nome": "Estrela",
+     "hex": "#f2c230"
+    }
+   ],
+   "arquivo": "sprites/est_obra_1x1.png",
+   "fw": 128,
+   "fh": 160,
+   "cols": 7,
+   "quadros": [
+    "andaime + lona",
+    "martelo 1 (levantado)",
+    "martelo 2 (impacto, faíscas)",
+    "martelo 3 (faíscas caindo)",
+    "poeira",
+    "obra pronta 1 (brilho e estrelas)",
+    "obra pronta 2 (estrelas se abrindo)"
+   ],
+   "anims": [
+    {
+     "nome": "obra",
+     "quadros": [
+      0,
+      1,
+      2,
+      3,
+      1,
+      2,
+      3,
+      4
+     ],
+     "dur": [
+      300,
+      160,
+      80,
+      140,
+      160,
+      80,
+      140,
+      300
+     ],
+     "loop": true
+    },
+    {
+     "nome": "pronta",
+     "quadros": [
+      5,
+      6
+     ],
+     "dur": [
+      160,
+      260
+     ],
+     "loop": false
+    }
+   ],
+   "uso": "Mesmo quadro e mesmo gy (altura−12) da construção; desenhar POR CIMA dela, alinhado pelo canto. A barra de tempo com contagem regressiva é UI do jogo (não está no sprite). Pulo squash/stretch da obra pronta é transformação em tempo real na construção."
+  },
+  {
+   "id": "est_obra_2x1",
+   "nome": "Obra de evolução (andaime 2×1)",
+   "categoria": "Estação de trabalho",
+   "mecanica": "Evolução EVO-05, EVO-07, EVO-08, EVO-11; Grupo GRP-07 (estação Obra); Invasão INV-09",
+   "conceito": "Overlay transparente que se põe por cima de QUALQUER construção de tamanho 2×1 enquanto ela evolui ou é reconstruída. Andaime de tubos galvanizados com braçadeiras amarelas, tábuas de piso em 2-3 andares, travas em X, rede de proteção verde (trama de pixels, deixa ver a construção) e uma lona verde remendada pendurada num canto. No chão: tábua listrada amarelo/preto, cone, balde de massa, pilha de tijolos e placa '!'. Um martelo bate numa tábua do andaime soltando faíscas (3 quadros), um quadro com nuvens de poeira, e dois quadros de 'obra pronta' sem andaime: brilho dourado, estrelas e cintilantes se abrindo (EVO-08).",
+   "partes": [
+    {
+     "parte": "Tubos",
+     "descricao": "verticais nas bordas (e no meio nos tamanhos largos), tubo #8d969c com braçadeira amarela #f2c230."
+    },
+    {
+     "parte": "Pisos",
+     "descricao": "tábuas #9a6a3c com pregos em cada andar, rodapé."
+    },
+    {
+     "parte": "Rede e lona",
+     "descricao": "rede verde em xadrez de pixels (transparente entre os fios) e lona #5f7a4a remendada amarrada com corda."
+    },
+    {
+     "parte": "Chão de obra",
+     "descricao": "cone laranja, balde, tijolos, tábua zebrada, placa de aviso."
+    },
+    {
+     "parte": "Martelo e faíscas",
+     "descricao": "martelo no andar de cima, estrela de impacto e faíscas amarelas."
+    },
+    {
+     "parte": "Obra pronta",
+     "descricao": "estrelas douradas, cintilantes brancos, anel de brilho na base; sem andaime."
+    }
+   ],
+   "paleta": [
+    {
+     "nome": "Tubo",
+     "hex": "#8d969c"
+    },
+    {
+     "nome": "Braçadeira",
+     "hex": "#f2c230"
+    },
+    {
+     "nome": "Tábua",
+     "hex": "#9a6a3c"
+    },
+    {
+     "nome": "Rede",
+     "hex": "#4f8a3a"
+    },
+    {
+     "nome": "Lona",
+     "hex": "#5f7a4a"
+    },
+    {
+     "nome": "Cone",
+     "hex": "#e0702a"
+    },
+    {
+     "nome": "Zebrado preto",
+     "hex": "#1c1820"
+    },
+    {
+     "nome": "Faísca",
+     "hex": "#ffd36a"
+    },
+    {
+     "nome": "Estrela",
+     "hex": "#f2c230"
+    }
+   ],
+   "arquivo": "sprites/est_obra_2x1.png",
+   "fw": 256,
+   "fh": 192,
+   "cols": 7,
+   "quadros": [
+    "andaime + lona",
+    "martelo 1 (levantado)",
+    "martelo 2 (impacto, faíscas)",
+    "martelo 3 (faíscas caindo)",
+    "poeira",
+    "obra pronta 1 (brilho e estrelas)",
+    "obra pronta 2 (estrelas se abrindo)"
+   ],
+   "anims": [
+    {
+     "nome": "obra",
+     "quadros": [
+      0,
+      1,
+      2,
+      3,
+      1,
+      2,
+      3,
+      4
+     ],
+     "dur": [
+      300,
+      160,
+      80,
+      140,
+      160,
+      80,
+      140,
+      300
+     ],
+     "loop": true
+    },
+    {
+     "nome": "pronta",
+     "quadros": [
+      5,
+      6
+     ],
+     "dur": [
+      160,
+      260
+     ],
+     "loop": false
+    }
+   ],
+   "uso": "Mesmo quadro e mesmo gy (altura−12) da construção; desenhar POR CIMA dela, alinhado pelo canto. A barra de tempo com contagem regressiva é UI do jogo (não está no sprite). Pulo squash/stretch da obra pronta é transformação em tempo real na construção."
+  },
+  {
+   "id": "est_obra_2x2",
+   "nome": "Obra de evolução (andaime 2×2)",
+   "categoria": "Estação de trabalho",
+   "mecanica": "Evolução EVO-05, EVO-07, EVO-08, EVO-11; Grupo GRP-07 (estação Obra); Invasão INV-09",
+   "conceito": "Overlay transparente que se põe por cima de QUALQUER construção de tamanho 2×2 enquanto ela evolui ou é reconstruída. Andaime de tubos galvanizados com braçadeiras amarelas, tábuas de piso em 2-3 andares, travas em X, rede de proteção verde (trama de pixels, deixa ver a construção) e uma lona verde remendada pendurada num canto. No chão: tábua listrada amarelo/preto, cone, balde de massa, pilha de tijolos e placa '!'. Um martelo bate numa tábua do andaime soltando faíscas (3 quadros), um quadro com nuvens de poeira, e dois quadros de 'obra pronta' sem andaime: brilho dourado, estrelas e cintilantes se abrindo (EVO-08).",
+   "partes": [
+    {
+     "parte": "Tubos",
+     "descricao": "verticais nas bordas (e no meio nos tamanhos largos), tubo #8d969c com braçadeira amarela #f2c230."
+    },
+    {
+     "parte": "Pisos",
+     "descricao": "tábuas #9a6a3c com pregos em cada andar, rodapé."
+    },
+    {
+     "parte": "Rede e lona",
+     "descricao": "rede verde em xadrez de pixels (transparente entre os fios) e lona #5f7a4a remendada amarrada com corda."
+    },
+    {
+     "parte": "Chão de obra",
+     "descricao": "cone laranja, balde, tijolos, tábua zebrada, placa de aviso."
+    },
+    {
+     "parte": "Martelo e faíscas",
+     "descricao": "martelo no andar de cima, estrela de impacto e faíscas amarelas."
+    },
+    {
+     "parte": "Obra pronta",
+     "descricao": "estrelas douradas, cintilantes brancos, anel de brilho na base; sem andaime."
+    }
+   ],
+   "paleta": [
+    {
+     "nome": "Tubo",
+     "hex": "#8d969c"
+    },
+    {
+     "nome": "Braçadeira",
+     "hex": "#f2c230"
+    },
+    {
+     "nome": "Tábua",
+     "hex": "#9a6a3c"
+    },
+    {
+     "nome": "Rede",
+     "hex": "#4f8a3a"
+    },
+    {
+     "nome": "Lona",
+     "hex": "#5f7a4a"
+    },
+    {
+     "nome": "Cone",
+     "hex": "#e0702a"
+    },
+    {
+     "nome": "Zebrado preto",
+     "hex": "#1c1820"
+    },
+    {
+     "nome": "Faísca",
+     "hex": "#ffd36a"
+    },
+    {
+     "nome": "Estrela",
+     "hex": "#f2c230"
+    }
+   ],
+   "arquivo": "sprites/est_obra_2x2.png",
+   "fw": 256,
+   "fh": 256,
+   "cols": 7,
+   "quadros": [
+    "andaime + lona",
+    "martelo 1 (levantado)",
+    "martelo 2 (impacto, faíscas)",
+    "martelo 3 (faíscas caindo)",
+    "poeira",
+    "obra pronta 1 (brilho e estrelas)",
+    "obra pronta 2 (estrelas se abrindo)"
+   ],
+   "anims": [
+    {
+     "nome": "obra",
+     "quadros": [
+      0,
+      1,
+      2,
+      3,
+      1,
+      2,
+      3,
+      4
+     ],
+     "dur": [
+      300,
+      160,
+      80,
+      140,
+      160,
+      80,
+      140,
+      300
+     ],
+     "loop": true
+    },
+    {
+     "nome": "pronta",
+     "quadros": [
+      5,
+      6
+     ],
+     "dur": [
+      160,
+      260
+     ],
+     "loop": false
+    }
+   ],
+   "uso": "Mesmo quadro e mesmo gy (altura−12) da construção; desenhar POR CIMA dela, alinhado pelo canto. A barra de tempo com contagem regressiva é UI do jogo (não está no sprite). Pulo squash/stretch da obra pronta é transformação em tempo real na construção."
+  },
+  {
+   "id": "est_selo",
+   "nome": "Selo de nível",
+   "categoria": "Estação de trabalho",
+   "mecanica": "Evolução EVO-02, EVO-07, EVO-08, EVO-10",
+   "conceito": "Medalhão redondo sempre visível no canto de cada construção, com o número do nível grande em creme e a borda feita do material da escada: N1 lona verde costurada com remendo e corda em volta; N2 disco de tábuas com pregos; N3 anel de blocos de pedra com centro de telha; N4 aro de metal rebitado com centro de tijolo; N5 pedra lunar com aro dourado, gema vermelha e brilho. Mais dois selos de estado: 'em obra' (aro zebrado amarelo/preto com engrenagem e martelo) e 'precisa da Fogueira' (cadeado cinza com selinho de chama).",
+   "partes": [
+    {
+     "parte": "Aro",
+     "descricao": "anel de ~6 px no material do nível."
+    },
+    {
+     "parte": "Centro",
+     "descricao": "disco interno ~36 px, mais escuro para o número contrastar."
+    },
+    {
+     "parte": "Número",
+     "descricao": "dígito 5×7 em escala 3 (15×21 px), creme #fff4e0 com contorno escuro (N5 dourado)."
+    },
+    {
+     "parte": "Em obra",
+     "descricao": "engrenagem cinza de 8 dentes com martelo cruzado sobre aro zebrado."
+    },
+    {
+     "parte": "Cadeado",
+     "descricao": "cadeado de aço com buraco de chave e chama laranja num selinho."
+    }
+   ],
+   "paleta": [
+    {
+     "nome": "Número",
+     "hex": "#fff4e0"
+    },
+    {
+     "nome": "Engrenagem",
+     "hex": "#9aa3ab"
+    },
+    {
+     "nome": "Zebrado",
+     "hex": "#f2c230"
+    },
+    {
+     "nome": "Chama",
+     "hex": "#ff8a2a"
+    },
+    {
+     "nome": "Lona verde",
+     "hex": "#5f7a4a"
+    },
+    {
+     "nome": "Tábua",
+     "hex": "#9a6a3c"
+    },
+    {
+     "nome": "Pedra",
+     "hex": "#8e8a84"
+    },
+    {
+     "nome": "Tijolo",
+     "hex": "#a5432e"
+    },
+    {
+     "nome": "Pedra lunar",
+     "hex": "#2e2836"
+    },
+    {
+     "nome": "Pedra lunar 2",
+     "hex": "#3c3446"
+    },
+    {
+     "nome": "Dourado",
+     "hex": "#f2c230"
+    }
+   ],
+   "arquivo": "sprites/est_selo.png",
+   "fw": 64,
+   "fh": 64,
+   "cols": 7,
+   "quadros": [
+    "nível 1",
+    "nível 2",
+    "nível 3",
+    "nível 4",
+    "nível 5",
+    "em obra",
+    "precisa da Fogueira"
+   ],
+   "uso": "HUD/ícone 64×64 desenhado no canto superior direito da construção (pode ser reduzido a 50%). O pulso do EVO-08 é escala em tempo real."
+  },
+  {
+   "id": "est_ghost",
+   "nome": "Marcadores da prévia de construção",
+   "categoria": "Estação de trabalho",
+   "mecanica": "Abrigo ABR-04, ABR-10, ABR-11; Evolução EVO-05",
+   "conceito": "Peças de UI desenhadas como pixel art para a prévia translúcida de construção. Tile verde (pode construir): preenchimento verde translúcido, borda clara com cantoneiras e pontilhado interno da grade. Tile vermelho (não pode): mesma forma em vermelho-lua com um X grosso no meio. Linha dourada do bônus de vizinhança em duas peças: 'ponta' (nó dourado com brilho no centro e a linha saindo para a direita) e 'meio' (linha atravessando o quadro inteiro com pontinhos brilhantes), para o jogo emendar e girar. Ícone do construtor: capacete amarelo de obra, livre (selo verde com visto) e ocupado (capacete apagado com selo vermelho de relógio).",
+   "partes": [
+    {
+     "parte": "Tile",
+     "descricao": "128×128, preenchimento alfa ~70, borda 2 px, cantoneiras de 14 px, cruz de pontos no centro."
+    },
+    {
+     "parte": "X",
+     "descricao": "duas barras de 8 px vermelho #c8323a com brilho #ff5a5a."
+    },
+    {
+     "parte": "Linha dourada",
+     "descricao": "3 px #f2c230 com halo, contas brilhantes a cada 16 px; ponta com nó/estrela."
+    },
+    {
+     "parte": "Capacete",
+     "descricao": "casco amarelo com aba, faixa e brilho; selo 22 px no canto inferior direito."
+    }
+   ],
+   "paleta": [
+    {
+     "nome": "Verde pode",
+     "hex": "#4fb06a"
+    },
+    {
+     "nome": "Verde borda",
+     "hex": "#9ff0a8"
+    },
+    {
+     "nome": "Vermelho não",
+     "hex": "#c8323a"
+    },
+    {
+     "nome": "Vermelho borda",
+     "hex": "#ff5a5a"
+    },
+    {
+     "nome": "Dourado",
+     "hex": "#f2c230"
+    },
+    {
+     "nome": "Dourado escuro",
+     "hex": "#b8861a"
+    },
+    {
+     "nome": "Capacete",
+     "hex": "#f2b630"
+    }
+   ],
+   "arquivo": "sprites/est_ghost.png",
+   "fw": 128,
+   "fh": 128,
+   "cols": 6,
+   "quadros": [
+    "tile verde (pode)",
+    "tile vermelho (não pode, X)",
+    "linha dourada ponta",
+    "linha dourada meio",
+    "construtor livre",
+    "construtor ocupado"
+   ],
+   "uso": "Os tiles são repetidos sob a prévia (um por tile ocupado). A linha dourada: 'meio' é emendada e girada entre as duas construções, 'ponta' em cada extremo (espelhar para o outro lado). O ícone do construtor vai no HUD de Evolução."
+  },
+  {
+   "id": "est_cama",
+   "nome": "Camas e moradia",
+   "categoria": "Estação de trabalho",
+   "mecanica": "Grupo GRP-01, GRP-04, GRP-09, GRP-14",
+   "conceito": "Lugares onde os recrutas dormem para recuperar energia. Colchonete de espuma listrado azul encardido no chão com travesseiro e cobertor dobrado; rede de dormir nordestina listrada com franjas, amarrada em dois mourões de madeira; beliche de madeira pregada com dois colchões, escadinha e coberta pendurada; saco de dormir verde-oliva com zíper, vazio e ocupado (cabelo e olho fechado do recruta aparecendo) com 'Z z' subindo em 2 quadros.",
+   "partes": [
+    {
+     "parte": "Colchonete",
+     "descricao": "90×22 px, listras, manchas, travesseiro creme, cobertor xadrez."
+    },
+    {
+     "parte": "Rede",
+     "descricao": "pano em curva com listras vermelho/amarelo/verde/creme, punhos de corda, franjas, mourões de 70 px."
+    },
+    {
+     "parte": "Beliche",
+     "descricao": "estrutura de tábuas #9a6a3c com pregos, dois colchões, escada lateral, coberta vermelha caindo."
+    },
+    {
+     "parte": "Saco de dormir",
+     "descricao": "verde-oliva com costuras, zíper prateado, forro laranja na boca; versão ocupada com cabeça e 'Zz'."
+    }
+   ],
+   "paleta": [
+    {
+     "nome": "Espuma azul",
+     "hex": "#5a7aa0"
+    },
+    {
+     "nome": "Travesseiro",
+     "hex": "#e0d6c0"
+    },
+    {
+     "nome": "Rede vermelha",
+     "hex": "#c0443a"
+    },
+    {
+     "nome": "Rede amarela",
+     "hex": "#e8b838"
+    },
+    {
+     "nome": "Rede verde",
+     "hex": "#4f8a4a"
+    },
+    {
+     "nome": "Saco oliva",
+     "hex": "#5c6a3a"
+    },
+    {
+     "nome": "Forro laranja",
+     "hex": "#d87a2a"
+    },
+    {
+     "nome": "Z",
+     "hex": "#fff4e0"
+    },
+    {
+     "nome": "Tábua",
+     "hex": "#9a6a3c"
+    },
+    {
+     "nome": "Tábua 2",
+     "hex": "#7d5430"
+    },
+    {
+     "nome": "Madeira escura",
+     "hex": "#5a3a22"
+    },
+    {
+     "nome": "Prego",
+     "hex": "#c9c3b0"
+    }
+   ],
+   "arquivo": "sprites/est_cama.png",
+   "fw": 128,
+   "fh": 128,
+   "cols": 6,
+   "quadros": [
+    "colchonete",
+    "rede",
+    "beliche",
+    "saco de dormir (vazio)",
+    "saco de dormir ocupado Zz 1",
+    "saco de dormir ocupado Zz 2"
+   ],
+   "anims": [
+    {
+     "nome": "dormindo",
+     "quadros": [
+      4,
+      5
+     ],
+     "dur": [
+      500,
+      500
+     ],
+     "loop": true
+    }
+   ],
+   "uso": "Objetos de chão 128×128 com base em gy=112, dentro/ao lado da barraca. O recruta dormindo usa os quadros 4-5 no lugar do próprio sprite."
+  }
+ ]
+}

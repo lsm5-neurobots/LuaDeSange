@@ -1,0 +1,158 @@
+{
+ "titulo": "Pantanal (MS/MT) - cenario, fauna e vegetacao",
+ "pasta": "pantanal",
+ "secoes": [
+  {
+   "nome": "Transpantaneira estrada",
+   "n": 10,
+   "busca": [
+    "Transpantaneira",
+    "Transpantaneira Pantanal road",
+    "Estrada Parque Pantanal",
+    "Pantanal dirt road"
+   ],
+   "cats": [
+    "Transpantaneira"
+   ]
+  },
+  {
+   "nome": "Pontes de madeira da Transpantaneira",
+   "n": 10,
+   "busca": [
+    "Transpantaneira wooden bridge",
+    "ponte de madeira Transpantaneira",
+    "Pantanal wooden bridge",
+    "ponte de madeira Pantanal"
+   ],
+   "cats": [
+    "Transpantaneira"
+   ]
+  },
+  {
+   "nome": "Fazenda pantaneira, sede e porteira",
+   "n": 8,
+   "busca": [
+    "fazenda pantaneira",
+    "Pantanal farm house",
+    "Pantanal fazenda sede",
+    "porteira de fazenda",
+    "fazenda Pantanal Mato Grosso do Sul"
+   ]
+  },
+  {
+   "nome": "Curral, mangueira, gado e peoes",
+   "n": 10,
+   "busca": [
+    "curral Pantanal",
+    "Pantanal cattle",
+    "gado pantaneiro",
+    "peao pantaneiro",
+    "Pantanal cowboy pantaneiro",
+    "mangueira curral madeira",
+    "comitiva boiadeira Pantanal"
+   ]
+  },
+  {
+   "nome": "Campo alagado, aguape, vitoria-regia",
+   "n": 10,
+   "busca": [
+    "Pantanal flooded field",
+    "campo alagado Pantanal",
+    "aguape Eichhornia Pantanal",
+    "Victoria amazonica Pantanal",
+    "Pantanal wetland landscape"
+   ],
+   "cats": [
+    "Eichhornia crassipes"
+   ]
+  },
+  {
+   "nome": "Corixo e baia",
+   "n": 10,
+   "busca": [
+    "corixo Pantanal",
+    "Pantanal baia lagoon",
+    "Pantanal lagoon",
+    "Pantanal canal vegetation",
+    "baia Pantanal"
+   ]
+  },
+  {
+   "nome": "Salina e cordilheira",
+   "n": 8,
+   "busca": [
+    "salina Pantanal",
+    "Pantanal salt lake",
+    "cordilheira Pantanal capao de mato",
+    "Pantanal forest island",
+    "Pantanal carandá palm",
+    "Copernicia alba"
+   ]
+  },
+  {
+   "nome": "Ninhal de tuiuius",
+   "n": 8,
+   "busca": [
+    "Jabiru nest Pantanal",
+    "tuiuiu ninho",
+    "Jabiru colony",
+    "Jabiru mycteria nest",
+    "ninhal Pantanal"
+   ],
+   "cats": [
+    "Jabiru mycteria"
+   ]
+  },
+  {
+   "nome": "Porto Jofre, chalana e rio Cuiaba",
+   "n": 10,
+   "busca": [
+    "Porto Jofre",
+    "Rio Cuiaba Pantanal",
+    "Cuiaba River Pantanal",
+    "chalana Pantanal",
+    "Paraguay River Pantanal",
+    "Rio Paraguai Corumba barco"
+   ]
+  },
+  {
+   "nome": "Ceu, por do sol e luar do Pantanal",
+   "n": 8,
+   "busca": [
+    "Pantanal sunset",
+    "por do sol Pantanal",
+    "Pantanal sky clouds",
+    "Pantanal night stars",
+    "Pantanal sunrise mist",
+    "Pantanal moon"
+   ]
+  },
+  {
+   "nome": "Fauna de cenario: capivara, jacare, cervo, arara",
+   "n": 8,
+   "busca": [
+    "Pantanal wildlife",
+    "Blastocerus dichotomus",
+    "Anodorhynchus hyacinthinus Pantanal",
+    "Hydrochoerus hydrochaeris Pantanal",
+    "Caiman yacare Pantanal"
+   ],
+   "cats": [
+    "Blastocerus dichotomus",
+    "Anodorhynchus hyacinthinus"
+   ]
+  },
+  {
+   "nome": "Vegetacao: ipe, acuri, carandá, bocaiuva, camalote",
+   "n": 8,
+   "busca": [
+    "Handroanthus Pantanal ipe amarelo",
+    "Attalea phalerata acuri",
+    "Acrocomia aculeata bocaiuva",
+    "Tabebuia aurea Pantanal",
+    "Pantanal vegetation trees",
+    "camalote Pantanal"
+   ]
+  }
+ ]
+}

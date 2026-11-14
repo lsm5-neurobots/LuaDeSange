@@ -1,0 +1,118 @@
+<title>Bastão · Objeto</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:0;border:3px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 0 0 6px #0b0614,10px 10px 0 6px rgba(200,50,58,.35);background:#0d0818}
+.hero .big{display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 50% 40%,#2a1b46,#0d0818 70%);min-height:300px}
+.hero canvas{image-rendering:pixelated;width:620px;max-width:100%;height:auto}
+.hero .panel{border-left:2px solid var(--line)}
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.tier{background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:14px;display:grid;gap:8px;align-content:start;cursor:pointer}
+.tier[aria-pressed="true"]{border-color:var(--moon)}
+.tier canvas{image-rendering:pixelated;width:100%;height:auto;background:#0d0818;border-radius:6px}
+.chip{display:inline-block;font-family:var(--f-pix);font-size:12px;padding:1px 8px;border-radius:3px;color:#120a1f;font-weight:700}
+.tier h3{font-family:var(--f-display);font-weight:400;font-size:17px;margin:0}
+.tier p{margin:0;color:var(--muted);font-size:14px}
+.tier dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:13px}
+.tier dt{font-family:var(--f-pix);color:var(--ink)} .tier dd{margin:0;color:var(--muted)}
+.inhand{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.inhand figure{margin:0;background:#0d0818;border:1px solid var(--line);border-radius:8px;padding:8px;display:grid;justify-items:center;gap:4px}
+.inhand canvas{image-rendering:pixelated;width:100%;max-width:204px;height:auto}
+.inhand figcaption{font-family:var(--f-pix);font-size:12px;color:var(--muted)}
+.icons{display:flex;gap:14px;flex-wrap:wrap}
+.icons figure{margin:0;display:grid;gap:4px;justify-items:center;font-family:var(--f-pix);font-size:12px;color:var(--muted)}
+.icons canvas{image-rendering:pixelated;width:96px;height:96px;border:2px solid #000;border-radius:6px}
+@media (max-width:860px){ .hero{grid-template-columns:1fr} .hero .panel{border-left:0;border-top:2px solid var(--line)} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Objetos · Arma corpo a corpo · Direção de arte cósmica</div>
+    <h1>Bastão <small>Arma do Vigia</small></h1>
+    <p class="lede">O cassetete que o Vigia carrega na cinta, agora como <b>objeto de equipamento</b> com 4 raridades. É a primeira arma corpo a corpo do jogo: golpes rápidos e curtos, combo de 3 e o último golpe derruba. Desenhado na mesma pipeline hi-bit dos zumbis, com 4 tons por material e contorno seletivo.</p>
+  </header>
+
+  <section class="hero" aria-label="Bastão em destaque">
+    <div class="big"><canvas id="big" width="48" height="18" role="img" aria-label="Bastão ampliado"></canvas></div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Raridade</span><div class="seg" id="tiersSeg"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Ficha</span><div id="sheet" class="note" style="font-size:14px;color:var(--ink)"></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Raridades</small>4 versões do mesmo bastão</h2>
+    <div class="tiers" id="tiers"></div>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Na mão</small>Como fica com o Vigia</h2>
+      <div class="inhand" id="inhand"></div>
+      <p class="note" style="margin-top:8px">Na guarda e no combo o bastão fica na mão, com o punho redesenhado por cima do cabo. Fora de luta ele volta pro passador da cinta, pendurado na vertical.</p>
+    </section>
+    <section class="box">
+      <h2><small>Ícones</small>Inventário e chão</h2>
+      <div class="icons" id="icons"></div>
+      <p class="note" style="margin-top:8px">Ícone de 32×32 em diagonal pro inventário (com a cor da raridade no fundo) e versão deitada pra quando cair no chão como drop.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Números</small>Comparação das raridades</h2>
+    <div class="tbl"><table id="cmp"></table></div>
+  </section>
+
+  <section class="box">
+    <h2><small>Contrato do asset</small>Regras pra quem for desenhar a versão final</h2>
+    <ul class="rules">
+      <li><b>Ponto de pega:</b> o (0,0) do objeto é o centro da empunhadura. O motor gira o bastão em volta desse ponto e coloca o punho do recruta por cima.</li>
+      <li><b>Comprimento:</b> 26 px (comum) a 30 px (lunar), mais 6 px de cabo atrás do punho. A largura é de 4 px.</li>
+      <li><b>Partes:</b> pomo, empunhadura com 3 anéis, guarda, haste, ponta e cordão de pulso. Cada raridade só troca as rampas e acrescenta um detalhe (pregos, faixa de alumínio, runas).</li>
+      <li><b>Leitura:</b> a ponta sempre tem um tom mais claro e sangue seco, pra que o olho siga a trajetória do golpe junto com o rastro branco.</li>
+      <li><b>Lunar:</b> é a única com brilho aditivo (na ponta). As runas acendem à noite e pulsam mais forte na Lua de Sangue.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{BATON}}
+{{VIGIA}}
+(function(){
+'use strict';
+const S={tier:'comum',step:5};
+const NAMES={bat:'Haste',grip:'Empunhadura',tip:'Ponta / anel',cord:'Cordão',blood:'Sangue',nail:'Pregos',rune:'Runas'};
+const cache={};
+function render(tier,FW,FH,base,ang,step=5){ const k=[tier,FW,FH,base.x,base.y,ang,step].join('|'); if(cache[k]) return cache[k];
+  const M=BATON.TIERS[tier].M; const cv=PIX.compose({FW,FH,GROUND:FH+20,M,step,rim:'#a9c8f0',parts:[{draw:(c,u)=>BATON.draw(PIX.mkPen(c,u),tier,base,ang)}]}); cache[k]=cv; return cv; }
+function big(){ const c=document.getElementById('big').getContext('2d'); c.imageSmoothingEnabled=false; c.clearRect(0,0,48,18);
+  const cv=render(S.tier,48,18,{x:9,y:10},-0.12,S.step); c.drawImage(cv,0,0);
+  if(S.tier==='lunar' && S.step>=5){ c.save(); c.globalCompositeOperation='lighter'; const x=9+Math.cos(-0.12)*BATON.TIERS[S.tier].len, y=10+Math.sin(-0.12)*BATON.TIERS[S.tier].len; const gr=c.createRadialGradient(x,y,0,x,y,8); gr.addColorStop(0,'rgba(255,80,60,.7)'); gr.addColorStop(1,'rgba(0,0,0,0)'); c.fillStyle=gr; c.fillRect(x-8,y-8,16,16); c.restore(); }
+  const T=BATON.TIERS[S.tier];
+  document.getElementById('sheet').innerHTML=`<b style="font-family:var(--f-display);font-weight:400;font-size:18px">${T.nome}</b> <span class="chip" style="background:${T.cor}">${T.rar}</span><p style="margin:6px 0;color:var(--muted)">${T.desc}</p>`+
+    `<div class="ramps" style="margin-top:8px">`+Object.keys(T.M).map(k=>`<div class="ramp"><span>${NAMES[k]||k}</span>${T.M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('')+`</div>`;
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' [data-'+attr+']').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+function pick(t){ S.tier=t; press('tiersSeg','tier',t); press('tiers','tier',t); big(); }
+document.getElementById('tiersSeg').innerHTML=Object.entries(BATON.TIERS).map(([k,t])=>`<button data-tier="${k}" aria-pressed="${k==='comum'}">${t.rar}</button>`).join('');
+document.querySelectorAll('#tiersSeg button').forEach(b=>b.onclick=()=>pick(b.dataset.tier));
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); big(); });
+document.getElementById('tiers').innerHTML=Object.entries(BATON.TIERS).map(([k,t])=>`<article class="tier" data-tier="${k}" tabindex="0" aria-pressed="${k==='comum'}"><canvas width="84" height="30" data-cv="${k}"></canvas><h3>${t.nome}</h3><span><span class="chip" style="background:${t.cor}">${t.rar}</span></span><p>${t.desc}</p>
+  <dl><dt>Dano</dt><dd>${t.stats.dano} por golpe (3º golpe: ${t.stats.dano*2})</dd><dt>Alcance</dt><dd>${t.stats.alcance}</dd><dt>Velocidade</dt><dd>${t.stats.vel}</dd><dt>Atordoa</dt><dd>${t.stats.atordoa}</dd><dt>Extra</dt><dd>${t.stats.extra}</dd></dl></article>`).join('');
+document.querySelectorAll('#tiers .tier').forEach(el=>{ el.onclick=()=>pick(el.dataset.tier); el.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(el.dataset.tier); } }; });
+document.querySelectorAll('[data-cv]').forEach(c=>{ const g=c.getContext('2d'); g.drawImage(render(c.dataset.cv,84,30,{x:14,y:15},0),0,0); });
+document.getElementById('inhand').innerHTML=Object.entries(BATON.TIERS).map(([k,t])=>`<figure><canvas width="136" height="150" data-hand="${k}"></canvas><figcaption>${t.rar} · guarda</figcaption></figure>`).join('')+`<figure><canvas width="136" height="150" data-hand="belt"></canvas><figcaption>Fora de luta · na cinta</figcaption></figure>`;
+document.querySelectorAll('[data-hand]').forEach(c=>{ const g=c.getContext('2d'); const k=c.dataset.hand; g.drawImage(k==='belt'?VIGIA.frame('media','comum','idle',0):VIGIA.frame('media',k,'guard',0),0,0); });
+document.getElementById('icons').innerHTML=Object.entries(BATON.TIERS).map(([k,t])=>`<figure><canvas width="32" height="32" data-icon="${k}"></canvas>${t.rar}</figure>`).join('')+Object.entries(BATON.TIERS).map(([k,t])=>`<figure><canvas width="32" height="32" data-drop="${k}" style="background:#4a3c4c"></canvas>chão</figure>`).join('');
+document.querySelectorAll('[data-icon]').forEach(c=>{ const g=c.getContext('2d'); const t=BATON.TIERS[c.dataset.icon]; g.fillStyle='#0d0818'; g.fillRect(0,0,32,32); g.fillStyle=t.cor; g.globalAlpha=.35; g.fillRect(1,1,30,30); g.globalAlpha=1; g.fillStyle=t.cor; g.fillRect(0,0,32,2); g.fillRect(0,30,32,2); g.fillRect(0,0,2,32); g.fillRect(30,0,2,32);
+  g.drawImage(render(c.dataset.icon,32,32,{x:9,y:23},-Math.PI/4),0,0); });
+document.querySelectorAll('[data-drop]').forEach(c=>{ const g=c.getContext('2d'); g.fillStyle='rgba(10,4,16,.5)'; g.fillRect(4,24,26,3); const cv=render(c.dataset.drop,40,32,{x:8,y:22},0.05); g.drawImage(cv,-3,0,40,32); });
+document.getElementById('cmp').innerHTML=`<thead><tr><th>Raridade</th><th>Dano</th><th>3º golpe</th><th>Alcance</th><th>Velocidade</th><th>Atordoa</th><th>Extra</th></tr></thead><tbody>`+Object.values(BATON.TIERS).map(t=>`<tr><td><span class="chip" style="background:${t.cor}">${t.rar}</span></td><td>${t.stats.dano}</td><td>${t.stats.dano*2}</td><td>${t.stats.alcance}</td><td>${t.stats.vel}</td><td>${t.stats.atordoa}</td><td>${t.stats.extra}</td></tr>`).join('')+`</tbody>`;
+big();
+})();
+</script>

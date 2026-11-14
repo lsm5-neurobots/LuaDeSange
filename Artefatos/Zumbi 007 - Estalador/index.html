@@ -1,0 +1,456 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Estalador Nº 007</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: ficha de personagem de fliperama. Palco grande à esquerda com o sprite vivo, painel de controle à direita;
+   abaixo, quadros da animação, paleta, antes/depois e a tradução da ficha para a direção de arte. Tema escuro fixo. */
+:root{
+  color-scheme:dark;
+  --night:#120a1f; --panel:#1e1333; --panel2:#2a1b46; --line:#3d2a62;
+  --ink:#f5eefe; --muted:#ac9dca;
+  --blood:#ff2e4d; --moon:#ffd23f; --cosmic:#3ed4ff; --toxic:#8be35a;
+  --f-display:"Bungee", Impact, "Arial Black", sans-serif;
+  --f-pix:"Pixelify Sans", "Courier New", monospace;
+  --f-body:"Barlow", "Segoe UI", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:24px 64px;
+  background:radial-gradient(circle at 90% -10%, rgba(255,46,77,.25), transparent 40%), var(--night)}
+:focus-visible{outline:3px solid var(--moon);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:28px}
+.eyebrow{font-family:var(--f-pix);text-transform:uppercase;letter-spacing:.12em;color:var(--cosmic);font-size:13px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(36px,7vw,76px);line-height:.95;margin:4px 0 8px;
+  text-shadow:4px 4px 0 var(--blood),8px 8px 0 #000}
+h1 small{font-size:.38em;color:var(--moon);display:inline-block;vertical-align:.9em;margin-left:10px;text-shadow:3px 3px 0 #000}
+.lede{max-width:72ch;color:var(--muted);margin:0}
+.lede b{color:var(--ink)}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(20px,3vw,28px);margin:0 0 10px;text-wrap:balance}
+h2 small{display:block;font-family:var(--f-pix);font-size:13px;color:var(--blood);letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+
+.show{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0;border:3px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 0 0 6px #0b0614,10px 10px 0 6px rgba(255,46,77,.35);background:#000}
+.stagewrap{position:relative;min-width:0;background:#000}
+.stagewrap{min-height:320px;overflow:hidden}
+#stage{display:block;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;max-width:100%}
+.fx{position:absolute;pointer-events:none;font-family:var(--f-display);color:#fff;transform:translate(-50%,-50%) rotate(-8deg);
+  text-shadow:3px 3px 0 #000;-webkit-text-stroke:1.5px #000;font-size:clamp(20px,4vw,40px);white-space:nowrap}
+.fx.burst{background:var(--moon);color:var(--blood);padding:4px 14px;clip-path:polygon(0 30%,12% 22%,8% 0,28% 14%,40% 0,52% 16%,70% 2%,74% 20%,100% 12%,88% 40%,100% 60%,84% 70%,96% 100%,70% 84%,56% 100%,44% 82%,24% 98%,22% 76%,0 84%,10% 58%);text-shadow:none}
+.fx.bubble{background:#fff;color:#000;-webkit-text-stroke:0;text-shadow:none;border:3px solid #000;border-radius:50%;padding:6px 14px;transform:translate(-50%,-50%) rotate(4deg)}
+.tagfx{position:absolute;left:10px;top:10px;font-family:var(--f-pix);font-size:12px;background:rgba(10,5,20,.8);border:2px solid #000;border-radius:5px;padding:3px 8px;color:var(--muted)}
+.tagfx b{color:var(--moon)}
+.panel{background:var(--panel);border-left:2px solid var(--line);padding:14px;display:grid;gap:14px;align-content:start;font-family:var(--f-pix);min-width:0}
+.grp{display:grid;gap:6px}
+.lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font-family:var(--f-pix);font-weight:600;font-size:13px;cursor:pointer;padding:6px 10px;border-radius:5px;border:2px solid var(--line);background:var(--panel2);color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--moon);color:#1a0d00;border-color:#000;box-shadow:2px 2px 0 #000}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#b89cff}
+.seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:var(--blood);color:#fff}
+.real{display:flex;gap:12px;align-items:flex-end;background:#0d0818;border:1px solid var(--line);border-radius:6px;padding:8px}
+.real canvas{image-rendering:pixelated;display:block}
+.real span{font-size:11px;color:var(--muted);display:block;text-align:center}
+.note{font-family:var(--f-body);font-size:13px;color:var(--muted);margin:0}
+
+.strip{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px}
+.fr{flex:0 0 auto;display:grid;gap:4px;justify-items:center;background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:6px;cursor:pointer;font-family:var(--f-pix);font-size:11px;color:var(--muted)}
+.fr.on{border-color:var(--moon);color:var(--ink)}
+.fr canvas{width:104px;height:120px;image-rendering:pixelated;background:repeating-conic-gradient(#1a1030 0 25%, #221640 0 50%) 0 0/12px 12px}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:start}
+.box{background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.ramps{display:grid;gap:8px}
+.ramp{display:grid;grid-template-columns:90px repeat(4,1fr);gap:4px;align-items:center;font-family:var(--f-pix);font-size:12px}
+.ramp i{display:block;height:26px;border:2px solid #000;border-radius:3px}
+.ramp .hx{font-size:10px;color:var(--muted);text-align:center;font-family:var(--f-pix)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ba figure{margin:0;display:grid;gap:6px;justify-items:center;background:#0d0818;border:1px solid var(--line);border-radius:8px;padding:10px}
+.ba img,.ba canvas{image-rendering:pixelated;width:100%;max-width:220px;height:auto;aspect-ratio:auto}
+.ba figcaption{font-family:var(--f-pix);font-size:12px;color:var(--muted);text-align:center}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-pix);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td:first-child{font-family:var(--f-pix);color:var(--moon);white-space:nowrap}
+ul.rules{margin:0;padding-left:20px;display:grid;gap:6px}
+ul.rules b{color:#fff}
+.quote{border-left:4px solid var(--toxic);padding:6px 12px;margin:0 0 12px;color:#dfe9d2;font-style:italic;max-width:72ch}
+@media (max-width:860px){ .stagewrap{min-height:0} #stage{height:auto;aspect-ratio:200/140} .show{grid-template-columns:1fr} .panel{border-left:0;border-top:2px solid var(--line)} }
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:240/150;object-fit:contain!important} .fr canvas{width:136px;height:126px}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#a8e0ff} .seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:#943a50;color:#fff}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bestiário · Zumbis comuns · Direção de arte cósmica</div>
+    <h1>Estalador <small>Nº 007</small></h1>
+    <p class="lede">O fungo do vírus tomou conta da cabeça e rachou o rosto em placas. <b>Não enxerga nada</b>: anda estalando a língua e caça pelo som. Se o herói faz barulho, vira na hora e corre em linha reta com os braços abertos pro <b>agarrão de 35</b>. Sem olhos, toda a leitura dele vem da cabeça em flor e das mãos tateando.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="240" height="150" role="img" aria-label="Estalador animado no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Forma</span>
+        <div class="seg forms" id="forms"><button data-form="comum" aria-pressed="true">Comum</button><button data-form="enluarado" aria-pressed="false">Enluarado</button><button data-form="plenilunar" aria-pressed="false">Plenilunar</button></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real no jogo</span>
+        <div class="real"><div><canvas id="r1" width="136" height="126"></canvas><span>ficha (100%)</span></div><div><canvas id="r2" width="96" height="89"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">Na ficha o sprite aparece em 100%. No jogo ele entra a 70%, como os outros zumbis, pra ficar menor que as portas do mapa novo.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">No Ouvir, os quadros 3 e 5 (260 ms) são as pausas em que ele inclina a cabeça e escuta. É a janela pro jogador ficar quieto. No Agarrão, os quadros 2 a 4 são a corrida em linha reta e o 6º (320 ms) segura o agarrão.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><img alt="Sprite atual do Estalador, 128 px" src="data:image/png;base64,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"><figcaption>Atual · pixel chunky, contorno uniforme, 2 tons</figcaption></figure>
+        <figure><canvas id="afterCv" width="136" height="126"></canvas><figcaption>Novo · 4 tons, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor da forma <span id="formName">Comum</span></h2>
+      <div class="ramps" id="ramps"></div>
+      <p class="note" style="margin-top:10px">Corpo em marrom e verde-musgo apagados. O laranja do fungo é a única cor quente, então a cabeça em flor vira o alvo do olho, já que ele não tem rosto.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead>
+      <tbody><tr><td>Cabeça</td><td>Placas de fungo bege e laranja abertas como flor rachada, fendas escuras. Sem olhos. Só a boca por baixo, dentes tortos. Cogumelos no topo.</td><td>7 pétalas alternando bege e laranja em volta de um centro escuro, com uma fenda funda entre cada uma. Abaixo, a boca com dentes tortos abre no estalo. 3 cogumelos de chapéu creme no topo. Nenhum olho em nenhum quadro.</td></tr>
+<tr><td>Tronco</td><td>Jaqueta de couro velha, rasgada, manchas de mofo. Pele com fungo em placas por baixo.</td><td>Jaqueta marrom-escura com gola e zíper, 4 manchas de mofo verde-acinzentado e a gola aberta mostrando a pele com placas de fungo.</td></tr>
+<tr><td>Braços</td><td>Braços tortos, mãos à frente tateando o ar. Dedos tremem. Fungo cobrindo uma das mãos.</td><td>Os dois braços esticados à frente. Os dedos se abrem em leque e alternam de posição a cada quadro (o tremor). A mão da frente é coberta de fungo bege com pintas laranja.</td></tr>
+<tr><td>Pernas</td><td>Calça cargo verde-musgo, bolsos rasgados, botas gastas. Pernas meio dobradas, andando com cuidado.</td><td>Calça cargo com bolso lateral rasgado e botas marrons. Joelhos sempre dobrados e passo curto e lento (150 ms por quadro).</td></tr>
+<tr><td>Movimento</td><td>Para, inclina a cabeça e estala pra ouvir. Se o herói faz barulho, vira e corre em linha reta com os braços abertos.</td><td>Animação Ouvir: inclina a cabeça e as ondas de som saem do rosto a cada estalo ("tk tk"). Agarrão: corrida reta com linhas de velocidade, braços abertos e "AGARRÃO!".</td></tr>
+<tr><td>Enluarado</td><td>Pele albina e fungo azul-claro.</td><td>Pele quase branca, fungo e cogumelos azul-claros, luz de lua azul.</td></tr>
+<tr><td>Plenilunar</td><td>Pele vinho, chifres de fungo e audição em dobro.</td><td>Pele vinho, dois chifres de fungo vermelho saindo da cabeça e ondas de som com o dobro do alcance.</td></tr></tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+/* ===== PIX: pipeline hi-bit compartilhado (vetor → quantiza → luz/sombra → contorno seletivo → luz de lua) ===== */
+const PIX=(function(){
+  const OUTLINE='#170b1c'; let K=1; const setK=k=>{K=k;}, getK=()=>K;
+  const rad=d=>d*Math.PI/180;
+  function hexRgb(h){ const n=parseInt(h.slice(1),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+  function toHex(r,g,b){ return '#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join(''); }
+  function mix(a,b,t){ const A=hexRgb(a),B=hexRgb(b); return toHex(A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,A[2]+(B[2]-A[2])*t); }
+  function ramp(h){ return [mix(h,'#fff2cc',.36),h,mix(h,'#3b2c63',.38),mix(h,'#1c1233',.64)]; }
+  const lp=(p,a,L)=>({x:p.x+Math.sin(rad(a))*L, y:p.y+Math.cos(rad(a))*L});
+  const lerp=(a,b,t)=>({x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t});
+  const P2=(x,y)=>({x,y});
+  function ik(S,W,L1,L2,elbowDown){
+    const dx=W.x-S.x, dy=W.y-S.y, d0=Math.hypot(dx,dy);
+    const d=Math.max(Math.abs(L1-L2)+0.5, Math.min(L1+L2-0.3, d0));
+    const base=Math.atan2(dy,dx), A=Math.acos(Math.max(-1,Math.min(1,(L1*L1+d*d-L2*L2)/(2*L1*d))));
+    const e1={x:S.x+Math.cos(base-A)*L1,y:S.y+Math.sin(base-A)*L1}, e2={x:S.x+Math.cos(base+A)*L1,y:S.y+Math.sin(base+A)*L1};
+    const E=elbowDown?(e1.y>e2.y?e1:e2):(e1.y<e2.y?e1:e2);
+    return {E, W:{x:S.x+Math.cos(base)*d, y:S.y+Math.sin(base)*d}};
+  }
+  function mkPen(ctx,used){
+    const F=c=>{ ctx.fillStyle=c; used.add(c); };
+    const circle=(p,r)=>{ ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill(); };
+    const cap=(a,b,wa,wb)=>{ const dx=b.x-a.x, dy=b.y-a.y, L=Math.hypot(dx,dy)||1, nx=-dy/L, ny=dx/L;
+      ctx.beginPath(); ctx.moveTo(a.x+nx*wa/2,a.y+ny*wa/2); ctx.lineTo(b.x+nx*wb/2,b.y+ny*wb/2); ctx.lineTo(b.x-nx*wb/2,b.y-ny*wb/2); ctx.lineTo(a.x-nx*wa/2,a.y-ny*wa/2); ctx.closePath(); ctx.fill(); circle(a,wa/2); circle(b,wb/2); };
+    const poly=pts=>{ ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); ctx.fill(); };
+    const ell=(x,y,rx,ry,r=0)=>{ ctx.beginPath(); ctx.ellipse(x,y,rx,ry,r,0,Math.PI*2); ctx.fill(); };
+    const rect=(x,y,w,h)=>ctx.fillRect(x,y,w,h);
+    const xf=(a,ox,oy)=>{ const c=Math.cos(a), s=Math.sin(a); ctx.setTransform(c*K,s*K,-s*K,c*K,ox*K,oy*K); };
+    const id=()=>ctx.setTransform(K,0,0,K,0,0);
+    return {F,circle,cap,poly,ell,rect,xf,id};
+  }
+  const tmpCache={};
+  function compose(o){ // o: {FW,FH,GROUND,parts,M,step,flash,rim,rimTop}
+    const {FW,FH,parts,M,step}=o; const key=FW+'x'+FH;
+    if(!tmpCache[key]){ const c=document.createElement('canvas'); c.width=FW; c.height=FH; tmpCache[key]=[c,c.getContext('2d',{willReadFrequently:true})]; }
+    const tctx=tmpCache[key][1];
+    const cinfo=new Map(); Object.entries(M).forEach(([k,r])=>r.forEach((h,t)=>{ if(!cinfo.has(h)) cinfo.set(h,{ramp:k,tone:t}); }));
+    const N=FW*FH, col=new Array(N).fill(null), part=new Int8Array(N).fill(-1);
+    parts.forEach((pt,k)=>{
+      tctx.setTransform(1,0,0,1,0,0); tctx.clearRect(0,0,FW,FH); const used=new Set(); pt.draw(tctx,used); if(!used.size) return;
+      const list=[...used].map(h=>[h,...hexRgb(h)]); const d=tctx.getImageData(0,0,FW,FH).data;
+      for(let i=0;i<N;i++){ if(d[i*4+3]<128) continue; let best=list[0][0], bd=1e9; const r=d[i*4],g=d[i*4+1],b=d[i*4+2];
+        for(const c of list){ const dd=(c[1]-r)**2+(c[2]-g)**2+(c[3]-b)**2; if(dd<bd){bd=dd;best=c[0];} }
+        col[i]=best; part[i]=k; }
+    });
+    const at=(x,y)=> (x<0||y<0||x>=FW||y>=FH)?-1:part[y*FW+x];
+    const out=new Array(N).fill(null);
+    for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){
+      const i=y*FW+x, c=col[i]; if(c===null) continue; const k=part[i];
+      if(step===1){ out[i]='#2a1d40'; continue; }
+      const info=cinfo.get(c); let oc=c;
+      if(step>=3 && info && !parts[k].noShade){
+        let tone=info.tone;
+        if(tone===1){ if(at(x-1,y)!==k||at(x-2,y)!==k||at(x,y+1)!==k||at(x,y+2)!==k) tone=2; else if(at(x+1,y)!==k||at(x,y-1)!==k) tone=0; }
+        const up2=at(x,y-2), ul=at(x+1,y-2); if((up2>k)||(ul>k)) tone=Math.min(3,tone+1);
+        if(step>=4){ const n=[at(x+1,y),at(x-1,y),at(x,y+1),at(x,y-1)]; if(n.some(q=>q>k && !parts[q].smear)) tone=3; }
+        if(parts[k].back) tone=Math.min(3,tone+1);
+        oc=M[info.ramp][tone];
+      }
+      if(o.flash && step>=3) oc='#ffffff';
+      out[i]=oc;
+    }
+    if(step>=5 && !o.flash && o.rim){ const lim=Math.min(FH,(o.GROUND||FH)-8); for(let y=0;y<lim;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]!==null && at(x-1,y)===-1 && !parts[part[i]].noShade && !parts[part[i]].noRim) out[i]=o.rim; } }
+    const cv=document.createElement('canvas'); cv.width=FW; cv.height=FH; const g=cv.getContext('2d'); const img=g.createImageData(FW,FH);
+    const put=(i,h)=>{ const [r,gg,b]=hexRgb(h); img.data[i*4]=r; img.data[i*4+1]=gg; img.data[i*4+2]=b; img.data[i*4+3]=255; };
+    for(let i=0;i<N;i++) if(out[i]) put(i,out[i]);
+    if(step>=4){ for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]!==null) continue; if(at(x+1,y)>=0||at(x-1,y)>=0||at(x,y+1)>=0||at(x,y-1)>=0) put(i,OUTLINE); } }
+    g.putImageData(img,0,0);
+    return cv;
+  }
+  return {setK,getK,OUTLINE,rad,hexRgb,toHex,mix,ramp,lp,lerp,P2,ik,mkPen,compose};
+})();
+
+/* ===== ESTALADOR (nº 007): cego, caça pelo som, hi-bit ===== */
+const ESTA=(function(){
+  const {rad,lp,lerp,P2,mkPen,compose}=PIX;
+  const FW=136, FH=124, GROUND=118, AX=52;
+  const RIM={comum:'#ffd8a0', enluarado:'#c8ecff', plenilunar:'#ffa0b0'};
+  function mats(form){
+    const m={
+      skin:['#b8a490','#8a7462','#5e4c42','#3a2e2c'],
+      fung:['#fff0c8','#e8c890','#b08a5a','#6a4a30'],
+      fung2:['#ffc070','#e8803a','#a84e20','#5e2810'],
+      jacket:['#7a5a46','#4e382c','#34241e','#1e1412'],
+      mold:['#b8c48a','#8a9a5e','#5e6a3e','#3a4224'],
+      pants:['#7a8a5a','#55633c','#3a4428','#222a18'],
+      boot:['#6a5a4a','#3e3228','#2a201a','#16100c'],
+      mouth:['#6a2a30','#3a141c','#240a10','#140408'],
+      teeth:['#f0e4b0','#c8b478','#8e7c4c','#564a2c'],
+      cap:['#fff4dc','#e8d4a8','#b09a70','#6e5c40'],
+    };
+    if(form==='enluarado'){ m.skin=['#fff6f0','#e8d8d4','#b8a4a8','#7a6670']; m.fung=['#f0ffff','#a8e0ff','#68a8e0','#3a6aa0']; m.fung2=['#d8f4ff','#78c8ff','#3a8ad8','#1a4a8a']; m.cap=['#ffffff','#d0ecff','#90b8e0','#5a7aa0']; }
+    if(form==='plenilunar'){ m.skin=['#c86a7a','#943a50','#621e36','#3a0e20']; m.fung=['#ffe0c0','#e8a070','#b0603a','#6a3018']; m.fung2=['#ff8a6a','#d84a3a','#8e2420','#50100e']; m.cap=['#ffd8b0','#e8a070','#a8603a','#5e3018']; }
+    return m;
+  }
+  const NAMES={skin:'Pele',fung:'Fungo bege',fung2:'Fungo laranja',jacket:'Jaqueta de couro',mold:'Mofo',pants:'Calça cargo',boot:'Bota',teeth:'Dentes'};
+  const REST={hx:0,lean:10,head:-4,tilt:0,open:0.2,aFs:62,aFe:84,aBs:70,aBe:94,lFh:14,lFk:-6,lBh:-10,lBk:-22,flash:0,trem:0,click:0};
+  const ANIMS={
+    idle:{nome:'Parado (estalando)',n:6,dur:()=>150,pose:i=>{ const p=i/6*Math.PI*2, s=Math.sin(p); return {head:-4+2*s, open:i%3===0?0.6:0.15, click:i%3===0?1:0, trem:i%2, aFs:62+2*s, aFe:84+(i%2?3:-3), aBs:70-2*s, aBe:94+(i%2?-3:3), lean:10+s}; }},
+    walk:{nome:'Andar com cuidado',n:8,dur:()=>150,pose:i=>{ const p=i/8*Math.PI*2; const lFh=8+14*Math.sin(p), lBh=8+14*Math.sin(p+Math.PI);
+      return {lFh, lFk:lFh-10-18*Math.max(0,Math.cos(p)), lBh, lBk:lBh-10-18*Math.max(0,Math.cos(p+Math.PI)), lean:12, head:-2+3*Math.sin(2*p), trem:i%2, aFs:64+6*Math.sin(p), aFe:86+(i%2?4:-4), aBs:72-6*Math.sin(p), aBe:96+(i%2?-4:4), click:i===2||i===6?1:0, open:i===2||i===6?0.5:0.15}; }},
+    listen:{nome:'Ouvir (para e estala)',n:6,dur:i=>[180,140,260,140,260,180][i],pose:i=>[
+      {head:-6,tilt:0},{head:-14,tilt:1,lean:6,click:1,open:0.6},{head:-16,tilt:1,lean:5,open:0.1},
+      {head:-14,tilt:1,lean:5,click:1,open:0.6},{head:-18,tilt:1,lean:4,open:0.1,aFs:56,aFe:76},{head:-6,tilt:0}][i]},
+    attack:{nome:'Agarrão (35)',n:7,dur:i=>[90,110,110,110,70,320,160][i],pose:i=>[
+      {head:4,lean:20,open:0.8,aFs:90,aFe:110,aBs:96,aBe:120,lFh:20,lBh:-16,lBk:-24,hx:1},
+      {head:8,lean:30,open:1,aFs:100,aFe:120,aBs:110,aBe:130,lFh:36,lFk:10,lBh:-26,lBk:-50,hx:4},
+      {head:8,lean:32,open:1,aFs:100,aFe:120,aBs:110,aBe:130,lFh:-10,lFk:-30,lBh:30,lBk:6,hx:6},
+      {head:8,lean:32,open:1,aFs:100,aFe:120,aBs:110,aBe:130,lFh:36,lFk:10,lBh:-26,lBk:-50,hx:8},
+      {head:12,lean:30,open:1,aFs:80,aFe:60,aBs:84,aBe:64,lFh:30,lFk:8,lBh:-22,lBk:-34,hx:12},
+      {head:14,lean:28,open:0.9,aFs:76,aFe:50,aBs:80,aBe:54,lFh:28,lFk:8,lBh:-20,lBk:-32,hx:12,trem:1},
+      {head:2,lean:16,open:0.4,hx:5}][i]},
+    hurt:{nome:'Dano',n:4,dur:i=>[80,110,120,150][i],pose:i=>[
+      {lean:-8,head:-26,open:1,hx:-6,flash:1,aFs:30,aFe:20,aBs:24,aBe:14},
+      {lean:-4,head:-18,open:0.8,hx:-5,aFs:40,aFe:40,aBs:36,aBe:36},
+      {lean:4,head:-8,open:0.4,hx:-2},
+      {}][i]},
+  };
+  function poseOf(anim,i){ return Object.assign({},REST,ANIMS[anim].pose(i)); }
+  function skeleton(P){
+    const hip={x:AX+P.hx,y:64};
+    const hipF={x:hip.x+3,y:hip.y}, hipB={x:hip.x-3,y:hip.y};
+    const kneeF=lp(hipF,P.lFh,21), ankleF=lp(kneeF,P.lFk,21), kneeB=lp(hipB,P.lBh,21), ankleB=lp(kneeB,P.lBk,21);
+    const dy=GROUND-Math.max(ankleF.y+4.5, ankleB.y+4.5);
+    [hip,hipF,hipB,kneeF,ankleF,kneeB,ankleB].forEach(p=>p.y+=dy);
+    const a=rad(P.lean), c=Math.cos(a), s=Math.sin(a);
+    const T=(lx,ly)=>({x:hip.x+lx*c-ly*s, y:hip.y+lx*s+ly*c});
+    const neck=T(2,-31), shF=T(6,-26), shB=T(-3,-27);
+    const ha=rad(P.lean+P.head), hc=Math.cos(ha), hs=Math.sin(ha);
+    const H=(lx,ly)=>({x:neck.x+lx*hc-ly*hs, y:neck.y+lx*hs+ly*hc});
+    const elF=lp(shF,P.aFs,13), wrF=lp(elF,P.aFe,13), elB=lp(shB,P.aBs,13), wrB=lp(elB,P.aBe,13);
+    return {hip,hipF,hipB,kneeF,ankleF,kneeB,ankleB,neck,shF,shB,elF,wrF,elB,wrB,a,ha,H,T,mouth:H(10,-5),head:H(3,-16)};
+  }
+  function drawArm(p,M,sh,el,wr,front,P){
+    p.id();
+    p.F(M.jacket[1]); p.cap(sh,el,7.6,6.8); p.cap(el,lerp(el,wr,0.6),6.8,6);
+    p.F(M.mold[1]); const m=lerp(sh,el,0.5); p.ell(m.x,m.y,2,1.4);
+    p.F(M.jacket[0]); p.cap(lerp(sh,el,0.1),lerp(sh,el,0.4),1,1);
+    p.F(M.skin[1]); p.cap(lerp(el,wr,0.55),wr,4.4,3.8);
+    const ang=Math.atan2(wr.y-el.y,wr.x-el.x); p.xf(ang,wr.x,wr.y);
+    p.F(front?M.fung[1]:M.skin[1]); p.poly([[-0.5,-2.6],[4,-3],[4.6,2.8],[-0.5,2.6]]);
+    const tr=P.trem?0.8:-0.8;
+    for(let k=0;k<4;k++){ const y0=-2.4+k*1.6; const sp=(k-1.5)*0.35+tr*0.1; p.F(front&&k<2?M.fung[1]:M.skin[1]); p.cap(P2(4,y0),P2(8.4,y0+sp*4+tr*(k%2?1:-1)),1.6,1.3); }
+    if(front){ p.F(M.fung2[1]); p.ell(1.4,-1,1.4,1); p.ell(3,1.6,1,0.8); }
+    p.id();
+  }
+  function drawLeg(p,M,hip,knee,ankle,front){
+    p.id();
+    p.F(M.pants[1]); p.cap(hip,knee,9.8,8.6); p.cap(knee,ankle,8.6,7.4);
+    p.F(M.pants[2]); const pk=lerp(hip,knee,0.6); p.rect(pk.x-2,pk.y-1.6,5,4); p.F(M.pants[3]); p.rect(pk.x-2,pk.y+2.2,2,1.4);
+    p.F(M.boot[1]); p.cap(lerp(knee,ankle,0.75),ankle,8.4,8);
+    const a=ankle; p.poly([[a.x-4.4,a.y-2],[a.x+3.6,a.y-2],[a.x+9,a.y+1],[a.x+9.6,a.y+3.8],[a.x-4.6,a.y+3.8]]);
+    p.F(M.boot[3]); p.rect(a.x-4.6,a.y+3,14.2,1.2);
+    p.F(M.boot[0]); p.rect(a.x+2.6,a.y-0.6,2.6,0.9);
+  }
+  function drawTorso(p,M,sk){
+    p.xf(sk.a,sk.hip.x,sk.hip.y);
+    p.F(M.jacket[1]); p.poly([[-11,1.4],[10,1.4],[11,-9],[12,-20],[9,-28],[3,-32],[-5,-32],[-11,-27],[-12.6,-16],[-11.6,-6]]);
+    p.F(M.jacket[2]); p.rect(4,-30,1,30); p.rect(-9,-20,1,14);
+    p.F(M.jacket[0]); p.poly([[2,-31],[8,-29],[6,-22],[3,-26]]); p.rect(-6,-25,1,9);
+    p.F(M.skin[2]); p.poly([[4.4,-29],[8.4,-27],[6.8,-18],[5,-20]]);
+    p.F(M.fung[1]); p.ell(6,-23,1.6,1.4); p.F(M.fung2[1]); p.ell(6.6,-20,1,0.9);
+    p.F(M.mold[1]); [[-6,-14,2.4,1.6],[2,-8,2,1.4],[-9,-24,1.6,1.2],[8,-12,1.8,1.4]].forEach(([x,y,rx,ry])=>p.ell(x,y,rx,ry));
+    p.F(M.mold[2]); p.rect(-7,-14,1,1); p.rect(1.4,-8,1,1);
+    p.F(M.jacket[3]); p.poly([[-12,-4],[-8,-2],[-6,1.4],[-11,1.4]]);
+    p.F(M.pants[1]); p.poly([[-11.4,-2],[10.2,-2],[10.4,2.4],[-11.6,2.4]]);
+    p.id();
+  }
+  function drawHead(p,M,sk,P,form){
+    p.xf(sk.ha,sk.neck.x,sk.neck.y);
+    p.F(M.skin[1]); p.cap(P2(0,3),P2(1,-6),6.6,6); p.ell(-3,-12.6,2.2,3.2);
+    p.F(M.mouth[1]); const o=P.open; p.poly([[2,-8],[11,-8.4],[11.4,-6+o*4],[3,-5+o*3]]);
+    p.F(M.teeth[1]); [[3.6,-8.2,1.2,1.6],[5.8,-8.4,1.3,1.3],[8.6,-8.2,1,1.8],[10,-8.4,1.1,1.1]].forEach(([x,y,w,h])=>p.rect(x,y,w,h));
+    p.F(M.skin[1]); p.poly([[1,-5+o*3.6],[11,-6+o*4.4],[11.6,-3.4+o*4.4],[8,-1+o*3],[2,-1.6+o*3]]);
+    p.F(M.teeth[1]); p.rect(4,-5.6+o*3.4,1.2,1.2); p.rect(7.6,-5.8+o*3.8,1.2,1.4);
+    // flor de placas
+    const petals=[[-150,8,'fung'],[-118,10,'fung2'],[-90,11,'fung'],[-60,11,'fung2'],[-32,10,'fung'],[-5,9,'fung2'],[20,7,'fung']];
+    const cx=3, cy=-15;
+    petals.forEach(([ang,L,mt],k)=>{ const A=rad(ang+(P.tilt?6:0)), B=A+0.42, C=A-0.42;
+      p.F(M[mt][1]); p.poly([[cx,cy],[cx+Math.cos(C)*L*0.85,cy+Math.sin(C)*L*0.85],[cx+Math.cos(A)*(L+1.6),cy+Math.sin(A)*(L+1.6)],[cx+Math.cos(B)*L*0.85,cy+Math.sin(B)*L*0.85]]); });
+    p.F(M.mouth[2]); petals.forEach(([ang,L])=>{ const A=rad(ang+(P.tilt?6:0))+0.42; p.cap(P2(cx,cy),P2(cx+Math.cos(A)*L*0.7,cy+Math.sin(A)*L*0.7),0.9,0.7); });
+    p.F(M.mouth[3]); p.ell(cx,cy,2.2,2);
+    p.F(M.fung2[2]); p.ell(cx,cy,1.2,1.1);
+    // cogumelos
+    [[-2,-25,1],[3,-27,1.3],[7,-25,0.9]].forEach(([x,y,s])=>{ p.F(M.cap[1]); p.rect(x-0.5,y,1.2,3*s); p.ell(x+0.1,y,2.4*s,1.5*s); p.F(M.fung2[2]); p.rect(x-1,y-0.6,1,0.8); });
+    if(form==='plenilunar'){ p.F(M.fung2[1]); p.poly([[-4,-20],[-10,-30],[-6,-21]]); p.poly([[8,-21],[13,-31],[10,-21]]); }
+    p.id();
+  }
+  const cache=new Map();
+  function frame(form,anim,fi,step=5){
+    const K=PIX.getK(), key=form+anim+fi+step+'@'+K; if(cache.has(key)) return cache.get(key);
+    const P=poseOf(anim,fi), M=mats(form), sk=skeleton(P);
+    const parts=[
+      {back:true, draw:(c,u)=>drawArm(mkPen(c,u),M,sk.shB,sk.elB,sk.wrB,false,P)},
+      {back:true, draw:(c,u)=>drawLeg(mkPen(c,u),M,sk.hipB,sk.kneeB,sk.ankleB,false)},
+      {draw:(c,u)=>drawTorso(mkPen(c,u),M,sk)},
+      {draw:(c,u)=>drawLeg(mkPen(c,u),M,sk.hipF,sk.kneeF,sk.ankleF,true)},
+      {draw:(c,u)=>drawHead(mkPen(c,u),M,sk,P,form)},
+      {draw:(c,u)=>drawArm(mkPen(c,u),M,sk.shF,sk.elF,sk.wrF,true,P)},
+    ];
+    const cv=compose({FW:Math.round(FW*K),FH:Math.round(FH*K),GROUND:GROUND*K,parts,M,step,flash:P.flash,rim:RIM[form]});
+    const sc=q=>({x:q.x*K,y:q.y*K}); cv._mouth=sc(sk.mouth); cv._head=sc(sk.head); cv._hand=sc(sk.wrF);
+    cache.set(key,cv); return cv;
+  }
+  return {FW,FH,GROUND,AX,ANIMS,NAMES,RIM,mats,poseOf,frame};
+})();
+
+(function(){
+'use strict';
+const Z=ESTA;
+const SW=240, SH=150, SGROUND=140, FW=Z.FW, FH=Z.FH, GROUND=Z.GROUND;
+/* ---------- stage background (pixel) ---------- */
+const BGP={
+  comum:{sky:['#0e0a26','#1c1440','#2e1f58','#46307a'], moon:'#f3eed6', moonD:'#cfc6a6', bld:'#23183f', bld2:'#2f2152', win:'#ffd86a', lamp:'rgba(255,214,120,', ground:['#5a4a5a','#4a3c4c','#3a2e3e'], dot:'rgba(160,190,255,.18)'},
+  enluarado:{sky:['#140a2c','#24124a','#3a1d6a','#5a2f92'], moon:'#efe0ff', moonD:'#c4a8f0', bld:'#26163f', bld2:'#352058', win:'#d6b8ff', lamp:'rgba(210,180,255,', ground:['#544468','#463858','#382c48'], dot:'rgba(210,180,255,.2)'},
+  plenilunar:{sky:['#1a0408','#3a0812','#64101e','#8e1a2a'], moon:'#ff4a3a', moonD:'#c42020', bld:'#2a0a14', bld2:'#3a1020', win:'#ff8a5a', lamp:'rgba(255,120,80,', ground:['#5a3438','#4a2a2e','#3a2024'], dot:'rgba(255,120,90,.2)'}
+};
+function hsh(n){ n=Math.sin(n*127.1)*43758.5453; return n-Math.floor(n); }
+function drawBG(g,form,scroll,t){
+  const B=BGP[form];
+  const bands=[0,34,62,86,SGROUND];
+  for(let b=0;b<4;b++){ g.fillStyle=B.sky[b]; g.fillRect(0,bands[b],SW,bands[b+1]-bands[b]);
+    if(b<3){ g.fillStyle=B.sky[b+1]; for(let y=bands[b+1]-4;y<bands[b+1];y++) for(let x=(y%2);x<SW;x+=2) if(y>=bands[b+1]-2 || (x+y)%4===0) g.fillRect(x,y,1,1); } }
+  for(let i=0;i<40;i++){ g.fillStyle=hsh(i)>.6?'#fff':'#9a8ac8'; g.fillRect(Math.floor(hsh(i*3)*SW),Math.floor(hsh(i*7)*60),1,1); }
+  // halftone ring around moon
+  const mx=152, my=30, mr=17;
+  g.fillStyle=B.dot; for(let y=my-34;y<my+34;y+=3) for(let x=mx-34;x<mx+34;x+=3){ const d=Math.hypot(x-mx,y-my); if(d>mr+2 && d<34 && hsh(x*13+y)>(d-mr)/18) g.fillRect(x,y,1,1); }
+  for(let y=-mr;y<=mr;y++){ const w=Math.floor(Math.sqrt(mr*mr-y*y)); g.fillStyle=B.moon; g.fillRect(mx-w,my+y,w*2+1,1); }
+  g.fillStyle=B.moonD; [[-6,-5,4],[5,3,3],[-2,8,2],[8,-8,2]].forEach(([dx,dy,r])=>{ for(let y=-r;y<=r;y++){ const w=Math.floor(Math.sqrt(r*r-y*y)); g.fillRect(mx+dx-w,my+dy+y,w*2+1,1); } });
+  // far casario (scroll 0.3)
+  const o1=Math.floor(scroll*0.3);
+  for(let i=-1;i<9;i++){ const bi=Math.floor(o1/30)+i; const x=bi*30-o1; const h=40+Math.floor(hsh(bi)*24);
+    g.fillStyle=B.bld; g.fillRect(x,SGROUND-h,29,h); g.fillRect(x+2,SGROUND-h-3,25,3);
+    if(hsh(bi+5)>.5){ g.fillRect(x+11,SGROUND-h-9,7,6); g.fillRect(x+13,SGROUND-h-12,3,3); }
+    for(let wy=0;wy<3;wy++) for(let wx=0;wx<3;wx++){ const lit=hsh(bi*11+wx+wy*5)>.72; g.fillStyle=lit?B.win:B.bld2; g.fillRect(x+4+wx*8,SGROUND-h+6+wy*11,4,6); } }
+  // lamps (scroll 0.7)
+  const o2=Math.floor(scroll*0.7);
+  for(let i=-1;i<3;i++){ const li=Math.floor(o2/110)+i; const x=li*110-o2+60;
+    g.fillStyle='#120a1c'; g.fillRect(x,SGROUND-58,2,58); g.fillRect(x,SGROUND-58,10,2); g.fillRect(x+8,SGROUND-57,4,3);
+    const fl=0.16+Math.sin(t*3+li)*0.02; g.fillStyle=B.lamp+fl+')'; g.beginPath(); g.moveTo(x+8,SGROUND-54); g.lineTo(x-6,SGROUND); g.lineTo(x+26,SGROUND); g.closePath(); g.fill(); }
+  // ground: pedra portuguesa
+  const o3=Math.floor(scroll);
+  g.fillStyle=B.ground[0]; g.fillRect(0,SGROUND,SW,SH-SGROUND); g.fillStyle='#120a1c'; g.fillRect(0,SGROUND,SW,1);
+  g.fillStyle=B.ground[1]; for(let y=SGROUND+2;y<SH;y+=3) for(let x=0;x<SW;x++){ const wx=(x+o3)%24; if(Math.abs(Math.sin((wx/24)*Math.PI*2)*2+ (y-SGROUND)%6-3)<0.8) g.fillRect(x,y,1,1); }
+  g.fillStyle=B.ground[2]; for(let x=-(o3%9);x<SW;x+=9) g.fillRect(x,SGROUND+1,1,SH-SGROUND);
+}
+
+
+const S={form:'comum', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, fx:[]};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+const X0=30, Y0=()=>SGROUND-GROUND;
+function onFrame(){ const P=Z.poseOf(S.anim,S.fi); if(P.click){ const cv=Z.frame(S.form,S.anim,S.fi,5); S.fx.push({t:0,x:X0+cv._head.x+4,y:Y0()+cv._head.y,big:S.form==='plenilunar'}); } }
+function stageFx(cv,X,Y,P,dt){
+  S.fx.forEach(f=>{ f.t+=dt; const R=(f.big?60:34)*f.t/0.7; for(let k=0;k<3;k++){ const r=R-k*7; if(r<3) continue; g.strokeStyle='rgba(255,236,200,'+Math.max(0,0.8-f.t)+')'; g.lineWidth=1; g.beginPath(); g.arc(f.x,f.y,r,-1.1,1.1); g.stroke(); g.beginPath(); g.arc(f.x,f.y,r,Math.PI-1.1,Math.PI+1.1); g.stroke(); } }); S.fx=S.fx.filter(f=>f.t<0.7);
+  if(S.anim==='attack' && S.fi>=1 && S.fi<=4){ g.fillStyle='rgba(255,255,255,.6)'; for(let k=0;k<7;k++){ const y=Y+40+((k*23)%60), L=14+(k*7)%18, x=((T*300+k*67)%140); g.fillRect(Math.round(X-10+x),y,L,1); } }
+  if(S.anim==='attack' && (S.fi===4||S.fi===5)) return ['burst','AGARRÃO!',X+cv._hand.x+12,Y+cv._hand.y-16];
+  if(P.click) return ['bubble','tk tk',X+cv._head.x+22,Y+cv._head.y-14];
+  if(S.anim==='hurt' && S.fi<=1) return ['burst','CRAU!',X+44,Y+30];
+  return null; }
+let last=performance.now(), T=0;
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=Z.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); onFrame(); updStrip(); } }
+  if(S.anim==='walk' && S.playing) S.scroll+=dt*(S.slow?6:12);
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function draw(dt){
+  drawBG(g,S.form,S.scroll,T);
+  const cv=Z.frame(S.form,S.anim,S.fi,S.step), X=X0, Y=Y0(), P=Z.poseOf(S.anim,S.fi);
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-2;y<=2;y++){ const w=Math.floor(Math.sqrt(1-(y/3)**2)*22); g.fillRect(X+Z.AX-w+4,SGROUND+y+1,w*2,1); }
+  g.drawImage(cv,X,Y);
+  const f=stageFx(cv,X,Y,P,dt);
+  if(f) setFx(f[0],f[1],f[2],f[3]); else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${Z.ANIMS[S.anim].n} · ${Z.ANIMS[S.anim].dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,136,126); r1.drawImage(cv,0,0);
+  const r2=document.getElementById('r2').getContext('2d'); r2.clearRect(0,0,96,89); PIX.setK(0.7); r2.drawImage(Z.frame(S.form,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(Z.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; S.fx=[]; press('anims','anim',S.anim); buildStrip(); });
+document.querySelectorAll('#forms button').forEach(b=>b.onclick=()=>{ S.form=b.dataset.form; press('forms','form',S.form); buildStrip(); buildRamps(); after(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%Z.ANIMS[S.anim].n; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=Z.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(Z.frame(S.form,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms${A.hits&&A.hits[i]?' ✦':''}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=Z.mats(S.form); document.getElementById('formName').textContent={comum:'Comum',enluarado:'Enluarado',plenilunar:'Plenilunar'}[S.form];
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(Z.NAMES).map(k=>`<div class="ramp"><span>${Z.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('')+
+  `<div class="ramp"><span>Contorno · Lua</span><i style="background:${PIX.OUTLINE}"></i><i style="background:${Z.RIM[S.form]}"></i><span></span><span></span></div>`; }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(Z.frame(S.form,'listen',2,5),0,0); }
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>
+
+</body></html>

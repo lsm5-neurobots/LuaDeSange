@@ -1,0 +1,23 @@
+.pv { background: var(--panel2); border: 2px solid var(--line); border-radius: 8px; padding: 8px 12px; margin-top: 8px; display: grid; gap: 8px }
+.pv.bad { border-color: var(--blood) }
+.pv-h { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap }
+.pv-st { font-family: var(--f-pix); font-size: 12px; padding: 2px 8px; border-radius: 999px }
+.pv-st.ok { color: var(--ok); border: 1px solid var(--ok) }
+.pv-st.bad { color: #fff; background: var(--blood) }
+.pv-rs { display: flex; flex-wrap: wrap; gap: 8px }
+.pv-r { display: flex; align-items: center; gap: 8px; background: #0d0818; border: 2px solid var(--line); border-radius: 8px; padding: 4px 10px 4px 6px; font-family: var(--f-pix); font-size: 13px }
+.pv-r span { display: grid }
+.pv-r small { color: var(--muted); font-size: 12px }
+.pv-r em { font-style: normal; margin-left: 4px }
+.pv-r.ok em { color: var(--ok) }
+.pv-r.miss { border-color: var(--blood); background: #2a0912 }
+.pv-r.miss small { color: #ff9aa8 }
+.pv-r.miss em { color: #fff; background: var(--blood); border-radius: 4px; padding: 1px 6px; font-size: 12px }
+.pv-alert { background: #2a0912; border: 1px dashed var(--blood); border-radius: 6px; padding: 8px 10px; font-size: 13px }
+.pv-tt { display: block; color: #ff7088; font-family: var(--f-display); font-weight: normal; font-size: 15px; margin-bottom: 4px }
+.pv-tt u { text-decoration: none; color: #fff; background: var(--blood); border-radius: 4px; padding: 0 5px }
+.pv-alert ul { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 6px }
+.pv-alert li img { vertical-align: middle }
+.pv-alert .btn { margin-left: 4px; vertical-align: middle }
+.pv-solo { margin: 6px 0 0; color: var(--moon) }
+.btn.pv-falta[disabled] { background: #3a0d18; border-color: var(--blood); color: #ff9aa8; opacity: 1 }

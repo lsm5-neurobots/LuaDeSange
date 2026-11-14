@@ -1,0 +1,467 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Barrigudo Nº 006</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: ficha de personagem de fliperama. Palco grande à esquerda com o sprite vivo, painel de controle à direita;
+   abaixo, quadros da animação, paleta, antes/depois e a tradução da ficha para a direção de arte. Tema escuro fixo. */
+:root{
+  color-scheme:dark;
+  --night:#120a1f; --panel:#1e1333; --panel2:#2a1b46; --line:#3d2a62;
+  --ink:#f5eefe; --muted:#ac9dca;
+  --blood:#ff2e4d; --moon:#ffd23f; --cosmic:#3ed4ff; --toxic:#8be35a;
+  --f-display:"Bungee", Impact, "Arial Black", sans-serif;
+  --f-pix:"Pixelify Sans", "Courier New", monospace;
+  --f-body:"Barlow", "Segoe UI", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:24px 64px;
+  background:radial-gradient(circle at 90% -10%, rgba(255,46,77,.25), transparent 40%), var(--night)}
+:focus-visible{outline:3px solid var(--moon);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:28px}
+.eyebrow{font-family:var(--f-pix);text-transform:uppercase;letter-spacing:.12em;color:var(--cosmic);font-size:13px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(36px,7vw,76px);line-height:.95;margin:4px 0 8px;
+  text-shadow:4px 4px 0 var(--blood),8px 8px 0 #000}
+h1 small{font-size:.38em;color:var(--moon);display:inline-block;vertical-align:.9em;margin-left:10px;text-shadow:3px 3px 0 #000}
+.lede{max-width:72ch;color:var(--muted);margin:0}
+.lede b{color:var(--ink)}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(20px,3vw,28px);margin:0 0 10px;text-wrap:balance}
+h2 small{display:block;font-family:var(--f-pix);font-size:13px;color:var(--blood);letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+
+.show{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0;border:3px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 0 0 6px #0b0614,10px 10px 0 6px rgba(255,46,77,.35);background:#000}
+.stagewrap{position:relative;min-width:0;background:#000}
+.stagewrap{min-height:320px;overflow:hidden}
+#stage{display:block;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;max-width:100%}
+.fx{position:absolute;pointer-events:none;font-family:var(--f-display);color:#fff;transform:translate(-50%,-50%) rotate(-8deg);
+  text-shadow:3px 3px 0 #000;-webkit-text-stroke:1.5px #000;font-size:clamp(20px,4vw,40px);white-space:nowrap}
+.fx.burst{background:var(--moon);color:var(--blood);padding:4px 14px;clip-path:polygon(0 30%,12% 22%,8% 0,28% 14%,40% 0,52% 16%,70% 2%,74% 20%,100% 12%,88% 40%,100% 60%,84% 70%,96% 100%,70% 84%,56% 100%,44% 82%,24% 98%,22% 76%,0 84%,10% 58%);text-shadow:none}
+.fx.bubble{background:#fff;color:#000;-webkit-text-stroke:0;text-shadow:none;border:3px solid #000;border-radius:50%;padding:6px 14px;transform:translate(-50%,-50%) rotate(4deg)}
+.tagfx{position:absolute;left:10px;top:10px;font-family:var(--f-pix);font-size:12px;background:rgba(10,5,20,.8);border:2px solid #000;border-radius:5px;padding:3px 8px;color:var(--muted)}
+.tagfx b{color:var(--moon)}
+.panel{background:var(--panel);border-left:2px solid var(--line);padding:14px;display:grid;gap:14px;align-content:start;font-family:var(--f-pix);min-width:0}
+.grp{display:grid;gap:6px}
+.lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font-family:var(--f-pix);font-weight:600;font-size:13px;cursor:pointer;padding:6px 10px;border-radius:5px;border:2px solid var(--line);background:var(--panel2);color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--moon);color:#1a0d00;border-color:#000;box-shadow:2px 2px 0 #000}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#b89cff}
+.seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:var(--blood);color:#fff}
+.real{display:flex;gap:12px;align-items:flex-end;background:#0d0818;border:1px solid var(--line);border-radius:6px;padding:8px}
+.real canvas{image-rendering:pixelated;display:block}
+.real span{font-size:11px;color:var(--muted);display:block;text-align:center}
+.note{font-family:var(--f-body);font-size:13px;color:var(--muted);margin:0}
+
+.strip{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px}
+.fr{flex:0 0 auto;display:grid;gap:4px;justify-items:center;background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:6px;cursor:pointer;font-family:var(--f-pix);font-size:11px;color:var(--muted)}
+.fr.on{border-color:var(--moon);color:var(--ink)}
+.fr canvas{width:104px;height:120px;image-rendering:pixelated;background:repeating-conic-gradient(#1a1030 0 25%, #221640 0 50%) 0 0/12px 12px}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:start}
+.box{background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.ramps{display:grid;gap:8px}
+.ramp{display:grid;grid-template-columns:90px repeat(4,1fr);gap:4px;align-items:center;font-family:var(--f-pix);font-size:12px}
+.ramp i{display:block;height:26px;border:2px solid #000;border-radius:3px}
+.ramp .hx{font-size:10px;color:var(--muted);text-align:center;font-family:var(--f-pix)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ba figure{margin:0;display:grid;gap:6px;justify-items:center;background:#0d0818;border:1px solid var(--line);border-radius:8px;padding:10px}
+.ba img,.ba canvas{image-rendering:pixelated;width:100%;max-width:220px;height:auto;aspect-ratio:auto}
+.ba figcaption{font-family:var(--f-pix);font-size:12px;color:var(--muted);text-align:center}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-pix);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td:first-child{font-family:var(--f-pix);color:var(--moon);white-space:nowrap}
+ul.rules{margin:0;padding-left:20px;display:grid;gap:6px}
+ul.rules b{color:#fff}
+.quote{border-left:4px solid var(--toxic);padding:6px 12px;margin:0 0 12px;color:#dfe9d2;font-style:italic;max-width:72ch}
+@media (max-width:860px){ .stagewrap{min-height:0} #stage{height:auto;aspect-ratio:200/140} .show{grid-template-columns:1fr} .panel{border-left:0;border-top:2px solid var(--line)} }
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:240/150;object-fit:contain!important} .fr canvas{width:128px;height:124px}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#5af0e0} .seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:#e05aa8;color:#fff}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bestiário · Zumbis comuns · Direção de arte cósmica</div>
+    <h1>Barrigudo <small>Nº 006</small></h1>
+    <p class="lede">Um zumbi inchado pelos gases da decomposição. É lento e não bate forte, <b>mas explode quando morre</b> (15 de dano em 1,5 tile). Antes de estourar, as bolhas brilham e a barriga incha mais. É o aviso pro recruta se afastar.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="240" height="150" role="img" aria-label="Barrigudo animado no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Forma</span>
+        <div class="seg forms" id="forms"><button data-form="comum" aria-pressed="true">Comum</button><button data-form="enluarado" aria-pressed="false">Enluarado</button><button data-form="plenilunar" aria-pressed="false">Plenilunar</button></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real no jogo</span>
+        <div class="real"><div><canvas id="r1" width="132" height="120"></canvas><span>ficha (100%)</span></div><div><canvas id="r2" width="92" height="84"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">No jogo ele entra a 70%, como os outros zumbis, pra ficar menor que as portas do mapa novo.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">No Explodir, os 5 primeiros quadros (900 ms) são o aviso, com a barriga crescendo e as bolhas acendendo. No 6º (✦) vem o flash e a explosão; no 7º o sprite some e só ficam os pedaços.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><img alt="Sprite atual do Barrigudo, 128 px" src="data:image/png;base64,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"><figcaption>Atual · pixel chunky, contorno uniforme, 2 tons</figcaption></figure>
+        <figure><canvas id="afterCv" width="132" height="120"></canvas><figcaption>Novo · 4 tons, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor da forma <span id="formName">Comum</span></h2>
+      <div class="ramps" id="ramps"></div>
+      <p class="note" style="margin-top:10px">As bolhas amarelas são o "sinal de perigo": no aviso de explosão elas crescem e ganham brilho aditivo.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead>
+      <tbody>
+        <tr><td>Cabeça</td><td>Cabeça pequena pro corpo, afundada entre os ombros, papada caída. Bochechas inchadas, olhos quase fechados. Careca com manchas roxas.</td><td>A cabeça fica quase dentro dos ombros, com uma papada que cobre o pescoço. Bochecha com ponto de luz, olhos em fenda e 2 manchas roxas na careca. A mandíbula abre na barrigada e na explosão.</td></tr>
+        <tr><td>Tronco</td><td>Barriga enorme e redonda, pele esticada, rachada, cheia de bolhas amareladas. Camiseta branca de botequim que não cobre a barriga, subindo até o peito. Veias roxas no umbigo.</td><td>A barriga é uma elipse que ocupa metade do sprite e cresce até 35% antes de explodir. Tem rachaduras, bolhas amarelas com brilho, hematoma e veias roxas em volta do umbigo. A camiseta encardida enrolada no peito.</td></tr>
+        <tr><td>Braços</td><td>Braços curtos e gordos, afastados do corpo pela barriga. Mãos inchadas como luvas cheias de ar.</td><td>Braços grossos com manga da camiseta, que se afastam conforme a barriga cresce. As mãos são bolas com reflexo.</td></tr>
+        <tr><td>Pernas</td><td>Bermuda xadrez, pernas grossas e curtas com joelhos pra fora. Chinelo de dedo num pé só.</td><td>Bermuda verde com listras vermelhas apagadas, pernas curtas e abertas. Chinelo azul na frente e pé descalço atrás.</td></tr>
+        <tr><td>Movimento</td><td>Anda balançando, com a barriga pulsando. Antes de explodir, as bolhas brilham e a barriga incha mais.</td><td>"Andar" balança o corpo inteiro de um lado pro outro. "Barrigada" é o ataque fraco. "Explodir" tem 900 ms de aviso: a barriga incha em 5 quadros, as bolhas crescem e brilham, e vem o flash e a explosão com anel de choque e pedaços.</td></tr>
+        <tr><td>Enluarado</td><td>Pele amarela e bolhas brancas.</td><td>Pele amarela, bolhas brancas e luz de lua creme.</td></tr>
+        <tr><td>Plenilunar</td><td>Pele cor de lava com rachaduras brilhando. Explode em 3 bolhas.</td><td>Pele laranja-lava com bolhas em brasa e, no fim, 3 explosões em sequência.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+/* ===== PIX: pipeline hi-bit compartilhado (vetor → quantiza → luz/sombra → contorno seletivo → luz de lua) ===== */
+const PIX=(function(){
+  const OUTLINE='#170b1c'; let K=1; const setK=k=>{K=k;}, getK=()=>K;
+  const rad=d=>d*Math.PI/180;
+  function hexRgb(h){ const n=parseInt(h.slice(1),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+  function toHex(r,g,b){ return '#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join(''); }
+  function mix(a,b,t){ const A=hexRgb(a),B=hexRgb(b); return toHex(A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,A[2]+(B[2]-A[2])*t); }
+  function ramp(h){ return [mix(h,'#fff2cc',.36),h,mix(h,'#3b2c63',.38),mix(h,'#1c1233',.64)]; }
+  const lp=(p,a,L)=>({x:p.x+Math.sin(rad(a))*L, y:p.y+Math.cos(rad(a))*L});
+  const lerp=(a,b,t)=>({x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t});
+  const P2=(x,y)=>({x,y});
+  function ik(S,W,L1,L2,elbowDown){
+    const dx=W.x-S.x, dy=W.y-S.y, d0=Math.hypot(dx,dy);
+    const d=Math.max(Math.abs(L1-L2)+0.5, Math.min(L1+L2-0.3, d0));
+    const base=Math.atan2(dy,dx), A=Math.acos(Math.max(-1,Math.min(1,(L1*L1+d*d-L2*L2)/(2*L1*d))));
+    const e1={x:S.x+Math.cos(base-A)*L1,y:S.y+Math.sin(base-A)*L1}, e2={x:S.x+Math.cos(base+A)*L1,y:S.y+Math.sin(base+A)*L1};
+    const E=elbowDown?(e1.y>e2.y?e1:e2):(e1.y<e2.y?e1:e2);
+    return {E, W:{x:S.x+Math.cos(base)*d, y:S.y+Math.sin(base)*d}};
+  }
+  function mkPen(ctx,used){
+    const F=c=>{ ctx.fillStyle=c; used.add(c); };
+    const circle=(p,r)=>{ ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill(); };
+    const cap=(a,b,wa,wb)=>{ const dx=b.x-a.x, dy=b.y-a.y, L=Math.hypot(dx,dy)||1, nx=-dy/L, ny=dx/L;
+      ctx.beginPath(); ctx.moveTo(a.x+nx*wa/2,a.y+ny*wa/2); ctx.lineTo(b.x+nx*wb/2,b.y+ny*wb/2); ctx.lineTo(b.x-nx*wb/2,b.y-ny*wb/2); ctx.lineTo(a.x-nx*wa/2,a.y-ny*wa/2); ctx.closePath(); ctx.fill(); circle(a,wa/2); circle(b,wb/2); };
+    const poly=pts=>{ ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); ctx.fill(); };
+    const ell=(x,y,rx,ry,r=0)=>{ ctx.beginPath(); ctx.ellipse(x,y,rx,ry,r,0,Math.PI*2); ctx.fill(); };
+    const rect=(x,y,w,h)=>ctx.fillRect(x,y,w,h);
+    const xf=(a,ox,oy)=>{ const c=Math.cos(a), s=Math.sin(a); ctx.setTransform(c*K,s*K,-s*K,c*K,ox*K,oy*K); };
+    const id=()=>ctx.setTransform(K,0,0,K,0,0);
+    return {F,circle,cap,poly,ell,rect,xf,id};
+  }
+  const tmpCache={};
+  function compose(o){ // o: {FW,FH,GROUND,parts,M,step,flash,rim,rimTop}
+    const {FW,FH,parts,M,step}=o; const key=FW+'x'+FH;
+    if(!tmpCache[key]){ const c=document.createElement('canvas'); c.width=FW; c.height=FH; tmpCache[key]=[c,c.getContext('2d',{willReadFrequently:true})]; }
+    const tctx=tmpCache[key][1];
+    const cinfo=new Map(); Object.entries(M).forEach(([k,r])=>r.forEach((h,t)=>{ if(!cinfo.has(h)) cinfo.set(h,{ramp:k,tone:t}); }));
+    const N=FW*FH, col=new Array(N).fill(null), part=new Int8Array(N).fill(-1);
+    parts.forEach((pt,k)=>{
+      tctx.setTransform(1,0,0,1,0,0); tctx.clearRect(0,0,FW,FH); const used=new Set(); pt.draw(tctx,used); if(!used.size) return;
+      const list=[...used].map(h=>[h,...hexRgb(h)]); const d=tctx.getImageData(0,0,FW,FH).data;
+      for(let i=0;i<N;i++){ if(d[i*4+3]<128) continue; let best=list[0][0], bd=1e9; const r=d[i*4],g=d[i*4+1],b=d[i*4+2];
+        for(const c of list){ const dd=(c[1]-r)**2+(c[2]-g)**2+(c[3]-b)**2; if(dd<bd){bd=dd;best=c[0];} }
+        col[i]=best; part[i]=k; }
+    });
+    const at=(x,y)=> (x<0||y<0||x>=FW||y>=FH)?-1:part[y*FW+x];
+    const out=new Array(N).fill(null);
+    for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){
+      const i=y*FW+x, c=col[i]; if(c===null) continue; const k=part[i];
+      if(step===1){ out[i]='#2a1d40'; continue; }
+      const info=cinfo.get(c); let oc=c;
+      if(step>=3 && info && !parts[k].noShade){
+        let tone=info.tone;
+        if(tone===1){ if(at(x-1,y)!==k||at(x-2,y)!==k||at(x,y+1)!==k||at(x,y+2)!==k) tone=2; else if(at(x+1,y)!==k||at(x,y-1)!==k) tone=0; }
+        const up2=at(x,y-2), ul=at(x+1,y-2); if((up2>k)||(ul>k)) tone=Math.min(3,tone+1);
+        if(step>=4){ const n=[at(x+1,y),at(x-1,y),at(x,y+1),at(x,y-1)]; if(n.some(q=>q>k && !parts[q].smear)) tone=3; }
+        if(parts[k].back) tone=Math.min(3,tone+1);
+        oc=M[info.ramp][tone];
+      }
+      if(o.flash && step>=3) oc='#ffffff';
+      out[i]=oc;
+    }
+    if(step>=5 && !o.flash && o.rim){ const lim=Math.min(FH,(o.GROUND||FH)-8); for(let y=0;y<lim;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]!==null && at(x-1,y)===-1 && !parts[part[i]].noShade && !parts[part[i]].noRim) out[i]=o.rim; } }
+    const cv=document.createElement('canvas'); cv.width=FW; cv.height=FH; const g=cv.getContext('2d'); const img=g.createImageData(FW,FH);
+    const put=(i,h)=>{ const [r,gg,b]=hexRgb(h); img.data[i*4]=r; img.data[i*4+1]=gg; img.data[i*4+2]=b; img.data[i*4+3]=255; };
+    for(let i=0;i<N;i++) if(out[i]) put(i,out[i]);
+    if(step>=4){ for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]!==null) continue; if(at(x+1,y)>=0||at(x-1,y)>=0||at(x,y+1)>=0||at(x,y-1)>=0) put(i,OUTLINE); } }
+    g.putImageData(img,0,0);
+    return cv;
+  }
+  return {setK,getK,OUTLINE,rad,hexRgb,toHex,mix,ramp,lp,lerp,P2,ik,mkPen,compose};
+})();
+
+/* ===== BARRIGUDO (nº 006): zumbi inchado que explode, hi-bit ===== */
+const BARR=(function(){
+  const {rad,lp,lerp,P2,mkPen,compose}=PIX;
+  const FW=132, FH=120, GROUND=114, AX=60;
+  const RIM={comum:'#d8f0a0', enluarado:'#fff6c0', plenilunar:'#ffb070'};
+  function mats(form){
+    const m={
+      skin:['#d4d08a','#a8a45a','#76763e','#4a4c2c'],
+      bruise:['#a882c0','#7a5a98','#52406c','#302444'],
+      blister:['#fff6b0','#ead060','#b09a30','#6a5a18'],
+      shirt:['#f6f2e4','#d8d0b8','#a49c84','#625c4e'],
+      shortA:['#7aa070','#4e7a4a','#345434','#1e321e'],
+      shortB:['#c87060','#9a4a40','#6a2e2a','#3e1a18'],
+      sandal:['#5a9ae0','#2a6ab8','#1a4a80','#0e2a4a'],
+      eye:['#fff6c0','#e8d890','#a89a5a','#6a5e34'],
+      mouth:['#6a3434','#3a1a1e','#24100e','#140806'],
+      teeth:['#e8dca0','#c4b070','#8a7848','#54482a'],
+      nail:['#5a4848','#3a2e30','#261c20','#140e12'],
+    };
+    if(form==='enluarado'){ m.skin=['#fff0a0','#e8c850','#b09028','#6a5414']; m.blister=['#ffffff','#f2f2f6','#c0c0d0','#80809a']; m.bruise=['#e0a0b0','#b06a80','#7a4256','#4a2434']; }
+    if(form==='plenilunar'){ m.skin=['#ff9a50','#d0501e','#8a2a14','#4e140a']; m.blister=['#fffbd0','#ffd23f','#ff8a2a','#c2401a']; m.bruise=['#5a1a10','#3a0e08','#240804','#120402']; }
+    return m;
+  }
+  const NAMES={skin:'Pele',bruise:'Hematoma',blister:'Bolhas',shirt:'Camiseta',shortA:'Bermuda (verde)',shortB:'Bermuda (vermelho)',sandal:'Chinelo'};
+  const REST={hx:0,sway:0,lean:4,head:0,jaw:4,belly:0,glow:0,aFs:40,aFe:70,aBs:30,aBe:60,lFh:12,lFk:-4,lBh:-10,lBk:-2,flash:0,bob:0};
+  const ANIMS={
+    idle:{nome:'Parado',n:6,dur:()=>170,pose:i=>{ const p=i/6*Math.PI*2, s=Math.sin(p); return {belly:0.06+0.06*(s+1)/2, lean:4+1*s, head:1.5*Math.sin(p-0.6), jaw:4+2*Math.max(0,s), aFs:40+2*s, aBs:30+2*s}; }},
+    walk:{nome:'Andar (balançando)',n:8,dur:()=>150,pose:i=>{ const p=i/8*Math.PI*2; const lFh=12+12*Math.sin(p), lBh=-10+12*Math.sin(p+Math.PI);
+      return {lFh, lFk:lFh-8-10*Math.max(0,Math.cos(p)), lBh, lBk:lBh+6-10*Math.max(0,Math.cos(p+Math.PI)), sway:6*Math.sin(p), lean:4, head:-4*Math.sin(p), belly:0.08+0.08*Math.abs(Math.sin(p*2)),
+        aFs:40+12*Math.sin(p), aBs:30-12*Math.sin(p), aFe:70+10*Math.sin(p), aBe:60-10*Math.sin(p), jaw:5}; }},
+    attack:{nome:'Barrigada',n:6,dur:i=>[200,140,70,160,140,140][i],pose:i=>[
+      {lean:-8,hx:-4,belly:0.15,aFs:10,aFe:30,aBs:0,aBe:20,jaw:8,lFh:16,lBh:-14},
+      {lean:-12,hx:-6,belly:0.2,aFs:0,aFe:20,aBs:-10,aBe:10,jaw:10,lFh:18,lBh:-16},
+      {lean:14,hx:8,belly:0.25,aFs:70,aFe:90,aBs:60,aBe:80,jaw:14,lFh:26,lFk:4,lBh:-18,lBk:-12},
+      {lean:12,hx:7,belly:0.15,aFs:66,aFe:86,aBs:56,aBe:76,jaw:10,lFh:24,lFk:2,lBh:-16,lBk:-10},
+      {lean:6,hx:3,belly:0.08,jaw:6},
+      {}][i]},
+    explode:{nome:'Explodir (morte)',n:7,boomAt:5,dur:i=>[220,200,180,160,140,60,500][i],pose:i=>[
+      {belly:0.25,glow:0.3,jaw:10,head:-6,aFs:60,aFe:80,aBs:50,aBe:70},
+      {belly:0.45,glow:0.55,jaw:14,head:-10,aFs:70,aFe:90,aBs:60,aBe:80,hx:-1},
+      {belly:0.65,glow:0.75,jaw:18,head:-14,aFs:80,aFe:100,aBs:70,aBe:90,hx:1},
+      {belly:0.85,glow:0.9,jaw:20,head:-16,aFs:88,aFe:108,aBs:78,aBe:98,hx:-1},
+      {belly:1,glow:1,jaw:22,head:-18,aFs:94,aFe:112,aBs:84,aBe:104,hx:1,flash:0},
+      {belly:1.1,glow:1,flash:1,jaw:24,head:-18,aFs:96,aFe:114,aBs:86,aBe:106},
+      {gone:1}][i]},
+    hurt:{nome:'Dano',n:4,dur:i=>[80,110,120,150][i],pose:i=>[
+      {lean:-10,head:-14,jaw:12,hx:-5,flash:1,belly:0.2,aFs:20,aFe:20,aBs:10,aBe:10},
+      {lean:-6,head:-10,jaw:10,hx:-4,belly:0.16},
+      {lean:0,head:-2,jaw:6,hx:-1,belly:0.1},
+      {}][i]},
+  };
+  function poseOf(anim,i){ return Object.assign({},REST,ANIMS[anim].pose(i)); }
+  function skeleton(P){
+    const hip={x:AX+P.hx,y:74};
+    const hipF={x:hip.x+5,y:hip.y}, hipB={x:hip.x-5,y:hip.y};
+    const kneeF=lp(hipF,P.lFh,16), ankleF=lp(kneeF,P.lFk,16), kneeB=lp(hipB,P.lBh,16), ankleB=lp(kneeB,P.lBk,16);
+    const dy=GROUND-Math.max(ankleF.y+4, ankleB.y+4);
+    [hip,hipF,hipB,kneeF,ankleF,kneeB,ankleB].forEach(p=>p.y+=dy);
+    const a=rad(P.lean+P.sway*0.6), c=Math.cos(a), s=Math.sin(a);
+    const T=(lx,ly)=>({x:hip.x+lx*c-ly*s, y:hip.y+lx*s+ly*c});
+    const neck=T(2,-36), shF=T(7,-30), shB=T(-7,-31);
+    const ha=rad(P.lean+P.head), hc=Math.cos(ha), hs=Math.sin(ha);
+    const H=(lx,ly)=>({x:neck.x+lx*hc-ly*hs, y:neck.y+lx*hs+ly*hc});
+    const bs=1+P.belly*0.35, bc=T(6,-14);
+    const elF=lp(T(9+P.belly*4,-30),P.aFs,11), wrF=lp(elF,P.aFe,10), elB=lp(T(-7,-31),P.aBs,11), wrB=lp(elB,P.aBe,10);
+    return {hip,hipF,hipB,kneeF,ankleF,kneeB,ankleB,neck,shF:T(9+P.belly*4,-30),shB,elF,wrF,elB,wrB,a,ha,H,T,bc,bs,eye:H(6,-11)};
+  }
+  function drawArm(p,M,sh,el,wr){
+    p.id(); p.F(M.shirt[1]); p.cap(sh,lerp(sh,el,0.5),9.6,8.6);
+    p.F(M.skin[1]); p.cap(lerp(sh,el,0.45),el,8,7.4); p.cap(el,wr,7.4,6.6);
+    p.F(M.bruise[1]); const b=lerp(el,wr,0.4); p.ell(b.x,b.y,1.6,1.2);
+    p.F(M.skin[1]); p.circle(wr,4.6); p.F(M.skin[0]); p.circle(P2(wr.x+1,wr.y-1.4),1.6);
+    p.F(M.skin[2]); p.rect(wr.x+1,wr.y+1.6,3,0.9);
+  }
+  function drawLeg(p,M,hip,knee,ankle,front){
+    p.id(); p.F(M.skin[1]); p.cap(knee,ankle,9,8);
+    p.F(M.shortA[1]); p.cap(hip,knee,12.6,11);
+    p.F(M.shortB[1]); const k1=lerp(hip,knee,0.3), k2=lerp(hip,knee,0.7); p.cap(P2(k1.x-5,k1.y),P2(k1.x+5,k1.y),1.6,1.6); p.cap(P2(k2.x-5,k2.y),P2(k2.x+5,k2.y),1.6,1.6);
+    p.F(M.shortA[3]); p.cap(P2(hip.x,hip.y),P2(knee.x,knee.y+2),1,1);
+    const a=ankle;
+    if(front){ p.F(M.sandal[1]); p.rect(a.x-4.4,a.y+2.6,13.6,1.6); p.F(M.skin[1]); p.poly([[a.x-4,a.y-1.4],[a.x+3,a.y-1.4],[a.x+8.4,a.y+0.8],[a.x+8.8,a.y+2.8],[a.x-4.2,a.y+2.8]]); p.F(M.sandal[1]); p.cap(P2(a.x+3.6,a.y+2.4),P2(a.x+1.4,a.y-0.6),1,1); }
+    else { p.F(M.skin[2]); p.poly([[a.x-4,a.y-1.4],[a.x+3,a.y-1.4],[a.x+8,a.y+1],[a.x+8.4,a.y+3.6],[a.x-4.2,a.y+3.6]]); p.F(M.nail[2]); p.rect(a.x+6.4,a.y+2.6,1,1); }
+  }
+  function drawBody(p,M,sk,P){
+    p.xf(sk.a,sk.hip.x,sk.hip.y);
+    p.F(M.shortA[1]); p.poly([[-13,-6],[13,-6],[14,3],[-14,3]]); p.F(M.shortB[1]); p.rect(-13,-4,26,1.6); p.rect(-4,-6,1.6,9);
+    // tronco + barriga
+    p.F(M.skin[1]); p.poly([[-12,-8],[-13,-22],[-10,-33],[-2,-37],[8,-36],[12,-30],[10,-24]]);
+    const bs=sk.bs, bx=6, by=-14;
+    p.ell(bx,by,17*bs,14*bs);
+    p.F(M.skin[0]); p.ell(bx+5*bs,by-6*bs,6*bs,3.6*bs);
+    p.F(M.bruise[1]); p.ell(bx+2,by+6*bs,3.6,2.4); p.F(M.bruise[2]); p.ell(bx+4*bs,by+2,1.2,1.4);
+    [[-3,-6],[1,7],[4,9],[0,6],[7,10]].forEach(([x,y])=>{}); // placeholder
+    p.F(M.bruise[1]); p.rect(bx+4*bs-4,by+2,3,0.8); p.rect(bx+4*bs+1.4,by+2.6,3,0.8); p.rect(bx+4*bs-0.6,by+3.4,0.8,3);
+    p.F(M.skin[3]); [[bx-10*bs,by-2*bs,bx-5*bs,by+4*bs],[bx+11*bs,by-5*bs,bx+14*bs,by+2*bs]].forEach(([x1,y1,x2,y2])=>{ p.rect(x1,y1,1,(y2-y1)*0.5); p.rect(x1+1,y1+(y2-y1)*0.5,1,(y2-y1)*0.5); });
+    p.F(M.blister[1]); [[-6,-8,2],[12,-10,1.8],[-1,2,1.6],[13,-2,2.2],[2,-20,1.4],[9,4,1.4],[-8,0,1.2]].forEach(([x,y,r])=>{ p.ell(bx+x*bs-6,by+y*bs+8,r*(1+P.glow*0.4),r*(1+P.glow*0.4)); });
+    p.F(M.blister[0]); [[-6,-8],[12,-10],[13,-2]].forEach(([x,y])=>p.rect(bx+x*bs-6.4,by+y*bs+7.4,0.9,0.9));
+    // camiseta subida até o peito
+    p.F(M.shirt[1]); p.poly([[-12.6,-22],[-10,-34],[-2,-38],[8,-37],[13,-31],[12,-26],[4,-27],[-4,-25],[-10,-21]]);
+    p.F(M.shirt[2]); p.rect(-9,-25,10,0.9); p.F(M.shirt[3]); p.rect(-6,-32,1.2,1.2); p.rect(3,-34,1.4,1);
+    p.id();
+  }
+  function drawHead(p,M,sk,P){
+    p.xf(sk.ha,sk.neck.x,sk.neck.y);
+    p.F(M.skin[1]); p.ell(-2,0,9,5); p.ell(3,-9,7.4,7.6); p.poly([[0,-5],[10.6,-6],[11,-2.4],[3,0]]);
+    p.F(M.skin[2]); p.ell(5,0.6,6,2.2);
+    p.F(M.bruise[1]); p.ell(-1,-14,2.4,1.6); p.ell(5,-15,1.4,1);
+    p.F(M.skin[0]); p.ell(8.2,-6,2.4,1.8);
+    p.F(M.skin[3]); p.ell(6.6,-11,1.8,1.2); p.F(M.eye[1]); p.rect(6,-11.2,2,0.8);
+    p.F(M.skin[3]); p.rect(9.6,-11.4,1.2,0.8);
+    p.F(M.skin[1]); p.poly([[9.6,-9.6],[12,-7],[9.8,-6.4]]);
+    p.F(M.skin[3]); p.ell(-3.6,-8,1,1.6);
+    p.id();
+  }
+  function drawJaw(p,M,sk,P){
+    const h=sk.H(1,-3.6); p.xf(sk.ha+rad(P.jaw),h.x,h.y);
+    p.F(M.mouth[1]); p.poly([[3,-0.8],[9.6,-1],[9.6,1.6],[3.4,1.6]]);
+    p.F(M.skin[1]); p.poly([[-1,0.6],[10.4,0.6],[10.6,3],[3,4.4],[-1,3]]);
+    p.F(M.teeth[1]); p.rect(5,-0.8,1.2,1.2); p.rect(7.4,-0.8,1.2,1);
+    p.id();
+  }
+  const cache=new Map();
+  function frame(form,anim,fi,step=5){
+    const K=PIX.getK(), key=form+anim+fi+step+'@'+K; if(cache.has(key)) return cache.get(key);
+    const P=poseOf(anim,fi), M=mats(form), sk=skeleton(P);
+    if(P.gone){ const c=document.createElement('canvas'); c.width=Math.round(FW*K); c.height=Math.round(FH*K); c._belly={x:(sk.T(6,-14).x)*K,y:sk.T(6,-14).y*K}; cache.set(key,c); return c; }
+    const parts=[
+      {back:true, draw:(c,u)=>drawArm(mkPen(c,u),M,sk.shB,sk.elB,sk.wrB)},
+      {back:true, draw:(c,u)=>drawLeg(mkPen(c,u),M,sk.hipB,sk.kneeB,sk.ankleB,false)},
+      {draw:(c,u)=>drawLeg(mkPen(c,u),M,sk.hipF,sk.kneeF,sk.ankleF,true)},
+      {draw:(c,u)=>drawBody(mkPen(c,u),M,sk,P)},
+      {draw:(c,u)=>drawHead(mkPen(c,u),M,sk,P)},
+      {draw:(c,u)=>drawJaw(mkPen(c,u),M,sk,P)},
+      {draw:(c,u)=>drawArm(mkPen(c,u),M,sk.shF,sk.elF,sk.wrF)},
+    ];
+    const cv=compose({FW:Math.round(FW*K),FH:Math.round(FH*K),GROUND:GROUND*K,parts,M,step,flash:P.flash,rim:RIM[form]});
+    const bc=sk.T(6,-14); cv._belly={x:bc.x*K,y:bc.y*K}; cv._bellyR=17*sk.bs*K; cv._glow=P.glow;
+    cache.set(key,cv); return cv;
+  }
+  return {FW,FH,GROUND,AX,ANIMS,NAMES,RIM,mats,poseOf,frame};
+})();
+
+(function(){
+'use strict';
+const SW=240, SH=150, SGROUND=140, FW=BARR.FW, FH=BARR.FH, GROUND=BARR.GROUND;
+/* ---------- stage background (pixel) ---------- */
+const BGP={
+  comum:{sky:['#0e0a26','#1c1440','#2e1f58','#46307a'], moon:'#f3eed6', moonD:'#cfc6a6', bld:'#23183f', bld2:'#2f2152', win:'#ffd86a', lamp:'rgba(255,214,120,', ground:['#5a4a5a','#4a3c4c','#3a2e3e'], dot:'rgba(160,190,255,.18)'},
+  enluarado:{sky:['#140a2c','#24124a','#3a1d6a','#5a2f92'], moon:'#efe0ff', moonD:'#c4a8f0', bld:'#26163f', bld2:'#352058', win:'#d6b8ff', lamp:'rgba(210,180,255,', ground:['#544468','#463858','#382c48'], dot:'rgba(210,180,255,.2)'},
+  plenilunar:{sky:['#1a0408','#3a0812','#64101e','#8e1a2a'], moon:'#ff4a3a', moonD:'#c42020', bld:'#2a0a14', bld2:'#3a1020', win:'#ff8a5a', lamp:'rgba(255,120,80,', ground:['#5a3438','#4a2a2e','#3a2024'], dot:'rgba(255,120,90,.2)'}
+};
+function hsh(n){ n=Math.sin(n*127.1)*43758.5453; return n-Math.floor(n); }
+function drawBG(g,form,scroll,t){
+  const B=BGP[form];
+  const bands=[0,34,62,86,SGROUND];
+  for(let b=0;b<4;b++){ g.fillStyle=B.sky[b]; g.fillRect(0,bands[b],SW,bands[b+1]-bands[b]);
+    if(b<3){ g.fillStyle=B.sky[b+1]; for(let y=bands[b+1]-4;y<bands[b+1];y++) for(let x=(y%2);x<SW;x+=2) if(y>=bands[b+1]-2 || (x+y)%4===0) g.fillRect(x,y,1,1); } }
+  for(let i=0;i<40;i++){ g.fillStyle=hsh(i)>.6?'#fff':'#9a8ac8'; g.fillRect(Math.floor(hsh(i*3)*SW),Math.floor(hsh(i*7)*60),1,1); }
+  // halftone ring around moon
+  const mx=152, my=30, mr=17;
+  g.fillStyle=B.dot; for(let y=my-34;y<my+34;y+=3) for(let x=mx-34;x<mx+34;x+=3){ const d=Math.hypot(x-mx,y-my); if(d>mr+2 && d<34 && hsh(x*13+y)>(d-mr)/18) g.fillRect(x,y,1,1); }
+  for(let y=-mr;y<=mr;y++){ const w=Math.floor(Math.sqrt(mr*mr-y*y)); g.fillStyle=B.moon; g.fillRect(mx-w,my+y,w*2+1,1); }
+  g.fillStyle=B.moonD; [[-6,-5,4],[5,3,3],[-2,8,2],[8,-8,2]].forEach(([dx,dy,r])=>{ for(let y=-r;y<=r;y++){ const w=Math.floor(Math.sqrt(r*r-y*y)); g.fillRect(mx+dx-w,my+dy+y,w*2+1,1); } });
+  // far casario (scroll 0.3)
+  const o1=Math.floor(scroll*0.3);
+  for(let i=-1;i<9;i++){ const bi=Math.floor(o1/30)+i; const x=bi*30-o1; const h=40+Math.floor(hsh(bi)*24);
+    g.fillStyle=B.bld; g.fillRect(x,SGROUND-h,29,h); g.fillRect(x+2,SGROUND-h-3,25,3);
+    if(hsh(bi+5)>.5){ g.fillRect(x+11,SGROUND-h-9,7,6); g.fillRect(x+13,SGROUND-h-12,3,3); }
+    for(let wy=0;wy<3;wy++) for(let wx=0;wx<3;wx++){ const lit=hsh(bi*11+wx+wy*5)>.72; g.fillStyle=lit?B.win:B.bld2; g.fillRect(x+4+wx*8,SGROUND-h+6+wy*11,4,6); } }
+  // lamps (scroll 0.7)
+  const o2=Math.floor(scroll*0.7);
+  for(let i=-1;i<3;i++){ const li=Math.floor(o2/110)+i; const x=li*110-o2+60;
+    g.fillStyle='#120a1c'; g.fillRect(x,SGROUND-58,2,58); g.fillRect(x,SGROUND-58,10,2); g.fillRect(x+8,SGROUND-57,4,3);
+    const fl=0.16+Math.sin(t*3+li)*0.02; g.fillStyle=B.lamp+fl+')'; g.beginPath(); g.moveTo(x+8,SGROUND-54); g.lineTo(x-6,SGROUND); g.lineTo(x+26,SGROUND); g.closePath(); g.fill(); }
+  // ground: pedra portuguesa
+  const o3=Math.floor(scroll);
+  g.fillStyle=B.ground[0]; g.fillRect(0,SGROUND,SW,SH-SGROUND); g.fillStyle='#120a1c'; g.fillRect(0,SGROUND,SW,1);
+  g.fillStyle=B.ground[1]; for(let y=SGROUND+2;y<SH;y+=3) for(let x=0;x<SW;x++){ const wx=(x+o3)%24; if(Math.abs(Math.sin((wx/24)*Math.PI*2)*2+ (y-SGROUND)%6-3)<0.8) g.fillRect(x,y,1,1); }
+  g.fillStyle=B.ground[2]; for(let x=-(o3%9);x<SW;x+=9) g.fillRect(x,SGROUND+1,1,SH-SGROUND);
+}
+
+
+const S={form:'comum', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, parts:[], rings:[], shake:0, spawns:[]};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+let last=performance.now(), T=0;
+const ox=()=>40, oy=()=>SGROUND-GROUND;
+function onFrame(){ if(S.anim==='explode' && S.fi===BARR.ANIMS.explode.boomAt){ const cv=BARR.frame(S.form,'explode',4,5), b=cv._belly; const n=S.form==='plenilunar'?3:1;
+  for(let j=0;j<n;j++){ const cx=ox()+b.x+(j-(n-1)/2)*26, cy=oy()+b.y+(j?6:0); S.rings.push({x:cx,y:cy,t:-j*0.12}); for(let i=0;i<26;i++) S.parts.push({x:cx,y:cy,vx:(Math.random()-.5)*160,vy:-40-Math.random()*110,t:-j*0.12,c:Math.random()<.5?1:2}); } S.shake=0.4; } }
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=BARR.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); onFrame(); updStrip(); } }
+  if(S.anim==='walk' && S.playing) S.scroll+=dt*(S.slow?7:14);
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+function draw(dt){
+  drawBG(g,S.form,S.scroll,T);
+  const cv=BARR.frame(S.form,S.anim,S.fi,S.step), X=ox(), Y=oy();
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-2;y<=2;y++){ const w=Math.floor(Math.sqrt(1-(y/3)**2)*22); g.fillRect(X+BARR.AX-w+4,SGROUND+y+1,w*2,1); }
+  g.drawImage(cv,X,Y);
+  const P=BARR.poseOf(S.anim,S.fi), M=BARR.mats(S.form);
+  if(S.step>=5 && cv._glow){ const b=cv._belly; glow(X+b.x,Y+b.y,cv._bellyR*1.3,'rgba(255,230,90,'+(cv._glow*0.35)+')'); }
+  S.rings.forEach(r=>{ r.t+=dt; if(r.t<0) return; const rr=4+r.t*90, a=Math.max(0,1-r.t*2.2); g.fillStyle='rgba(255,240,170,'+a+')'; g.beginPath(); g.arc(r.x,r.y,rr*0.55,0,Math.PI*2); g.fill(); g.strokeStyle='rgba(255,255,255,'+a+')'; g.lineWidth=2; g.beginPath(); g.ellipse(r.x,SGROUND+2,rr*1.2,rr*0.3,0,0,Math.PI*2); g.stroke(); }); S.rings=S.rings.filter(r=>r.t<0.5);
+  S.parts.forEach(q=>{ q.t+=dt; if(q.t<0) return; q.x+=q.vx*dt; q.y+=q.vy*dt; q.vy+=260*dt; if(q.y>SGROUND+2){ q.y=SGROUND+2; q.vx*=0.5; q.vy=0; } g.fillStyle=M.skin[q.c]; g.globalAlpha=Math.max(0,1-q.t*0.7); g.fillRect(Math.round(q.x),Math.round(q.y),2,2); g.globalAlpha=1; }); S.parts=S.parts.filter(q=>q.t<1.4);
+  if(S.shake>0){ S.shake-=dt; const d=Math.round((Math.random()-.5)*4); g.drawImage(stage,d,0); }
+  if(S.anim==='explode' && S.fi>=5) setFx('burst',S.form==='plenilunar'?'KA-BLOOOM ×3!':'KA-BLOOM!',X+cv._belly.x,Y+cv._belly.y-30);
+  else if(S.anim==='explode' && S.fi>=2) setFx('bubble','glorp…',X+cv._belly.x+24,Y+cv._belly.y-30);
+  else if(S.anim==='attack' && (S.fi===2||S.fi===3)) setFx('burst','PLOFT!',X+cv._belly.x+30,Y+cv._belly.y-10);
+  else if(S.anim==='hurt' && S.fi<=1) setFx('burst','CRAU!',X+40,Y+30);
+  else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${BARR.ANIMS[S.anim].n} · ${BARR.ANIMS[S.anim].dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,132,120); r1.drawImage(cv,0,0);
+  const r2=document.getElementById('r2').getContext('2d'); r2.imageSmoothingEnabled=false; r2.clearRect(0,0,92,84); PIX.setK(0.7); r2.drawImage(BARR.frame(S.form,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(BARR.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('anims','anim',S.anim); buildStrip(); });
+document.querySelectorAll('#forms button').forEach(b=>b.onclick=()=>{ S.form=b.dataset.form; press('forms','form',S.form); buildStrip(); buildRamps(); after(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%BARR.ANIMS[S.anim].n; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=BARR.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(BARR.frame(S.form,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms${A.boomAt===i?' ✦':''}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=BARR.mats(S.form); document.getElementById('formName').textContent={comum:'Comum',enluarado:'Enluarado',plenilunar:'Plenilunar'}[S.form];
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(BARR.NAMES).map(k=>`<div class="ramp"><span>${BARR.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('')+
+  `<div class="ramp"><span>Contorno · Lua</span><i style="background:${PIX.OUTLINE}"></i><i style="background:${BARR.RIM[S.form]}"></i><span></span><span></span></div>`; }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(BARR.frame(S.form,'explode',3,5),0,0); }
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>
+
+</body></html>

@@ -1,0 +1,105 @@
+/* ===== Conquistas e Lembranças ===== */
+.cq { display: grid; gap: 10px; min-width: 0; --bronze: #c9814a; --prata: #c4d0dc; --ouro: #ffd23f }
+.cq-tabs { display: flex; gap: 6px; flex-wrap: wrap }
+.cq-tabs button { font-family: var(--f-display); font-size: 15px; padding: 6px 16px; border-radius: 6px; border: 2px solid #000; background: var(--panel2); color: var(--ink); box-shadow: 2px 2px 0 #000; display: inline-flex; align-items: center; gap: 6px }
+.cq-tabs button span { font-family: var(--f-pix); font-size: 12px; color: var(--muted) }
+.cq-tabs button i { font-style: normal; font-family: var(--f-pix); font-size: 11px; background: var(--blood); color: #fff; border-radius: 999px; padding: 1px 7px; border: 1px solid #000 }
+.cq-tabs button[aria-selected="true"] { background: var(--moon); color: #1a0d00 }
+.cq-tabs button[aria-selected="true"] span { color: #5a3d00 }
+
+.cq-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap }
+.cq-prog { display: flex; align-items: baseline; gap: 10px; font-family: var(--f-pix) }
+.cq-prog b { font-family: var(--f-display); font-weight: 400; font-size: 18px; text-shadow: 2px 2px 0 #000 }
+.cq-prog span { color: var(--muted); font-size: 13px }
+.cq-all { animation: cqpulse 1.6s ease-in-out infinite }
+@keyframes cqpulse { 50% { box-shadow: 0 0 0 2px var(--moon), 0 0 16px #ffd23f88 } }
+.cq-tbar { height: 10px; background: #0d0818; border: 2px solid #000; border-radius: 6px; overflow: hidden }
+.cq-tbar i { display: block; height: 100%; background: linear-gradient(90deg, #8a5a14, var(--moon)); transition: width .5s }
+.cq-hint { margin: 0; color: var(--muted); font-size: 13px }
+.cq-filtros { display: flex; flex-wrap: wrap; gap: 6px }
+.cq-f { position: relative; font: inherit; font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 2px solid var(--line); background: #170d29; color: var(--ink) }
+.cq-f span { font-family: var(--f-pix); font-size: 11px; color: var(--muted); font-weight: 400 }
+.cq-f[aria-pressed="true"] { border-color: var(--moon); background: #2a1d0a }
+.cq-f.dot::after { content: ''; position: absolute; top: -3px; right: -3px; width: 9px; height: 9px; border-radius: 50%; background: var(--moon); border: 1px solid #000 }
+
+.cq-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 10px }
+.cq-sec { grid-column: 1 / -1; margin: 6px 0 -2px; font-family: var(--f-display); font-weight: 400; font-size: 15px; display: flex; gap: 8px; align-items: center; text-shadow: 2px 2px 0 #000 }
+.cq-sec span { font-family: var(--f-pix); font-size: 12px; color: var(--muted); text-shadow: none }
+.cq-sec::after { content: ''; flex: 1; height: 2px; background: var(--line) }
+
+.cq-card { --nc: var(--bronze); display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px; align-items: center; background: var(--panel2); border: 2px solid var(--line); border-left: 4px solid var(--nc); border-radius: 10px; padding: 8px 10px; min-width: 0 }
+.cq-card.n-prata { --nc: var(--prata) }
+.cq-card.n-ouro { --nc: var(--ouro) }
+.cq-card.st-pronta { border-color: var(--moon); box-shadow: 0 0 0 1px var(--moon), 0 0 16px #ffd23f44 }
+.cq-card.st-resgatada { background: #140b22 }
+.cq-card.st-resgatada .cq-main { opacity: .7 }
+.cq-card.st-aberta .cq-seal { filter: saturate(.5) brightness(.75) }
+.cq-seal { position: relative; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--nc) 55%, #fff), var(--nc) 55%, color-mix(in srgb, var(--nc) 50%, #000));
+  border: 2px solid #000; box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--nc) 70%, #000), 2px 2px 0 #000 }
+.cq-seal::before { content: ''; position: absolute; inset: 7px; border-radius: 50%; border: 1px dashed color-mix(in srgb, var(--nc) 40%, #000) }
+.cq-seal::after { content: ''; position: absolute; bottom: -8px; left: 50%; width: 22px; height: 12px; transform: translateX(-50%); z-index: -1;
+  background: linear-gradient(90deg, #a01828 0 45%, transparent 45% 55%, #a01828 55%); clip-path: polygon(0 0, 100% 0, 100% 100%, 75% 70%, 50% 100%, 25% 70%, 0 100%) }
+.cq-seal span { position: relative; font-family: var(--f-display); font-size: 15px; color: color-mix(in srgb, var(--nc) 25%, #000); text-shadow: 0 1px 0 #fff6 }
+.cq-card.st-resgatada .cq-seal { box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--nc) 70%, #000), 2px 2px 0 #000, 0 0 10px color-mix(in srgb, var(--nc) 60%, transparent) }
+.cq-main { display: grid; gap: 3px; min-width: 0 }
+.cq-nome { font-family: var(--f-display); font-weight: 400; font-size: 15px; line-height: 1.15; overflow-wrap: anywhere }
+.cq-desc { font-size: 12px; color: var(--muted) }
+.cq-bar { height: 7px; background: #000; border-radius: 4px; overflow: hidden }
+.cq-bar i { display: block; height: 100%; background: linear-gradient(90deg, color-mix(in srgb, var(--nc, var(--moon)) 60%, #000), var(--nc, var(--moon))); transition: width .5s }
+.cq-foot { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; margin-top: 2px }
+.cq-num { font-family: var(--f-pix); font-size: 12px }
+.cq-prem { display: inline-flex; flex-wrap: wrap; gap: 6px }
+.cq-res { display: inline-flex; align-items: center; gap: 2px; font-family: var(--f-pix); font-size: 12px; color: var(--ink) }
+.cq-res img.ico { margin: 0; vertical-align: 0 }
+.cq-claim, .cq-done { margin-left: auto }
+.cq-done { font-family: var(--f-pix); font-size: 12px; color: var(--ok) }
+
+/* ---------- Lembranças: estante de madeira ---------- */
+.lb-top { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between }
+.lb-ativos { display: grid; gap: 4px; min-width: 0 }
+.lb-ativos > div { display: flex; flex-wrap: wrap; gap: 6px }
+.lb-chip { font-family: var(--f-pix); font-size: 12px; padding: 2px 9px; border-radius: 999px; background: #10261a; border: 2px solid #000; color: var(--ok) }
+.lb-none { font-size: 12px; color: var(--muted) }
+.lb-estante { display: grid; gap: 14px; padding: 12px; border-radius: 12px; border: 2px solid #000;
+  background: linear-gradient(90deg, #2a170c, #3a2212 8%, #3a2212 92%, #2a170c), #2f1b0e; box-shadow: inset 0 0 30px #000a }
+.lb-shelf { display: grid; min-width: 0 }
+.lb-shelf > header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 0 4px 6px }
+.lb-shelf > header b { font-family: var(--f-display); font-weight: 400; font-size: 15px; color: #f2d7a8; text-shadow: 2px 2px 0 #000 }
+.lb-shelf > header span { font-family: var(--f-pix); font-size: 12px; color: #c8a878 }
+.lb-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 8px 8px 0;
+  background: linear-gradient(#1a0d06, #24130a); border: 2px solid #000; border-bottom: 0; border-radius: 8px 8px 0 0; box-shadow: inset 0 8px 14px #000c }
+.lb-tabua { height: 14px; border: 2px solid #000; border-radius: 0 0 4px 4px;
+  background: repeating-linear-gradient(90deg, transparent 0 60px, #0003 60px 62px), linear-gradient(#a8703c, #7a4c24 55%, #5a3416); box-shadow: 0 4px 0 #0008 }
+.lb-nicho { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 3px; padding: 6px 4px 10px; min-width: 0 }
+.lb-pedestal { position: relative; width: 76px; height: 76px; display: grid; place-items: center; flex: none }
+.lb-pedestal::after { content: ''; position: absolute; bottom: 2px; left: 12%; right: 12%; height: 8px; border-radius: 50%; background: radial-gradient(#000a, transparent 70%) }
+.lb-ic { width: 64px; height: 64px; image-rendering: pixelated; position: relative; z-index: 1 }
+.lb-nicho.ok .lb-ic { filter: drop-shadow(0 0 6px #ffd23f66) }
+.lb-nicho:not(.ok) .lb-ic { filter: brightness(0) opacity(.35) }
+.lb-q { position: absolute; z-index: 2; font-family: var(--f-display); font-size: 30px; color: #f2d7a8aa; text-shadow: 2px 2px 0 #000 }
+.lb-nome { font-family: var(--f-display); font-weight: 400; font-size: 13px; line-height: 1.15; color: #f6e6c8; overflow-wrap: break-word; hyphens: auto; max-width: 100% }
+.lb-nicho:not(.ok) .lb-nome { color: #8a7060 }
+.lb-orig, .lb-miss, .lb-dia { font-size: 11px; line-height: 1.25; color: #c8a878; overflow-wrap: anywhere }
+.lb-miss { color: #d8c0a0 }
+.lb-dia { color: #8a7060; font-family: var(--f-pix) }
+.lb-bonus { font-family: var(--f-pix); font-size: 11px; color: var(--ok); margin-top: 2px }
+.lb-bonus.dim { color: #6a8a6a; opacity: .8 }
+.lb-prog { width: 100%; max-width: 140px; display: grid; gap: 2px; --nc: #c8a878 }
+.lb-prog small { font-family: var(--f-pix); font-size: 11px; color: #c8a878 }
+
+@media (max-width: 560px) {
+  .lb-estante { padding: 8px }
+  .lb-row { gap: 4px; padding: 6px 4px 0 }
+  .lb-pedestal { width: 56px; height: 56px }
+  .lb-ic { width: 48px; height: 48px }
+  .lb-q { font-size: 22px }
+  .lb-nome { font-size: 11px }
+  .lb-orig, .lb-miss, .lb-dia, .lb-bonus { font-size: 10px }
+  .cq-tabs { flex-wrap: nowrap }
+  .cq-tabs button { flex: 1 1 0; justify-content: center; min-width: 0; font-size: 12px; padding: 5px 6px; gap: 4px }
+}
+@media (max-width: 400px) {
+  .lb-nome { font-size: 10px }
+  .lb-row { padding: 6px 2px 0 }
+}

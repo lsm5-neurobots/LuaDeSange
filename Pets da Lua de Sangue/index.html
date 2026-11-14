@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pets da Lua de Sangue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --night: #13111b; --night-2: #1c1927; --line: #2e2a3c;
+  --bone: #ece4d2; --bone-dim: #b5ac9c; --moon: #d0343c; --moonlit: #b9a7e8;
+  --grass-a: #3a462e; --grass-b: #404d32;
+  --f-display: "Pixelify Sans", "Courier New", monospace;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--night); color: var(--bone); font: 17px/1.55 var(--f-body); }
+img, canvas { image-rendering: pixelated; max-width: 100%; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+header.wrap { padding-top: 34px; }
+.moon { width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #ec6870, var(--moon) 55%, #6e1418); box-shadow: 0 0 30px rgba(208,52,60,.45); }
+h1 { font: 700 clamp(30px, 6vw, 48px)/1.05 var(--f-display); margin: 18px 0 10px; text-wrap: balance; }
+.lede { color: var(--bone-dim); max-width: 70ch; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
+.chips li { font: 500 13px var(--f-display); border: 1px solid var(--line); padding: 4px 10px; border-radius: 3px; color: var(--bone-dim); }
+.toolbar { position: sticky; top: 0; z-index: 5; background: rgba(19,17,27,.94); backdrop-filter: blur(4px); border-bottom: 1px solid var(--line); margin-top: 22px; }
+.toolbar .wrap { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding-top: 10px; padding-bottom: 10px; }
+.tb-label { font: 500 13px var(--f-display); color: var(--bone-dim); margin-right: 4px; }
+.btn { font: 500 13px var(--f-display); padding: 6px 12px; border-radius: 4px; border: 1px solid #4a4360; background: var(--night-2); color: var(--bone); cursor: pointer; }
+.btn[aria-pressed="true"] { background: var(--moon); border-color: var(--moon); color: #fff; }
+.btn:focus-visible, .idx:focus-visible { outline: 2px solid var(--moonlit); outline-offset: 2px; }
+nav.index { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 24px 0 6px; }
+.idx { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 6px; border-radius: 8px; text-decoration: none; color: var(--bone); background: var(--night-2); border: 1px solid var(--line); }
+.idx:hover { border-color: var(--moon); }
+.idx canvas { width: 112px; height: 112px; }
+.idx-name { font: 500 15px var(--f-display); }
+.idx-sub { font-size: 12px; color: var(--bone-dim); }
+.entry { display: grid; grid-template-columns: 300px 1fr; gap: 28px; padding: 32px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 64px; }
+.card { position: relative; margin: 0; align-self: start; background: var(--bone); border-radius: 12px; padding: 22px 22px 16px; box-shadow: 0 6px 0 #0008; position: sticky; top: 70px; }
+.card .corner { position: absolute; font: 700 13px/1.05 var(--f-display); color: var(--moon); }
+.card .tl { top: 5px; left: 8px; } .card .br { bottom: 5px; right: 8px; transform: rotate(180deg); }
+.stage { width: 256px; height: 256px; border-radius: 6px; overflow: hidden; background-color: var(--grass-a);
+  background-image: linear-gradient(45deg, var(--grass-b) 25%, transparent 25%, transparent 75%, var(--grass-b) 75%), linear-gradient(45deg, var(--grass-b) 25%, transparent 25%, transparent 75%, var(--grass-b) 75%);
+  background-size: 64px 64px; background-position: 0 0, 32px 32px; }
+.stage canvas { width: 256px; height: 256px; display: block; }
+.card-name { font: 700 22px var(--f-display); color: var(--night); margin: 10px 0 0; }
+.card-sub { color: #5a5248; font-size: 14px; margin: 0 0 8px; }
+.rowbtns { display: flex; flex-wrap: wrap; gap: 4px; }
+.rowbtns button { font: 500 12px var(--f-display); padding: 4px 7px; border-radius: 3px; border: 1px solid #b5ac9c; background: #f6f0e2; color: #2a2433; cursor: pointer; }
+.rowbtns button[aria-pressed="true"] { background: var(--night); color: var(--bone); border-color: var(--night); }
+.rowbtns button:focus-visible { outline: 2px solid var(--moon); outline-offset: 1px; }
+.fr { font: 400 12px var(--f-mono); color: #5a5248; margin-top: 6px; min-height: 1.4em; }
+h2 { font: 700 30px var(--f-display); margin: 0; }
+.esp { display: inline-block; font: 500 13px var(--f-display); color: #fff; background: var(--moon); border-radius: 3px; padding: 2px 8px; margin: 6px 0 12px; }
+.conceito { font-size: 18px; max-width: 68ch; margin: 0 0 18px; }
+h3 { font: 700 16px var(--f-display); color: var(--moonlit); margin: 22px 0 8px; letter-spacing: .03em; }
+.partes { display: grid; grid-template-columns: 150px 1fr; gap: 0; margin: 0; border-top: 1px solid var(--line); }
+.partes dt, .partes dd { margin: 0; padding: 9px 0; border-bottom: 1px solid var(--line); }
+.partes dt { font: 500 14px var(--f-display); color: var(--bone); padding-right: 12px; }
+.partes dd { color: var(--bone-dim); }
+.pal { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; list-style: none; }
+.pal li { display: flex; align-items: center; gap: 7px; background: var(--night-2); border: 1px solid var(--line); border-radius: 4px; padding: 4px 9px 4px 4px; font-size: 13px; }
+.pal i { width: 22px; height: 22px; border-radius: 3px; border: 1px solid #0006; display: block; }
+.pal code { font: 400 11px var(--f-mono); color: var(--bone-dim); }
+.anims { margin: 0; padding: 0; list-style: none; }
+.anims li { padding: 7px 0; border-bottom: 1px solid var(--line); color: var(--bone-dim); }
+.anims b { font: 500 14px var(--f-display); color: var(--bone); margin-right: 6px; }
+.ev { font: 400 11px var(--f-mono); color: var(--moonlit); margin-left: 4px; }
+details.sheet { margin-top: 18px; }
+details.sheet summary { cursor: pointer; font: 500 14px var(--f-display); color: var(--bone-dim); }
+details.sheet img { margin-top: 10px; background: #2a2a2a; border-radius: 4px; width: 100%; max-width: 1024px; }
+.missing { color: var(--moon); font-family: var(--f-display); padding: 40px 0; }
+footer { color: var(--bone-dim); font-size: 13px; padding: 30px 0 50px; }
+@media (max-width: 760px) { .entry { grid-template-columns: 1fr; } .card { position: relative; top: 0; justify-self: center; } .partes { grid-template-columns: 1fr; } .partes dt { border-bottom: 0; padding-bottom: 0; } }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="moon" aria-hidden="true"></div>
+  <h1>Pets da Lua de Sangue</h1>
+  <p class="lede">Ficha visual de cada pet, parte por parte, e a folha de sprites no mesmo formato dos zumbis: quadros de 128 px, 8 colunas por 6 linhas (parado, andar, ataque, dano, desmaio, especial). Pet não morre: no lugar da morte ele desmaia e volta depois.</p>
+  <ul class="chips"><li>128 × 128 px</li><li>folha 1024 × 768</li><li>6 linhas · 34 quadros</li><li>voltado para a direita</li><li>luz da lua no alto à esquerda</li></ul>
+</header>
+
+<div class="toolbar">
+  <div class="wrap">
+    <span class="tb-label">Todos:</span>
+    <span id="globalRows"></span>
+    <span class="tb-label" style="margin-left:10px">Velocidade:</span>
+    <button class="btn" data-speed="0.5" aria-pressed="false">0,5×</button>
+    <button class="btn" data-speed="1" aria-pressed="true">1×</button>
+    <button class="btn" data-speed="2" aria-pressed="false">2×</button>
+  </div>
+</div>
+
+<main class="wrap">
+  <nav class="index" id="index" aria-label="Pets"></nav>
+  <div id="entries"></div>
+</main>
+<footer class="wrap">Sprites gerados por código (tools/pet_*.py sobre tools/pixkit.py). Regerar: rodar cada pet_*.py e depois tools/montar_pagina.py.</footer>
+
+<script src="data.js"></script>
+<script>
+(() => {
+  const D = window.DATA || { pets: [], rows: [], nfr: {}, dur: {} };
+  const S = 128;
+  const LABEL = { idle: 'Parado', walk: 'Andar', attack: 'Ataque', hurt: 'Dano', death: 'Desmaio', special: 'Especial' };
+  const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  let speed = 1;
+  const players = [];
+
+  function makePlayer(canvas, img, row, onFrame) {
+    const ctx = canvas.getContext('2d'); ctx.imageSmoothingEnabled = false;
+    const p = { row, f: 0, t: 0 };
+    p.draw = () => { ctx.clearRect(0, 0, S, S); const r = D.rows.indexOf(p.row); ctx.drawImage(img, p.f * S, r * S, S, S, 0, 0, S, S); onFrame && onFrame(p); };
+    p.set = row => { p.row = row; p.f = 0; p.t = 0; p.draw(); };
+    p.tick = dt => {
+      if (reduce) return;
+      p.t += dt * speed;
+      const d = D.dur[p.row][p.f];
+      if (p.t >= d) { p.t -= d; p.f = (p.f + 1) % D.nfr[p.row]; p.draw(); }
+    };
+    players.push(p); return p;
+  }
+
+  const idx = document.getElementById('index');
+  const entries = document.getElementById('entries');
+
+  if (!D.pets.length) entries.innerHTML = '<p class="missing">Nenhum pet gerado ainda — rode tools/montar_pagina.py.</p>';
+
+  D.pets.forEach((pet, i) => {
+    const img = new Image(); img.src = pet.sheet;
+    // índice
+    const a = document.createElement('a'); a.className = 'idx'; a.href = '#' + pet.id;
+    a.innerHTML = `<canvas width="128" height="128" aria-hidden="true"></canvas><span class="idx-name">${esc(pet.nome)}</span><span class="idx-sub">${esc(pet.sub)}</span>`;
+    idx.appendChild(a);
+    // ficha
+    const ev = pet.eventos || {};
+    const evTxt = r => { const e = ev[r]; if (!e) return ''; return Object.entries(e).map(([k, v]) => `q${k}: ${esc(v)}`).join(' · '); };
+    const sec = document.createElement('section'); sec.className = 'entry'; sec.id = pet.id;
+    sec.innerHTML = `
+      <figure class="card">
+        <span class="corner tl">${String(i + 1).padStart(2, '0')}</span><span class="corner br">${String(i + 1).padStart(2, '0')}</span>
+        <div class="stage"><canvas width="128" height="128" role="img" aria-label="${esc(pet.nome)} animado"></canvas></div>
+        <p class="card-name">${esc(pet.nome)}</p><p class="card-sub">${esc(pet.sub)}</p>
+        <div class="rowbtns">${D.rows.map(r => `<button data-row="${r}" aria-pressed="${r === 'idle'}">${LABEL[r]}</button>`).join('')}</div>
+        <div class="fr" aria-live="off"></div>
+      </figure>
+      <div>
+        <h2>${esc(pet.nome)}</h2>
+        ${pet.especial ? `<span class="esp">Especial: ${esc(pet.especial)}</span>` : ''}
+        <p class="conceito">${esc(pet.conceito)}</p>
+        <h3>PARTE POR PARTE</h3>
+        <dl class="partes">${(pet.partes || []).map(p => `<dt>${esc(p.parte)}</dt><dd>${esc(p.descricao)}</dd>`).join('')}</dl>
+        <h3>PALETA</h3>
+        <ul class="pal">${(pet.paleta || []).map(c => `<li><i style="background:${esc(c.hex)}"></i>${esc(c.nome)} <code>${esc(c.hex)}</code></li>`).join('')}</ul>
+        <h3>ANIMAÇÕES</h3>
+        <ul class="anims">${D.rows.map(r => `<li><b>${LABEL[r]}</b>${esc((pet.animacoes || {})[r])}${evTxt(r) ? `<span class="ev">[${evTxt(r)}]</span>` : ''}</li>`).join('')}</ul>
+        <details class="sheet"><summary>Folha completa (1024 × 768)</summary><img src="${esc(pet.sheet)}" alt="Folha de sprites do ${esc(pet.nome)}" loading="lazy"></details>
+      </div>`;
+    entries.appendChild(sec);
+    const fr = sec.querySelector('.fr');
+    const go = () => {
+      const ip = makePlayer(a.querySelector('canvas'), img, 'walk');
+      const sp = makePlayer(sec.querySelector('.stage canvas'), img, 'idle', p => { fr.textContent = `${LABEL[p.row]} · quadro ${p.f + 1}/${D.nfr[p.row]}`; });
+      ip.draw(); sp.draw();
+      sec.querySelectorAll('.rowbtns button').forEach(b => b.addEventListener('click', () => {
+        sec.querySelectorAll('.rowbtns button').forEach(x => x.setAttribute('aria-pressed', x === b));
+        sp.set(b.dataset.row);
+      }));
+      sec._player = sp;
+    };
+    img.complete ? go() : img.addEventListener('load', go);
+  });
+
+  // controles globais
+  const gr = document.getElementById('globalRows');
+  gr.innerHTML = D.rows.map(r => `<button class="btn" data-grow="${r}" aria-pressed="false">${LABEL[r]}</button>`).join(' ');
+  gr.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    gr.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b));
+    document.querySelectorAll('.entry').forEach(sec => {
+      if (sec._player) sec._player.set(b.dataset.grow);
+      sec.querySelectorAll('.rowbtns button').forEach(x => x.setAttribute('aria-pressed', x.dataset.row === b.dataset.grow));
+    });
+  }));
+  document.querySelectorAll('[data-speed]').forEach(b => b.addEventListener('click', () => {
+    speed = +b.dataset.speed;
+    document.querySelectorAll('[data-speed]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  }));
+
+  let last = performance.now();
+  const loop = now => { const dt = Math.min(100, now - last); last = now; players.forEach(p => p.tick(dt)); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+{
+ "titulo": "Queixada Zumbi (Tayassu pecari) - anatomia e bando",
+ "pasta": "zumbis-pantanal/queixada",
+ "secoes": [
+  {
+   "nome": "Queixada de corpo inteiro",
+   "n": 14,
+   "busca": [
+    "Tayassu pecari",
+    "queixada",
+    "white-lipped peccary",
+    "queixada Pantanal",
+    "white-lipped peccary standing",
+    "Tayassu pecari full body"
+   ],
+   "cats": [
+    "Tayassu pecari"
+   ]
+  },
+  {
+   "nome": "Bando em corrida",
+   "n": 10,
+   "busca": [
+    "white-lipped peccary herd",
+    "queixada bando",
+    "peccary herd running",
+    "peccaries group",
+    "Tayassu pecari group",
+    "queixadas"
+   ]
+  },
+  {
+   "nome": "Cabeca e presas, close",
+   "n": 10,
+   "busca": [
+    "peccary head close up",
+    "white-lipped peccary tusks",
+    "queixada cabeca",
+    "peccary teeth",
+    "peccary snout",
+    "white-lipped peccary portrait"
+   ]
+  },
+  {
+   "nome": "Ameaca e estalo de dentes",
+   "n": 6,
+   "busca": [
+    "peccary aggressive",
+    "peccary threat display",
+    "peccary teeth chattering",
+    "white-lipped peccary fight"
+   ]
+  },
+  {
+   "nome": "Cateto com colar",
+   "n": 10,
+   "busca": [
+    "Dicotyles tajacu",
+    "cateto",
+    "collared peccary",
+    "collared peccary portrait",
+    "Pecari tajacu",
+    "cateto Pantanal"
+   ],
+   "cats": [
+    "Pecari tajacu"
+   ]
+  },
+  {
+   "nome": "Pelagem e cerdas",
+   "n": 8,
+   "busca": [
+    "peccary fur",
+    "peccary bristles",
+    "peccary coat",
+    "white-lipped peccary fur",
+    "boar bristles hair close up"
+   ]
+  },
+  {
+   "nome": "Patas e cascos",
+   "n": 6,
+   "busca": [
+    "peccary feet",
+    "peccary hoof",
+    "peccary tracks",
+    "pegada queixada"
+   ]
+  },
+  {
+   "nome": "Pegadas e lama",
+   "n": 6,
+   "busca": [
+    "peccary wallow",
+    "peccary mud",
+    "peccary tracks mud",
+    "white-lipped peccary mud"
+   ]
+  },
+  {
+   "nome": "Cranio e esqueleto com presas",
+   "n": 12,
+   "busca": [
+    "peccary skull",
+    "peccary skeleton",
+    "Tayassu pecari skull",
+    "white-lipped peccary skull",
+    "peccary mandible tusks",
+    "queixada cranio",
+    "boar skull tusks"
+   ]
+  },
+  {
+   "nome": "Bando no mato",
+   "n": 6,
+   "busca": [
+    "peccaries forest",
+    "peccary Amazon forest",
+    "peccary in the wild",
+    "queixada mata"
+   ]
+  },
+  {
+   "nome": "Javali e porco-do-mato em investida (movimento)",
+   "n": 12,
+   "busca": [
+    "wild boar charging",
+    "wild boar running",
+    "warthog charging",
+    "boar running",
+    "javali investida",
+    "wild pig attack stance",
+    "feral pig running"
+   ]
+  }
+ ]
+}

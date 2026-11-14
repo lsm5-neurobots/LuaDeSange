@@ -1,0 +1,133 @@
+{
+  "id": "sagui",
+  "nome": "Sagui",
+  "sub": "de tufo branco",
+  "conceito": "Um sagui-de-tufos-brancos pequeno, curioso e de mãos rápidas, que nunca deixa um contêiner sem revirar. Cabeça grande e expressiva com dois leques de pelo branco nas orelhas, cara escura com olhos castanhos brilhantes, corpo cinza-acastanhado listrado e uma cauda longa anelada que se curva atrás dele; leva a tiracolo uma pochete de lona remendada onde guarda o que acha na noite da Lua de Sangue.",
+  "partes": [
+    {
+      "parte": "Cabeça",
+      "descricao": "Elipse grande de ~25x23 px (quase do tamanho do tronco), cinza-acastanhada, com o alto da cabeça mais escuro (#5a5048). Gira até ±16° para olhar, recuar e tombar; textura de pelo pontilhada."
+    },
+    {
+      "parte": "Cara e mancha da testa",
+      "descricao": "Máscara facial marrom-escura (#3b2d27) de ~16x17 px ocupando a frente da cabeça; acima dos olhos, uma mancha branca em losango (#f4f0e6) de ~5x6 px, marca típica da espécie."
+    },
+    {
+      "parte": "Olhos",
+      "descricao": "Dois olhos castanho-âmbar (#6a3a1c) em visão 3/4: o de perto com raio 2 px e o de longe com 1 px, ambos com pupila escura e brilho branco no canto superior esquerdo. Viram linhas fechadas ao piscar/levar dano, ^ ^ quando feliz, espiral ao cambalear e X no desmaio (sobre um aro claro #9a7a66 para ler bem contra a cara escura)."
+    },
+    {
+      "parte": "Tufos das orelhas",
+      "descricao": "Dois leques de pelo branco (#f1ede4) bem grandes: o tufo de perto (~16x18 px) sai da lateral da cabeça para trás e para cima, com sombra cinza (#c9c3b8) no meio; o de longe aparece atrás da cabeça, mais acinzentado. Abrem uns 10–15% quando ele se assusta ou se empolga."
+    },
+    {
+      "parte": "Focinho e boca",
+      "descricao": "Focinho curto e escuro (#2a1f1b) de ~8x7 px projetado à frente, com narina de 2 px. A boca alterna entre traço fechado, sorriso, boca aberta vermelha com dois dentinhos brancos (guincho) e linha ondulada (tonto)."
+    },
+    {
+      "parte": "Corpo",
+      "descricao": "Tronco oval de ~34x21 px, horizontal e levemente inclinado para frente (quadrúpede), cinza-acastanhado (#8a7e70) com barriga/peito claros (#b4a894). Sobe e desce no passo saltitante e inclina até -34° quando senta."
+    },
+    {
+      "parte": "Braços e mãos",
+      "descricao": "Braços finos de dois segmentos com cotovelo para trás, o de perto em tom claro e o de longe mais escuro; mãos pequenas marrom-escuras (#3a2e28) de ~5x4 px. São as 'mãos rápidas': arranham, remexem a terra e erguem os achados."
+    },
+    {
+      "parte": "Pernas e pés",
+      "descricao": "Coxa traseira redonda e cheia (~16x15 px), canela fina com joelho dobrado e pés compridos e escuros apoiados em y=112. As pernas do lado longe são mais escuras para dar profundidade."
+    },
+    {
+      "parte": "Cauda",
+      "descricao": "Cauda longa (~50 px) feita de 11 segmentos que afinam de 6 para 3 px, com anéis alternados cinza-claro (#9a948c) e quase pretos (#2e2a28) e ponta escura. Curva-se em arco para trás e para cima, enrola mais na respiração e balança no passo."
+    },
+    {
+      "parte": "Pelagem e marcas",
+      "descricao": "Pontilhado de pelo em todas as partes, luz de lua no topo-esquerda e sombra roxa embaixo-direita. Seis listras transversais escuras (#5a5048) atravessam o dorso como no sagui real."
+    },
+    {
+      "parte": "Acessório: pochete a tiracolo",
+      "descricao": "Alça de couro marrom (#5c3d26) cruzando o peito na diagonal até uma pochete de lona cáqui (#7a6e44) de ~15x12 px na barriga, logo à frente da coxa, com aba mais escura, botão de latão e um remendo vermelho-sangue (#b0303a) costurado."
+    },
+    {
+      "parte": "Silhueta e pose",
+      "descricao": "Leitura imediata pelo 'leque' branco dos tufos sobre uma cabeça enorme, corpo baixo de quatro patas e a cauda anelada em arco. Ocupa ~80 px de largura (da ponta da cauda ao focinho), virado para a direita em 3/4."
+    }
+  ],
+  "paleta": [
+    {
+      "nome": "Pelo cinza-acastanhado",
+      "hex": "#8a7e70"
+    },
+    {
+      "nome": "Listras do dorso",
+      "hex": "#5a5048"
+    },
+    {
+      "nome": "Peito claro",
+      "hex": "#b4a894"
+    },
+    {
+      "nome": "Cara escura",
+      "hex": "#3b2d27"
+    },
+    {
+      "nome": "Tufo branco",
+      "hex": "#f1ede4"
+    },
+    {
+      "nome": "Anel claro da cauda",
+      "hex": "#9a948c"
+    },
+    {
+      "nome": "Anel escuro da cauda",
+      "hex": "#2e2a28"
+    },
+    {
+      "nome": "Íris âmbar",
+      "hex": "#6a3a1c"
+    },
+    {
+      "nome": "Lona da pochete",
+      "hex": "#7a6e44"
+    },
+    {
+      "nome": "Remendo sangue",
+      "hex": "#b0303a"
+    }
+  ],
+  "animacoes": {
+    "idle": "4 quadros em quatro patas: o corpo sobe e desce ~1 px na respiração, a cabeça vira levemente para cima (0 a -3°), a cauda enrola um pouco mais e balança; no quadro 2 ele pisca.",
+    "walk": "8 quadros de galope saltitante: pares diagonais de patas avançam/recuam em ciclo (pata levantada até 5 px), o corpo dá dois pulinhos de ~3 px por ciclo, inclina ±3° e a cauda ondula em contrafase.",
+    "attack": "0: encara de sobrancelha franzida; 1 (antecipação longa): recua e empina, ergue a mão de perto acima da cabeça, tufos abertos e guincho com ondas de som; 2: dá o bote para frente com traços de velocidade; 3: tapa/arranhão para baixo com explosão de impacto e três riscos vermelhos; 4: mão termina no chão; 5: volta à pose normal.",
+    "hurt": "0: lampejo branco com olhos arregalados; 1: é jogado 4 px para trás, empinado, olhos fechados e boca aberta, tufos arrepiados; 2: ainda recuado, boca ondulada; 3: recupera a pose e olha para frente.",
+    "death": "Desmaio: 0 lampejo branco; 1 cambaleia para trás de olhos fechados; 2 tomba para frente com olhos em espiral e uma estrelinha; 3 desaba de barriga com poeira dos dois lados; 4 quica rente ao chão, braços e pernas esparramados; 5 (600 ms) deitado de bruços com olhos em X e três estrelinhas girando sobre a cabeça.",
+    "special": "Vasculhar: 0 senta e põe as mãos no chão; 1 e 2 remexe alternando as mãos rápidas, com poeirinha e pedrinhas voando, olhos ^ ^; 3 acha um parafuso, olhos arregalados e balão '!'; 4 ergue uma moeda dourada acima da cabeça com brilhos; 5 segura a moeda, sorri satisfeito com brilho e estrelinha."
+  },
+  "especial": "Vasculhar",
+  "eventos": {
+    "idle": {
+      "0": "respira"
+    },
+    "walk": {
+      "0": "passo",
+      "4": "passo"
+    },
+    "attack": {
+      "1": "guincho",
+      "3": "impacto"
+    },
+    "hurt": {
+      "0": "dano"
+    },
+    "death": {
+      "0": "dano",
+      "3": "queda"
+    },
+    "special": {
+      "1": "remexer",
+      "2": "remexer",
+      "3": "achado",
+      "4": "brilho"
+    }
+  }
+}

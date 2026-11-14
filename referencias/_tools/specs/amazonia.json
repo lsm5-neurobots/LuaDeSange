@@ -1,0 +1,212 @@
+{
+ "titulo": "Floresta Amazonica - Manaus, rios e floresta",
+ "pasta": "amazonia",
+ "secoes": [
+  {
+   "nome": "Porto de Manaus e flutuantes",
+   "n": 8,
+   "busca": [
+    "Porto de Manaus",
+    "Manaus floating port",
+    "Manaus porto flutuante",
+    "Roadway Manaus floating dock",
+    "barcos regionais Manaus porto"
+   ],
+   "cats": [
+    "Port of Manaus",
+    "Manaus harbour"
+   ]
+  },
+  {
+   "nome": "Mercado Municipal Adolpho Lisboa",
+   "n": 8,
+   "busca": [
+    "Mercado Adolpho Lisboa",
+    "Mercado Municipal de Manaus",
+    "Adolpho Lisboa market Manaus interior",
+    "Mercado Adolpho Lisboa estrutura de ferro"
+   ],
+   "cats": [
+    "Mercado Adolpho Lisboa"
+   ]
+  },
+  {
+   "nome": "Teatro Amazonas",
+   "n": 9,
+   "busca": [
+    "Teatro Amazonas",
+    "Teatro Amazonas cupula",
+    "Amazonas Theatre Manaus",
+    "Teatro Amazonas interior",
+    "Largo de Sao Sebastiao Manaus calcada"
+   ],
+   "cats": [
+    "Teatro Amazonas"
+   ]
+  },
+  {
+   "nome": "Encontro das Aguas",
+   "n": 9,
+   "busca": [
+    "Encontro das Aguas Manaus",
+    "Meeting of Waters Rio Negro Solimoes",
+    "Encontro das Aguas aerea",
+    "Rio Negro Solimoes confluence boat"
+   ],
+   "cats": [
+    "Meeting of Waters (Manaus)",
+    "Encontro das Águas"
+   ]
+  },
+  {
+   "nome": "Palafitas e comunidade ribeirinha",
+   "n": 9,
+   "busca": [
+    "palafitas Amazonia",
+    "Manaus palafita igarape",
+    "ribeirinho casa flutuante",
+    "comunidade ribeirinha Amazonas",
+    "stilt houses Amazon river",
+    "casa de madeira ribeirinha"
+   ],
+   "cats": [
+    "Stilt houses in Brazil",
+    "Palafitas"
+   ]
+  },
+  {
+   "nome": "Igarape",
+   "n": 7,
+   "busca": [
+    "igarape Amazonia",
+    "igarape Manaus",
+    "Amazon creek blackwater forest",
+    "igarape canoa floresta"
+   ],
+   "cats": [
+    "Igarapés"
+   ]
+  },
+  {
+   "nome": "Floresta de terra firme (sub-bosque)",
+   "n": 9,
+   "busca": [
+    "Amazon rainforest understory",
+    "floresta amazonica terra firme",
+    "Amazon rainforest trail",
+    "Reserva Ducke Manaus",
+    "Amazon forest floor leaf litter",
+    "Amazon rainforest canopy"
+   ],
+   "cats": [
+    "Amazon rainforest",
+    "Reserva Florestal Adolpho Ducke"
+   ]
+  },
+  {
+   "nome": "Samauma e sapopemas",
+   "n": 8,
+   "busca": [
+    "samauma Ceiba pentandra Amazon",
+    "samauma arvore gigante",
+    "Ceiba pentandra buttress roots",
+    "sapopema raizes tabulares",
+    "giant tree Amazon buttress roots"
+   ],
+   "cats": [
+    "Ceiba pentandra"
+   ]
+  },
+  {
+   "nome": "Seringal e seringueira",
+   "n": 7,
+   "busca": [
+    "seringal Amazonia",
+    "seringueira Hevea brasiliensis",
+    "rubber tapping Amazon",
+    "sangria seringueira",
+    "Hevea brasiliensis latex tapping cup"
+   ],
+   "cats": [
+    "Hevea brasiliensis",
+    "Rubber tapping"
+   ]
+  },
+  {
+   "nome": "Garimpo e clareira lamacenta",
+   "n": 7,
+   "busca": [
+    "garimpo Amazonia",
+    "garimpo de ouro Brasil",
+    "gold mining Amazon Brazil",
+    "garimpo balsa dragas rio",
+    "Serra Pelada garimpo",
+    "wildcat gold mine Brazil mud"
+   ],
+   "cats": [
+    "Gold mining in Brazil",
+    "Serra Pelada"
+   ]
+  },
+  {
+   "nome": "Igapo e floresta alagada",
+   "n": 8,
+   "busca": [
+    "igapo Rio Negro",
+    "igapo flooded forest Amazon",
+    "floresta alagada Anavilhanas",
+    "varzea Amazonas",
+    "flooded forest canoe Amazon",
+    "Anavilhanas archipelago"
+   ],
+   "cats": [
+    "Anavilhanas National Park",
+    "Igapó"
+   ]
+  },
+  {
+   "nome": "Ceu, luz e clima amazonico",
+   "n": 7,
+   "busca": [
+    "Amazon sunset river",
+    "por do sol Rio Negro",
+    "Amazon river fog dawn",
+    "tempestade Amazonia",
+    "Amazon night stars river",
+    "Amazon rain storm forest"
+   ],
+   "cats": [
+    "Sunsets in Brazil",
+    "Amazon River"
+   ]
+  },
+  {
+   "nome": "Barcos, canoas e utensilios",
+   "n": 6,
+   "busca": [
+    "barco regional Amazonia",
+    "canoa de madeira rio Amazonas",
+    "rede de dormir Amazonia",
+    "paneiro Amazonia",
+    "casco de madeira rio Negro",
+    "cuia Amazonia"
+   ],
+   "cats": [
+    "Boats of Brazil on the Amazon"
+   ]
+  },
+  {
+   "nome": "Fauna de cenario (aves, borboletas, fungos)",
+   "n": 4,
+   "busca": [
+    "Amazon rainforest bird",
+    "scarlet macaw rainforest",
+    "Amazon rainforest fungus",
+    "Morpho butterfly rainforest"
+   ],
+   "cats": [
+    "Amazon rainforest wildlife"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,193 @@
+{
+  "id": "lenhador",
+  "nome": "Lenhador",
+  "tipo": "recruta",
+  "corpo": "m",
+  "aptidao": {
+    "principal": "Madeira",
+    "secundaria": "Combate",
+    "contraria": "Medicina",
+    "producao": "pilha de toras -> Madeira"
+  },
+  "cor_uniforme": "#8b3a2a",
+  "conceito": "Grandalhão barbudo do interior, que cortava eucalipto pra serraria antes da Lua de Sangue. Camisa de flanela xadrez vinho com as mangas arregaçadas, suspensórios de couro, calça de lona remendada e botinas; o machado nunca sai da mão. Calmo, ombros largos e meio curvados para frente, de quem passou a vida carregando tora.",
+  "partes": [
+    {
+      "parte": "Cabeça/rosto",
+      "descricao": "Cabeçorra padrão do esqueleto (crânio elipse 15x15 px + queixo/bochecha 12x9 px puxado para a direita), pele sorteada (4 tons) com sombreado roxo e luz da lua. Testa curta aparecendo entre o gorro e as sobrancelhas. Inclina junto com o tronco (hrot = lean/2)."
+    },
+    {
+      "parte": "Cabelo/barba",
+      "descricao": "Barba cheia e grossa ~28x16 px cobrindo bochecha, queixo e costeletas até o gorro, ponta descendo 3 px abaixo do queixo; bigode farto 9x3 px mais escuro sobre a boca. Cor = cor de cabelo sorteada (5 opções), 3 tons (base, mecha clara, sombra) com textura de fios em pontilhado. Tufo de cabelo saindo pela nuca abaixo do gorro (6x7 px). Lascas de serragem amarela (2-3 px) presas na barba. Barba acompanha a rotação da cabeça; no ataque abre a boca no meio da barba."
+    },
+    {
+      "parte": "Olhos/sobrancelhas",
+      "descricao": "Olhos padrão 3x5/2x5 px (esclera clara, íris castanha #3a2414, brilho branco), pálpebra escura. Sobrancelhas grossas e peludas 5x2 px na cor do cabelo, logo abaixo da barra do gorro. Idle: pisca no quadro 2. Ataque: sobrancelhas em V (bravo). Hurt/death: fechados / X. Special: olhos fechados no golpe e 'feliz' (^ ^) no fim."
+    },
+    {
+      "parte": "Boca/expressão",
+      "descricao": "Boca aparece como abertura dentro do bigode (5x3 px, #3a1414 com dentes #f4efe6 no 'grit'). Idle: linha séria tranquila; ataque: dentes cerrados na preparação e boca aberta (grito) no impacto; hurt: 'o'; special: dentes cerrados no golpe, sorriso satisfeito quando a tora parte."
+    },
+    {
+      "parte": "Orelhas/nariz",
+      "descricao": "Orelha 7x10 px na lateral esquerda da cabeça, metade escondida pela costeleta; nariz de batata 5x6 px apontando para a direita, ligeiramente avermelhado na ponta (#e07a6a misturado) de quem trabalha no sol e no frio."
+    },
+    {
+      "parte": "Pescoço/gola",
+      "descricao": "Pescoço grosso 9 px, quase escondido pela barba. Gola da flanela aberta em V com dois botões abertos mostrando a camiseta de baixo cinza-encardida (#9a948a) e um pouco de pele."
+    },
+    {
+      "parte": "Tronco/roupa de cima",
+      "descricao": "Camisa de flanela xadrez vinho #8b3a2a (cor do uniforme) com faixas escuras #4a1c18 de 2 px a cada 7 px nas duas direções (cruzamento ainda mais escuro) e fio claro #b8644a; tronco 1 px mais largo que o padrão + barriguinha de 'grandalhão'. Bolso no peito com aba e botão, botões claros na carreira central, remendo quadrado de pano xadrez diferente no flanco, manchas de seiva/sujeira e pontos de serragem. Fica para dentro da calça, presa pelo cinto."
+    },
+    {
+      "parte": "Suspensórios e cinto",
+      "descricao": "Dois suspensórios de couro marrom #4a3020 de 3 px com costura pontilhada clara, saindo dos ombros até o cinto, presilhas de latão #c8a040 2x2 px. Cinto de couro #2e2018 3 px com fivela de latão 4x3 px. Balançam 1 px no walk junto com o tronco."
+    },
+    {
+      "parte": "Braços",
+      "descricao": "Braços grossos (antebraço 8 px, braço 9 px). Mangas arregaçadas até o cotovelo com dobra mais clara de 3 px (avesso do tecido), antebraços de pele à mostra com pelos (pontos na cor do cabelo). Braço da frente (direita da imagem) por cima da roupa; braço de trás mais escuro. No ataque e no special as duas mãos sobem no cabo do machado."
+    },
+    {
+      "parte": "Mãos/luvas",
+      "descricao": "Mãos grandes 9x9 px, pele com nó dos dedos mais escuro; fitinha do Senhor do Bonfim no pulso da frente (verde, amarelo e vermelho, 2 px). Luva de raspa de couro #b8925a enfiada no bolso de trás da calça, dedos pendurados (balança no walk)."
+    },
+    {
+      "parte": "Pernas/calça",
+      "descricao": "Calça de lona cáqui-marrom #6e6044 (2 tons + sombra roxa), coxa 12 px, costura lateral pontilhada, remendo de lona mais clara #8e7c56 no joelho da frente com pontos de linha grossa, barra enfiada na botina, poeira/terra na parte de baixo (#4a3a28). Perna de trás escurecida."
+    },
+    {
+      "parte": "Pés/calçado",
+      "descricao": "Botina de couro marrom #5e3c22 de cano alto (cano 9 px cobrindo a canela), solado grosso #22160f de 2 px, cadarço cru #d8c8a0 em X no cano, biqueira gasta mais clara e lama nas solas. Pé de trás escurecido. Levantam no walk."
+    },
+    {
+      "parte": "Ferramenta",
+      "descricao": "Machado de lenhador: cabo de madeira (nogueira) #a8743a com veios mais escuros, 25 px até a cabeça (30 px com o castão) x 3 px, empunhadura enrolada com fita isolante preta (gambiarra), castão no fim. Cabeça de aço 11x13 px: olho/cunha cinza escuro #4a4e58, face #8a8e96, gume largo afiado com brilho #eef2f6 de 1 px, mancha de ferrugem #8a4a2a. Gume virado na direção do golpe. Desenhado com held() no ângulo P['grip']. Na preparação do golpe (quadro 1) o machado é desenhado atrás da cabeça."
+    },
+    {
+      "parte": "Acessório/marca do ofício",
+      "descricao": "Gorro de lã mostarda #b8862a com barra dobrada canelada (listras verticais) e textura de tricô, cobrindo o alto da cabeça até a testa; lápis de carpinteiro vermelho atrás da orelha; serragem espalhada na roupa e na barba; luva no bolso de trás."
+    },
+    {
+      "parte": "Silhueta/postura",
+      "descricao": "Silhueta larga e pesada (estilo 'heavy': quica 0,5 px mais baixo), ombros 1-2 px mais largos que o padrão, tronco levemente curvado à frente, machado sempre apontando para cima ao lado do corpo — leitura imediata de 'lenhador' pela barba + xadrez vermelho + machado. No walk anda pesado, balançando o machado."
+    }
+  ],
+  "paleta": [
+    {
+      "nome": "flanela vinho (uniforme)",
+      "hex": "#8b3a2a"
+    },
+    {
+      "nome": "xadrez escuro",
+      "hex": "#4a1c18"
+    },
+    {
+      "nome": "fio claro do xadrez",
+      "hex": "#b8644a"
+    },
+    {
+      "nome": "camiseta de baixo",
+      "hex": "#9a948a"
+    },
+    {
+      "nome": "lona da calça",
+      "hex": "#6e6044"
+    },
+    {
+      "nome": "remendo de lona",
+      "hex": "#8e7c56"
+    },
+    {
+      "nome": "couro do suspensório",
+      "hex": "#4a3020"
+    },
+    {
+      "nome": "latão",
+      "hex": "#c8a040"
+    },
+    {
+      "nome": "botina",
+      "hex": "#5e3c22"
+    },
+    {
+      "nome": "solado",
+      "hex": "#22160f"
+    },
+    {
+      "nome": "cadarço",
+      "hex": "#d8c8a0"
+    },
+    {
+      "nome": "gorro mostarda",
+      "hex": "#b8862a"
+    },
+    {
+      "nome": "cabo do machado",
+      "hex": "#a8743a"
+    },
+    {
+      "nome": "aço do machado",
+      "hex": "#8a8e96"
+    },
+    {
+      "nome": "gume",
+      "hex": "#eef2f6"
+    },
+    {
+      "nome": "fita isolante",
+      "hex": "#1e1c22"
+    },
+    {
+      "nome": "miolo da tora",
+      "hex": "#e0b880"
+    },
+    {
+      "nome": "casca da tora",
+      "hex": "#5a3a24"
+    },
+    {
+      "nome": "luva de raspa",
+      "hex": "#b8925a"
+    }
+  ],
+  "ferramenta": "machado de lenhador (cabo de nogueira com fita isolante, cabeça de aço com gume brilhante)",
+  "fala": "Machado eu já sei usar.",
+  "especial": "Rachar tora",
+  "animacoes": {
+    "idle": "4 quadros: respiração pesada (tronco desce 0-1,2 px), machado firme na mão da frente apontando para cima, pisca no quadro 2, barba e gorro acompanham.",
+    "walk": "8 quadros: passada pesada, braços balançam em oposição às pernas, o machado oscila (grip -50 a -70), botinas levantam até 5 px, luva no bolso balança.",
+    "attack": "Machadada, 6 quadros: 0 ergue o machado acima da cabeça com as duas mãos (cara brava, dentes cerrados); 1 carrega com o machado inclinado para trás, atrás do gorro, corpo inclinado para trás; 2 desce com rastro branco de movimento; 3 impacto à frente na altura da cintura com estrela de impacto no gume e boca aberta; 4 segue o golpe para baixo; 5 volta à guarda.",
+    "hurt": "4 quadros: 0 flash branco, 1 tinta vermelha recuando com olhos fechados e dentes cerrados, 2 ainda curvado, 3 se recompõe; mãos sobem para se proteger sem largar o machado.",
+    "death": "6 quadros: 0 flash; 1 cambaleia para trás; 2 cai de joelhos; 3 tomba e o machado cai no chão à esquerda com poeira; 4-5 deitado (giro via humano.rotate_fit, empurrado até caber no quadro e apoiado no chão), olhos em X, machado largado à esquerda, estrelinhas sobre a cabeça no último quadro.",
+    "special": "Rachar tora, 6 quadros: 0 tora de eucalipto (16x18 px, casca escura e anéis no topo) aparece no chão à frente com poeirinha e ele ergue o machado com as duas mãos; 1 machado lá atrás da cabeça, olhos fechados de concentração; 2 desce com rastro; 3 gume crava no topo da tora, rachadura e lascas voando, estrela de impacto; 4 a tora se parte em duas metades que tombam para os lados mostrando o miolo claro, lascas e poeira; 5 metades deitadas no chão, ele apoia o machado e sorri satisfeito (olhos ^ ^), brilho."
+  },
+  "eventos": {
+    "idle": {},
+    "walk": {
+      "0": "passo_pesado",
+      "4": "passo_pesado"
+    },
+    "attack": {
+      "1": "grunhido",
+      "2": "zunido",
+      "3": "machadada"
+    },
+    "hurt": {
+      "0": "gemido"
+    },
+    "death": {
+      "0": "grito",
+      "2": "joelhos_no_chao",
+      "3": "machado_caindo",
+      "4": "queda"
+    },
+    "special": {
+      "0": "tora_no_chao",
+      "1": "respiro",
+      "3": "rachar_madeira",
+      "4": "lascas",
+      "5": "tora_caindo"
+    }
+  }
+}

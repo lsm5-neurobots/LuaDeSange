@@ -1,0 +1,316 @@
+{
+ "grupo": "equip",
+ "itens": [
+  {
+   "id": "faca",
+   "nome": "Faca",
+   "camada": "weapon",
+   "arquivo": "heroi/weapon_faca.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "weapon",
+   "linha_ataque": "attack_knife"
+  },
+  {
+   "id": "taco",
+   "nome": "Taco",
+   "camada": "weapon",
+   "arquivo": "heroi/weapon_taco.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "weapon",
+   "linha_ataque": "attack"
+  },
+  {
+   "id": "facao",
+   "nome": "Facão",
+   "camada": "weapon",
+   "arquivo": "heroi/weapon_facao.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "weapon",
+   "linha_ataque": "attack"
+  },
+  {
+   "id": "machado",
+   "nome": "Machado",
+   "camada": "weapon",
+   "arquivo": "heroi/weapon_machado.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "weapon",
+   "linha_ataque": "attack"
+  },
+  {
+   "id": "pistola",
+   "nome": "Pistola",
+   "camada": "weapon",
+   "arquivo": "heroi/weapon_pistola.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "weapon",
+   "linha_ataque": "attack_fire"
+  },
+  {
+   "id": "espingarda",
+   "nome": "Espingarda",
+   "camada": "weapon",
+   "arquivo": "heroi/weapon_espingarda.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "weapon",
+   "linha_ataque": "attack_fire"
+  },
+  {
+   "id": "rifle",
+   "nome": "Rifle",
+   "camada": "weapon",
+   "arquivo": "heroi/weapon_rifle.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "weapon",
+   "linha_ataque": "attack_fire"
+  },
+  {
+   "id": "colete",
+   "nome": "Colete",
+   "camada": "jacket",
+   "arquivo": "heroi/armor_colete_m.png",
+   "tint": false,
+   "corpo": "m",
+   "opcao": "armor"
+  },
+  {
+   "id": "colete",
+   "nome": "Colete",
+   "camada": "jacket",
+   "arquivo": "heroi/armor_colete_f.png",
+   "tint": false,
+   "corpo": "f",
+   "opcao": "armor"
+  },
+  {
+   "id": "tatica",
+   "nome": "Armadura tática",
+   "camada": "jacket",
+   "arquivo": "heroi/armor_tatica_m.png",
+   "tint": false,
+   "corpo": "m",
+   "opcao": "armor"
+  },
+  {
+   "id": "tatica",
+   "nome": "Armadura tática",
+   "camada": "jacket",
+   "arquivo": "heroi/armor_tatica_f.png",
+   "tint": false,
+   "corpo": "f",
+   "opcao": "armor"
+  },
+  {
+   "id": "mochila_p",
+   "nome": "Mochila pequena",
+   "camada": "bag",
+   "arquivo": "heroi/bag_mochila_p.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "bag"
+  },
+  {
+   "id": "mochila_m",
+   "nome": "Mochila média",
+   "camada": "bag",
+   "arquivo": "heroi/bag_mochila_m.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "bag"
+  },
+  {
+   "id": "mochila_g",
+   "nome": "Mochila grande",
+   "camada": "bag",
+   "arquivo": "heroi/bag_mochila_g.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "bag"
+  },
+  {
+   "id": "bone",
+   "nome": "Boné",
+   "camada": "head",
+   "arquivo": "heroi/head_bone.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "head"
+  },
+  {
+   "id": "palha",
+   "nome": "Chapéu de palha",
+   "camada": "head",
+   "arquivo": "heroi/head_palha.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "head"
+  },
+  {
+   "id": "chapeu_couro",
+   "nome": "Chapéu de couro",
+   "camada": "head",
+   "arquivo": "heroi/head_chapeu_couro.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "head"
+  },
+  {
+   "id": "capacete",
+   "nome": "Capacete de moto",
+   "camada": "head",
+   "arquivo": "heroi/head_capacete.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "head"
+  },
+  {
+   "id": "chinelo",
+   "nome": "Chinelo",
+   "camada": "shoes",
+   "arquivo": "heroi/feet_chinelo.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "feet"
+  },
+  {
+   "id": "tenis",
+   "nome": "Tênis de corrida",
+   "camada": "shoes",
+   "arquivo": "heroi/feet_tenis.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "feet"
+  },
+  {
+   "id": "bota",
+   "nome": "Bota de couro",
+   "camada": "shoes",
+   "arquivo": "heroi/feet_bota.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "feet"
+  },
+  {
+   "id": "cordao",
+   "nome": "Cordão de ouro",
+   "camada": "acc",
+   "arquivo": "heroi/acc_cordao.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "acc"
+  },
+  {
+   "id": "oculos",
+   "nome": "Óculos escuros",
+   "camada": "acc",
+   "arquivo": "heroi/acc_oculos.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "acc"
+  },
+  {
+   "id": "relogio",
+   "nome": "Relógio",
+   "camada": "acc",
+   "arquivo": "heroi/acc_relogio.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "acc"
+  },
+  {
+   "id": "anel",
+   "nome": "Anel de prata",
+   "camada": "acc",
+   "arquivo": "heroi/acc_anel.png",
+   "tint": false,
+   "corpo": "any",
+   "opcao": "acc"
+  }
+ ],
+ "classes": [
+  {
+   "id": "brigao",
+   "nome": "Brigão",
+   "arma": "taco",
+   "linha_ataque": "attack",
+   "desc": "Resolve na porrada: começa com o taco cheio de prego e golpeia de cima para baixo."
+  },
+  {
+   "id": "atirador",
+   "nome": "Atirador",
+   "arma": "pistola",
+   "linha_ataque": "attack_fire",
+   "desc": "Mira firme e dedo leve: começa com a pistola e acerta de longe."
+  },
+  {
+   "id": "sobrevivente",
+   "nome": "Sobrevivente",
+   "arma": "faca",
+   "linha_ataque": "attack_knife",
+   "desc": "Rápido e silencioso: começa com a faca e ataca com estocadas curtas."
+  }
+ ],
+ "skins": [
+  {
+   "id": "neon",
+   "nome": "Neon",
+   "pal": {
+    "shirt": "#39ff88",
+    "pants": "#1a1a2e",
+    "hair": "#00e5ff"
+   }
+  },
+  {
+   "id": "toxica",
+   "nome": "Tóxica",
+   "pal": {
+    "shirt": "#a6e22e",
+    "pants": "#3d3d1a",
+    "hair": "#c8ff00"
+   }
+  },
+  {
+   "id": "lua_rubra",
+   "nome": "Lua Rubra",
+   "pal": {
+    "shirt": "#8b0000",
+    "pants": "#1a0505",
+    "hair": "#ff4d4d"
+   }
+  },
+  {
+   "id": "canarinho",
+   "nome": "Canarinho",
+   "pal": {
+    "shirt": "#ffd800",
+    "pants": "#1e4fbf",
+    "hair": "#2a1a0a"
+   }
+  },
+  {
+   "id": "foliao",
+   "nome": "Folião",
+   "pal": {
+    "shirt": "#ff3db8",
+    "pants": "#7a2ff0",
+    "hair": "#ffd800"
+   }
+  },
+  {
+   "id": "matuto",
+   "nome": "Matuto",
+   "pal": {
+    "shirt": "#c84b2a",
+    "pants": "#3a5a8a",
+    "hair": "#5b3a24"
+   }
+  }
+ ]
+}

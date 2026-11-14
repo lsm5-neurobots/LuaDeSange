@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zumbis da Lua de Sangue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* noite da Lua de Sangue: azul-noite, carta cor de osso, vermelho-lua como único acento */
+  --night: #14121c;
+  --night-2: #1d1a28;
+  --bone: #ece4d2;
+  --bone-dim: #b9b0a0;
+  --moon: #c8323a;
+  --moonlit: #b9a7e8;
+  --grass-a: #3a462e;
+  --grass-b: #404d32;
+  --line: #2f2a3d;
+  --f-display: "Pixelify Sans", "Courier New", monospace;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--night); color: var(--bone); font: 17px/1.55 var(--f-body); }
+img { image-rendering: pixelated; max-width: 100%; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+header.wrap { padding-top: 36px; padding-bottom: 8px; }
+.moon { width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #e9636a, var(--moon) 55%, #6e1418); box-shadow: 0 0 30px rgba(200,50,58,.45); }
+h1 { font: 700 clamp(30px, 6vw, 48px)/1.05 var(--f-display); margin: 18px 0 10px; text-wrap: balance; letter-spacing: .5px; }
+.lede { color: var(--bone-dim); max-width: 62ch; margin: 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
+.meta li { font: 500 13px var(--f-display); border: 1px solid var(--line); padding: 4px 10px; border-radius: 3px; color: var(--bone-dim); }
+nav.index { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 12px; margin: 30px 0 10px; }
+.idx { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 8px 10px; border-radius: 8px; text-decoration: none; color: var(--bone); background: var(--night-2); border: 1px solid var(--line); }
+.idx:hover, .idx:focus-visible { border-color: var(--moon); outline: none; }
+.idx img { width: 96px; height: 96px; }
+.idx-name { font: 500 14px var(--f-display); text-align: center; }
+.idx .corner { position: absolute; top: 6px; left: 8px; font: 500 11px/1.1 var(--f-display); color: var(--bone-dim); text-align: center; }
+.group { padding-top: 34px; }
+h2 { font: 700 26px var(--f-display); margin: 0 0 6px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--line); padding-bottom: 10px; }
+.count { font-size: 14px; color: var(--night); background: var(--bone-dim); border-radius: 3px; padding: 0 7px; }
+.entry { display: grid; grid-template-columns: 296px 1fr; gap: 28px; padding: 28px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 12px; }
+.card { position: relative; margin: 0; align-self: start; background: var(--bone); border-radius: 12px; padding: 22px 20px 26px; box-shadow: 0 6px 0 #0008; }
+.card img { display: block; width: 256px; height: 256px; border-radius: 6px;
+  background-color: var(--grass-a);
+  background-image: linear-gradient(45deg, var(--grass-b) 25%, transparent 25%, transparent 75%, var(--grass-b) 75%), linear-gradient(45deg, var(--grass-b) 25%, transparent 25%, transparent 75%, var(--grass-b) 75%);
+  background-size: 64px 64px; background-position: 0 0, 32px 32px; }
+.card .corner { position: absolute; font: 700 13px/1.05 var(--f-display); color: var(--moon); text-align: center; }
+.card .tl { top: 4px; left: 7px; }
+.card .br { bottom: 4px; right: 7px; transform: rotate(180deg); }
+.stage { position: relative; width: 256px; height: 256px; border-radius: 6px; overflow: visible;
+  background-color: var(--grass-a);
+  background-image: linear-gradient(45deg, var(--grass-b) 25%, transparent 25%, transparent 75%, var(--grass-b) 75%), linear-gradient(45deg, var(--grass-b) 25%, transparent 25%, transparent 75%, var(--grass-b) 75%);
+  background-size: 64px 64px; background-position: 0 0, 32px 32px; }
+.stage canvas { display: block; width: 256px; height: 256px; image-rendering: pixelated; transform-origin: 50% 96%; transition: transform .2s; }
+.stage.f-plenilunar { background-color: #4a3530; --grass-b: #523a33; }
+.stage.f-plenilunar canvas { transform: scale(1.15); filter: drop-shadow(0 0 5px rgba(220, 40, 50, .55)); }
+.stage.f-furia { background-color: #4a3530; --grass-b: #523a33; }
+.stage.f-furia canvas { filter: drop-shadow(0 0 4px rgba(220, 40, 50, .45)); }
+.stage.f-enluarado canvas { animation: shimmer 2s infinite; }
+@keyframes shimmer { 0%, 80%, 100% { filter: none; } 88% { filter: brightness(1.35) drop-shadow(0 0 6px rgba(200, 190, 255, .8)); } }
+@media (prefers-reduced-motion: reduce) { .stage.f-enluarado canvas { animation: none; } }
+.ctrl { display: flex; gap: 4px; margin-top: 8px; }
+.ctrl button { flex: 1; font: 500 12px var(--f-display); padding: 6px 2px; border-radius: 4px; border: 1px solid #c9bea8; background: #f6f0e2; color: #3b352c; cursor: pointer; }
+.ctrl button[aria-pressed="true"] { background: #2b2533; border-color: #2b2533; color: var(--bone); }
+.ctrl.forms button[aria-pressed="true"][data-form="enluarado"] { background: #5b4a8a; border-color: #5b4a8a; }
+.ctrl.forms button[aria-pressed="true"][data-form="plenilunar"], .ctrl.forms button[aria-pressed="true"][data-form="furia"] { background: var(--moon); border-color: var(--moon); }
+.ctrl button:focus-visible { outline: 2px solid var(--moon); outline-offset: 1px; }
+.var.active { background: #2a2236; border-color: #4a3f5e; }
+.card figcaption { font: 500 12px var(--f-display); color: #6f675a; text-align: center; margin-top: 8px; }
+.kicker { margin: 0; font: 500 13px var(--f-display); color: var(--bone-dim); display: flex; gap: 10px; align-items: center; }
+.pill { background: var(--moon); color: #fff; padding: 2px 8px; border-radius: 3px; }
+h3 { font: 700 30px/1.1 var(--f-display); margin: 8px 0 4px; text-wrap: balance; }
+.role { margin: 0 0 12px; color: var(--moonlit); font-weight: 600; }
+.concept { margin: 0 0 16px; max-width: 65ch; }
+dl { margin: 0; display: grid; gap: 10px; }
+.row { display: grid; grid-template-columns: 130px 1fr; gap: 14px; }
+dt { font: 500 14px/1.6 var(--f-display); color: var(--bone-dim); }
+dd { margin: 0; max-width: 65ch; }
+.vars { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-top: 18px; }
+.var { border: 1px solid var(--line); border-left: 4px solid var(--moon); border-radius: 4px; padding: 10px 12px; background: var(--night-2); }
+.var-enluarado { border-left-color: var(--moonlit); }
+.var-name { font: 700 14px var(--f-display); }
+.var p { margin: 4px 0 0; color: var(--bone-dim); font-size: 15px; }
+footer { color: var(--bone-dim); font-size: 14px; padding: 30px 0 50px; }
+@media (max-width: 720px) {
+  .entry { grid-template-columns: 1fr; gap: 18px; }
+  .card { justify-self: center; }
+  .row { grid-template-columns: 1fr; gap: 2px; }
+}
+@media (max-width: 340px) { .card img { width: 220px; height: 220px; } }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="moon" aria-hidden="true"></div>
+  <h1>Zumbis da Lua de Sangue</h1>
+  <p class="lede">Os 13 primeiros registros do bestiário: 9 zumbis comuns, 2 mini bosses e 2 bosses. Cada um tem a descrição detalhada para a arte e o sprite animado de 128 × 128 px. Toque nos botões da carta para trocar a forma (Comum, Enluarado, Plenilunar; nos chefes, Normal e Fúria) e a animação.</p>
+  <ul class="meta">
+    <li>Sprite 128 × 128</li><li>3 formas por zumbi comum, 2 por chefe</li><li>4 animações: parado, andar, ataque, dano</li><li>Vista de frente, luz de cima à esquerda</li><li>Contorno escuro de 1 px</li><li>Sangue marrom, nunca vermelho vivo</li>
+  </ul>
+  <nav class="index" aria-label="Índice dos zumbis">
+    <a class="idx" href="#errante" data-cat="Comum">
+  <span class="corner">001<br>♠</span>
+  <img src="sprites/errante.png" alt="Errante" width="128" height="128">
+  <span class="idx-name">Errante</span>
+</a><a class="idx" href="#rastejante" data-cat="Comum">
+  <span class="corner">002<br>♠</span>
+  <img src="sprites/rastejante.png" alt="Rastejante" width="128" height="128">
+  <span class="idx-name">Rastejante</span>
+</a><a class="idx" href="#corredor" data-cat="Comum">
+  <span class="corner">003<br>♥</span>
+  <img src="sprites/corredor.png" alt="Corredor" width="128" height="128">
+  <span class="idx-name">Corredor</span>
+</a><a class="idx" href="#cuspidor" data-cat="Comum">
+  <span class="corner">004<br>♣</span>
+  <img src="sprites/cuspidor.png" alt="Cuspidor" width="128" height="128">
+  <span class="idx-name">Cuspidor</span>
+</a><a class="idx" href="#gritador" data-cat="Comum">
+  <span class="corner">005<br>♣</span>
+  <img src="sprites/gritador.png" alt="Gritador" width="128" height="128">
+  <span class="idx-name">Gritador</span>
+</a><a class="idx" href="#barrigudo" data-cat="Comum">
+  <span class="corner">006<br>♦</span>
+  <img src="sprites/barrigudo.png" alt="Barrigudo" width="128" height="128">
+  <span class="idx-name">Barrigudo</span>
+</a><a class="idx" href="#estalador" data-cat="Comum">
+  <span class="corner">007<br>♠</span>
+  <img src="sprites/estalador.png" alt="Estalador" width="128" height="128">
+  <span class="idx-name">Estalador</span>
+</a><a class="idx" href="#blindado" data-cat="Comum">
+  <span class="corner">008<br>♦</span>
+  <img src="sprites/blindado.png" alt="Blindado" width="128" height="128">
+  <span class="idx-name">Blindado</span>
+</a><a class="idx" href="#saltador" data-cat="Comum">
+  <span class="corner">009<br>♥</span>
+  <img src="sprites/saltador.png" alt="Saltador" width="128" height="128">
+  <span class="idx-name">Saltador</span>
+</a><a class="idx" href="#brutamonte" data-cat="Mini boss">
+  <span class="corner">M01<br>★</span>
+  <img src="sprites/brutamonte.png" alt="Brutamonte" width="128" height="128">
+  <span class="idx-name">Brutamonte</span>
+</a><a class="idx" href="#chorona" data-cat="Mini boss">
+  <span class="corner">M02<br>★</span>
+  <img src="sprites/chorona.png" alt="A Chorona" width="128" height="128">
+  <span class="idx-name">A Chorona</span>
+</a><a class="idx" href="#acougueiro" data-cat="Boss">
+  <span class="corner">B01<br>☾</span>
+  <img src="sprites/acougueiro.png" alt="O Açougueiro" width="128" height="128">
+  <span class="idx-name">O Açougueiro</span>
+</a><a class="idx" href="#estivador" data-cat="Boss">
+  <span class="corner">B02<br>☾</span>
+  <img src="sprites/estivador.png" alt="O Estivador" width="128" height="128">
+  <span class="idx-name">O Estivador</span>
+</a>
+  </nav>
+</header>
+<main class="wrap">
+<section class="group" id="comuns">
+  <h2>Zumbis comuns <span class="count">9</span></h2>
+  <article class="entry" id="errante">
+  <figure class="card" data-slug="errante" data-forms="comum,enluarado,plenilunar">
+    <span class="corner tl">001<br>♠</span>
+    <span class="corner br">001<br>♠</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de Errante"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="comum" aria-pressed="true">Comum</button><button type="button" data-form="enluarado" aria-pressed="false">Enluarado</button><button type="button" data-form="plenilunar" aria-pressed="false">Plenilunar</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Comum</span> nº 001</p>
+    <h3>Errante</h3>
+    <p class="role">Lento, segue barulho.</p>
+    <p class="concept">O zumbi mais comum, morto há algumas semanas. Ainda dá para ver a pessoa que ele era, mas o corpo já está apodrecendo. Anda devagar e sem rumo, até ouvir um barulho.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Pele verde-acinzentada, mais escura em volta dos olhos e da boca. Olhos fundos e leitosos, o direito maior e com a pálpebra caída. Cabelo ralo e embaraçado, com falhas e um tufo caindo de um lado. Mandíbula frouxa, boca entreaberta com dentes amarelados e sem um pedaço do lábio. Cabeça tombada uns 15° e um pouco à frente do tronco.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Camisa social desbotada, com um botão faltando e sangue seco na gola e no peito. Um rasgo na lateral mostra a pele e 3 costelas. Ombros caídos e curvados para a frente, peito afundado.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Braços esticados à frente na altura da cintura, um mais alto que o outro. Mãos meio fechadas, dedos tortos com as pontas escuras, unhas quebradas ou faltando. Mordida aberta no antebraço.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Jeans rasgado no joelho, com a barra desfiada. Arrasta uma perna: um pé descalço e o outro num tênis sujo.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Passo curto e irregular, o pé descalço arrasta e o tronco balança. A cabeça vai um quadro atrasada. Ao ouvir barulho, ergue a cabeça de repente, vira para a fonte e acelera um pouco.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele verde-acinzentada · roupa azul e cinza desbotados · sangue marrom-avermelhado · olhos branco leitoso.</dd></div></dl>
+    <div class="vars"><div class="var var-enluarado" data-form="enluarado"><span class="var-name">Enluarado</span><p>Pele roxa e olhos lilás claro. Pisca de leve a cada ~2 s.</p></div>
+<div class="var var-plenilunar" data-form="plenilunar"><span class="var-name">Plenilunar</span><p>Pele carmesim e coroa de ossos no crânio. As costelas saem do rasgo e fecham o peito como armadura. Olhos em brasa.</p></div></div>
+  </div>
+</article><article class="entry" id="rastejante">
+  <figure class="card" data-slug="rastejante" data-forms="comum,enluarado,plenilunar">
+    <span class="corner tl">002<br>♠</span>
+    <span class="corner br">002<br>♠</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de Rastejante"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="comum" aria-pressed="true">Comum</button><button type="button" data-form="enluarado" aria-pressed="false">Enluarado</button><button type="button" data-form="plenilunar" aria-pressed="false">Plenilunar</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Comum</span> nº 002</p>
+    <h3>Rastejante</h3>
+    <p class="role">Finge de morto e agarra o tornozelo (prende 1 s).</p>
+    <p class="concept">Perdeu as pernas da cintura para baixo e se arrasta pelo chão com os braços. Fica imóvel entre os escombros, parecendo um cadáver, e agarra quem passa perto.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Crânio meio careca com pele cinza-esverdeada repuxada. Um olho afundado e o outro arregalado, sempre olhando para cima. Boca sem lábio inferior, com a arcada de baixo à mostra. Cabeça erguida do chão, com o pescoço esticado.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Só a parte de cima do corpo. Camiseta de malha cor de mostarda, imunda e enrolada até as costelas. Na cintura, a carne termina em tiras, com a ponta da coluna aparecendo e um rastro escuro no chão.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Braços compridos e magros, os dois apoiados à frente. Uma mão crava os dedos no chão e a outra se estica aberta para agarrar. Unhas pretas, lascadas de tanto arranhar o asfalto.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Não tem pernas. Restam tiras de calça cinza e o rastro de sangue seco que ele deixa por onde passa.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Puxa o corpo com um braço de cada vez, em trancos. Parado, fica de bruços sem mexer nada. Quando o herói chega perto, a cabeça vira de estalo e a mão dispara para o tornozelo.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele cinza-esverdeada mais pálida que a do Errante · camiseta mostarda suja · calça cinza · sangue marrom-escuro.</dd></div></dl>
+    <div class="vars"><div class="var var-enluarado" data-form="enluarado"><span class="var-name">Enluarado</span><p>Pele verde-água e olhos ciano claro.</p></div>
+<div class="var var-plenilunar" data-form="plenilunar"><span class="var-name">Plenilunar</span><p>Pele ferrugem, espinhos de osso saindo da coluna e uma corrente presa no pulso, arrastando atrás.</p></div></div>
+  </div>
+</article><article class="entry" id="corredor">
+  <figure class="card" data-slug="corredor" data-forms="comum,enluarado,plenilunar">
+    <span class="corner tl">003<br>♥</span>
+    <span class="corner br">003<br>♥</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de Corredor"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="comum" aria-pressed="true">Comum</button><button type="button" data-form="enluarado" aria-pressed="false">Enluarado</button><button type="button" data-form="plenilunar" aria-pressed="false">Plenilunar</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Comum</span> nº 003</p>
+    <h3>Corredor</h3>
+    <p class="role">Rápido, pouca vida, recupera 0,6 s após errar.</p>
+    <p class="concept">Morreu correndo e não parou mais. É o mais magro e rápido dos comuns: corpo seco, músculos tensos e o tronco sempre jogado para a frente.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Rosto chupado, maçãs do rosto saltadas e veias escuras na testa. Olhos amarelados e bem abertos, sem piscar. Dentes cerrados num rosnado. Cabelo raspado com uma cicatriz atravessando.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Regata esportiva cinza, rasgada e grudada no corpo pelo suor seco. Dá para contar as costelas por baixo do tecido. Um número de corrida meio arrancado, preso por um alfinete só.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Braços finos e compridos, jogados para trás na corrida. Dedos abertos e tensos. Faixas de pano sujas enroladas nos punhos.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Shorts de corrida e pernas magras de músculos marcados, uma flexionada à frente. Os dois pés ainda de tênis de corrida, um com a sola descolando.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Passadas longas e rápidas, com o tronco inclinado. Avança em linha reta, e se erra o ataque passa direto e tropeça. Leva 0,6 s para se recuperar.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele cinza-pálida com veias escuras · regata cinza · shorts preto · tênis laranja desbotado · olhos amarelados.</dd></div></dl>
+    <div class="vars"><div class="var var-enluarado" data-form="enluarado"><span class="var-name">Enluarado</span><p>Pele âmbar e olhos dourados.</p></div>
+<div class="var var-plenilunar" data-form="plenilunar"><span class="var-name">Plenilunar</span><p>Pele em carne viva e garras longas de osso saindo dos dedos.</p></div></div>
+  </div>
+</article><article class="entry" id="cuspidor">
+  <figure class="card" data-slug="cuspidor" data-forms="comum,enluarado,plenilunar">
+    <span class="corner tl">004<br>♣</span>
+    <span class="corner br">004<br>♣</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de Cuspidor"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="comum" aria-pressed="true">Comum</button><button type="button" data-form="enluarado" aria-pressed="false">Enluarado</button><button type="button" data-form="plenilunar" aria-pressed="false">Plenilunar</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Comum</span> nº 004</p>
+    <h3>Cuspidor</h3>
+    <p class="role">Fica a 4 tiles e cospe poça de ácido que envenena.</p>
+    <p class="concept">O vírus encheu a garganta dele de ácido. Fica de longe, incha o papo e cospe uma bola esverdeada que vira poça no chão.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Pescoço inchado como um papo de sapo, com a pele esticada e translúcida mostrando o ácido verde por dentro. Mandíbula caída e torta, com baba ácida escorrendo pelo queixo. Olhos pequenos e amarelos. Pouco cabelo, grudado na testa.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Camisa polo marrom, com a gola queimada e furos corroídos pelo ácido no peito. Corpo encurvado, com as costas arqueadas.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Braços caídos ao lado do corpo. Uma mão apoiada no papo, como se o segurasse. Dedos com queimaduras de ácido.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Calça social cinza com manchas verdes e um sapato social de cada cor. Pernas afastadas, para aguentar o tranco do cuspe.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Para a 4 tiles do herói, incha o papo por 0,6 s com o pescoço brilhando e cospe. A bola cai e vira uma poça que borbulha e envenena.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele verde-amarelada doentia · ácido verde-limão brilhante · polo marrom · calça cinza.</dd></div></dl>
+    <div class="vars"><div class="var var-enluarado" data-form="enluarado"><span class="var-name">Enluarado</span><p>Pele azul e ácido turquesa.</p></div>
+<div class="var var-plenilunar" data-form="plenilunar"><span class="var-name">Plenilunar</span><p>Pele magenta e três papos inchados, que cospem 3 bolas em leque.</p></div></div>
+  </div>
+</article><article class="entry" id="gritador">
+  <figure class="card" data-slug="gritador" data-forms="comum,enluarado,plenilunar">
+    <span class="corner tl">005<br>♣</span>
+    <span class="corner br">005<br>♣</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de Gritador"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="comum" aria-pressed="true">Comum</button><button type="button" data-form="enluarado" aria-pressed="false">Enluarado</button><button type="button" data-form="plenilunar" aria-pressed="false">Plenilunar</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Comum</span> nº 005</p>
+    <h3>Gritador</h3>
+    <p class="role">Foge e grita a cada 6 s chamando 3 zumbis.</p>
+    <p class="concept">Uma zumbi magra, de cabelo comprido, com a mandíbula deslocada pelo próprio grito. Não ataca: corre, para e grita para chamar os outros.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Boca aberta além do normal, com a mandíbula deslocada para baixo e o canto da boca rasgado. Olhos vidrados e muito abertos. Cabelo preto, longo e embaraçado, com mechas grudadas no rosto. Pescoço comprido com os tendões saltados.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Blusa de alcinha rosa desbotada e um casaco de moletom aberto e rasgado no ombro. Tronco estreito e ossudo.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Mãos subindo até o rosto, os dedos compridos abertos ao lado das bochechas. Unhas compridas e quebradas. Um bracelete de miçangas ainda no pulso.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Saia jeans curta e meia-calça rasgada, com fios soltos. Um tênis branco, e o outro pé descalço e sujo.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Foge do herói. A cada 6 s para, joga a cabeça para trás e grita: a tela treme de leve e 3 zumbis aparecem pelas bordas.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele cinza-azulada pálida · cabelo preto · blusa rosa desbotada · moletom cinza · saia jeans.</dd></div></dl>
+    <div class="vars"><div class="var var-enluarado" data-form="enluarado"><span class="var-name">Enluarado</span><p>Pele rosa e olhos brancos.</p></div>
+<div class="var var-plenilunar" data-form="plenilunar"><span class="var-name">Plenilunar</span><p>Pele preta com cabelo e boca vermelhos; o grito atordoa por 0,5 s.</p></div></div>
+  </div>
+</article><article class="entry" id="barrigudo">
+  <figure class="card" data-slug="barrigudo" data-forms="comum,enluarado,plenilunar">
+    <span class="corner tl">006<br>♦</span>
+    <span class="corner br">006<br>♦</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de Barrigudo"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="comum" aria-pressed="true">Comum</button><button type="button" data-form="enluarado" aria-pressed="false">Enluarado</button><button type="button" data-form="plenilunar" aria-pressed="false">Plenilunar</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Comum</span> nº 006</p>
+    <h3>Barrigudo</h3>
+    <p class="role">Explode ao morrer (15 de dano em 1,5 tile).</p>
+    <p class="concept">Um zumbi inchado pelos gases da decomposição. É lento e não bate forte, mas explode quando morre.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Cabeça pequena para o corpo, afundada entre os ombros, com papada caída. Bochechas inchadas e olhos quase fechados. Careca com manchas roxas.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Barriga enorme e redonda, com a pele esticada, rachada e cheia de bolhas amareladas. Uma camiseta branca de botequim que não cobre mais a barriga, subindo até o peito. Veias roxas no umbigo.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Braços curtos e gordos, afastados do corpo pela barriga. Mãos inchadas como luvas cheias de ar.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Bermuda xadrez e pernas grossas e curtas, com os joelhos para fora. Chinelo de dedo num pé só.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Anda balançando de um lado para o outro, com a barriga pulsando. Antes de explodir, as bolhas brilham e a barriga incha mais.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele verde-oliva amarelada · hematomas roxos · bolhas amarelas · camiseta branca encardida · bermuda xadrez verde e vermelho apagado.</dd></div></dl>
+    <div class="vars"><div class="var var-enluarado" data-form="enluarado"><span class="var-name">Enluarado</span><p>Pele amarela e bolhas brancas.</p></div>
+<div class="var var-plenilunar" data-form="plenilunar"><span class="var-name">Plenilunar</span><p>Pele cor de lava com rachaduras brilhando; explode em 3 bolhas.</p></div></div>
+  </div>
+</article><article class="entry" id="estalador">
+  <figure class="card" data-slug="estalador" data-forms="comum,enluarado,plenilunar">
+    <span class="corner tl">007<br>♠</span>
+    <span class="corner br">007<br>♠</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de Estalador"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="comum" aria-pressed="true">Comum</button><button type="button" data-form="enluarado" aria-pressed="false">Enluarado</button><button type="button" data-form="plenilunar" aria-pressed="false">Plenilunar</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Comum</span> nº 007</p>
+    <h3>Estalador</h3>
+    <p class="role">Cego, caça pelo som; agarrão de 35.</p>
+    <p class="concept">O fungo do vírus tomou conta da cabeça e rachou o rosto em placas. Não enxerga nada: anda estalando a língua e caça pelo som.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>No lugar do rosto, placas de fungo bege e laranja abertas como uma flor rachada, com fendas escuras entre elas. Não tem olhos. Só a boca aparece por baixo, com dentes tortos. Pequenos cogumelos saem pelo topo da cabeça.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Jaqueta de couro velha, rasgada e coberta de manchas de mofo. Por baixo, a pele tem fungo crescendo em placas.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Braços tortos, com as mãos à frente do corpo tateando o ar. Os dedos tremem. Fungo cobrindo uma das mãos.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Calça cargo verde-musgo com bolsos rasgados e botas gastas. Pernas meio dobradas, andando com cuidado.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Para, inclina a cabeça e estala para ouvir. Se o herói faz barulho, vira na hora e corre em linha reta com os braços abertos para o agarrão.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele cinza-amarronzada · fungo bege, laranja e marrom · jaqueta de couro marrom-escura · calça verde-musgo.</dd></div></dl>
+    <div class="vars"><div class="var var-enluarado" data-form="enluarado"><span class="var-name">Enluarado</span><p>Pele albina e fungo azul-claro.</p></div>
+<div class="var var-plenilunar" data-form="plenilunar"><span class="var-name">Plenilunar</span><p>Pele vinho, chifres de fungo e audição em dobro.</p></div></div>
+  </div>
+</article><article class="entry" id="blindado">
+  <figure class="card" data-slug="blindado" data-forms="comum,enluarado,plenilunar">
+    <span class="corner tl">008<br>♦</span>
+    <span class="corner br">008<br>♦</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de Blindado"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="comum" aria-pressed="true">Comum</button><button type="button" data-form="enluarado" aria-pressed="false">Enluarado</button><button type="button" data-form="plenilunar" aria-pressed="false">Plenilunar</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Comum</span> nº 008</p>
+    <h3>Blindado</h3>
+    <p class="role">Escudo frontal; só leva dano por trás ou após 3 golpes.</p>
+    <p class="concept">Era da tropa de choque e ainda usa o equipamento. O escudo na frente bloqueia os golpes de frente.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Capacete preto de tropa de choque com a viseira trincada. Atrás do vidro, um rosto acinzentado e um olho branco. Protetor de queixo amassado.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Colete tático azul-marinho com placas e bolsos, e o tecido rasgado nos ombros. Um rádio pendurado pelo fio.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Braço esquerdo segurando um escudo retangular transparente, riscado e com uma rachadura em teia. O braço direito, com cotoveleira, segura um cassetete quebrado.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Calça preta com caneleiras de plástico e coturnos pesados. Pernas firmes e afastadas.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Anda devagar sempre de frente para o herói, com o escudo erguido. A cada golpe no escudo, a rachadura cresce; no terceiro, o escudo cai.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele cinza-esverdeada · equipamento preto e azul-marinho · escudo transparente azulado · detalhes amarelos de alerta.</dd></div></dl>
+    <div class="vars"><div class="var var-enluarado" data-form="enluarado"><span class="var-name">Enluarado</span><p>Pele e equipamento verde-militar.</p></div>
+<div class="var var-plenilunar" data-form="plenilunar"><span class="var-name">Plenilunar</span><p>Equipamento preto com ouro e escudo dourado que aguenta 5 golpes.</p></div></div>
+  </div>
+</article><article class="entry" id="saltador">
+  <figure class="card" data-slug="saltador" data-forms="comum,enluarado,plenilunar">
+    <span class="corner tl">009<br>♥</span>
+    <span class="corner br">009<br>♥</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de Saltador"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="comum" aria-pressed="true">Comum</button><button type="button" data-form="enluarado" aria-pressed="false">Enluarado</button><button type="button" data-form="plenilunar" aria-pressed="false">Plenilunar</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Comum</span> nº 009</p>
+    <h3>Saltador</h3>
+    <p class="role">Agacha 0,8 s, salta 4 tiles e prende.</p>
+    <p class="concept">Um zumbi de pernas compridas que vive agachado, pronto para dar o bote. Usa um moletom de capuz que esconde o rosto.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Capuz cinza-escuro puxado na cabeça, com o rosto na sombra. De dentro só aparecem os olhos brilhando e a boca aberta com os dentes à mostra.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Moletom com capuz rasgado nos cotovelos e nas costas, e uma faixa de fita adesiva no peito. Tronco curvado quase na horizontal, por causa do agachamento.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Braços compridos com as mãos no chão entre os pés, como um sapo. Dedos longos com unhas de garra.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Calça de moletom rasgada e pernas muito dobradas, com os joelhos acima da cintura. Descalço, com os dedos dos pés agarrando o chão.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Fica agachado e balança o corpo. Antes do salto, se encolhe por 0,8 s e treme. Salta 4 tiles em arco e, se acertar, fica preso em cima do herói.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele verde-oliva escura · moletom cinza-escuro · fita prateada · olhos verde-claros.</dd></div></dl>
+    <div class="vars"><div class="var var-enluarado" data-form="enluarado"><span class="var-name">Enluarado</span><p>Pele ciano e olhos brancos.</p></div>
+<div class="var var-plenilunar" data-form="plenilunar"><span class="var-name">Plenilunar</span><p>Pele vinho-roxo e salto duplo.</p></div></div>
+  </div>
+</article>
+</section><section class="group" id="mini-bosses">
+  <h2>Mini bosses <span class="count">2</span></h2>
+  <article class="entry" id="brutamonte">
+  <figure class="card" data-slug="brutamonte" data-forms="normal,furia">
+    <span class="corner tl">M01<br>★</span>
+    <span class="corner br">M01<br>★</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de Brutamonte"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="normal" aria-pressed="true">Normal</button><button type="button" data-form="furia" aria-pressed="false">Fúria</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Mini boss</span> nº M01</p>
+    <h3>Brutamonte</h3>
+    <p class="role">Investida com aviso e arremesso de entulho; atordoado ao bater na parede.</p>
+    <p class="concept">O vírus fez os músculos crescerem sem parar. É uma massa de carne e osso do tamanho de uma porta, com um braço muito maior que o outro.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Cabeça pequena, afundada no meio de ombros enormes. Testa baixa, olhos pequenos e vermelhos. Mandíbula larga e dentes grossos aparecendo por baixo do lábio.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Tronco gigante, sem roupa, com a pele rasgada pelos músculos. Restos de um macacão de obra laranja presos na cintura. Placas de osso saindo pelas costas.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Braço direito colossal, quase arrastando no chão, com os nós dos dedos em carne viva e pedaços de concreto grudados. Braço esquerdo normal, quase pequeno ao lado do outro.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Pernas grossas e curtas, com a calça do macacão rasgada. Pés descalços e enormes, que racham o chão.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Bate o punho no chão e avisa a investida com um rugido. Corre em linha reta; se bater na parede, fica atordoado. Arranca pedaços do chão e arremessa.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele cinza-amarronzada com carne viva rosada · macacão laranja desbotado · concreto cinza · ossos bege.</dd></div></dl>
+    <div class="vars"><div class="var var-fúria" data-form="furia"><span class="var-name">Fúria</span><p>Veias acesas em vermelho, vapor saindo das costas e investida dupla.</p></div></div>
+  </div>
+</article><article class="entry" id="chorona">
+  <figure class="card" data-slug="chorona" data-forms="normal,furia">
+    <span class="corner tl">M02<br>★</span>
+    <span class="corner br">M02<br>★</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de A Chorona"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="normal" aria-pressed="true">Normal</button><button type="button" data-form="furia" aria-pressed="false">Fúria</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Mini boss</span> nº M02</p>
+    <h3>A Chorona</h3>
+    <p class="role">Passiva até ser incomodada; evitável.</p>
+    <p class="concept">Fica sentada no chão chorando. Se ninguém a incomoda, não ataca. Se for perturbada, levanta e caça o herói com garras enormes.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Cabelo preto, liso e muito comprido, cobrindo quase todo o rosto. Pelas frestas aparecem os olhos brilhando e lágrimas escuras escorrendo. Pele quase branca.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Vestido branco comprido, sujo de terra e com a barra rasgada. Corpo muito magro e encolhido, os ombros tremendo de choro.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Braços finos abraçando os joelhos. Os dedos terminam em garras compridas e curvas, que passam do tamanho da mão.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Pernas magras dobradas por baixo do vestido. Pés descalços e cinzentos.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Parada, balança de leve e soluça. Se o herói chega perto ou faz barulho, para de chorar, levanta devagar e avança em zigue-zague, rápida, com as garras abertas.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele branco-acinzentada · cabelo preto azulado · vestido branco encardido · lágrimas e garras pretas · olhos brancos brilhando.</dd></div></dl>
+    <div class="vars"><div class="var var-fúria" data-form="furia"><span class="var-name">Fúria</span><p>Cabelo erguido como se flutuasse, olhos vermelhos e rastro vermelho por onde passa.</p></div></div>
+  </div>
+</article>
+</section><section class="group" id="bosses">
+  <h2>Bosses <span class="count">2</span></h2>
+  <article class="entry" id="acougueiro">
+  <figure class="card" data-slug="acougueiro" data-forms="normal,furia">
+    <span class="corner tl">B01<br>☾</span>
+    <span class="corner br">B01<br>☾</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de O Açougueiro"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="normal" aria-pressed="true">Normal</button><button type="button" data-form="furia" aria-pressed="false">Fúria</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Boss</span> nº B01</p>
+    <h3>O Açougueiro</h3>
+    <p class="role">Senhor da Lua de Sangue. Pancada em área a cada 2,5 s.</p>
+    <p class="concept">O dono de um açougue que virou o primeiro senhor da Lua de Sangue. Enorme e pesado, carrega um cutelo do tamanho de uma porta e anda com ganchos e correntes.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Cabeça larga e careca, com cicatrizes costuradas atravessando o crânio. Usa uma máscara de couro tapando a boca, presa com fivelas. Olhos vermelhos e pequenos, debaixo de sobrancelhas grossas.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Barriga enorme debaixo de um avental de couro marrom, todo manchado de sangue seco. Correntes cruzando o peito, com ganchos de açougue pendurados. Sem camisa por baixo, a pele é pálida e rosada.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>Braços grossos como troncos. A mão direita segura um cutelo gigante com a lâmina lascada e manchada. A esquerda arrasta uma corrente com um gancho na ponta.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Calça de lona escura e botas de borracha brancas de açougueiro, sujas de sangue até o joelho.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Persegue devagar, com passos que tremem a tela. A cada 2,5 s ergue o cutelo e dá a Pancada: círculo vermelho de aviso, impacto em área e 0,6 s vulnerável.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele rosada e pálida · avental de couro marrom · cutelo de aço cinza com sangue · botas brancas · sangue marrom-escuro.</dd></div></dl>
+    <div class="vars"><div class="var var-fúria" data-form="furia"><span class="var-name">Fúria</span><p>Abaixo de 30% de vida: pele em vermelho pulsando, vapor saindo das costas e a máscara arrebentada mostrando os dentes.</p></div></div>
+  </div>
+</article><article class="entry" id="estivador">
+  <figure class="card" data-slug="estivador" data-forms="normal,furia">
+    <span class="corner tl">B02<br>☾</span>
+    <span class="corner br">B02<br>☾</span>
+    <div class="stage"><canvas width="256" height="256" role="img" aria-label="Animação de O Estivador"></canvas></div>
+    <div class="ctrl forms" role="group" aria-label="Forma"><button type="button" data-form="normal" aria-pressed="true">Normal</button><button type="button" data-form="furia" aria-pressed="false">Fúria</button></div>
+    <div class="ctrl anims" role="group" aria-label="Animação"><button type="button" data-anim="idle" aria-pressed="true">Parado</button><button type="button" data-anim="walk" aria-pressed="false">Andar</button><button type="button" data-anim="attack" aria-pressed="false">Ataque</button><button type="button" data-anim="hurt" aria-pressed="false">Dano</button></div>
+  </figure>
+  <div class="text">
+    <p class="kicker"><span class="pill">Boss</span> nº B02</p>
+    <h3>O Estivador</h3>
+    <p class="role">Boss do Marco Zero. Gancho que puxa o herói e caixotes arremessados.</p>
+    <p class="concept">Trabalhou a vida inteira no porto do Recife carregando carga. Morto, ainda carrega: um caixote no ombro e um gancho de carga preso numa corrente.</p>
+    <dl><div class="row"><dt>Cabeça</dt><dd>Gorro de lã laranja desbotado e barba grossa e embaraçada, com algas secas presas. Pele inchada da água salgada. Um olho coberto por um tapa-olho improvisado com fita.</dd></div>
+<div class="row"><dt>Tronco</dt><dd>Macacão jeans de trabalho com uma alça arrebentada, sobre uma camiseta listrada. Corda grossa enrolada no tronco como uma bandoleira. Ombros enormes de carregar peso.</dd></div>
+<div class="row"><dt>Braços e mãos</dt><dd>O braço esquerdo apoia um caixote de madeira no ombro, com carimbos de carga apagados. O braço direito segura uma corrente com um gancho de carga enorme na ponta.</dd></div>
+<div class="row"><dt>Pernas e pés</dt><dd>Pernas grossas no macacão, com a barra dobrada. Botas de borracha amarelas cheias de lama do mangue.</dd></div>
+<div class="row"><dt>Movimento</dt><dd>Gira o gancho e lança: se acerta, puxa o herói até ele. Arremessa o caixote, que quebra no chão e vira obstáculo. Anda arrastando as botas.</dd></div>
+<div class="row"><dt>Paleta</dt><dd>Pele verde-azulada inchada · gorro laranja · macacão jeans · camiseta listrada branca e azul · botas amarelas · madeira e ferro enferrujado.</dd></div></dl>
+    <div class="vars"><div class="var var-fúria" data-form="furia"><span class="var-name">Fúria</span><p>Gancho em brasa, arremessa dois caixotes de uma vez e a corrente fica mais longa.</p></div></div>
+  </div>
+</article>
+</section>
+</main>
+<footer class="wrap">Lua de Sangue · bestiário de arte, versão 1 (03/11/2026). As animações são de referência para o jogo, com poucos quadros. O Plenilunar aparece 1,15× maior, com aura; o Enluarado cintila a cada 2 s. Os valores de jogo seguem o bestiario.md do projeto.</footer>
+<script>
+(() => {
+  const ROWS = { idle: [0, 4, 5, 0], walk: [1, 6, 8, 0], attack: [2, 5, 10, 450], hurt: [3, 4, 10, 500] };
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const cache = {};
+  const load = (src) => cache[src] || (cache[src] = new Promise((res, rej) => {
+    const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src;
+  }));
+  document.querySelectorAll('.card[data-slug]').forEach((card) => {
+    const slug = card.dataset.slug;
+    const forms = card.dataset.forms.split(',');
+    const stage = card.querySelector('.stage');
+    const cv = card.querySelector('canvas');
+    const ctx = cv.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    const entry = card.closest('.entry');
+    const st = { form: forms[0], anim: 'idle', frame: 0, img: null, next: 0 };
+    const draw = () => {
+      if (!st.img) return;
+      const [row] = ROWS[st.anim];
+      ctx.clearRect(0, 0, 256, 256);
+      ctx.drawImage(st.img, st.frame * 128, row * 128, 128, 128, 0, 0, 256, 256);
+    };
+    const setForm = (f) => {
+      st.form = f;
+      stage.className = 'stage f-' + f;
+      card.querySelectorAll('[data-form]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.form === f)));
+      entry.querySelectorAll('.var').forEach((v) => v.classList.toggle('active', v.dataset.form === f));
+      load('anims/' + slug + '_' + f + '.png').then((img) => { st.img = img; draw(); }).catch(() => {});
+    };
+    const setAnim = (a) => {
+      st.anim = a; st.frame = 0; st.next = 0;
+      card.querySelectorAll('[data-anim]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.anim === a)));
+      draw();
+    };
+    card.querySelectorAll('[data-form]').forEach((b) => b.addEventListener('click', () => setForm(b.dataset.form)));
+    card.querySelectorAll('[data-anim]').forEach((b) => b.addEventListener('click', () => setAnim(b.dataset.anim)));
+    card._tick = (t) => {
+      if (!st.img || reduce && st.anim === 'idle') return;
+      if (t < st.next) return;
+      const [, n, fps, hold] = ROWS[st.anim];
+      st.frame = (st.frame + 1) % n;
+      st.next = t + 1000 / fps + (st.frame === n - 1 ? hold : 0);
+      draw();
+    };
+    setForm(forms[0]);
+  });
+  const cards = [...document.querySelectorAll('.card[data-slug]')];
+  const loop = (t) => { cards.forEach((c) => c._tick(t)); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

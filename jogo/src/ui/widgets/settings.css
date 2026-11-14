@@ -1,0 +1,12 @@
+/* Modal de configurações */
+.gear-btn { display: inline-grid; place-items: center; min-width: 40px; padding-left: 10px; padding-right: 10px }
+.gear-btn .ico-gear { fill: currentColor; display: block; image-rendering: pixelated }
+.cfg { display: grid; gap: 8px }
+.cfg-opt { display: grid; gap: 2px; text-align: left; padding: 10px 12px; background: var(--panel2); color: var(--ink); border: 2px solid var(--line); border-radius: 6px; cursor: pointer; font: inherit }
+.cfg-opt b { font-family: var(--f-display); font-weight: 400; font-size: 16px; letter-spacing: .02em }
+.cfg-opt small { color: var(--muted); font-size: 13px }
+.cfg-opt:hover { border-color: var(--moon) }
+.cfg-opt[aria-checked="true"] { border-color: #000; background: var(--panel); box-shadow: 3px 3px 0 #000, inset 0 0 0 2px var(--moon) }
+.cfg-opt[aria-checked="true"] b { color: var(--moon) }
+.cfg-now { font-family: var(--f-pix, monospace); font-size: 11px; color: var(--cosmic); margin-left: 6px }
+.cfg-note { color: var(--muted); font-size: 12px; margin: 10px 0 0 }

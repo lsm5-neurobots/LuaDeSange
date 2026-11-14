@@ -1,0 +1,114 @@
+{
+ "titulo": "Zumbi Garcom (Lapa) - boteco, bandeja e copos",
+ "pasta": "zumbis-lapa/garcom",
+ "secoes": [
+  {
+   "nome": "Garcom com bandeja",
+   "n": 14,
+   "busca": [
+    "waiter with tray",
+    "garçom bandeja",
+    "waiter carrying tray drinks",
+    "garçom boteco",
+    "waiter Brazil bar",
+    "waiter serving beer"
+   ],
+   "depth": 0,
+   "cats": [
+    "Waiters"
+   ]
+  },
+  {
+   "nome": "Uniforme: colete, camisa branca, avental longo",
+   "n": 12,
+   "busca": [
+    "waiter uniform vest",
+    "white shirt black vest waiter",
+    "long apron waiter",
+    "garçom uniforme",
+    "bartender apron vest",
+    "bow tie waiter"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Bandeja, copos e garrafas",
+   "n": 12,
+   "busca": [
+    "serving tray",
+    "beer glasses tray",
+    "copo americano",
+    "bottle of beer Brazil",
+    "tulip beer glass",
+    "caipirinha glass tray"
+   ],
+   "depth": 0,
+   "cats": [
+    "Serving trays"
+   ]
+  },
+  {
+   "nome": "Guardanapo no ombro, abridor e bloco de pedidos",
+   "n": 8,
+   "busca": [
+    "waiter napkin shoulder",
+    "bottle opener",
+    "order pad waiter",
+    "abridor de garrafa",
+    "waiter towel arm"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Boteco carioca: balcao, mesas e azulejo",
+   "n": 16,
+   "busca": [
+    "boteco Rio de Janeiro",
+    "bar Lapa Rio balcão",
+    "boteco carioca",
+    "botequim balcão",
+    "Rio bar tile wall",
+    "bar tables street Rio"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Petiscos, chope e cozinha de bar",
+   "n": 10,
+   "busca": [
+    "chope",
+    "pastel de feira",
+    "petisco boteco",
+    "bolinho de bacalhau",
+    "draft beer tap",
+    "bar food Brazil"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Poses: girar, desviar, equilibrar bandeja",
+   "n": 14,
+   "busca": [
+    "waiter balancing tray",
+    "waiter running with tray",
+    "waiter spinning",
+    "waiter pose carrying plates",
+    "person dodging side step",
+    "dancer spin pose"
+   ],
+   "depth": 0
+  },
+  {
+   "nome": "Lapa a noite: ruas, bares e Arcos",
+   "n": 14,
+   "busca": [
+    "Lapa noite Rio",
+    "Lapa nightlife",
+    "Rua Joaquim Silva Lapa",
+    "Lapa Rio bar calçada",
+    "Arcos da Lapa noite"
+   ],
+   "depth": 0
+  }
+ ]
+}

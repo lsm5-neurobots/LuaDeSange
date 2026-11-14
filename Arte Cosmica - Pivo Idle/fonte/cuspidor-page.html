@@ -1,0 +1,145 @@
+<title>Cuspidor Nº 004</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:240/150;object-fit:contain!important} .fr canvas{width:128px;height:124px}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#5af0e0} .seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:#e05aa8;color:#fff}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bestiário · Zumbis comuns · Direção de arte cósmica</div>
+    <h1>Cuspidor <small>Nº 004</small></h1>
+    <p class="lede">O vírus encheu a garganta dele de ácido. Fica de longe, <b>incha o papo e cospe uma bola esverdeada que vira poça no chão</b> e envenena. Fica parado a 4 tiles do herói, incha o papo por 0,6 s com o pescoço brilhando e cospe. É o primeiro zumbi que ataca à distância, então a silhueta gira em torno do papo.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="240" height="150" role="img" aria-label="Cuspidor animado no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Forma</span>
+        <div class="seg forms" id="forms"><button data-form="comum" aria-pressed="true">Comum</button><button data-form="enluarado" aria-pressed="false">Enluarado</button><button data-form="plenilunar" aria-pressed="false">Plenilunar</button></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real no jogo</span>
+        <div class="real"><div><canvas id="r1" width="128" height="124"></canvas><span>ficha (100%)</span></div><div><canvas id="r2" width="90" height="87"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">Na ficha o quadro tem 128×124 px. No jogo ele entra a 70%, como os outros zumbis, pra ficar menor que as portas do mapa novo.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">No Cuspir, os 3 primeiros quadros somam 600 ms: é o "incha o papo por 0,6 s" da ficha, o aviso pro jogador sair da faixa. O 4º quadro (60 ms) é o cuspe, com a cabeça jogada pra frente e a mandíbula escancarada.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><img alt="Sprite atual do Cuspidor, 128 px" src="data:image/png;base64,{{OLDPNG}}"><figcaption>Atual · pixel chunky, contorno uniforme, 2 tons</figcaption></figure>
+        <figure><canvas id="afterCv" width="128" height="124"></canvas><figcaption>Novo · papo translúcido, 4 tons, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor da forma <span id="formName">Comum</span></h2>
+      <div class="ramps" id="ramps"></div>
+      <p class="note" style="margin-top:10px">O ácido é a cor mais saturada da tela, e é de propósito. Papo, baba, furos na camisa, manchas na calça, cuspe e poça usam a mesma rampa, pra que o jogador ligue tudo ao perigo.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead>
+      <tbody>
+        <tr><td>Cabeça</td><td>Pescoço inchado como papo de sapo, pele esticada e translúcida mostrando o ácido verde. Mandíbula caída e torta, baba ácida no queixo. Olhos pequenos e amarelos. Pouco cabelo grudado na testa.</td><td>O papo é uma peça própria na frente do pescoço, com 3 camadas (pele, ácido escuro, ácido claro) e reflexo. Ele cresce no Cuspir e brilha (luz aditiva). A mandíbula é peça separada e a baba é um fio verde que estica quando a boca abre. Olhinhos amarelos fundos e mechas grudadas na testa.</td></tr>
+        <tr><td>Tronco</td><td>Camisa polo marrom, gola queimada, furos corroídos pelo ácido no peito. Corpo encurvado, costas arqueadas.</td><td>Polo marrom com carcela de 2 botões e gola chamuscada com pontos pretos. 4 furos com borda verde mostram a pele. O tronco fica inclinado 24° e as costas fazem uma corcunda.</td></tr>
+        <tr><td>Braços</td><td>Caídos ao lado do corpo. Uma mão apoiada no papo, como se o segurasse. Dedos com queimaduras de ácido.</td><td>O braço da frente usa cinemática inversa pra segurar o papo por baixo e acompanha quando ele incha. O de trás fica pendurado e balança. Pontas dos dedos queimadas.</td></tr>
+        <tr><td>Pernas</td><td>Calça social cinza com manchas verdes, um sapato de cada cor. Pernas afastadas pra aguentar o tranco.</td><td>Calça cinza com vinco e manchas de ácido. Sapato social preto na frente e marrom atrás. Base larga, que abre mais no cuspe.</td></tr>
+        <tr><td>Movimento</td><td>Para a 4 tiles, incha o papo 0,6 s com o pescoço brilhando e cospe. A bola cai e vira poça que borbulha e envenena.</td><td>Cuspir em 8 quadros. A bola sai da boca em arco com rastro e, ao cair, vira uma poça que borbulha e some em ~3 s (no jogo, causa veneno por segundo em quem pisa).</td></tr>
+        <tr><td>Enluarado</td><td>Pele azul e ácido turquesa.</td><td>Pele azul, ácido turquesa, luz de lua ciano.</td></tr>
+        <tr><td>Plenilunar</td><td>Pele magenta e três papos inchados, que cospem 3 bolas em leque.</td><td>Pele magenta, 3 papos (um atrás, mais escuro) e cuspe triplo em leque: as 3 bolas caem em faixas diferentes.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{CUSP}}
+(function(){
+'use strict';
+const SW=240, SH=150, SGROUND=140, FW=CUSP.FW, FH=CUSP.FH, GROUND=CUSP.GROUND;
+{{BG}}
+const S={form:'comum', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, balls:[], pools:[]};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+const ACID={comum:['#f4ffb0','#b8f53a','#6ac21a','#2e7a10'],enluarado:['#e0fffa','#5af0e0','#1ab0b0','#0a6a70'],plenilunar:['#fffcc0','#e8f53a','#a0c21a','#5a7a10']};
+let last=performance.now(), T=0;
+const ox=()=>14, oy=()=>SGROUND-GROUND;
+function onFrame(){ if(S.anim==='attack' && S.fi===CUSP.ANIMS.attack.spitAt){ const cv=CUSP.frame(S.form,'attack',S.fi,5), m=cv._mouth; const n=S.form==='plenilunar'?3:1;
+  for(let k=0;k<n;k++){ const tx=ox()+m.x+120+(k-1)*(n>1?22:0), ty=SGROUND+3+(k-1)*(n>1?5:0); S.balls.push({x0:ox()+m.x,y0:oy()+m.y,x1:tx,y1:ty,t:0,d:0.55+k*0.04}); } } }
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=CUSP.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); onFrame(); updStrip(); } }
+  if(S.anim==='walk' && S.playing) S.scroll+=dt*(S.slow?7:14);
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+function draw(dt){
+  drawBG(g,S.form,S.scroll,T);
+  const cv=CUSP.frame(S.form,S.anim,S.fi,S.step), X=ox(), Y=oy(), A=ACID[S.form];
+  // poças
+  S.pools.forEach(p=>{ p.t+=dt; const a=Math.max(0,1-p.t/3), w=Math.round(16*Math.min(1,p.t*6)); g.globalAlpha=a; g.fillStyle=A[3]; g.fillRect(p.x-w-1,p.y-1,w*2+2,4); g.fillStyle=A[2]; g.fillRect(p.x-w,p.y-1,w*2,3); g.fillStyle=A[1]; g.fillRect(p.x-w+3,p.y-1,w*2-6,1);
+    if(Math.random()<0.25) p.b.push({x:p.x+(Math.random()-.5)*w*1.6,y:p.y,t:0}); p.b.forEach(b=>{ b.t+=dt; g.fillStyle=A[0]; const r=b.t<0.25?1:0; g.fillRect(Math.round(b.x),Math.round(b.y-2-b.t*6),1+r,1+r); }); p.b=p.b.filter(b=>b.t<0.4); g.globalAlpha=1;
+    if(S.step>=5) glow(p.x,p.y,14,'rgba(180,255,80,'+(0.18*a)+')'); }); S.pools=S.pools.filter(p=>p.t<3);
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-2;y<=2;y++){ const w=Math.floor(Math.sqrt(1-(y/3)**2)*22); g.fillRect(X+CUSP.AX-w+4,SGROUND+y+1,w*2,1); }
+  g.drawImage(cv,X,Y);
+  const P=CUSP.poseOf(S.anim,S.fi);
+  if(S.step>=5){ const s=cv._sac; glow(X+s.x+2,Y+s.y+4,cv._sacR*(0.9+P.sac),'rgba(170,255,70,'+(0.08+P.sac*0.4)+')'); }
+  // bolas
+  S.balls.forEach(b=>{ b.t+=dt/b.d; const t=Math.min(1,b.t), x=b.x0+(b.x1-b.x0)*t, y=b.y0+(b.y1-b.y0)*t-Math.sin(t*Math.PI)*34;
+    for(let k=1;k<5;k++){ const tt=Math.max(0,t-k*0.04), tx=b.x0+(b.x1-b.x0)*tt, ty=b.y0+(b.y1-b.y0)*tt-Math.sin(tt*Math.PI)*34; g.fillStyle=A[k<3?1:2]; g.globalAlpha=1-k*0.2; g.fillRect(Math.round(tx)-1,Math.round(ty)-1,2,2); }
+    g.globalAlpha=1; g.fillStyle='#170b1c'; g.fillRect(Math.round(x)-3,Math.round(y)-3,6,6); g.fillStyle=A[1]; g.fillRect(Math.round(x)-2,Math.round(y)-2,4,4); g.fillStyle=A[0]; g.fillRect(Math.round(x)-1,Math.round(y)-2,2,1);
+    if(S.step>=5) glow(x,y,8,'rgba(180,255,80,.5)');
+    if(b.t>=1){ b.done=true; S.pools.push({x:b.x1,y:b.y1,t:0,b:[]}); } }); S.balls=S.balls.filter(b=>!b.done);
+  if(S.anim==='attack' && S.fi<=2) setFx('bubble','glub…',X+cv._sac.x+10,Y+cv._sac.y-26);
+  else if(S.anim==='attack' && S.fi===3) setFx('burst','PTUI!',X+cv._mouth.x+26,Y+cv._mouth.y-12);
+  else if(S.anim==='hurt' && S.fi<=1) setFx('burst','CRAU!',X+40,Y+30);
+  else if(S.pools.length && S.anim==='attack' && S.fi>=5) setFx('bubble','tssss',S.pools[0].x,S.pools[0].y-16);
+  else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${CUSP.ANIMS[S.anim].n} · ${CUSP.ANIMS[S.anim].dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,128,124); r1.drawImage(cv,0,0);
+  const r2=document.getElementById('r2').getContext('2d'); r2.imageSmoothingEnabled=false; r2.clearRect(0,0,90,87); PIX.setK(0.7); r2.drawImage(CUSP.frame(S.form,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(CUSP.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('anims','anim',S.anim); buildStrip(); });
+document.querySelectorAll('#forms button').forEach(b=>b.onclick=()=>{ S.form=b.dataset.form; press('forms','form',S.form); buildStrip(); buildRamps(); after(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%CUSP.ANIMS[S.anim].n; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=CUSP.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(CUSP.frame(S.form,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms${A.spitAt===i?' ✦':''}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=CUSP.mats(S.form); document.getElementById('formName').textContent={comum:'Comum',enluarado:'Enluarado',plenilunar:'Plenilunar'}[S.form];
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(CUSP.NAMES).map(k=>`<div class="ramp"><span>${CUSP.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('')+
+  `<div class="ramp"><span>Contorno · Lua</span><i style="background:${PIX.OUTLINE}"></i><i style="background:${CUSP.RIM[S.form]}"></i><span></span><span></span></div>`; }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(CUSP.frame(S.form,'attack',2,5),0,0); }
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>

@@ -1,0 +1,107 @@
+{
+ "grupo": "construcoes_producao",
+ "titulo": "Construções: oficinas e produção",
+ "ordem": 11,
+ "resumo": "As quatro construções que produzem e fabricam no abrigo: a Serralheria (armas), o Coletor de água, a Horta (comida) e a Bancada (craft básico). Cada uma tem 5 níveis na escada de materiais (lona → madeira → pedra → tijolo e metal → Lua de Sangue) × 3 estados (intacta, danificada, destruída), sempre reconhecível pela função.",
+ "itens": [
+  {
+   "id": "con_serralheria",
+   "nome": "Serralheria",
+   "categoria": "Construção 2×2",
+   "mecanica": "Abrigo (ABR-03, ABR-06..10, ABR-14), Evolução (EVO-01, EVO-07..10, EVO-13), Invasão (INV-05, INV-06, INV-09); bônus de vizinhança Gerador + Serralheria (2× mais rápido) e Bancada + Serralheria (craft −20%)",
+   "conceito": "Oficina de ferreiro improvisada por sobreviventes que fabrica e melhora armas e ferramentas com a sucata trazida das expedições. É um telheiro de uma água: parede de fundo alta, dois pilares na frente e um telhado inclinado visto de cima; a frente é aberta e deixa ver o interior escuro com a forja de brasas à esquerda (chaminé furando o telhado), a bancada com morsa à direita e ferramentas penduradas no fundo. No pátio da frente ficam sempre a bigorna sobre um toco, o barril de têmpera e um monte de sucata, para que a função seja lida de longe em qualquer nível. O brilho alaranjado da forja é o ponto de luz quente da construção; no N5 a brasa vira fogo vermelho-lua com runas acesas.",
+   "partes": [
+    {"parte": "Telhado (ocupa y≈34–112)", "descricao": "Plano inclinado visto de cima com beiral frontal de 5 px. N1: lona azul #3f6a8c caída entre estacas, com dobras, remendo #8a7a52 e cordas #b59a62 amarradas. N2: ripas de madeira #8b5e34 em fiadas horizontais com pregos #c9c3b0. N3: telha de barro #b5562e/#8f3f22 em capa-e-canal. N4: chapa ondulada #8d969c/#6b747a com manchas de ferrugem #8a4e2e e rebites. N5: ardósia preta #1c1822 em escamas com cumeeira e beiral dourados #f2c230/#b8861a."},
+    {"parte": "Parede de fundo e pilares", "descricao": "Parede vista por dentro, sombreada, de y≈112 a 196, com ferramentas penduradas (martelo, tenaz, serrote, ferradura, chaves). Pilares nas pontas. N1: lona verde #5f7a4a remendada e estacas tortas #8a6a42; N2: tábuas verticais #9a6a3c/#7d5430 com pregos; N3: blocos de pedra #8e8a84/#77736e com argamassa #b8b0a0; N4: tijolo #a5432e/#86351f com faixa de metal rebitado #7d848c/#c9ced4 e lâmpada acesa #ffd36a; N5: pedra escura #2e2836/#3c3446 com frisos dourados e runas #c8323a brilhando #ff5a5a."},
+    {"parte": "Forja (esquerda, x≈26–92)", "descricao": "Sempre com brasa laranja e brilho. N1: tambor de óleo cortado com carvão e grelha. N2: forja de barro sobre base de tábuas e fole de couro. N3: forja de pedra com coifa e chaminé de pedra saindo do telhado. N4: forja de tijolo com coifa de chapa rebitada e chaminé de metal. N5: forja de pedra escura com coifa dourada, fogo vermelho e runas."},
+    {"parte": "Bancada com morsa (direita)", "descricao": "Tampo com morsa de ferro, lima, alicate; N4 ganha esmeril elétrico com faíscas e fio até a lâmpada; N5 tampo de pedra escura com dourado."},
+    {"parte": "Bigorna, barril e sucata (pátio)", "descricao": "Bigorna (N1 pedaço de trilho de trem sobre toco; N2–N5 bigorna de ferro, N5 com friso dourado) sobre toco com martelo apoiado; barril/balde de têmpera ao lado com água; monte de sucata (chapas, canos, engrenagem, pneu) à direita, que aumenta com o nível."},
+    {"parte": "Danificada", "descricao": "Rachaduras pretas na parede e no telhado, manchas de fuligem #2a2228, uma peça do material solta (lona rasgada pendurada / tábua torta / blocos caídos / tijolos e chapa entortada / bloco escuro rachado), fogo laranja pequeno e fumaça cinza saindo do telhado. A bigorna continua no lugar."},
+    {"parte": "Destruída", "descricao": "Monte de escombros do material do nível sobre a mesma base, vigas queimadas #2a1a12 cruzadas, brasas e fumaça; a bigorna e o toco sobrevivem na frente do monte para manter a leitura de serralheria."}
+   ],
+   "paleta": [
+    {"nome": "Lona verde", "hex": "#5f7a4a"}, {"nome": "Lona verde escura", "hex": "#4a6139"}, {"nome": "Remendo", "hex": "#8a7a52"}, {"nome": "Lona azul", "hex": "#3f6a8c"}, {"nome": "Corda", "hex": "#b59a62"}, {"nome": "Estaca", "hex": "#8a6a42"}, {"nome": "Ferrugem", "hex": "#8a4e2e"}, {"nome": "Sucata", "hex": "#6b6a66"},
+    {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Tábua 2", "hex": "#7d5430"}, {"nome": "Madeira escura", "hex": "#5a3a22"}, {"nome": "Prego", "hex": "#c9c3b0"}, {"nome": "Ripa", "hex": "#8b5e34"},
+    {"nome": "Pedra", "hex": "#8e8a84"}, {"nome": "Pedra 2", "hex": "#77736e"}, {"nome": "Argamassa", "hex": "#b8b0a0"}, {"nome": "Telha", "hex": "#b5562e"}, {"nome": "Telha escura", "hex": "#8f3f22"},
+    {"nome": "Tijolo", "hex": "#a5432e"}, {"nome": "Tijolo 2", "hex": "#86351f"}, {"nome": "Rejunte", "hex": "#c9b8a0"}, {"nome": "Metal", "hex": "#7d848c"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Chapa", "hex": "#8d969c"}, {"nome": "Chapa escura", "hex": "#6b747a"}, {"nome": "Lâmpada", "hex": "#ffd36a"},
+    {"nome": "Pedra lunar", "hex": "#2e2836"}, {"nome": "Pedra lunar 2", "hex": "#3c3446"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Dourado escuro", "hex": "#b8861a"}, {"nome": "Ardósia", "hex": "#1c1822"}, {"nome": "Runa", "hex": "#c8323a"}, {"nome": "Brilho da runa", "hex": "#ff5a5a"},
+    {"nome": "Ferro da bigorna", "hex": "#4a4c52"}, {"nome": "Brasa", "hex": "#ff8a2a"}, {"nome": "Fuligem", "hex": "#2a2228"}, {"nome": "Viga queimada", "hex": "#2a1a12"}
+   ],
+   "arquivo": "sprites/con_serralheria.png", "fw": 256, "fh": 256, "cols": 5,
+   "quadros": ["N1 intacta", "N2 intacta", "N3 intacta", "N4 intacta", "N5 intacta", "N1 danificada", "N2 danificada", "N3 danificada", "N4 danificada", "N5 danificada", "N1 destruída", "N2 destruída", "N3 destruída", "N4 destruída", "N5 destruída"],
+   "uso": "Ocupa 2×2 tiles (256×256). Pivô no centro da base, chão em gy=244. Camada de construções do abrigo, ordenada por y da base. Queda (ABR-06), squash/stretch, pulinho dos vizinhos, andaime e barra de obra (EVO-07) e o brilho de obra pronta (EVO-08) são transformações/efeitos em tempo real, não sprites. Linha = estado, coluna = nível."
+  },
+  {
+   "id": "con_coletor",
+   "nome": "Coletor de água",
+   "categoria": "Construção 1×1",
+   "mecanica": "Abrigo (ABR-03, ABR-13 produção idle), Evolução (EVO-01, EVO-09, EVO-13), Invasão (INV-06, INV-09); bônus Coletor + Horta (+25% comida); DN-13 rende mais de madrugada",
+   "conceito": "Coletor de água da chuva que produz Água com o tempo, mesmo com o herói em expedição. Em todos os níveis a leitura é a mesma: uma superfície que capta a chuva no alto descendo por funil/calha até um recipiente com água azul visível em cima. Começa como uma lona esticada em estacas tortas formando funil sobre um balde, vira barril de madeira com calha, cisterna redonda de pedra com telhadinho de barro e sarilho, caixa-d'água de metal rebitado sobre torre de tijolo com torneira pingando, e por fim um reservatório lunar de pedra escura com aro dourado e água que brilha.",
+   "partes": [
+    {"parte": "N1 Lona e sucata", "descricao": "Quatro estacas tortas #8a6a42 seguram uma lona verde #5f7a4a afunilada (remendo #8a7a52, cordas #b59a62) que pinga num balde de sucata #6b6a66 com ferrugem #8a4e2e e água azul; garrafas PET e uma lata ao lado."},
+    {"parte": "N2 Madeira", "descricao": "Barril de madeira #9a6a3c/#7d5430 com aros de ferro, tampa aberta mostrando água; telhadinho de ripas #8b5e34 sobre dois postes que escoa por uma calha de tábua até o barril; caneca pendurada e torneira de pau."},
+    {"parte": "N3 Pedra", "descricao": "Cisterna redonda de blocos de pedra #8e8a84/#77736e com argamassa #b8b0a0, borda larga mostrando água; dois pilares de pedra com telhado de telha de barro #b5562e/#8f3f22 e sarilho de madeira com corda e balde."},
+    {"parte": "N4 Tijolo e metal", "descricao": "Caixa-d'água cilíndrica de chapa #8d969c/#6b747a com faixas rebitadas #7d848c/#c9ced4 sobre base de tijolo #a5432e/#86351f; funil de chapa no topo, escada, cano e torneira com gota, lâmpada acesa #ffd36a e balde embaixo."},
+    {"parte": "N5 Lua de Sangue", "descricao": "Reservatório de pedra escura #2e2836/#3c3446 com aros e bico dourados #f2c230/#b8861a, runas vermelhas #c8323a brilhando #ff5a5a e água azul-clara luminosa no topo; pequena bandeira vermelha na haste."},
+    {"parte": "Danificada", "descricao": "Rachaduras e fuligem #2a2228, peça solta do material, vazamento (poça e gotas) no recipiente, foguinho e fumaça pequena."},
+    {"parte": "Destruída", "descricao": "Escombros do material do nível, recipiente tombado/quebrado no chão com poça de água, vigas queimadas #2a1a12 e fumaça."}
+   ],
+   "paleta": [
+    {"nome": "Água", "hex": "#4f8fc0"}, {"nome": "Água clara", "hex": "#8fd0f0"}, {"nome": "Água lunar", "hex": "#bfeaff"},
+    {"nome": "Lona verde", "hex": "#5f7a4a"}, {"nome": "Estaca", "hex": "#8a6a42"}, {"nome": "Sucata", "hex": "#6b6a66"}, {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Ripa", "hex": "#8b5e34"},
+    {"nome": "Pedra", "hex": "#8e8a84"}, {"nome": "Telha", "hex": "#b5562e"}, {"nome": "Tijolo", "hex": "#a5432e"}, {"nome": "Chapa", "hex": "#8d969c"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Lâmpada", "hex": "#ffd36a"},
+    {"nome": "Pedra lunar", "hex": "#2e2836"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Runa", "hex": "#c8323a"}, {"nome": "Fuligem", "hex": "#2a2228"}
+   ],
+   "arquivo": "sprites/con_coletor.png", "fw": 128, "fh": 160, "cols": 5,
+   "quadros": ["N1 intacta", "N2 intacta", "N3 intacta", "N4 intacta", "N5 intacta", "N1 danificada", "N2 danificada", "N3 danificada", "N4 danificada", "N5 danificada", "N1 destruída", "N2 destruída", "N3 destruída", "N4 destruída", "N5 destruída"],
+   "uso": "Ocupa 1×1 tile (128 de largura, 160 de altura com sobra para o topo). Pivô no centro da base, chão em gy=148. Gotas/“+1 Água” e brilho da água são efeitos em tempo real. Linha = estado, coluna = nível."
+  },
+  {
+   "id": "con_horta",
+   "nome": "Horta",
+   "categoria": "Construção 2×1",
+   "mecanica": "Abrigo (ABR-03, ABR-13 produção idle), Evolução (EVO-01, EVO-09, EVO-13), Invasão (INV-06, INV-09), Grupo (GRP-14 comida melhora o descanso); bônus Coletor + Horta (+25%); DN-13 só produz de dia",
+   "conceito": "Horta comunitária do abrigo que produz Comida com o tempo. Três canteiros vistos de cima em 3/4, com plantas da roça nordestina: macaxeira (hastes avermelhadas e folhas em mão), milho alto com espiga, coentro miúdo e pés de alface redondos. No fundo um espantalho vestido com roupa velha e chapéu de palha vigia a plantação; à frente um regador e um balde. O cercado e a borda dos canteiros sobem na escada de materiais: pneus velhos e lona no N1, caixotes de feira de madeira no N2, canteiros de pedra com murinho no N3, estufa de base de tijolo com estrutura de chapa e irrigação no N4, e canteiros de terra escura com plantas de brilho vermelho e runas no N5.",
+   "partes": [
+    {"parte": "Canteiros (3 faixas, x≈28–228, y≈66–171)", "descricao": "Terra marrom #5a3e2a com sulcos. N1: bordas de pneus #2b2a2e empilhados e lona verde #5f7a4a forrando; N2: caixotes de tábua #9a6a3c/#7d5430 com pregos; N3: bordas de blocos de pedra #8e8a84 com argamassa; N4: bordas de tijolo #a5432e com cano de irrigação de metal #7d848c gotejando; N5: bordas de pedra escura #2e2836 com friso dourado #f2c230, terra quase preta #2a1e22."},
+    {"parte": "Plantas", "descricao": "Macaxeira (caule #9a4a3a, folhas palmadas #4f8a3a/#6fae4a), milho (colmo #8fae4a, espiga amarela #e8c44a com cabelo), coentro (tufos #5fa040), alface (rosetas #8ccf5a). Ficam mais cheias a cada nível; no N5 as folhas ganham nervuras e frutos vermelhos brilhando #ff5a5a."},
+    {"parte": "Cercado", "descricao": "N1 gravetos tortos #8a6a42 e corda #b59a62; N2 paliçada de ripas #8b5e34; N3 murinho de pedra; N4 estufa: mureta de tijolo com montantes de metal rebitado, arcos e painéis de plástico translúcido, lâmpada #ffd36a; N5 mureta de pedra escura com pilares de topo dourado, runas #c8323a e bandeirinha vermelha."},
+    {"parte": "Espantalho, regador e balde", "descricao": "Espantalho de cruz de madeira com camisa xadrez, chapéu de palha #c8a55a e rosto de saco; no N5 olhos vermelhos brilhando. Regador de lata e balde na frente."},
+    {"parte": "Danificada", "descricao": "Plantas pisoteadas e murchas (#8a7a3a), trecho do cercado quebrado com uma peça solta, fuligem #2a2228, rachaduras nas bordas, foguinho e fumaça; espantalho torto."},
+    {"parte": "Destruída", "descricao": "Canteiros revirados com terra espalhada, escombros do cercado no material do nível, plantas secas, espantalho caído, vigas queimadas #2a1a12 e fumaça."}
+   ],
+   "paleta": [
+    {"nome": "Terra", "hex": "#5a3e2a"}, {"nome": "Terra escura", "hex": "#3e2a1c"}, {"nome": "Folha", "hex": "#4f8a3a"}, {"nome": "Folha clara", "hex": "#6fae4a"}, {"nome": "Alface", "hex": "#8ccf5a"}, {"nome": "Milho", "hex": "#e8c44a"}, {"nome": "Caule de macaxeira", "hex": "#9a4a3a"}, {"nome": "Murcha", "hex": "#8a7a3a"},
+    {"nome": "Pneu", "hex": "#2b2a2e"}, {"nome": "Lona verde", "hex": "#5f7a4a"}, {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Pedra", "hex": "#8e8a84"}, {"nome": "Tijolo", "hex": "#a5432e"}, {"nome": "Metal", "hex": "#7d848c"}, {"nome": "Lâmpada", "hex": "#ffd36a"},
+    {"nome": "Pedra lunar", "hex": "#2e2836"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Runa", "hex": "#c8323a"}, {"nome": "Brilho", "hex": "#ff5a5a"}, {"nome": "Palha", "hex": "#c8a55a"}
+   ],
+   "arquivo": "sprites/con_horta.png", "fw": 256, "fh": 192, "cols": 5,
+   "quadros": ["N1 intacta", "N2 intacta", "N3 intacta", "N4 intacta", "N5 intacta", "N1 danificada", "N2 danificada", "N3 danificada", "N4 danificada", "N5 danificada", "N1 destruída", "N2 destruída", "N3 destruída", "N4 destruída", "N5 destruída"],
+   "uso": "Ocupa 2×1 tiles (256×192). Pivô no centro da base, chão em gy=180. Balanço das folhas ao vento e o “+1 Comida” são efeitos em tempo real. Linha = estado, coluna = nível."
+  },
+  {
+   "id": "con_bancada",
+   "nome": "Bancada",
+   "categoria": "Construção 2×1",
+   "mecanica": "Abrigo (ABR-03, ABR-06..10), Evolução (EVO-01, EVO-09, EVO-13), Invasão (INV-06, INV-09); bônus Bancada + Serralheria (craft −20%)",
+   "conceito": "Bancada de trabalho para o craft básico do abrigo: ataduras, barricadas e gazuas. É um alpendre encostado (parede de fundo + cobertura vista de cima) com uma bancada comprida na frente. Em cima do tampo ficam sempre o serrote, o rolo de pano branco para ataduras, a lata de pregos, o martelo e um pano com gazuas e grampos; encostadas ao lado ficam tábuas de barricada com pregos. No fundo há um quadro de ferramentas. Cada nível troca parede, cobertura, tampo e pernas pelo material da escada, e acrescenta conforto: lampião, morsa, gaveteiro, lâmpada e por fim o brilho rúnico.",
+   "partes": [
+    {"parte": "Cobertura (y≈22–64)", "descricao": "N1 lona azul #3f6a8c caída com cordas #b59a62 e estacas tortas; N2 ripas #8b5e34; N3 telha de barro #b5562e/#8f3f22; N4 chapa ondulada #8d969c/#6b747a com ferrugem; N5 ardósia #1c1822 com cumeeira dourada #f2c230."},
+    {"parte": "Parede de fundo (y≈64–128)", "descricao": "N1 lona verde #5f7a4a remendada com chapa de sucata #6b6a66; N2 tábuas verticais com pregos; N3 blocos de pedra com argamassa; N4 tijolo com faixa de metal rebitado e lâmpada #ffd36a; N5 pedra escura com friso dourado e runas #c8323a. Quadro de ferramentas (tábua/chapa perfurada) com alicate, chave, tesoura."},
+    {"parte": "Bancada (tampo y≈126–138, pernas até gy=180)", "descricao": "N1 porta velha deitada sobre dois tambores de sucata enferrujados; N2 tampo de tábuas sobre cavaletes de madeira; N3 tampo grosso de madeira com pernas de pedra e morsa; N4 tampo com cantoneira de metal rebitada, gaveteiro de chapa e morsa; N5 tampo de pedra escura com borda dourada e pernas com runas."},
+    {"parte": "Ferramentas e itens do craft", "descricao": "Serrote (lâmina #c9ced4, cabo #8b5e34), rolo de pano #e8e0cc com ataduras desenroladas, lata de pregos, martelo, gazuas e grampos sobre pano vermelho; tábuas de barricada com pregos encostadas à esquerda; no N4 lâmpada e no N5 lanterna vermelha."},
+    {"parte": "Danificada", "descricao": "Rachaduras pretas, fuligem #2a2228, peça solta do material (lona rasgada, tábua torta, bloco caído, chapa entortada, bloco escuro rachado), foguinho e fumaça; itens espalhados no tampo."},
+    {"parte": "Destruída", "descricao": "Monte de escombros do material do nível, tampo quebrado ao meio com o serrote e o rolo de pano jogados na frente, vigas queimadas #2a1a12 e fumaça."}
+   ],
+   "paleta": [
+    {"nome": "Lona azul", "hex": "#3f6a8c"}, {"nome": "Lona verde", "hex": "#5f7a4a"}, {"nome": "Tábua", "hex": "#9a6a3c"}, {"nome": "Ripa", "hex": "#8b5e34"}, {"nome": "Madeira escura", "hex": "#5a3a22"},
+    {"nome": "Pedra", "hex": "#8e8a84"}, {"nome": "Telha", "hex": "#b5562e"}, {"nome": "Tijolo", "hex": "#a5432e"}, {"nome": "Chapa", "hex": "#8d969c"}, {"nome": "Rebite", "hex": "#c9ced4"}, {"nome": "Lâmpada", "hex": "#ffd36a"},
+    {"nome": "Pedra lunar", "hex": "#2e2836"}, {"nome": "Ardósia", "hex": "#1c1822"}, {"nome": "Dourado", "hex": "#f2c230"}, {"nome": "Runa", "hex": "#c8323a"},
+    {"nome": "Pano de atadura", "hex": "#e8e0cc"}, {"nome": "Lâmina", "hex": "#c9ced4"}, {"nome": "Fuligem", "hex": "#2a2228"}, {"nome": "Viga queimada", "hex": "#2a1a12"}
+   ],
+   "arquivo": "sprites/con_bancada.png", "fw": 256, "fh": 192, "cols": 5,
+   "quadros": ["N1 intacta", "N2 intacta", "N3 intacta", "N4 intacta", "N5 intacta", "N1 danificada", "N2 danificada", "N3 danificada", "N4 danificada", "N5 danificada", "N1 destruída", "N2 destruída", "N3 destruída", "N4 destruída", "N5 destruída"],
+   "uso": "Ocupa 2×1 tiles (256×192). Pivô no centro da base, chão em gy=180. Recruta trabalhando, faíscas do martelo e o “+1” do craft são efeitos/sprites de outros grupos em tempo real. Linha = estado, coluna = nível."
+  }
+ ]
+}

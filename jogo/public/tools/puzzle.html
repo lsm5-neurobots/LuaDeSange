@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Puzzle dos baús</title>
+<style>
+  body { margin: 0; background: #1b1d24; color: #eee; font: 11px monospace; padding: 10px }
+  .row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 12px }
+  .h { position: relative; width: 380px; height: 260px; background: linear-gradient(#3a2a58, #2a1b46 55%, #4a3a2a 55%); border: 2px solid #000; overflow: hidden }
+  h4 { margin: 0 0 4px; color: #ffd23f }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;700&display=swap" rel="stylesheet">
+<script src="../art/art-exp.js"></script>
+</head>
+<body>
+<div class="row" id="r1"></div>
+<div class="row" id="r2"></div>
+<script>
+const { PUZZLE } = window.ART_EXP;
+function add(row, tipo, bau, label) {
+  const w = document.createElement('div'); w.innerHTML = `<h4>${label}</h4><div class="h"></div>`; document.getElementById(row).appendChild(w);
+  PUZZLE.mount(w.querySelector('.h'), { tipo, tempo: 999, bau, auto: false, onDone() {} });
+}
+add('r1', 'fio', 'Baú comum', 'fio · comum');
+add('r1', 'num', 'Baú médico', 'num · médico');
+add('r1', 'sym', 'Baú militar', 'sym · militar');
+add('r2', 'sym', 'Baú raro', 'sym · raro');
+add('r2', 'fio', 'Baú raro', 'fio · raro');
+document.title = 'ok';
+</script>
+</body>
+</html>

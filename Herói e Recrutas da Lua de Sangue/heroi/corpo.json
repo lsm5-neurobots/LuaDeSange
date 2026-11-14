@@ -1,0 +1,344 @@
+{
+ "grupo": "corpo",
+ "itens": [
+  {
+   "id": "body_m",
+   "nome": "Corpo (pele) (masc.)",
+   "camada": "body",
+   "arquivo": "heroi/body_m.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#c98d5e",
+   "opcao": "skin"
+  },
+  {
+   "id": "arm_m",
+   "nome": "Braço da frente (pele) (masc.)",
+   "camada": "arm",
+   "arquivo": "heroi/arm_m.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#c98d5e",
+   "opcao": "skin"
+  },
+  {
+   "id": "face_m",
+   "nome": "Rosto (masc.)",
+   "camada": "face",
+   "arquivo": "heroi/face_m.png",
+   "tint": false,
+   "corpo": "m",
+   "cor_padrao": null,
+   "opcao": "body"
+  },
+  {
+   "id": "shirt_m",
+   "nome": "Camiseta (masc.)",
+   "camada": "shirt",
+   "arquivo": "heroi/shirt_m.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#c0262d",
+   "opcao": "shirt"
+  },
+  {
+   "id": "shirt_arm_m",
+   "nome": "Manga da camiseta (masc.)",
+   "camada": "shirt_arm",
+   "arquivo": "heroi/shirt_arm_m.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#c0262d",
+   "opcao": "shirt"
+  },
+  {
+   "id": "pants_m",
+   "nome": "Calça (masc.)",
+   "camada": "pants",
+   "arquivo": "heroi/pants_m.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#2b3a5a",
+   "opcao": "pants"
+  },
+  {
+   "id": "jacket_m",
+   "nome": "Jaqueta (masc.)",
+   "camada": "jacket",
+   "arquivo": "heroi/jacket_m.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#5b3a24",
+   "opcao": "jacket"
+  },
+  {
+   "id": "jacket_arm_m",
+   "nome": "Manga da jaqueta (masc.)",
+   "camada": "jacket_arm",
+   "arquivo": "heroi/jacket_arm_m.png",
+   "tint": true,
+   "corpo": "m",
+   "cor_padrao": "#5b3a24",
+   "opcao": "jacket"
+  },
+  {
+   "id": "shoes_m",
+   "nome": "Tênis surrado (masc.)",
+   "camada": "shoes",
+   "arquivo": "heroi/shoes_m.png",
+   "tint": false,
+   "corpo": "m",
+   "cor_padrao": null,
+   "opcao": "feet"
+  },
+  {
+   "id": "body_f",
+   "nome": "Corpo (pele) (fem.)",
+   "camada": "body",
+   "arquivo": "heroi/body_f.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#c98d5e",
+   "opcao": "skin"
+  },
+  {
+   "id": "arm_f",
+   "nome": "Braço da frente (pele) (fem.)",
+   "camada": "arm",
+   "arquivo": "heroi/arm_f.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#c98d5e",
+   "opcao": "skin"
+  },
+  {
+   "id": "face_f",
+   "nome": "Rosto (fem.)",
+   "camada": "face",
+   "arquivo": "heroi/face_f.png",
+   "tint": false,
+   "corpo": "f",
+   "cor_padrao": null,
+   "opcao": "body"
+  },
+  {
+   "id": "shirt_f",
+   "nome": "Camiseta (fem.)",
+   "camada": "shirt",
+   "arquivo": "heroi/shirt_f.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#c0262d",
+   "opcao": "shirt"
+  },
+  {
+   "id": "shirt_arm_f",
+   "nome": "Manga da camiseta (fem.)",
+   "camada": "shirt_arm",
+   "arquivo": "heroi/shirt_arm_f.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#c0262d",
+   "opcao": "shirt"
+  },
+  {
+   "id": "pants_f",
+   "nome": "Calça (fem.)",
+   "camada": "pants",
+   "arquivo": "heroi/pants_f.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#2b3a5a",
+   "opcao": "pants"
+  },
+  {
+   "id": "jacket_f",
+   "nome": "Jaqueta (fem.)",
+   "camada": "jacket",
+   "arquivo": "heroi/jacket_f.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#5b3a24",
+   "opcao": "jacket"
+  },
+  {
+   "id": "jacket_arm_f",
+   "nome": "Manga da jaqueta (fem.)",
+   "camada": "jacket_arm",
+   "arquivo": "heroi/jacket_arm_f.png",
+   "tint": true,
+   "corpo": "f",
+   "cor_padrao": "#5b3a24",
+   "opcao": "jacket"
+  },
+  {
+   "id": "shoes_f",
+   "nome": "Tênis surrado (fem.)",
+   "camada": "shoes",
+   "arquivo": "heroi/shoes_f.png",
+   "tint": false,
+   "corpo": "f",
+   "cor_padrao": null,
+   "opcao": "feet"
+  },
+  {
+   "id": "shadow",
+   "nome": "Sombra no chão",
+   "camada": "shadow",
+   "arquivo": "heroi/shadow.png",
+   "tint": false,
+   "corpo": "any",
+   "cor_padrao": null,
+   "opcao": "body"
+  },
+  {
+   "id": "fx",
+   "nome": "Efeitos da pose",
+   "camada": "fx",
+   "arquivo": "heroi/fx.png",
+   "tint": false,
+   "corpo": "any",
+   "cor_padrao": null,
+   "opcao": "body"
+  }
+ ],
+ "cores": {
+  "skin": [
+   "#f6d3b3",
+   "#e8b48a",
+   "#c98d5e",
+   "#a86b3c",
+   "#7a4a26",
+   "#4f2f18"
+  ],
+  "shirt": [
+   "#c0262d",
+   "#2f6db5",
+   "#3b8f3e",
+   "#e3b23c",
+   "#6c3fa0",
+   "#e8e4dc",
+   "#262626"
+  ],
+  "pants": [
+   "#2b3a5a",
+   "#3d3d3d",
+   "#6b4a2b",
+   "#4c6b3a",
+   "#8a8a8a"
+  ],
+  "jacket": [
+   null,
+   "#5b3a24",
+   "#30343a",
+   "#7a1f24",
+   "#3f5a3a"
+  ]
+ },
+ "linhas": [
+  "idle",
+  "walk",
+  "attack",
+  "hurt",
+  "death",
+  "special",
+  "attack_fire",
+  "attack_knife"
+ ],
+ "quadros": {
+  "idle": 4,
+  "walk": 8,
+  "attack": 6,
+  "hurt": 4,
+  "death": 6,
+  "special": 6,
+  "attack_fire": 6,
+  "attack_knife": 6
+ },
+ "duracoes": {
+  "idle": [
+   220,
+   220,
+   220,
+   220
+  ],
+  "walk": [
+   110,
+   110,
+   110,
+   110,
+   110,
+   110,
+   110,
+   110
+  ],
+  "attack": [
+   90,
+   170,
+   130,
+   50,
+   120,
+   160
+  ],
+  "hurt": [
+   60,
+   90,
+   90,
+   110
+  ],
+  "death": [
+   70,
+   110,
+   110,
+   100,
+   140,
+   600
+  ],
+  "special": [
+   120,
+   150,
+   150,
+   90,
+   140,
+   200
+  ],
+  "attack_fire": [
+   80,
+   160,
+   60,
+   70,
+   120,
+   160
+  ],
+  "attack_knife": [
+   80,
+   150,
+   60,
+   50,
+   110,
+   150
+  ]
+ },
+ "ordem": [
+  "shadow",
+  "hair_back",
+  "body",
+  "face",
+  "pants",
+  "shoes",
+  "shirt",
+  "jacket",
+  "bag",
+  "arm",
+  "shirt_arm",
+  "jacket_arm",
+  "beard",
+  "hair",
+  "head",
+  "acc",
+  "weapon",
+  "fx"
+ ],
+ "quadro_px": 128,
+ "obs": "Camadas tint=true estão em branco: multiplicar pela cor. jacket null = não desenhar jacket/jacket_arm. shoes = tênis padrão; esconder quando houver equipamento de pé. Tinta de dano já está aplicada em cada camada (flash = mistura com branco + alpha 175); como o multiply escurece de novo o branco, nos quadros hurt 0 e death 0 a página pode, se quiser, clarear o resultado final em vez de confiar só na camada."
+}

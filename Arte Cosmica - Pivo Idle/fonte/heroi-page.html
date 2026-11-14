@@ -1,0 +1,140 @@
+<title>Criar Recruta</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>
+.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:230/170;object-fit:contain!important}
+.maker{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 22px}
+.opt{display:grid;gap:6px;align-content:start}
+.sw{display:flex;flex-wrap:wrap;gap:6px}
+.sw button{width:28px;height:28px;border-radius:6px;border:2px solid #000;cursor:pointer;box-shadow:inset 0 0 0 2px rgba(255,255,255,.15)}
+.sw button[aria-pressed="true"]{outline:3px solid var(--moon);outline-offset:1px}
+.name{font-family:var(--f-pix);font-size:16px;padding:8px 10px;border-radius:6px;border:2px solid var(--line);background:var(--panel2);color:var(--ink);width:100%}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.actions button{font-family:var(--f-pix);font-weight:700;font-size:14px;cursor:pointer;padding:8px 14px;border-radius:6px;border:2px solid #000;background:var(--moon);color:#1a0d00;box-shadow:3px 3px 0 #000}
+.actions button.alt{background:var(--panel2);color:var(--ink);border-color:var(--line);box-shadow:none}
+.card-name{font-family:var(--f-display);font-size:22px;color:var(--moon);text-shadow:2px 2px 0 #000;margin:0}
+.ok{font-family:var(--f-pix);font-size:12px;color:var(--toxic);min-height:1em}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Início de jogo · Primeiro recruta · Direção de arte cósmica</div>
+    <h1>Criar recruta <small>personagem inicial</small></h1>
+    <p class="lede">No jogo novo não existe herói fixo: <b>o primeiro recruta é você quem monta</b>. Um sobrevivente comum de bairro, com a cabeçorra e a proporção dos zumbis, que vai liderar as primeiras expedições com um bastão comum. Tudo muda ao vivo no palco. O build fica salvo neste navegador e pode ser copiado como JSON pro jogo.</p>
+  </header>
+
+  <section class="show" aria-label="Prévia animada">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="230" height="170" role="img" aria-label="Prévia do recruta no Recife Antigo"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <p class="card-name" id="cardName">Sobrevivente</p>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho</span>
+        <div class="real"><div><canvas id="r1" width="136" height="150"></canvas><span>ficha (100%)</span></div><div><canvas id="r2" width="96" height="105"></canvas><span>no jogo (70%)</span></div></div></div>
+      <div class="actions"><button id="bRand">🎲 Aleatório</button><button class="alt" id="bCopy">Copiar JSON</button><button class="alt" id="bReset">Restaurar</button></div>
+      <div class="ok" id="ok" role="status"></div>
+    </div>
+  </section>
+
+  <section class="box">
+    <h2><small>Criação</small>Monte seu sobrevivente</h2>
+    <div class="maker" id="maker">
+      <div class="opt"><span class="lbl">Nome</span><input class="name" id="nome" maxlength="18" aria-label="Nome do recruta"></div>
+    </div>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Como funciona</small>Peças tingíveis</h2>
+      <ul class="rules">
+        <li><b>Mesma pipeline dos zumbis e do Vigia:</b> cada peça vira 4 tons (luz, base, sombra, linha) a partir da cor escolhida. Por isso qualquer cor do catálogo funciona sem desenhar de novo.</li>
+        <li><b>Camadas:</b> cabelo de trás (longo, trança, coque, black), corpo, roupa, cabeça, cabelo da frente, acessório, bastão e braço da frente. O acessório fica por cima do cabelo (boné e bandana escondem o topo).</li>
+        <li><b>Corpo m/f:</b> muda ombro, cintura, quadril, queixo e cílios. A barba só aparece no corpo masculino.</li>
+        <li><b>Bastão comum:</b> todo recruta novo começa com o cassetete de borracha, no mesmo combo de 3 golpes do Vigia.</li>
+      </ul>
+    </section>
+    <section class="box">
+      <h2><small>Build</small>O que vai pro jogo</h2>
+      <pre id="json" style="font-family:var(--f-pix);font-size:12px;white-space:pre-wrap;color:var(--muted);background:#0d0818;border:1px solid var(--line);border-radius:6px;padding:10px;margin:0"></pre>
+    </section>
+  </div>
+</div>
+
+<script>
+{{PIX}}
+{{BATON}}
+{{HEROI}}
+(function(){
+'use strict';
+const SW=230, SH=170, SGROUND=160, FW=HEROI.FW, FH=HEROI.FH, GROUND=HEROI.GROUND;
+{{BG}}
+const KEY='lua-sangue-recruta-inicial';
+let cfg=Object.assign({},HEROI.DEFAULT);
+try{ const s=localStorage.getItem(KEY); if(s) cfg=Object.assign(cfg,JSON.parse(s)); }catch(e){}
+const S={anim:'idle', step:5, fi:0, acc:0, scroll:0};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+let last=performance.now(), T=0, shake=0;
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=HEROI.ANIMS[S.anim];
+  S.acc+=dt*1000; let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); if(HEROI.poseOf(S.anim,S.fi).impact) shake=0.16; }
+  if(S.anim==='walk') S.scroll+=dt*20; draw(dt); requestAnimationFrame(loop); }
+function draw(dt){
+  const sx=shake>0?Math.round((Math.random()-.5)*4):0; shake=Math.max(0,shake-dt);
+  g.save(); g.translate(sx,0); drawBG(g,'comum',S.scroll,T);
+  const cv=HEROI.frame(cfg,S.anim,S.fi,S.step), ox=Math.round(SW/2-HEROI.AX-6), oy=SGROUND-GROUND;
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-2;y<=2;y++){ const w=Math.floor(Math.sqrt(1-(y/3)**2)*20); g.fillRect(ox+HEROI.AX-w+2,SGROUND+y+1,w*2,1); }
+  g.drawImage(cv,ox,oy);
+  const P=HEROI.poseOf(S.anim,S.fi), tip=cv._tip;
+  if(S.anim==='combo' && (S.fi===2||S.fi===6)) setFx('burst','POW!',ox+tip.x+8,oy+tip.y-10);
+  else if(S.anim==='combo' && S.fi===10) setFx('burst','CRAQ!',ox+tip.x+6,oy+tip.y-14);
+  else if(S.anim==='hurt' && S.fi<=1) setFx('burst','AI!',ox+40,oy+40);
+  else clearFx();
+  if(P.impact && S.step>=3){ g.fillStyle='#fff'; for(let k=0;k<8;k++){ const a=k/8*Math.PI*2; for(let r=5;r<12;r++) g.fillRect(Math.round(ox+tip.x+Math.cos(a)*r),Math.round(oy+tip.y+Math.sin(a)*r),1,1); } }
+  g.restore();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${HEROI.ANIMS[S.anim].n}`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,136,150); r1.drawImage(cv,0,0);
+  const r2=document.getElementById('r2').getContext('2d'); r2.clearRect(0,0,96,105); PIX.setK(0.7); r2.drawImage(HEROI.frame(cfg,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(sel,attr,val){ document.querySelectorAll(sel+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(HEROI.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('#anims','anim',S.anim); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('#steps','step',S.step); });
+// construtor de opções
+const GROUPS=[
+  ['corpo','Corpo','opt'],['pele','Tom de pele','cor','pele'],['cabelo','Cabelo','opt'],['cabeloCor','Cor do cabelo','cor','cabeloCor'],
+  ['barba','Barba / bigode','opt'],['sobr','Sobrancelha','opt'],['olhos','Cor dos olhos','cor','olhos'],
+  ['top','Parte de cima','opt'],['topCor','Cor da parte de cima','cor','roupa'],['calca','Parte de baixo','opt'],['calcaCor','Cor da parte de baixo','cor','calcaCor'],
+  ['tenis','Tênis de lona','cor','tenis'],['acc','Acessório','opt'],['accCor','Cor do acessório','cor','accCor'],
+];
+const maker=document.getElementById('maker');
+GROUPS.forEach(([k,label,type,cat])=>{ const d=document.createElement('div'); d.className='opt'; d.id='g_'+k;
+  if(type==='opt') d.innerHTML=`<span class="lbl">${label}</span><div class="seg">${Object.entries(HEROI.OPT[k]).map(([v,n])=>`<button data-v="${v}" aria-pressed="false">${n}</button>`).join('')}</div>`;
+  else d.innerHTML=`<span class="lbl">${label}</span><div class="sw">${HEROI.CAT[cat].map(h=>`<button data-v="${h}" style="background:${h}" aria-label="${label} ${h}" title="${h}" aria-pressed="false"></button>`).join('')}</div>`;
+  maker.appendChild(d);
+  d.querySelectorAll('button').forEach(b=>b.onclick=()=>{ cfg[k]=b.dataset.v; if(k==='corpo'&&cfg.corpo==='f') cfg.barba='nenhuma'; sync(); }); });
+const nome=document.getElementById('nome'); nome.oninput=()=>{ cfg.nome=nome.value||'Sobrevivente'; sync(true); };
+function sync(fromName){
+  GROUPS.forEach(([k])=>press('#g_'+k,'v',cfg[k]));
+  document.getElementById('g_barba').style.opacity=cfg.corpo==='f'?.4:1;
+  if(!fromName) nome.value=cfg.nome;
+  document.getElementById('cardName').textContent=cfg.nome;
+  document.getElementById('json').textContent=JSON.stringify(cfg,null,1);
+  try{ localStorage.setItem(KEY,JSON.stringify(cfg)); }catch(e){}
+}
+const ok=document.getElementById('ok');
+document.getElementById('bRand').onclick=()=>{ cfg=Object.assign({},HEROI.DEFAULT,HEROI.random()); sync(); ok.textContent='Novo sobrevivente sorteado.'; };
+document.getElementById('bReset').onclick=()=>{ cfg=Object.assign({},HEROI.DEFAULT); sync(); ok.textContent='Build padrão restaurado.'; };
+document.getElementById('bCopy').onclick=()=>{ const t=JSON.stringify(cfg); const done=()=>{ ok.textContent='JSON copiado.'; };
+  if(navigator.clipboard) navigator.clipboard.writeText(t).then(done,()=>{ ok.textContent='Não deu pra copiar: selecione o JSON abaixo.'; }); else ok.textContent='Selecione o JSON abaixo pra copiar.'; };
+sync(); draw(0); requestAnimationFrame(loop);
+})();
+</script>

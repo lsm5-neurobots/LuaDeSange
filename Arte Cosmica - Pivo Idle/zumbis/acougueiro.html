@@ -1,0 +1,522 @@
+<title>O Açougueiro · Chefe</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: ficha de personagem de fliperama. Palco grande à esquerda com o sprite vivo, painel de controle à direita;
+   abaixo, quadros da animação, paleta, antes/depois e a tradução da ficha para a direção de arte. Tema escuro fixo. */
+:root{
+  color-scheme:dark;
+  --night:#120a1f; --panel:#1e1333; --panel2:#2a1b46; --line:#3d2a62;
+  --ink:#f5eefe; --muted:#ac9dca;
+  --blood:#ff2e4d; --moon:#ffd23f; --cosmic:#3ed4ff; --toxic:#8be35a;
+  --f-display:"Bungee", Impact, "Arial Black", sans-serif;
+  --f-pix:"Pixelify Sans", "Courier New", monospace;
+  --f-body:"Barlow", "Segoe UI", system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night);color:var(--ink)}
+body{font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:24px 64px;
+  background:radial-gradient(circle at 90% -10%, rgba(255,46,77,.25), transparent 40%), var(--night)}
+:focus-visible{outline:3px solid var(--moon);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:28px}
+.eyebrow{font-family:var(--f-pix);text-transform:uppercase;letter-spacing:.12em;color:var(--cosmic);font-size:13px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(36px,7vw,76px);line-height:.95;margin:4px 0 8px;
+  text-shadow:4px 4px 0 var(--blood),8px 8px 0 #000}
+h1 small{font-size:.38em;color:var(--moon);display:inline-block;vertical-align:.9em;margin-left:10px;text-shadow:3px 3px 0 #000}
+.lede{max-width:72ch;color:var(--muted);margin:0}
+.lede b{color:var(--ink)}
+h2{font-family:var(--f-display);font-weight:400;font-size:clamp(20px,3vw,28px);margin:0 0 10px;text-wrap:balance}
+h2 small{display:block;font-family:var(--f-pix);font-size:13px;color:var(--blood);letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+
+.show{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:0;border:3px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 0 0 6px #0b0614,10px 10px 0 6px rgba(255,46,77,.35);background:#000}
+.stagewrap{position:relative;min-width:0;background:#000}
+.stagewrap{min-height:320px;overflow:hidden}
+#stage{display:block;width:100%;height:100%;object-fit:cover;image-rendering:pixelated;max-width:100%}
+.fx{position:absolute;pointer-events:none;font-family:var(--f-display);color:#fff;transform:translate(-50%,-50%) rotate(-8deg);
+  text-shadow:3px 3px 0 #000;-webkit-text-stroke:1.5px #000;font-size:clamp(20px,4vw,40px);white-space:nowrap}
+.fx.burst{background:var(--moon);color:var(--blood);padding:4px 14px;clip-path:polygon(0 30%,12% 22%,8% 0,28% 14%,40% 0,52% 16%,70% 2%,74% 20%,100% 12%,88% 40%,100% 60%,84% 70%,96% 100%,70% 84%,56% 100%,44% 82%,24% 98%,22% 76%,0 84%,10% 58%);text-shadow:none}
+.fx.bubble{background:#fff;color:#000;-webkit-text-stroke:0;text-shadow:none;border:3px solid #000;border-radius:50%;padding:6px 14px;transform:translate(-50%,-50%) rotate(4deg)}
+.tagfx{position:absolute;left:10px;top:10px;font-family:var(--f-pix);font-size:12px;background:rgba(10,5,20,.8);border:2px solid #000;border-radius:5px;padding:3px 8px;color:var(--muted)}
+.tagfx b{color:var(--moon)}
+.panel{background:var(--panel);border-left:2px solid var(--line);padding:14px;display:grid;gap:14px;align-content:start;font-family:var(--f-pix);min-width:0}
+.grp{display:grid;gap:6px}
+.lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font-family:var(--f-pix);font-weight:600;font-size:13px;cursor:pointer;padding:6px 10px;border-radius:5px;border:2px solid var(--line);background:var(--panel2);color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--moon);color:#1a0d00;border-color:#000;box-shadow:2px 2px 0 #000}
+.seg.forms button[data-form="enluarado"][aria-pressed="true"]{background:#b89cff}
+.seg.forms button[data-form="plenilunar"][aria-pressed="true"]{background:var(--blood);color:#fff}
+.real{display:flex;gap:12px;align-items:flex-end;background:#0d0818;border:1px solid var(--line);border-radius:6px;padding:8px}
+.real canvas{image-rendering:pixelated;display:block}
+.real span{font-size:11px;color:var(--muted);display:block;text-align:center}
+.note{font-family:var(--f-body);font-size:13px;color:var(--muted);margin:0}
+
+.strip{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px}
+.fr{flex:0 0 auto;display:grid;gap:4px;justify-items:center;background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:6px;cursor:pointer;font-family:var(--f-pix);font-size:11px;color:var(--muted)}
+.fr.on{border-color:var(--moon);color:var(--ink)}
+.fr canvas{width:104px;height:120px;image-rendering:pixelated;background:repeating-conic-gradient(#1a1030 0 25%, #221640 0 50%) 0 0/12px 12px}
+
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:start}
+.box{background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.ramps{display:grid;gap:8px}
+.ramp{display:grid;grid-template-columns:90px repeat(4,1fr);gap:4px;align-items:center;font-family:var(--f-pix);font-size:12px}
+.ramp i{display:block;height:26px;border:2px solid #000;border-radius:3px}
+.ramp .hx{font-size:10px;color:var(--muted);text-align:center;font-family:var(--f-pix)}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ba figure{margin:0;display:grid;gap:6px;justify-items:center;background:#0d0818;border:1px solid var(--line);border-radius:8px;padding:10px}
+.ba img,.ba canvas{image-rendering:pixelated;width:100%;max-width:220px;height:auto;aspect-ratio:auto}
+.ba figcaption{font-family:var(--f-pix);font-size:12px;color:var(--muted);text-align:center}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-pix);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td:first-child{font-family:var(--f-pix);color:var(--moon);white-space:nowrap}
+ul.rules{margin:0;padding-left:20px;display:grid;gap:6px}
+ul.rules b{color:#fff}
+.quote{border-left:4px solid var(--toxic);padding:6px 12px;margin:0 0 12px;color:#dfe9d2;font-style:italic;max-width:72ch}
+@media (max-width:860px){ .stagewrap{min-height:0} #stage{height:auto;aspect-ratio:200/140} .show{grid-template-columns:1fr} .panel{border-left:0;border-top:2px solid var(--line)} }
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+</style>
+<style>.show{align-items:start;background:var(--panel)!important} .stagewrap{min-height:0!important;align-self:start} #stage{height:auto!important;aspect-ratio:320/210;object-fit:contain!important} .fr canvas{width:153px;height:173px}
+.seg.forms button[data-form="furia"][aria-pressed="true"]{background:var(--blood);color:#fff}
+.fx.tag{font-family:var(--f-pix);font-size:clamp(12px,1.8vw,16px);background:#000;color:var(--moon);-webkit-text-stroke:0;border:2px solid var(--moon);border-radius:4px;padding:2px 8px;text-shadow:none;transform:translate(-50%,-50%)}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bestiário · Chefe B01 · Direção de arte cósmica</div>
+    <h1>O Açougueiro <small>Chefe B01</small></h1>
+    <p class="lede">O dono de um açougue que virou o primeiro senhor da Lua de Sangue. Enorme e pesado, carrega <b>um cutelo do tamanho de uma porta</b> e anda com ganchos e correntes. Persegue devagar, com passos que tremem a tela, e <b>a cada 2,5 s dá a Pancada</b>: círculo vermelho de aviso, impacto em área e 0,6 s vulnerável. É o chefe do molhe no fim da fase do Marco Zero.</p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="320" height="210" role="img" aria-label="O Açougueiro animado no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Fase</span>
+        <div class="seg forms" id="forms"><button data-form="normal" aria-pressed="true">Normal</button><button data-form="furia" aria-pressed="false">Fúria (&lt;30% vida)</button></div></div>
+      <div class="grp"><span class="lbl">Animação</span><div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho no jogo</span>
+        <div class="real"><div><canvas id="r2" width="161" height="182"></canvas><span>no jogo (70%)</span></div></div>
+        <p class="note">Quadro de 230×260 px na ficha. No jogo (70%) ele fica com ~115 px de altura, quase o dobro do Vigia (~76 px), e o cutelo erguido passa do topo da porta.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">Na Pancada, os quadros 2 e 3 (500 ms) são o aviso, com o círculo vermelho no chão. O 4º é o golpe (60 ms) e o 5º o impacto com tremor. Os quadros 6 a 8 somam 600 ms: é a janela em que ele fica vulnerável com o cutelo cravado no chão.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><img alt="Sprite atual do Açougueiro" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAT+UlEQVR4Xu2dD2RdWR7Hz44xqmpVVURFRESMMSqqKqpGtyoqaqwYozoxulUrKmqMqlFVVVWjqkZF1ahuVbaiRo0YUTG6VVVVI6JqrYiqqIqIyI6KscZ2fe97v/t+9+T8v+fe9142H568/znvfn+/3/mdc373XCHWWWedeLRs3vou3rcVzx+K/xf/P0D8h79Mib07d0T90QvLi4Xp9H7Ulq6TACMAsy9fBR+RmZnZ9LOXzpyKGlW4QRVmWY2EKSzH9C6KAD64GAk3BldmmQHJ3Lv9ffq712wE4KJPXP82OQZzc69XHYyhiyOpd8U0Ble6Ojusb7W9Z+L+z6u+o6u7S/m9smGsOQMg4Ul0Tnt7W+YxDOL66eH0OTKGehiCCVuU6D+w3/h5QmUoa8oAIL5KeB0wCB4VyBhgCI1mBHkMhLoQVbewZgxAFr+lrU0svK6EfNwn6DmCRwUyhq8PfSqujI03jBHougBbZHDhPZc3NTok/tFvbyZi43Zw+Hx6n0Ov018CnwXjPz8W3Z3tiRGEjOljiFImTR8BZM8/e/6y8/GjaDBycywVf/jooSQSkBHEjARfnTiZtu27q+7tLJKmjgBcfHj0TyNnxdTCijh/tnagAaIBQfchPrwe4kN0QH85oZFAhosP5Me+xIo0TWsAsvgyMAaIrYoIeI68nkS/+c3RtBugvABRAMQygjK4PPiZ179pWgNwBdFgR8vGTBSA6Lhx0ZsJlfdDeBKf37fRlAZg8n54PkH3qUuA55tEx2uEHAX6d/UEJYWE3OfHzAF0Xq97ntP0SaAPqj6+TGKKzjk5+oNSbDxvoynXAlRjfrmv/7CzXRwe/Dz9/fL4X+bnh0/Ev17OZZ7+dP8eMVN9Dq9NPJu2zhKibTfu3rNO34ZiS/7g9Vx4eRKIrwOApjMAlficO6N3Vx1bEpZHAEoCYSgylPwRPkZQbwOQsRnAmuoCID7E/tuxA+lx+MuN+4nI+/fuzhwbGAN5vfx+IBtBI2Dzfhuy94OmTAJVkOeTmP/+cVL84+yN9DHE5tBj3fvJ69cSA1/+dVUiu2YMgDwcHg+mpubEn84fSx/LEYA8XPd+OQLI+UHZ5PV+HU3fBfDkLmME7W3idjX8Q0xVLUDGCNj7Qd4IAMFs6/iNQFMaAMRUre1T3w1hIaCpH+cCqxJBAp5ver3ZaUoD4Kg8mydxrp5sCvFrNfyDpjMAFGqgYIMVbxTuhJgFBC7zAI3My9laoSnRdAag4tTA9vTp+cVfle9RMb/01vreyReL1vcUSVHJX9MbwPs9+6q/IRsBWrf+MaOHySBat2zKvldjEAMnK+sLE58PFKl1XWjKCIBu4NjnA8mUK3H/2aw4sKtWCUuPySDwuKezJX3/9MsF6+PWzRvT9x+ril9WibkO1QKPbs7fpZy8KaeCcXAgPkTh4d8XU3SgaDC/vCKev15J/h/4ffqB9t8MXaxEI3pv3mEgD/8uK3uyIcjTwMgBpp88yKxnNE0EWFXuvTQjvvykIxFRDvsu+OQK29s2GoUnKDGFYfLoVA9cvB80vAGY6vwnp8JPvQpFnn/g6IakIfh6P5BXAjlYBwByuXvDGoBOeF7u3bejclaNTwRw9XzeBSwsr4RoGA3der+Maf0f6wDVLiBT7t5wBmASXodLN+AqPODiNyOu4b+hugBZePJ0flJHKGQg3AgQNVSPSfye7m3JyMGVosI/Qd7tMwpwoe4RQCU8oRKfFn/G7lxX/j45GpDIcgRQPebzANMzb2rt2LxRnLs6Is6dGFauQ+goYkHIVubl4/2lRQDT2JnO5cvr6VzQkHBPYNgnU2YOUPTMn0zhEQDi8zNwCYyZIX6o8PKsHWb16Dk+w4fnXGf8ZPHLFL5eFGYA5PUq8QGe7x/6xjsCUG7w1XD27J/vRmqnWsnGYZrzN4mOkK+C+nvVkNB19bEIfMN/YV0A93rVQaIDSEYAfKIBHwrSdw18Wjm9C9wbr5zrR+LyKV3+PME9XSe6ryGEUHb4L8wACN2kCT1PGzSgO3i4+J7YK147dwkwgl+ePFUeZ24M4Nrtypm/Ko5/WTsZJJSQEQA2a3Dd2MGFEO8vxADI+7n41M+rzs3HwTt14RI2QhLiwiVnI9CJbxMZxhBD9DzQTh3cCIryfmwKQbOAQJ4JjFoUahJfBwylc2UuNYIbT16K6ZXaKpyOnbt7gzSop/gQ+erV6+lOHTEjgAnMAvbspuXzLIUlgTK6M3MofP7+4nHykf6DlZp+GEHPRvMULIzAJxIUhbzVjArycPw+eZUQr+WZ4AkN/yBqBIjBtqWZ5GsmfrovLt59JO5O1yZkCBgT3XDwTQs0ZcBzANpYguoHEObh9fg9QLVEnOfkzryUFgF8gBEc292ZJIYARrB363+NX6GrEq4n5JnYsk0X7od27zQ20bTCB/J4PyjFAHTh3wZEhxEgkZmdqXQPFCGIkAw8Frox/0cDR4QYG0/abRIf2Fb6bFO/LqiKQYloFUE+2T+HBMTBvDI27vJ7moLWbLlhhrGHla1kAeUGITmAi/fDCMkA5Gqg0iKADll8TAZhdlBX5tV96FytL+3uEvOT17TfHQvTLCKn59CpWnZ/8EAiTjfbrVPV9/OhXwxPDyFKFxDi/SrxbcyMnRNJ2eeOQSGmRkVr3/HkrwlaGNIt/xK612kdwfR5akfXjkExPXZJ3J26lxhEM9BwowAnIPqOwUpusKk3iQw6IBxVDNF93WOOy/LxJ8NXxNuOvornV8UvC9fwbyN3BAiZ/CGo3/fZ3pVAVj0xNZqKDyNAhPCFl5O7lpbBOCA+QLh/NPK16D8xlHg/UC0pyxQ18zc5URluupLbAEzYJn9kTP2/Doie5gabeiu7ZFu6hVzsGBRvZ2aTXITEL5uR7/Snw/X1VybS+L7AplFALgPI4/0AWX+I98tkcgNQzRGig+/FZE41AX00Mhn0L0zebxKXIJFVkPAm0TnBBpBX/ELWzVlugGiQZOMB3YJMGmGq4/q8ow+TyMNfqWsQOHL/b7o4BMDwD6h2QA82ABu28B/L+1cxNZqMFCgxDM0NCPoeCvfzr/y8XiW2i8g6uPgq4fmYnzBtfR9kAHm9vwxy5wY0ysjZ1+cR29Xr+XKvi+icUoeBNPanekAQWhOoov/0rexBw7zB26e1y6dU+3ArrK/H55Hlh4DJH3isy5DN5PH4/IvxO+lbyPMhPG6orMJ+xrjpQr0ObwOgffpo8UXedz9pQPVCDUUycfFIRnCIj+eUVEcFtnkDhHvMK6ShdWrUucL45tcD4vStSveAEjQMU0/8eU/aHB9DoPdyw9nw4a5kyZwKPEh4qrk0bYdjIqgL4Hv0QGwYAXbqlLdp5xTh/WQEJPzTh/oTOXqFOTfgfX2SOE6py81MkBFcPNKXGsL965W5iQNDlb9yNODTxarXubcTukLbkGscOC8GqU7ZksM39urD9qxyBLCJT+8PmQcA8P6zfTVv09G7t7J/AF9TmH0wKrr2VYZ38qjB5/wCztEr91IjIGhyiAxBBoagSvCof9eJDniNJY2ukGSbkj/CKQLI27MCVd+tEt8Xl/P8ZFzEB4gQMAI+bzD7oDKuR7ifGat5faj4AJFAB48IqINEPSSQLhSZfpyE51VHpkprX5wMQMYncSva+3XMsL2CuqVtY1JoxrCAmUNaREpPVqnuNkKRAOJj86mkGFaIWmEsriYy8FHy3NxCZb8jEryIyierAdg2Z45JiPer+n0ufuJdi7+mRkBRwEQe75dRGQJfK4ARDB5sE4fPnBKXj9f2M349vxzz0GoxjgJ8xfft+2NA/Tohiy8/L79fJqb4HPn0NBkufl589jX0HgbGpIjhoi7ca7sBRlHi27hy+5EYm3yR3mRUZW+03X1erF1AKLa+Pybwat4VQGxVDmDz/npxqO9jsa11S/rvYRA2aLt77I/Mi2tcL2xBRIsARXizD7K4MALcNm/4IPkam/j18n7izfxSeh8GsWd7m2hvze55KCPvgB5CIRGgTO/nqEQe/+lFw4vPjYBHAhfyeD+IEgFU3o9LsLpSz9LuRoNHAk5Rx8hoAJhJwuwc4RPmccGldWqYqotNCaCJvN7vHAG49ZERmK7RSxMW/Px/OpWrkfDp91+9WCis6ejz6UbG8Pj5azE3777xdSjBOQAWfjD3H5qIkCHBuLA8jF0/XYsyY+Aiviw6f9zxcW3fYRsq78fuo9h+nraiJ2AIABNBNBModwV8Whhz/76ZP8eaA1T351dGAX5dvrWGzeNtrxOuJ5ZwdLOAFIlj5gNWA8hDIXV/EXDxfhW6WcZQcPoYooCOe48r0RHHkY4lP6Yxjm9wFwB8ksJGwUV82bu58HQfcwx4n6krcPX+k9eeiJ1dtTE/5gAI5FG0CzlV/PDrIeUJ/yCXAXC+PX1+lcY7+/Y3iu5eQFSXEB9DfEDnRNJ6ABJBjnx5HBhCDO+PagDEwtvfkrstmzZ4HfQycPH+GLhsS4edyebfVsSXQSKIPKC99dfE+8kAuCHEuo5RcA5QRPgvUiDf7+beTdPKgO77jALyErvf53h1AbwWkKCM9PDQ6u3WYoWpvPiKT3CR0SVgXcEmfB7vh9e3tW42/lxW97dqCBlCcAQAtuEINRazifTeIiJHGdiEB65JnwwdG0z+6IaAsjOhC4hxGTuvCMDh4us8XVeqrJoEAmVOBDUiyP5hBAI3DbGjqrcByF5PQxQOH67UE4T+Xb3tpTQh1Ptl+BAQM4G/zNamg2OLD7wNgCDh5SyWpnYBGUIR2Gr7Qvv9EGKJ74pPyZcNbwPQCU9gnrqoy7rKBaD8sa3goyh8xEdlMApCcQEKIVYyu6X7EqP/B15JIJ3Tx3f2NpWIwxBMJzT4YDrrB/DXy/T+vPAuFf1/kgOwknDAPT6m93sbAEGi87/cEPjunei3iuoKVHPzZYrv4/0EnR+AKIC1AJ5Dof+nRBBLwfJyMIkfy/u9DCD0Ch80EkCFkG3YqEP2fghP4vP7tigRkxDxdeDY0MkgQFUPSHP+McUHzjmAbSuXIsf3ctWvDpexegxiim8Di0S0Yuhyrp8vXjkAUFUE8eqgWPXq62QpQnyvCBBKrLErjwJ0kgc/5ase3v/bm9p29hu22a9xYIKSP1speGycuwAOD/e2vYB08FIw4DILyId66O8xN4/nykz8ABeeoOdcDEEeDiLEIwfAxE8ZdYAcpy6AqoPlJI7ET2rbWPUwr1YFlMDEhIyhTPHbu2tn78Rm5vUH4rf/bBUtWzqTG2YA6VZU+A/uAnhtGkYHh49UN1gY+iZdoYoV+hsFSvxk75dPQcPrLlHAhSKFJ5wiAFAVh3LxAQwB0YDEh+ervD90OBgLLO3SzQWe9XNxVaehxxK/LLxygKoRvEPj5HJmDp+wIOOhLWZiiR8S+nVlXqbaPtOQT3cSajPhZQAkJv5OPJt+R6Gfg+fu3Kps4e4Twnw2hwgRPybk5Qj3NCJpNs/37gJkIC4JzcFzeE0Wn7qQvISKr6r05SFcFR1sEz4QnW4xiT3bZ8I5B1AhGwGJH/NgxILPE6j6bnkewSb+WsG7C9BEgiQv8An5IYR6v8xa6LtjUbq3UjII+j7emtk7xzQZpBL/2dO5oIofHu6XNwrR05k9z68M76eNoujC1SgRJ4p2JE6uLgBickFdoB/nI35sEO7p9lK6TG0Z4gP5iuZ0lbEyxQfBXQCEp1HAnVuj7/I2PCS8u9T7uQjq8h4XXC4V02gEGQAXH1SHfrmNwIVYYrlQpKAU+uuNtwHI4hOhRlB/QSt1enlpFEF98TaAmOQVP4ZwOppVUF/qYgDIFyZfiGToWH9WxPPaDm11JW8eFULQMFDVDeSdBMJ37jvQb/wNi4uLTr9xaUmv6PLysni7tKg82I3QhrIJMgAgjQK8rVc1fNy+c5fy95sEJSCsKzAAwD2O2lN2GzgNHwHoIFFD5ceu4HPP//lUDO/ZJ878UFk4uvDZoHi0lD8Zc+HU6ePJ2y5dvJb8FrTnky0bxcjjB2L7R70uX5Eb/L/eocolbp5ev5Xcp/bk/nIPnHMA1bg/j8XOz79Jmtnaui35i4PPDYID4yBDIWORHw9evrDqZ4+ePJN5nj+enc1eXgb/H5Bh0mMgt0tuD8Gff/XqlfH/c/wvThMPJwMoc9xPBkGQodjo6OjIvAUC+ID/I/9vjuk1FdQeuV2NhtUAYo/7faEDH1MA2ftDiGGovkZaBNb+RmcAIDTzx3dOPriXfIevsCpcowQdcDIAngOgPTHa4hO5dO0pQmgduRaDQqiX+IDCcVdX5ephSAZ9F7NccDXIstpjwnrJGPJ0mVDvj4nrgdYxM/My81Le7wN5vkNuTxkoDYCWeTG/z1b80vbUW3wc5JADLYfcmIS2qd6sSgJVfT4VeoYUe8YmRHhQZMIV0ibenhhJaSiZCGBK+CgS0MRJjL7T58Dl8TAf8X3aFBryfdpTNNZhoEzsQhAXfEUhijzQjdimEDIRQFfqzeHnAuB+jEhgoqgDnSfhCmkTjNFkkHnakwfnYaDqHIBQ+IHQHczQkG870Dpco0Wo+I3KqkkH01IveTsfGfisB+Dz39+8knt61FUsGTnZIq/78Yf7Im+7Qtpkao/Pcc2DNQcgzzcliCgL9G3EtWvf+36kUCYmJgv9/gB0x/ROwHdpyRiAbgioojoX8EWI+KC/vy/od4QMmVz6V7QHM3Mhngx82uXSHgMqwwg2CmsEKALbQfY5mCDnAU2J2a5YbXKEjMLbEJxyABnm/d60bN76d+8PFczC8uIXjdQutMfzJ3sLTyhXnmxDO0WC4p0DrBNMsNgqSl16rLJuLKuJKqoP/wNLiDC5+DA29wAAAABJRU5ErkJggg=="><figcaption>Atual · pixel chunky, contorno uniforme</figcaption></figure>
+        <figure><canvas id="afterCv" width="230" height="260"></canvas><figcaption>Novo · 4 tons, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor · <span id="formName">Normal</span></h2>
+      <div class="ramps" id="ramps"></div>
+      <p class="note" style="margin-top:10px">O cutelo é o objeto mais claro da cena (aço quase branco). O jogador acompanha a lâmina pra ler a telegrafia da Pancada mesmo no meio da horda.</p>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>Como cada item da descrição virou desenho</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Ficha</th><th>Descrição original</th><th>Como ficou no estilo cósmico</th></tr></thead>
+      <tbody>
+        <tr><td>Cabeça</td><td>Larga e careca, cicatrizes costuradas atravessando o crânio. Máscara de couro tapando a boca, presa com fivelas. Olhos vermelhos pequenos sob sobrancelhas grossas.</td><td>Cabeça pequena pro corpo, pra ele parecer ainda maior. Duas cicatrizes com pontos cruzando o crânio, sobrancelha grossa e olho vermelho fundo. A máscara de couro tem rebites e uma tira até a fivela prateada atrás da orelha.</td></tr>
+        <tr><td>Tronco</td><td>Barriga enorme sob avental de couro marrom manchado de sangue seco. Correntes cruzando o peito com ganchos pendurados. Sem camisa, pele pálida e rosada.</td><td>Barriga oval que domina a silhueta, avental com alças, costuras e manchas de sangue escorrendo. Duas correntes em X com ganchos de açougue. Ombros e peito de pele rosada aparecendo.</td></tr>
+        <tr><td>Braços</td><td>Grossos como troncos. Direita com cutelo gigante, lâmina lascada e manchada. Esquerda arrasta corrente com gancho.</td><td>Braços de 17 px de grossura com cicatriz costurada. O cutelo tem ~96 px de lâmina (mais que meio corpo), cabo de madeira com rebites, furo, lascas no fio e sangue. Fora do ataque fica apoiado no ombro. A corrente da mão de trás arrasta no chão, com o gancho na ponta.</td></tr>
+        <tr><td>Pernas</td><td>Calça de lona escura e botas de borracha brancas de açougueiro, sujas de sangue até o joelho.</td><td>Calça de lona com vinco e botas brancas altas, bem visíveis contra o chão escuro, com respingos de sangue até o cano.</td></tr>
+        <tr><td>Movimento</td><td>Persegue devagar, passos que tremem a tela. A cada 2,5 s ergue o cutelo, círculo vermelho de aviso, impacto em área, 0,6 s vulnerável.</td><td>Andar de 8 quadros com tremor nos 2 pisões. Pancada de 9 quadros com aviso, rastro, impacto (anéis, entulho, tremor forte) e a janela vulnerável marcada. Ataque extra: o gancho de corrente lançado à frente.</td></tr>
+        <tr><td>Fúria</td><td>Abaixo de 30% de vida: pele vermelha pulsando, vapor saindo das costas, máscara arrebentada mostrando os dentes.</td><td>Animação própria de entrada (rugido com os braços abertos). Na fase de Fúria a pele fica vermelha com brilho pulsando, sobe vapor das costas sem parar e a máscara rasgada mostra as duas fileiras de dentes.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+</div>
+
+<script>
+/* ===== PIX: pipeline hi-bit compartilhado (vetor → quantiza → luz/sombra → contorno seletivo → luz de lua) ===== */
+const PIX=(function(){
+  const OUTLINE='#170b1c'; let K=1; const setK=k=>{K=k;}, getK=()=>K;
+  const rad=d=>d*Math.PI/180;
+  function hexRgb(h){ const n=parseInt(h.slice(1),16); return [(n>>16)&255,(n>>8)&255,n&255]; }
+  function toHex(r,g,b){ return '#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join(''); }
+  function mix(a,b,t){ const A=hexRgb(a),B=hexRgb(b); return toHex(A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,A[2]+(B[2]-A[2])*t); }
+  function ramp(h){ return [mix(h,'#fff2cc',.36),h,mix(h,'#3b2c63',.38),mix(h,'#1c1233',.64)]; }
+  const lp=(p,a,L)=>({x:p.x+Math.sin(rad(a))*L, y:p.y+Math.cos(rad(a))*L});
+  const lerp=(a,b,t)=>({x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t});
+  const P2=(x,y)=>({x,y});
+  function ik(S,W,L1,L2,elbowDown){
+    const dx=W.x-S.x, dy=W.y-S.y, d0=Math.hypot(dx,dy);
+    const d=Math.max(Math.abs(L1-L2)+0.5, Math.min(L1+L2-0.3, d0));
+    const base=Math.atan2(dy,dx), A=Math.acos(Math.max(-1,Math.min(1,(L1*L1+d*d-L2*L2)/(2*L1*d))));
+    const e1={x:S.x+Math.cos(base-A)*L1,y:S.y+Math.sin(base-A)*L1}, e2={x:S.x+Math.cos(base+A)*L1,y:S.y+Math.sin(base+A)*L1};
+    const E=elbowDown?(e1.y>e2.y?e1:e2):(e1.y<e2.y?e1:e2);
+    return {E, W:{x:S.x+Math.cos(base)*d, y:S.y+Math.sin(base)*d}};
+  }
+  function mkPen(ctx,used){
+    const F=c=>{ ctx.fillStyle=c; used.add(c); };
+    const circle=(p,r)=>{ ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill(); };
+    const cap=(a,b,wa,wb)=>{ const dx=b.x-a.x, dy=b.y-a.y, L=Math.hypot(dx,dy)||1, nx=-dy/L, ny=dx/L;
+      ctx.beginPath(); ctx.moveTo(a.x+nx*wa/2,a.y+ny*wa/2); ctx.lineTo(b.x+nx*wb/2,b.y+ny*wb/2); ctx.lineTo(b.x-nx*wb/2,b.y-ny*wb/2); ctx.lineTo(a.x-nx*wa/2,a.y-ny*wa/2); ctx.closePath(); ctx.fill(); circle(a,wa/2); circle(b,wb/2); };
+    const poly=pts=>{ ctx.beginPath(); pts.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1])); ctx.closePath(); ctx.fill(); };
+    const ell=(x,y,rx,ry,r=0)=>{ ctx.beginPath(); ctx.ellipse(x,y,rx,ry,r,0,Math.PI*2); ctx.fill(); };
+    const rect=(x,y,w,h)=>ctx.fillRect(x,y,w,h);
+    const xf=(a,ox,oy)=>{ const c=Math.cos(a), s=Math.sin(a); ctx.setTransform(c*K,s*K,-s*K,c*K,ox*K,oy*K); };
+    const id=()=>ctx.setTransform(K,0,0,K,0,0);
+    return {F,circle,cap,poly,ell,rect,xf,id};
+  }
+  const tmpCache={};
+  function compose(o){ // o: {FW,FH,GROUND,parts,M,step,flash,rim,rimTop}
+    const {FW,FH,parts,M,step}=o; const key=FW+'x'+FH;
+    if(!tmpCache[key]){ const c=document.createElement('canvas'); c.width=FW; c.height=FH; tmpCache[key]=[c,c.getContext('2d',{willReadFrequently:true})]; }
+    const tctx=tmpCache[key][1];
+    const cinfo=new Map(); Object.entries(M).forEach(([k,r])=>r.forEach((h,t)=>{ if(!cinfo.has(h)) cinfo.set(h,{ramp:k,tone:t}); }));
+    const N=FW*FH, col=new Array(N).fill(null), part=new Int8Array(N).fill(-1);
+    parts.forEach((pt,k)=>{
+      tctx.setTransform(1,0,0,1,0,0); tctx.clearRect(0,0,FW,FH); const used=new Set(); pt.draw(tctx,used); if(!used.size) return;
+      const list=[...used].map(h=>[h,...hexRgb(h)]); const d=tctx.getImageData(0,0,FW,FH).data;
+      for(let i=0;i<N;i++){ if(d[i*4+3]<128) continue; let best=list[0][0], bd=1e9; const r=d[i*4],g=d[i*4+1],b=d[i*4+2];
+        for(const c of list){ const dd=(c[1]-r)**2+(c[2]-g)**2+(c[3]-b)**2; if(dd<bd){bd=dd;best=c[0];} }
+        col[i]=best; part[i]=k; }
+    });
+    const at=(x,y)=> (x<0||y<0||x>=FW||y>=FH)?-1:part[y*FW+x];
+    const out=new Array(N).fill(null);
+    for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){
+      const i=y*FW+x, c=col[i]; if(c===null) continue; const k=part[i];
+      if(step===1){ out[i]='#2a1d40'; continue; }
+      const info=cinfo.get(c); let oc=c;
+      if(step>=3 && info && !parts[k].noShade){
+        let tone=info.tone;
+        if(tone===1){ if(at(x-1,y)!==k||at(x-2,y)!==k||at(x,y+1)!==k||at(x,y+2)!==k) tone=2; else if(at(x+1,y)!==k||at(x,y-1)!==k) tone=0; }
+        const up2=at(x,y-2), ul=at(x+1,y-2); if((up2>k)||(ul>k)) tone=Math.min(3,tone+1);
+        if(step>=4){ const n=[at(x+1,y),at(x-1,y),at(x,y+1),at(x,y-1)]; if(n.some(q=>q>k && !parts[q].smear)) tone=3; }
+        if(parts[k].back) tone=Math.min(3,tone+1);
+        oc=M[info.ramp][tone];
+      }
+      if(o.flash && step>=3) oc='#ffffff';
+      out[i]=oc;
+    }
+    if(step>=5 && !o.flash && o.rim){ const lim=Math.min(FH,(o.GROUND||FH)-8); for(let y=0;y<lim;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]!==null && at(x-1,y)===-1 && !parts[part[i]].noShade && !parts[part[i]].noRim) out[i]=o.rim; } }
+    const cv=document.createElement('canvas'); cv.width=FW; cv.height=FH; const g=cv.getContext('2d'); const img=g.createImageData(FW,FH);
+    const put=(i,h)=>{ const [r,gg,b]=hexRgb(h); img.data[i*4]=r; img.data[i*4+1]=gg; img.data[i*4+2]=b; img.data[i*4+3]=255; };
+    for(let i=0;i<N;i++) if(out[i]) put(i,out[i]);
+    if(step>=4){ for(let y=0;y<FH;y++) for(let x=0;x<FW;x++){ const i=y*FW+x; if(col[i]!==null) continue; if(at(x+1,y)>=0||at(x-1,y)>=0||at(x,y+1)>=0||at(x,y-1)>=0) put(i,OUTLINE); } }
+    g.putImageData(img,0,0);
+    return cv;
+  }
+  return {setK,getK,OUTLINE,rad,hexRgb,toHex,mix,ramp,lp,lerp,P2,ik,mkPen,compose};
+})();
+
+/* ===== O AÇOUGUEIRO (chefe B01): hi-bit ===== */
+const ACOU=(function(){
+  const {rad,ramp,lp,lerp,P2,mkPen,compose}=PIX;
+  const FW=230, FH=260, GROUND=252, AX=96;
+  const RIM={normal:'#ffc8c0', furia:'#ff7050'};
+  function mats(form){
+    const m={
+      skin:['#ffe6dc','#e8b4a8','#b07a7a','#6a4450'],
+      scar:['#c87a7a','#8a4a52','#5a2e38','#341a22'],
+      mask:['#8a6448','#5a3e2a','#3a2618','#20140c'],
+      silver:['#ffffff','#c8ccd4','#8a8ea0','#4a4e60'],
+      apron:['#a8784a','#7a5232','#523620','#301e12'],
+      blood:['#9a3a2a','#6a2218','#46140e','#280a06'],
+      iron:['#c8c8d4','#8a8a9a','#5a5a6a','#34343e'],
+      steel:['#f4f6fc','#bcc0cc','#7e8292','#464a5a'],
+      wood:['#b08060','#7a5236','#4e321e','#2c1c10'],
+      pants:['#5a5a64','#34343e','#22222a','#121216'],
+      boot:['#ffffff','#e4e4de','#aaaaa2','#6a6a62'],
+      eye:['#ffd8c8','#ff3a2a','#a01010','#500808'],
+      teeth:['#fff4c8','#e0cc8a','#a8904e','#665628'],
+      mouth:['#6a2434','#401424','#2a0c18','#1a0610'],
+      hair:['#4a3a34','#2a201c','#1a1412','#0e0a08'],
+    };
+    if(form==='furia'){ m.skin=['#ffb0a0','#e85a52','#a02a38','#5a1020']; m.scar=['#ff9a8a','#c83a3a','#7a1420','#420810']; m.eye=['#fffbe0','#ffe24a','#ff7a1a','#c2400a']; }
+    return m;
+  }
+  const NAMES={skin:'Pele',scar:'Cicatriz',mask:'Máscara',apron:'Avental',blood:'Sangue seco',steel:'Cutelo',iron:'Corrente/gancho',pants:'Calça de lona',boot:'Bota de borracha',eye:'Olho'};
+  const REST={hx:0,lean:6,head:4,aFs:34,aFe:168,cl:28,aBs:-12,aBe:-6,lFh:10,lFk:2,lBh:-10,lBk:-14,hook:0,smear:0,flash:0,roar:0,impact:0};
+  const ANIMS={
+    idle:{nome:'Parado',n:6,dur:()=>190,pose:i=>{ const p=i/6*Math.PI*2, s=Math.sin(p); return {lean:6+1.6*s, head:4+2*Math.sin(p-0.7), aFs:34+2*s, aFe:168+3*s, aBs:-12+2*s, aBe:-6+2*s}; }},
+    walk:{nome:'Andar (passo que treme)',n:8,stomp:[0,4],dur:()=>170,pose:i=>{ const p=i/8*Math.PI*2; const lFh=10+16*Math.sin(p), lBh=-10+16*Math.sin(p+Math.PI);
+      return {lFh, lFk:lFh-18*Math.max(0,Math.cos(p)), lBh, lBk:lBh-4-18*Math.max(0,Math.cos(p+Math.PI)), lean:8+2*Math.abs(Math.sin(p)), head:4+2*Math.sin(2*p), aFs:34-5*Math.sin(p), aFe:168-5*Math.sin(p), aBs:-12+8*Math.sin(p), aBe:-6+8*Math.sin(p), hx:Math.round(2*Math.sin(2*p))}; }},
+    attack:{nome:'Pancada (área)',n:9,warn:[1,2],hit:4,vuln:[5,6,7],dur:i=>[200,250,250,60,120,200,200,200,160][i],pose:i=>[
+      {aFs:90,aFe:120,cl:-60,lean:0,head:-4,lFh:14,lBh:-14},
+      {aFs:170,aFe:182,cl:-20,lean:-10,head:-14,hx:-4,lFh:18,lBh:-18,lBk:-22,roar:1},
+      {aFs:176,aFe:190,cl:-14,lean:-12,head:-16,hx:-5,lFh:18,lBh:-18,lBk:-22,roar:1},
+      {aFs:110,aFe:120,cl:-40,lean:20,head:8,hx:8,smear:1,lFh:30,lFk:10,lBh:-24,lBk:-32},
+      {aFs:70,aFe:80,cl:-60,lean:32,head:14,hx:12,impact:1,lFh:32,lFk:14,lBh:-26,lBk:-34},
+      {aFs:66,aFe:76,cl:-62,lean:34,head:20,hx:12,lFh:32,lFk:14,lBh:-26,lBk:-34},
+      {aFs:66,aFe:76,cl:-62,lean:33,head:18,hx:12,lFh:32,lFk:14,lBh:-26,lBk:-34},
+      {aFs:66,aFe:76,cl:-62,lean:32,head:16,hx:11,lFh:32,lFk:14,lBh:-26,lBk:-34},
+      {aFs:40,aFe:50,cl:-70,lean:16,head:8,hx:5,lFh:20,lBh:-18}][i]},
+    hook:{nome:'Gancho de corrente',n:7,throwAt:2,dur:i=>[180,140,80,160,160,140,140][i],pose:i=>[
+      {aBs:-60,aBe:-40,lean:-2,head:-4,hook:0},
+      {aBs:-100,aBe:-120,lean:-6,head:-6,hook:0,lBh:-16},
+      {aBs:60,aBe:80,lean:12,head:4,hook:0.55,hx:4,lFh:20,lFk:6,lBh:-18,lBk:-24},
+      {aBs:80,aBe:90,lean:14,head:6,hook:1,hx:5,lFh:20,lFk:6,lBh:-18,lBk:-24},
+      {aBs:60,aBe:60,lean:8,head:2,hook:0.7,hx:3},
+      {aBs:30,aBe:20,lean:6,head:2,hook:0.3,hx:1},
+      {aBs:-4,aBe:0,lean:6,head:4,hook:0}][i]},
+    rage:{nome:'Entrar em fúria',n:6,dur:i=>[200,160,260,260,200,200][i],pose:i=>[
+      {lean:14,head:20,aFs:10,aFe:10,aBs:6,aBe:10},
+      {lean:-14,head:-24,aFs:120,aFe:150,cl:-30,aBs:-120,aBe:-150,roar:2,hx:-3,lFh:20,lBh:-20},
+      {lean:-16,head:-28,aFs:130,aFe:160,cl:-30,aBs:-130,aBe:-160,roar:2,hx:-4,lFh:20,lBh:-20},
+      {lean:-15,head:-26,aFs:126,aFe:156,cl:-30,aBs:-126,aBe:-156,roar:2,hx:-3,lFh:20,lBh:-20},
+      {lean:0,head:-6,aFs:60,aFe:70,roar:1},
+      {}][i]},
+    hurt:{nome:'Dano',n:4,dur:i=>[80,110,130,160][i],pose:i=>[
+      {lean:-8,head:-16,hx:-6,flash:1,aFs:-10,aFe:0,aBs:-30,aBe:-20,roar:1},
+      {lean:-5,head:-12,hx:-4,aFs:0,aFe:10,aBs:-24,aBe:-14},
+      {lean:2,head:-2,hx:-1},
+      {}][i]},
+  };
+  function poseOf(anim,i){ return Object.assign({},REST,ANIMS[anim].pose(i)); }
+  function skeleton(P){
+    const hip={x:AX+P.hx,y:110};
+    const hipF={x:hip.x+7,y:hip.y}, hipB={x:hip.x-7,y:hip.y};
+    const kneeF=lp(hipF,P.lFh,30), ankleF=lp(kneeF,P.lFk,30), kneeB=lp(hipB,P.lBh,30), ankleB=lp(kneeB,P.lBk,30);
+    const dy=GROUND-Math.max(ankleF.y+7, ankleB.y+7);
+    [hip,hipF,hipB,kneeF,ankleF,kneeB,ankleB].forEach(p=>p.y+=dy);
+    const a=rad(P.lean), c=Math.cos(a), s=Math.sin(a);
+    const T=(lx,ly)=>({x:hip.x+lx*c-ly*s, y:hip.y+lx*s+ly*c});
+    const neck=T(4,-52), shF=T(14,-44), shB=T(-10,-46);
+    const ha=rad(P.lean+P.head), hc=Math.cos(ha), hs=Math.sin(ha);
+    const H=(lx,ly)=>({x:neck.x+lx*hc-ly*hs, y:neck.y+lx*hs+ly*hc});
+    const elF=lp(shF,P.aFs,24), wrF=lp(elF,P.aFe,22), elB=lp(shB,P.aBs,24), wrB=lp(elB,P.aBe,22);
+    const cAng=P.aFe+P.cl; const cDir=Math.atan2(Math.cos(rad(cAng)),Math.sin(rad(cAng)));
+    return {hip,hipF,hipB,kneeF,ankleF,kneeB,ankleB,neck,shF,shB,elF,wrF,elB,wrB,a,ha,H,T,cDir,eye:H(9,-15)};
+  }
+  function drawArm(p,M,sh,el,wr,front){
+    p.id();
+    p.F(M.skin[1]); p.ell(sh.x,sh.y+2,12,10); p.cap(sh,el,17,15); p.cap(el,wr,15,12.5);
+    p.F(M.scar[2]); const m=lerp(sh,el,0.5); p.rect(m.x-4,m.y-1,8,1.2); [-3,0,3].forEach(o=>p.rect(m.x+o,m.y-2.2,0.9,3.4));
+    p.F(M.blood[1]); const b=lerp(el,wr,0.6); p.ell(b.x,b.y,3.2,2.2);
+    p.F(M.skin[1]); p.circle(wr,7.4); p.F(M.skin[2]); p.rect(wr.x-1,wr.y-5,1.2,10);
+  }
+  function drawLeg(p,M,hip,knee,ankle,front){
+    p.id();
+    p.F(M.pants[1]); p.cap(hip,knee,20,18); p.cap(knee,ankle,17,15);
+    if(front){ p.F(M.pants[0]); p.cap(lerp(hip,knee,0.15),lerp(hip,knee,0.85),1.2,1.2); }
+    p.F(M.boot[1]); p.cap(lerp(knee,ankle,0.35),ankle,18,17);
+    const a=ankle; p.poly([[a.x-9,a.y-5],[a.x+8,a.y-5],[a.x+18,a.y+1],[a.x+19,a.y+7],[a.x-9.4,a.y+7]]);
+    p.F(M.boot[3]); p.rect(a.x-9.4,a.y+5.6,28.4,1.8);
+    p.F(M.blood[1]); [[0,-14,4,2],[5,-6,3,2],[-5,-2,2.4,1.6],[12,2,3,1.4],[-2,-22,2,1.6]].forEach(([x,y,rx,ry])=>p.ell(a.x+x,a.y+y,rx,ry));
+  }
+  function drawChainPath(p,M,pts){
+    let alt=0;
+    for(let s=0;s<pts.length-1;s++){ const a=pts[s], b=pts[s+1], L=Math.hypot(b.x-a.x,b.y-a.y), n=Math.max(1,Math.floor(L/4)), ang=Math.atan2(b.y-a.y,b.x-a.x);
+      for(let k=0;k<n;k++){ const q=lerp(a,b,k/n); p.F(M.iron[alt%2?2:1]); if(alt%2) p.ell(q.x,q.y,2.6,1,ang); else p.ell(q.x,q.y,2.4,1.8,ang); alt++; } }
+  }
+  function drawHook(p,M,at,ang){
+    p.xf(ang,at.x,at.y); p.F(M.iron[1]);
+    p.cap(P2(0,0),P2(5,0),2.4,2.4); p.cap(P2(5,0),P2(9,3),2.2,2.2); p.cap(P2(9,3),P2(8,8),2,2); p.cap(P2(8,8),P2(4,9),1.8,1.6); p.poly([[3,9.6],[5,8],[2,7.4]]);
+    p.F(M.blood[1]); p.rect(7,6,1.6,2); p.id();
+  }
+  function drawChain(p,M,sk,P){
+    p.id(); const w=sk.wrB;
+    if(P.hook>0){ const tip={x:w.x+P.hook*110, y:w.y+8+P.hook*18}; const mid={x:(w.x+tip.x)/2, y:(w.y+tip.y)/2+6*(1-P.hook)};
+      drawChainPath(p,M,[w,mid,tip]); drawHook(p,M,tip,0.2); }
+    else { const g={x:w.x-26,y:GROUND-3}, e={x:w.x-56,y:GROUND-3}; drawChainPath(p,M,[w,g,e]); drawHook(p,M,e,Math.PI); }
+  }
+  function drawTorso(p,M,sk){
+    p.xf(sk.a,sk.hip.x,sk.hip.y);
+    p.F(M.skin[1]); p.poly([[-16,-4],[-22,-26],[-18,-44],[-6,-54],[12,-56],[24,-48],[28,-36]]); p.ell(12,-18,31,29);
+    p.F(M.skin[2]); p.rect(-6,-46,12,1.2); p.rect(2,-40,1,8);
+    // avental
+    p.F(M.apron[1]); p.poly([[-6,-42],[20,-44],[36,-28],[42,-8],[40,10],[30,19],[-8,19],[-15,0],[-13,-26]]);
+    p.F(M.apron[2]); p.rect(-2,-40,1.2,57); p.rect(16,-38,1,50); p.F(M.apron[0]); p.rect(26,-30,1.2,34);
+    p.F(M.apron[3]); p.poly([[-4,-40],[-2,-52],[2,-52],[0,-40]]); p.poly([[14,-42],[14,-54],[18,-54],[18,-42]]);
+    p.F(M.blood[1]); p.poly([[6,-26],[18,-24],[16,-16],[12,-8],[10,-16],[6,-14]]); p.poly([[26,-12],[34,-8],[32,4],[28,14],[26,2]]); p.poly([[0,0],[12,2],[10,8],[2,9]]);
+    p.F(M.blood[2]); p.rect(12,-12,1.4,12); p.rect(29,6,1.4,10); p.rect(5,8,1.2,9); p.rect(17,-18,1,6);
+    // correntes cruzadas + ganchos
+    p.id();
+    drawChainPath(p,M,[sk.T(-12,-46),sk.T(8,-28),sk.T(26,-8)]); drawChainPath(p,M,[sk.T(20,-48),sk.T(4,-26),sk.T(-12,-6)]);
+    drawHook(p,M,sk.T(8,-28),Math.PI/2+sk.a); drawHook(p,M,sk.T(-6,-14),Math.PI/2+sk.a);
+  }
+  function drawHead(p,M,sk,form,P){
+    p.xf(sk.ha,sk.neck.x,sk.neck.y);
+    p.F(M.skin[1]); p.cap(P2(0,6),P2(2,-6),18,16);
+    p.ell(-6,-13,3,4); p.ell(3,-15,12,11.4);
+    p.poly([[-4,-8],[14,-10],[16,-4],[12,2],[0,3]]);
+    p.F(M.skin[3]); p.ell(-6,-13,1.2,2.2);
+    p.F(M.scar[2]); p.cap(P2(-8,-20),P2(10,-25),1.4,1.4); [-5,-1,3,7].forEach((x,k)=>p.rect(x,-22.6-k*1.1,0.9,3)); p.cap(P2(0,-26),P2(6,-12),1.2,1.2); [[2,-21],[4,-16]].forEach(([x,y])=>p.rect(x-1.4,y,3,0.9));
+    p.F(M.hair[2]); p.poly([[3,-19.4],[14,-18.4],[14,-16],[3,-16.6]]);
+    p.F(M.skin[3]); p.ell(10,-14.4,2.6,2); p.F(M.eye[1]); p.ell(10.4,-14.4,1.6,1.3); p.F(M.eye[0]); p.rect(10.6,-15,0.8,0.8);
+    p.F(M.skin[1]); p.poly([[13,-14],[17,-9],[13.4,-8.4]]);
+    // máscara de couro
+    if(form==='furia' && P.roar>=0){ p.F(M.mouth[1]); p.poly([[3,-8.6],[16.4,-9.4],[16.6,-2],[4,-1]]); p.F(M.teeth[1]); for(let k=0;k<5;k++){ p.rect(5+k*2.3,-8.8,1.6,2.6); p.rect(5.6+k*2.3,-4.6,1.6,2.4); }
+      p.F(M.mask[1]); p.poly([[2,-9],[8,-9.6],[6,-6],[7,-1],[2,0]]); p.poly([[14,-9.8],[17,-9.6],[17,-5],[15,-6]]); p.F(M.mask[3]); p.rect(7.4,-8,0.9,6); }
+    else { if(P.roar){ p.F(M.mouth[1]); p.rect(12,-2.4,4,2); }
+      p.F(M.mask[1]); p.poly([[2,-9],[16.4,-9.8],[16.8,-1.6],[3,-0.4]]); p.F(M.mask[0]); p.rect(4,-8.4,11,1); p.F(M.mask[3]); [5,8.6,12.2].forEach(x=>p.rect(x,-6.2,0.9,0.9)); p.rect(4,-4.4,12,0.8); }
+    p.F(M.mask[2]); p.poly([[2,-7],[-8,-9],[-8,-6.6],[2,-4.6]]);
+    p.F(M.silver[1]); p.rect(-5,-9.4,3,3.4); p.F(M.silver[3]); p.rect(-4,-8.4,1,1.4);
+    p.id();
+  }
+  function drawCleaver(p,M,sk){
+    const w=sk.wrF; p.xf(sk.cDir,w.x,w.y);
+    p.F(M.wood[1]); p.cap(P2(-8,0),P2(12,0),6,6); p.F(M.wood[2]); [-4,1,6].forEach(x=>p.rect(x,-3,1,6)); p.F(M.silver[1]); [-6,9].forEach(x=>p.circle(P2(x,0),1.2));
+    p.F(M.steel[1]); p.poly([[12,-7],[92,-9],[96,-5],[96,34],[88,40],[12,30]]);
+    p.F(M.steel[0]); p.rect(14,-6,78,2.4); p.rect(18,-2,3,30);
+    p.F(M.steel[2]); p.rect(14,26,78,2.4); p.rect(80,0,1.4,30);
+    p.F(M.steel[3]); p.circle(P2(84,3),3.6);
+    p.F(M.blood[1]); p.poly([[30,24],[52,26],[50,32],[44,31],[40,36],[36,30]]); p.poly([[64,28],[80,30],[76,36],[70,34]]); p.poly([[26,6],[34,4],[36,14],[30,12]]);
+    p.F(M.blood[2]); p.rect(41,30,1.4,8); p.rect(73,33,1.2,6); p.rect(31,12,1,6);
+    p.F(M.steel[3]); [[30,33],[58,35],[78,37]].forEach(([x,y])=>p.poly([[x-3,y+1],[x+3,y+1.4],[x,y-4]])); p.id();
+  }
+  function drawSmear(p,M,sk){
+    p.id(); p.F(M.steel[0]); const s=sk.shF, r1=110, r0=74; const a0=190, a1=110, pts=[];
+    for(let k=0;k<=10;k++){ const a=a0+(a1-a0)*k/10; pts.push([s.x+Math.sin(rad(a))*r1, s.y+Math.cos(rad(a))*r1]); }
+    for(let k=10;k>=0;k--){ const a=a0+(a1-a0)*k/10, rr=r0+(r1-r0)*(1-k/10)*0.5; pts.push([s.x+Math.sin(rad(a))*rr, s.y+Math.cos(rad(a))*rr]); }
+    p.poly(pts);
+  }
+  const cache=new Map();
+  function frame(form,anim,fi,step=5){
+    const K=PIX.getK(), key=form+anim+fi+step+'@'+K; if(cache.has(key)) return cache.get(key);
+    const P=poseOf(anim,fi), M=mats(form), sk=skeleton(P);
+    const parts=[
+      {back:true, draw:(c,u)=>{ const p=mkPen(c,u); drawChain(p,M,sk,P); }},
+      {back:true, draw:(c,u)=>drawArm(mkPen(c,u),M,sk.shB,sk.elB,sk.wrB,false)},
+      {back:true, draw:(c,u)=>drawLeg(mkPen(c,u),M,sk.hipB,sk.kneeB,sk.ankleB,false)},
+      {draw:(c,u)=>drawTorso(mkPen(c,u),M,sk)},
+      {draw:(c,u)=>drawLeg(mkPen(c,u),M,sk.hipF,sk.kneeF,sk.ankleF,true)},
+      {draw:(c,u)=>drawHead(mkPen(c,u),M,sk,form,P)},
+      {draw:(c,u)=>drawCleaver(mkPen(c,u),M,sk)},
+    ];
+    if(P.smear) parts.push({noShade:true,smear:true,draw:(c,u)=>drawSmear(mkPen(c,u),M,sk)});
+    parts.push({draw:(c,u)=>drawArm(mkPen(c,u),M,sk.shF,sk.elF,sk.wrF,true)});
+    const cv=compose({FW:Math.round(FW*K),FH:Math.round(FH*K),GROUND:GROUND*K,parts,M,step,flash:P.flash,rim:RIM[form]});
+    const sc=q=>({x:q.x*K,y:q.y*K});
+    const bladeTip={x:sk.wrF.x+Math.cos(sk.cDir)*80, y:sk.wrF.y+Math.sin(sk.cDir)*80};
+    cv._eye=sc(sk.eye); cv._blade=sc(bladeTip); cv._back=sc(sk.T(-14,-40)); cv._head=sc(sk.H(4,-28)); cv._hook=sc({x:sk.wrB.x+P.hook*110,y:sk.wrB.y+8+P.hook*18});
+    cache.set(key,cv); return cv;
+  }
+  return {FW,FH,GROUND,AX,ANIMS,NAMES,RIM,mats,poseOf,frame};
+})();
+
+(function(){
+'use strict';
+const SW=320, SH=210, SGROUND=200, FW=ACOU.FW, FH=ACOU.FH, GROUND=ACOU.GROUND;
+/* ---------- stage background (pixel) ---------- */
+const BGP={
+  comum:{sky:['#0e0a26','#1c1440','#2e1f58','#46307a'], moon:'#f3eed6', moonD:'#cfc6a6', bld:'#23183f', bld2:'#2f2152', win:'#ffd86a', lamp:'rgba(255,214,120,', ground:['#5a4a5a','#4a3c4c','#3a2e3e'], dot:'rgba(160,190,255,.18)'},
+  enluarado:{sky:['#140a2c','#24124a','#3a1d6a','#5a2f92'], moon:'#efe0ff', moonD:'#c4a8f0', bld:'#26163f', bld2:'#352058', win:'#d6b8ff', lamp:'rgba(210,180,255,', ground:['#544468','#463858','#382c48'], dot:'rgba(210,180,255,.2)'},
+  plenilunar:{sky:['#1a0408','#3a0812','#64101e','#8e1a2a'], moon:'#ff4a3a', moonD:'#c42020', bld:'#2a0a14', bld2:'#3a1020', win:'#ff8a5a', lamp:'rgba(255,120,80,', ground:['#5a3438','#4a2a2e','#3a2024'], dot:'rgba(255,120,90,.2)'}
+};
+function hsh(n){ n=Math.sin(n*127.1)*43758.5453; return n-Math.floor(n); }
+function drawBG(g,form,scroll,t){
+  const B=BGP[form];
+  const bands=[0,34,62,86,SGROUND];
+  for(let b=0;b<4;b++){ g.fillStyle=B.sky[b]; g.fillRect(0,bands[b],SW,bands[b+1]-bands[b]);
+    if(b<3){ g.fillStyle=B.sky[b+1]; for(let y=bands[b+1]-4;y<bands[b+1];y++) for(let x=(y%2);x<SW;x+=2) if(y>=bands[b+1]-2 || (x+y)%4===0) g.fillRect(x,y,1,1); } }
+  for(let i=0;i<40;i++){ g.fillStyle=hsh(i)>.6?'#fff':'#9a8ac8'; g.fillRect(Math.floor(hsh(i*3)*SW),Math.floor(hsh(i*7)*60),1,1); }
+  // halftone ring around moon
+  const mx=152, my=30, mr=17;
+  g.fillStyle=B.dot; for(let y=my-34;y<my+34;y+=3) for(let x=mx-34;x<mx+34;x+=3){ const d=Math.hypot(x-mx,y-my); if(d>mr+2 && d<34 && hsh(x*13+y)>(d-mr)/18) g.fillRect(x,y,1,1); }
+  for(let y=-mr;y<=mr;y++){ const w=Math.floor(Math.sqrt(mr*mr-y*y)); g.fillStyle=B.moon; g.fillRect(mx-w,my+y,w*2+1,1); }
+  g.fillStyle=B.moonD; [[-6,-5,4],[5,3,3],[-2,8,2],[8,-8,2]].forEach(([dx,dy,r])=>{ for(let y=-r;y<=r;y++){ const w=Math.floor(Math.sqrt(r*r-y*y)); g.fillRect(mx+dx-w,my+dy+y,w*2+1,1); } });
+  // far casario (scroll 0.3)
+  const o1=Math.floor(scroll*0.3);
+  for(let i=-1;i<9;i++){ const bi=Math.floor(o1/30)+i; const x=bi*30-o1; const h=40+Math.floor(hsh(bi)*24);
+    g.fillStyle=B.bld; g.fillRect(x,SGROUND-h,29,h); g.fillRect(x+2,SGROUND-h-3,25,3);
+    if(hsh(bi+5)>.5){ g.fillRect(x+11,SGROUND-h-9,7,6); g.fillRect(x+13,SGROUND-h-12,3,3); }
+    for(let wy=0;wy<3;wy++) for(let wx=0;wx<3;wx++){ const lit=hsh(bi*11+wx+wy*5)>.72; g.fillStyle=lit?B.win:B.bld2; g.fillRect(x+4+wx*8,SGROUND-h+6+wy*11,4,6); } }
+  // lamps (scroll 0.7)
+  const o2=Math.floor(scroll*0.7);
+  for(let i=-1;i<3;i++){ const li=Math.floor(o2/110)+i; const x=li*110-o2+60;
+    g.fillStyle='#120a1c'; g.fillRect(x,SGROUND-58,2,58); g.fillRect(x,SGROUND-58,10,2); g.fillRect(x+8,SGROUND-57,4,3);
+    const fl=0.16+Math.sin(t*3+li)*0.02; g.fillStyle=B.lamp+fl+')'; g.beginPath(); g.moveTo(x+8,SGROUND-54); g.lineTo(x-6,SGROUND); g.lineTo(x+26,SGROUND); g.closePath(); g.fill(); }
+  // ground: pedra portuguesa
+  const o3=Math.floor(scroll);
+  g.fillStyle=B.ground[0]; g.fillRect(0,SGROUND,SW,SH-SGROUND); g.fillStyle='#120a1c'; g.fillRect(0,SGROUND,SW,1);
+  g.fillStyle=B.ground[1]; for(let y=SGROUND+2;y<SH;y+=3) for(let x=0;x<SW;x++){ const wx=(x+o3)%24; if(Math.abs(Math.sin((wx/24)*Math.PI*2)*2+ (y-SGROUND)%6-3)<0.8) g.fillRect(x,y,1,1); }
+  g.fillStyle=B.ground[2]; for(let x=-(o3%9);x<SW;x+=9) g.fillRect(x,SGROUND+1,1,SH-SGROUND);
+}
+
+
+const S={form:'normal', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, rings:[], bits:[], steam:[], shake:0};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+const KST=0.78, OX=24, OY=SGROUND-Math.round(GROUND*KST); const SF=(f,a,i,st)=>{ PIX.setK(KST); const c=ACOU.frame(f,a,i,st); PIX.setK(1); return c; };
+const impactX=()=>{ const cv=SF(S.form,'attack',4,5); return OX+cv._blade.x; };
+let last=performance.now(), T=0;
+function onFrame(){ const A=ACOU.ANIMS[S.anim];
+  if(S.anim==='walk' && A.stomp.includes(S.fi)){ S.shake=Math.max(S.shake,0.12); for(let k=0;k<6;k++) S.bits.push({x:OX+ACOU.AX*KST+(Math.random()-.3)*30,y:SGROUND,vx:(Math.random()-.5)*30,vy:-10-Math.random()*16,t:0,c:'#8a7a8a'}); }
+  if(S.anim==='attack' && S.fi===A.hit){ S.shake=0.35; const x=impactX(); S.rings.push({x,y:SGROUND+2,t:0}); for(let k=0;k<22;k++) S.bits.push({x:x+(Math.random()-.5)*30,y:SGROUND,vx:(Math.random()-.5)*120,vy:-30-Math.random()*70,t:0,c:Math.random()<.5?'#6a5a6a':'#9a8a9a'}); }
+  if(S.anim==='hook' && S.fi===A.throwAt) S.shake=Math.max(S.shake,0.06);
+}
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=ACOU.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); onFrame(); updStrip(); } }
+  if(S.anim==='walk' && S.playing) S.scroll+=dt*(S.slow?5:10);
+  draw(dt*(S.slow?0.5:1)); requestAnimationFrame(loop); }
+function glow(x,y,r,c){ const gr=g.createRadialGradient(x,y,0,x,y,r); gr.addColorStop(0,c); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(x-r,y-r,r*2,r*2); g.restore(); }
+function draw(dt){
+  const sx=S.shake>0?Math.round((Math.random()-.5)*S.shake*22):0, sy=S.shake>0?Math.round((Math.random()-.5)*S.shake*10):0; S.shake=Math.max(0,S.shake-dt);
+  g.save(); g.translate(sx,sy);
+  drawBG(g,S.form==='furia'?'plenilunar':'comum',S.scroll,T);
+  const A=ACOU.ANIMS[S.anim], cv=SF(S.form,S.anim,S.fi,S.step);
+  // círculo vermelho de aviso
+  if(S.anim==='attack' && A.warn.includes(S.fi)){ const x=impactX(), pulse=0.5+0.5*Math.sin(T*24); g.strokeStyle='rgba(255,40,50,'+(0.6+0.4*pulse)+')'; g.lineWidth=2; g.beginPath(); g.ellipse(x,SGROUND+3,34,8,0,0,Math.PI*2); g.stroke(); g.fillStyle='rgba(255,40,50,'+(0.18+0.12*pulse)+')'; g.beginPath(); g.ellipse(x,SGROUND+3,34,8,0,0,Math.PI*2); g.fill(); }
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-3;y<=3;y++){ const w=Math.floor(Math.sqrt(1-(y/4)**2)*40); g.fillRect(OX+ACOU.AX*KST-w+6,SGROUND+y+1,w*2,1); }
+  g.drawImage(cv,OX,OY);
+  if(S.form==='furia' && S.step>=5){ const b=cv._back; glow(OX+b.x+10,OY+b.y+20,60,'rgba(255,40,30,'+(0.12+0.08*Math.sin(T*6))+')'); if(Math.random()<0.5) S.steam.push({x:OX+b.x+(Math.random()-.5)*14,y:OY+b.y,t:0,vx:-6-Math.random()*8}); glow(OX+cv._eye.x,OY+cv._eye.y,6,'rgba(255,200,60,.7)'); }
+  if(S.anim==='rage' && S.fi>=1 && S.fi<=3 && Math.random()<0.8){ const b=cv._back; S.steam.push({x:OX+b.x+(Math.random()-.5)*20,y:OY+b.y,t:0,vx:-10-Math.random()*10}); }
+  S.steam.forEach(p=>{ p.t+=dt; p.y-=22*dt; p.x+=p.vx*dt; const r=2+p.t*8; g.fillStyle='rgba(240,230,240,'+Math.max(0,0.5-p.t*0.5)+')'; g.fillRect(Math.round(p.x-r/2),Math.round(p.y-r/2),Math.round(r),Math.round(r)); }); S.steam=S.steam.filter(p=>p.t<1);
+  S.rings.forEach(r=>{ r.t+=dt; for(let k=0;k<3;k++){ const rr=r.t*160-k*12; if(rr<4) continue; g.strokeStyle='rgba(255,240,200,'+Math.max(0,0.9-r.t*1.4)+')'; g.lineWidth=1; g.beginPath(); g.ellipse(r.x,r.y,rr,rr*0.25,0,0,Math.PI*2); g.stroke(); } }); S.rings=S.rings.filter(r=>r.t<0.7);
+  S.bits.forEach(b=>{ b.t+=dt; b.x+=b.vx*dt; b.y+=b.vy*dt; b.vy+=200*dt; if(b.y>SGROUND+4){ b.y=SGROUND+4; b.vy=0; b.vx*=0.8; } g.fillStyle=b.c; g.globalAlpha=Math.max(0,1-b.t); g.fillRect(Math.round(b.x),Math.round(b.y),2,2); g.globalAlpha=1; }); S.bits=S.bits.filter(b=>b.t<1);
+  if(S.anim==='attack' && S.fi===A.hit && S.step>=3){ const x=impactX(); g.fillStyle='#fff'; for(let k=0;k<10;k++){ const a=-Math.PI+k/9*Math.PI; for(let r=10;r<22;r++) g.fillRect(Math.round(x+Math.cos(a)*r),Math.round(SGROUND+Math.sin(a)*r*0.6),1,1); } }
+  g.restore();
+  const vulnLeft=()=>{ let t=-S.acc; for(let j=S.fi;j<=A.vuln[A.vuln.length-1];j++) t+=A.dur(j); return Math.max(0,t)/1000; };
+  if(S.anim==='attack' && A.warn.includes(S.fi)) setFx('tag','PANCADA · saia do círculo',impactX(),SGROUND-150);
+  else if(S.anim==='attack' && (S.fi===A.hit||S.fi===A.hit-1)) setFx('burst','BLAM!',impactX(),SGROUND-40);
+  else if(S.anim==='attack' && A.vuln.includes(S.fi)) setFx('tag','VULNERÁVEL '+vulnLeft().toFixed(1).replace('.',',')+' s',OX+cv._head.x,OY+cv._head.y-18);
+  else if(S.anim==='hook' && S.fi>=2 && S.fi<=3) setFx('burst','CLANK!',OX+cv._hook.x+12,OY+cv._hook.y-20);
+  else if(S.anim==='rage' && S.fi>=1 && S.fi<=3) setFx('bubble','GRRAAAH!',OX+cv._head.x+40,OY+cv._head.y-20);
+  else if(S.anim==='hurt' && S.fi<=1) setFx('burst','CRAU!',OX+100,OY+70);
+  else if(S.anim==='walk' && A.stomp.includes(S.fi)) setFx('burst','TUM',OX+ACOU.AX*KST+30,SGROUND-14);
+  else clearFx();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${A.n} · ${A.dur(S.fi)} ms`;
+  const r2=document.getElementById('r2').getContext('2d'); r2.imageSmoothingEnabled=false; r2.clearRect(0,0,161,182); PIX.setK(0.7); r2.drawImage(ACOU.frame(S.form,S.anim,S.fi,S.step),0,0); PIX.setK(1);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+document.getElementById('anims').innerHTML=Object.entries(ACOU.ANIMS).map(([k,a])=>`<button data-anim="${k}" aria-pressed="${k==='idle'}">${a.nome}</button>`).join('');
+document.querySelectorAll('#anims button').forEach(b=>b.onclick=()=>{ S.anim=b.dataset.anim; S.fi=0; S.acc=0; press('anims','anim',S.anim); if(S.anim==='rage' && S.form!=='furia'){ S.form='furia'; press('forms','form','furia'); buildRamps(); after(); } buildStrip(); });
+document.querySelectorAll('#forms button').forEach(b=>b.onclick=()=>{ S.form=b.dataset.form; press('forms','form',S.form); buildStrip(); buildRamps(); after(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%ACOU.ANIMS[S.anim].n; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=ACOU.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(ACOU.frame(S.form,S.anim,i,S.step),0,0);
+    const tags=(A.warn&&A.warn.includes(i)?' ⚠':'')+(A.hit===i?' ✦':'')+(A.vuln&&A.vuln.includes(i)?' ◌':'');
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms${tags}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+function buildRamps(){ const M=ACOU.mats(S.form); document.getElementById('formName').textContent=S.form==='furia'?'Fúria':'Normal';
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(ACOU.NAMES).map(k=>`<div class="ramp"><span>${ACOU.NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join('')+
+  `<div class="ramp"><span>Contorno · Lua</span><i style="background:${PIX.OUTLINE}"></i><i style="background:${ACOU.RIM[S.form]}"></i><span></span><span></span></div>`; }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(ACOU.frame(S.form,'attack',2,5),0,0); }
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>

@@ -1,0 +1,152 @@
+<title>Vigia · Recruta</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Pixelify+Sans:wght@400;600;700&family=Barlow:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+{{CSS}}
+<style>.stagewrap{min-height:0!important;display:flex;align-items:center} #stage{height:auto!important;aspect-ratio:230/170;object-fit:contain!important} .fr canvas{width:136px;height:150px} .seg.forms button[aria-pressed="true"]{background:var(--moon)}</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Recrutas · Defesa / Combate · Direção de arte cósmica</div>
+    <h1>Vigia <small>Recruta</small></h1>
+    <p class="lede">Ex-vigilante noturno de condomínio que nunca tirou o uniforme: camisa social azul-marinho passada (mesmo no fim do mundo), quepe com distintivo, crachá no bolso e <b>o cassetete de borracha na cinta</b>. Postura de guarita, peito estufado, bigode cerrado. Aptidão principal Defesa, secundária Combate. <i>"Ninguém passa do portão."</i></p>
+  </header>
+
+  <section class="show" aria-label="Sprite animado">
+    <div class="stagewrap" id="sw">
+      <canvas id="stage" width="230" height="170" role="img" aria-label="Vigia animado no Recife Antigo à noite"></canvas>
+      <div class="tagfx" id="tagfx">quadro <b>1</b></div>
+    </div>
+    <div class="panel">
+      <div class="grp"><span class="lbl">Animação</span>
+        <div class="seg" id="anims"></div></div>
+      <div class="grp"><span class="lbl">Bastão</span>
+        <div class="seg forms" id="tiers"></div></div>
+      <div class="grp"><span class="lbl">Tom de pele (sorteado no recrutamento)</span>
+        <div class="seg forms" id="skins"></div></div>
+      <div class="grp"><span class="lbl">Etapas da pintura</span>
+        <div class="seg" id="steps"><button data-step="1" aria-pressed="false">1 Silhueta</button><button data-step="2" aria-pressed="false">2 Chapado</button><button data-step="3" aria-pressed="false">3 Luz/sombra</button><button data-step="4" aria-pressed="false">4 Contorno</button><button data-step="5" aria-pressed="true">5 Final</button></div></div>
+      <div class="grp"><span class="lbl">Reprodução</span>
+        <div class="seg"><button id="bPlay" aria-pressed="true">▶ Tocando</button><button id="bStep" aria-pressed="false">Próx. quadro</button><button id="bSlow" aria-pressed="false">½ velocidade</button></div></div>
+      <div class="grp"><span class="lbl">Tamanho real no jogo</span>
+        <div class="real"><div><canvas id="r1" width="136" height="150"></canvas><span>1× (tela 384×216)</span></div></div>
+        <p class="note">Quadro de 136×150 px (sobra espaço pro bastão erguido). O Vigia tem ~108 px do coturno ao topo do quepe, um pouco mais alto que o Errante.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><small>Quadros</small>Animação quadro a quadro</h2>
+    <div class="strip" id="strip"></div>
+    <p class="note">No combo, os quadros 3, 7 e 11 são os golpes (marcados com ✦). O 3º golpe é o mais pesado: antecipação de 130 ms com o bastão acima da cabeça, impacto com tremor de tela e derrubada.</p>
+  </section>
+
+  <div class="cols">
+    <section class="box">
+      <h2><small>Antes e depois</small>Do sprite atual pro hi-bit</h2>
+      <div class="ba">
+        <figure><canvas id="beforeCv" width="128" height="128"></canvas><figcaption>Atual · 1º quadro da folha recrutas/vigia.png</figcaption></figure>
+        <figure><canvas id="afterCv" width="136" height="150"></canvas><figcaption>Novo · 4 tons, contorno seletivo, luz de lua</figcaption></figure>
+      </div>
+    </section>
+    <section class="box">
+      <h2><small>Paleta</small>Rampas de cor</h2>
+      <div class="ramps" id="ramps"></div>
+    </section>
+  </div>
+
+  <section class="box">
+    <h2><small>Combate</small>Como o Vigia luta no automático</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>Ação</th><th>Quadros</th><th>O que faz</th></tr></thead>
+      <tbody>
+        <tr><td>Guarda</td><td>6 × 130 ms</td><td>Postura de combate com o bastão na mão. A IA entra nela quando um zumbi chega a 2 telas de distância; fora de luta, o bastão volta pra cinta.</td></tr>
+        <tr><td>Golpe 1</td><td>quadro 3</td><td>Varrida horizontal. Dano do bastão, alcance ~50 px à frente.</td></tr>
+        <tr><td>Golpe 2</td><td>quadro 7</td><td>Golpe subindo. Mesmo dano, levanta o zumbi (cancela o ataque dele).</td></tr>
+        <tr><td>Golpe 3</td><td>quadro 11</td><td>Pancada de cima pra baixo: dano 2×, empurra e atordoa. Tremor de tela.</td></tr>
+        <tr><td>Especial: apito</td><td>7 quadros</td><td>Leva o apito à boca e solta um "PRIIII!" em anéis. Atordoa todos os zumbis num raio de ~110 px. A barra enche a cada golpe que acerta.</td></tr>
+        <tr><td>Dano</td><td>4 quadros</td><td>Flash branco, recua 6 px. Interrompe o combo.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="box">
+    <h2><small>Da ficha pro pixel</small>O que foi mantido da ficha do Vigia</h2>
+    <ul class="rules">
+      <li><b>Quepe:</b> copa azul-marinho levemente inclinada, faixa preta com costura, aba envernizada com reflexo e distintivo-escudo dourado.</li>
+      <li><b>Rosto:</b> bigode chevron grosso, sobrancelha reta de 2 px (fica brava no ataque e erguida no apito), barba por fazer e costeleta de máquina 2.</li>
+      <li><b>Camisa:</b> carcela com 4 botões prateados, bolso com crachá (faixa azul e fotinho), tarja "SEG" em pontos dourados, dragona, remendo no quadril e gola em V com o cordão amarelo do apito.</li>
+      <li><b>Mangas:</b> dobradas abaixo do cotovelo, antebraço de pele à mostra e emblema-escudo na manga da frente.</li>
+      <li><b>Rádio no ombro</b> com antena e LED verde. Cinto tático preto com fivela prateada e coldre.</li>
+      <li><b>Calça e coturno:</b> calça quase preta com vinco claro e remendo no joelho, coturno de cano alto com cadarço e sola cinza.</li>
+      <li><b>Cassetete:</b> pendurado na cinta fora de luta e na mão na guarda e no combo. Os detalhes do objeto estão no artefato do Bastão.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+{{PIX}}
+{{BATON}}
+{{VIGIA}}
+(function(){
+'use strict';
+const SW=230, SH=170, SGROUND=160, FW=VIGIA.FW, FH=VIGIA.FH, GROUND=VIGIA.GROUND;
+{{BG}}
+const S={skin:'media', tier:'comum', anim:'idle', step:5, fi:0, acc:0, playing:true, slow:false, scroll:0, rings:[]};
+const stage=document.getElementById('stage'), g=stage.getContext('2d'); g.imageSmoothingEnabled=false;
+const sw=document.getElementById('sw'); let fxEl=null;
+function place(el,x,y){ const w=stage.clientWidth, h=stage.clientHeight; const sc=Math.max(w/SW,h/SH); el.style.left=((w-SW*sc)/2+x*sc)+'px'; el.style.top=((h-SH*sc)/2+y*sc)+'px'; }
+function setFx(kind,text,x,y){ if(fxEl && fxEl._k===kind+text){ place(fxEl,x,y); return; } clearFx(); fxEl=document.createElement('div'); fxEl.className='fx '+kind; fxEl.textContent=text; fxEl._k=kind+text; sw.appendChild(fxEl); place(fxEl,x,y); }
+function clearFx(){ if(fxEl){ fxEl.remove(); fxEl=null; } }
+let last=performance.now(), T=0, shake=0;
+function loop(now){ const dt=Math.min(0.1,(now-last)/1000); last=now; T+=dt; const A=VIGIA.ANIMS[S.anim];
+  if(S.playing){ S.acc+=dt*1000*(S.slow?0.5:1); let d=A.dur(S.fi); while(S.acc>=d){ S.acc-=d; S.fi=(S.fi+1)%A.n; d=A.dur(S.fi); onFrame(); updStrip(); } }
+  if((S.anim==='walk'||S.anim==='advance') && S.playing) S.scroll+=dt*(S.slow?10:20);
+  draw(dt); requestAnimationFrame(loop); }
+function onFrame(){ const P=VIGIA.poseOf(S.anim,S.fi); if(P.impact) shake=0.18; if(S.anim==='special' && S.fi===2) S.rings.push({t:0}); }
+function draw(dt){
+  const sx=shake>0?Math.round((Math.random()-.5)*4):0; shake=Math.max(0,shake-dt);
+  g.save(); g.translate(sx,0);
+  drawBG(g,'comum',S.scroll,T);
+  const cv=VIGIA.frame(S.skin,S.tier,S.anim,S.fi,S.step);
+  const ox=Math.round(SW/2-VIGIA.AX-6), oy=SGROUND-GROUND;
+  g.fillStyle='rgba(10,4,16,.55)'; for(let y=-2;y<=2;y++){ const w=Math.floor(Math.sqrt(1-(y/3)**2)*20); g.fillRect(ox+VIGIA.AX-w+2,SGROUND+y+1,w*2,1); }
+  g.drawImage(cv,ox,oy);
+  S.rings.forEach(r=>{ r.t+=dt; const m=cv._mouth; for(let k=0;k<3;k++){ const rr=(r.t*90)-k*10; if(rr<4) continue; g.strokeStyle='rgba(255,255,255,'+Math.max(0,0.9-r.t*1.2)+')'; g.lineWidth=1; g.beginPath(); g.arc(ox+m.x,oy+m.y,rr,-0.9,0.9); g.stroke(); } }); S.rings=S.rings.filter(r=>r.t<0.8);
+  if(S.tier==='lunar' && S.step>=5 && cv._tip){ const t=cv._tip; const gr=g.createRadialGradient(ox+t.x,oy+t.y,0,ox+t.x,oy+t.y,7); gr.addColorStop(0,'rgba(255,80,60,.6)'); gr.addColorStop(1,'rgba(0,0,0,0)'); g.save(); g.globalCompositeOperation='lighter'; g.fillStyle=gr; g.fillRect(ox+t.x-7,oy+t.y-7,14,14); g.restore(); }
+  const P=VIGIA.poseOf(S.anim,S.fi), tip=cv._tip;
+  if(S.anim==='combo' && (S.fi===2||S.fi===6)) setFx('burst','POW!',ox+tip.x+8,oy+tip.y-10);
+  else if(S.anim==='combo' && S.fi===10) setFx('burst','CRAQ!',ox+tip.x+6,oy+tip.y-14);
+  else if(S.anim==='special' && S.fi>=2 && S.fi<=4) setFx('bubble','PRIIII!',ox+cv._mouth.x+26,oy+cv._mouth.y-16);
+  else if(S.anim==='hurt' && S.fi<=1) setFx('burst','UGH!',ox+40,oy+40);
+  else clearFx();
+  if(P.impact && S.step>=3){ g.fillStyle='#fff'; for(let k=0;k<8;k++){ const a=k/8*Math.PI*2; for(let r=5;r<12;r++) g.fillRect(Math.round(ox+tip.x+Math.cos(a)*r),Math.round(oy+tip.y+Math.sin(a)*r),1,1); } }
+  g.restore();
+  document.getElementById('tagfx').innerHTML=`quadro <b>${S.fi+1}</b>/${VIGIA.ANIMS[S.anim].n} · ${VIGIA.ANIMS[S.anim].dur(S.fi)} ms`;
+  const r1=document.getElementById('r1').getContext('2d'); r1.clearRect(0,0,FW,FH); r1.drawImage(cv,0,0);
+}
+function press(id,attr,val){ document.querySelectorAll('#'+id+' button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[attr]===String(val)))); }
+const mkSeg=(id,attr,obj,label,cur,cb)=>{ document.getElementById(id).innerHTML=Object.keys(obj).map(k=>`<button data-${attr}="${k}" aria-pressed="${k===cur}">${label(obj[k],k)}</button>`).join(''); document.querySelectorAll('#'+id+' button').forEach(b=>b.onclick=()=>{ cb(b.dataset[attr]); press(id,attr,b.dataset[attr]); }); };
+mkSeg('anims','anim',VIGIA.ANIMS,a=>a.nome,'idle',v=>{ S.anim=v; S.fi=0; S.acc=0; buildStrip(); });
+mkSeg('tiers','tier',BATON.TIERS,t=>t.rar,'comum',v=>{ S.tier=v; buildStrip(); after(); buildRamps(); });
+mkSeg('skins','skin',VIGIA.SKINS,s=>s.nome,'media',v=>{ S.skin=v; buildStrip(); after(); buildRamps(); });
+document.querySelectorAll('#steps button').forEach(b=>b.onclick=()=>{ S.step=+b.dataset.step; press('steps','step',S.step); buildStrip(); });
+const bPlay=document.getElementById('bPlay');
+bPlay.onclick=()=>{ S.playing=!S.playing; bPlay.setAttribute('aria-pressed',String(S.playing)); bPlay.textContent=S.playing?'▶ Tocando':'❚❚ Pausado'; };
+document.getElementById('bStep').onclick=()=>{ S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; S.fi=(S.fi+1)%VIGIA.ANIMS[S.anim].n; onFrame(); updStrip(); };
+const bSlow=document.getElementById('bSlow'); bSlow.onclick=()=>{ S.slow=!S.slow; bSlow.setAttribute('aria-pressed',String(S.slow)); };
+const strip=document.getElementById('strip');
+function buildStrip(){ const A=VIGIA.ANIMS[S.anim]; strip.innerHTML='';
+  for(let i=0;i<A.n;i++){ const d=document.createElement('div'); d.className='fr'; d.tabIndex=0; const c=document.createElement('canvas'); c.width=FW; c.height=FH; c.getContext('2d').drawImage(VIGIA.frame(S.skin,S.tier,S.anim,i,S.step),0,0);
+    const lab=document.createElement('span'); lab.textContent=`${i+1} · ${A.dur(i)} ms${A.hits&&A.hits[i]?' ✦':''}`; d.append(c,lab);
+    const pick=()=>{ S.fi=i; S.acc=0; S.playing=false; bPlay.setAttribute('aria-pressed','false'); bPlay.textContent='❚❚ Pausado'; updStrip(); };
+    d.onclick=pick; d.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(); } }; strip.appendChild(d); }
+  updStrip(); }
+function updStrip(){ [...strip.children].forEach((c,i)=>c.classList.toggle('on',i===S.fi)); }
+const NAMES={skin:'Pele',hair:'Cabelo/bigode',shirt:'Camisa',collar:'Gola/punho',cap:'Quepe',visor:'Aba',gold:'Dourado',silver:'Prata',pants:'Calça',boot:'Coturno',paper:'Crachá',led:'LED rádio',bat:'Bastão',grip:'Empunhadura'};
+function buildRamps(){ const M=Object.assign(VIGIA.mats(S.skin),BATON.TIERS[S.tier].M);
+  document.getElementById('ramps').innerHTML=`<div class="ramp"><span></span><span class="hx">luz</span><span class="hx">base</span><span class="hx">sombra</span><span class="hx">linha</span></div>`+Object.keys(NAMES).map(k=>`<div class="ramp"><span>${NAMES[k]}</span>${M[k].map(h=>`<i style="background:${h}" title="${h}"></i>`).join('')}</div>`).join(''); }
+function after(){ const c=document.getElementById('afterCv').getContext('2d'); c.clearRect(0,0,FW,FH); c.drawImage(VIGIA.frame(S.skin,S.tier,'idle',0,5),0,0); }
+const old=new Image(); old.onload=()=>{ const c=document.getElementById('beforeCv').getContext('2d'); c.imageSmoothingEnabled=false; c.drawImage(old,0,0,128,128,0,0,128,128); }; old.src='data:image/png;base64,{{OLDPNG}}';
+buildStrip(); buildRamps(); after(); draw(0); requestAnimationFrame(loop);
+})();
+</script>
