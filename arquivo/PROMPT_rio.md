@@ -1,7 +1,7 @@
 # Briefing — 5º mapa: Lapa · Rio de Janeiro (RJ)
 
 Jogo: `LuadeSangue/jogo/` (Vite + TS; arte procedural em `jogo/art-src/`, empacotada por `npm run art` em `public/art/art-exp.js`).
-Leia antes: `jogo/ART_DIRECTION.md`, `LuadeSangue/PROMPT_expansao.md` (regras fixas, contrato de mapa/zumbi) e as refs em `LuadeSangue/referencias/`.
+Leia antes: `jogo/ART_DIRECTION.md`, `LuadeSangue/arquivo/PROMPT_expansao.md` (regras fixas, contrato de mapa/zumbi) e as refs em `LuadeSangue/referencias/`.
 
 ## Regras fixas
 - **Direção de arte = Marvel Cosmic Invasion** (refs em `referencias/marvel-cosmic-invasion/`): 960×540, personagens ~130 px, chefes 230–335 px, contorno escuro, rim light, sombreamento em placas, animação com antecipação/impacto/recuperação. **Designs nossos, brasileiros**; nunca copiar Marvel, anime, filmes ou jogos. Nada de pessoas reais, marcas, figuras religiosas (ex.: não usar Zé Pelintra).

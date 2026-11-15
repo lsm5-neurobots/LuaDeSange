@@ -3,6 +3,8 @@
 import './recrutas.css';
 import { esc } from '../../core/dom';
 import { G, mutate, type GameState, type Pet, type Recruit } from '../../game/state';
+import { modoRemoto } from '../../services/api';
+import { ato, msgErro } from '../../services/intent';
 import { alojados, alojar, camaLivre, darCama, fundir, fusionGroups, vagaAlojamento, type FusionGroup, type FusionResult, type FusKind } from '../../game/fusion';
 import { camas } from '../../game/shelter';
 import { equipped } from '../../game/weapons';
@@ -144,8 +146,14 @@ export function openRecrutas(kind: FusKind = 'rec'): void {
     if (a === 'tab') { k = el.dataset.k as FusKind; fus = null; }
     else if (a === 'fusao') fus = { tipo: el.dataset.tipo!, nota: el.dataset.nota as Grade };
     else if (a === 'cancel') fus = null;
-    else if (a === 'alojar') { let ok = false; mutate((s) => { ok = alojar(s, id); }); if (!ok) toast('Não deu pra alojar'); }
-    else if (a === 'cama') { let ok = false; mutate((s) => { ok = darCama(s, id); }); if (!ok) toast('Sem cama livre'); }
+    else if (a === 'alojar') {
+      if (modoRemoto()) { void ato('alojar', { id }).then((r) => { if (!r.ok) toast(r.erro || 'Não deu pra alojar'); }).catch((e) => toast(msgErro(e))); return; }
+      let ok = false; mutate((s) => { ok = alojar(s, id); }); if (!ok) toast('Não deu pra alojar');
+    }
+    else if (a === 'cama') {
+      if (modoRemoto()) { void ato('cama', { id }).then((r) => { if (!r.ok) toast(r.erro || 'Sem cama livre'); }).catch((e) => toast(msgErro(e))); return; }
+      let ok = false; mutate((s) => { ok = darCama(s, id); }); if (!ok) toast('Sem cama livre');
+    }
     else if (a === 'keep' && fus) {
       const s = G(), g = fusionGroups(s, k).find((x) => x.tipo === fus!.tipo && x.nota === fus!.nota);
       if (!g) { fus = null; return; }
@@ -153,6 +161,11 @@ export function openRecrutas(kind: FusKind = 'rec'): void {
       const keep = g.membros.find((x) => x.id === id)!;
       const outros = g.membros.filter((x) => x !== keep).sort((a, b) => (isRec(b) && isRec(a) ? b.lv - a.lv || b.xp - a.xp : 0)).slice(0, g.n - 1);
       const imgs = [keep, ...outros].map((x) => imgOf(x, 80));
+      if (modoRemoto()) {
+        fus = null;
+        void ato('fundir', { kind: k, id }).then((r) => { if (!r.ok) toast(r.erro || 'Fusão não disponível'); }).catch((e) => toast(msgErro(e)));
+        return;
+      }
       let res: FusionResult | null = null;
       mutate((st) => { res = fundir(st, k, id); });
       fus = null;

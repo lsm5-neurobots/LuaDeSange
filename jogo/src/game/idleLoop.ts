@@ -443,7 +443,7 @@ const addBag = (a: Bag, b: Bag, k = 1) => { for (const [r, v] of Object.entries(
  * Retorna null se não há loop ativo ou a ausência é curta. Marca `ultimaVisita = now`: chamar de novo não
  * simula o mesmo intervalo duas vezes.
  */
-export function simulateOffline(s: GameState, now = Date.now(), rand: Rng = defaultRng): OfflineReport | null {
+export function simulateOffline(s: GameState, now = Date.now(), rand: Rng = defaultRng, opts?: { semAtaque?: boolean }): OfflineReport | null {
   const L = s.loop;
   const ausenteMs = Math.max(0, now - (s.ultimaVisita ?? now));
   if (!L?.ativo || ausenteMs < LOOP_MIN_MS) return null;
@@ -462,7 +462,10 @@ export function simulateOffline(s: GameState, now = Date.now(), rand: Rng = defa
   // janelas de Lua de Sangue no intervalo simulado: 1 ataque por janela, aplicado na ordem do tempo
   const janelas = bloodMoonWindows(t0, now);
   let jw = 0;
-  const ataquesAte = (ms: number) => { while (jw < janelas.length && janelas[jw].inicio <= ms) { const a = attackWindow(s, janelas[jw++].inicio, rand); if (a) rep.ataques.push(a); } }; // attackWindow: 1 por janela (marca s.luaAtacada)
+  const ataquesAte = (ms: number) => {
+    if (opts?.semAtaque) return; // o servidor aplica a janela de 8 h por fora; o jogo local não passa esta opção
+    while (jw < janelas.length && janelas[jw].inicio <= ms) { const a = attackWindow(s, janelas[jw++].inicio, rand); if (a) rep.ataques.push(a); }
+  }; // attackWindow: 1 por janela (marca s.luaAtacada)
   encState = s;
   try {
     while (L.ativo) {

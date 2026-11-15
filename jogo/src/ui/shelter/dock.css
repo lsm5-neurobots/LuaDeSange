@@ -62,6 +62,12 @@
 .dk-bd.good { background: #6fdc7a; color: #08240e }
 
 .dk-cfg { flex: 0 0 auto; min-width: 58px }
+.dk-sair {
+  flex: 0 0 auto; align-self: center; margin: 0 2px; padding: 6px 2px;
+  background: none; border: 0; color: var(--muted); font-family: var(--f-pix); font-size: 12px; line-height: 1;
+  text-decoration: underline; text-underline-offset: 3px; min-width: 0;
+}
+.dk-sair:hover, .dk-sair:focus-visible { color: var(--blood); }
 .dk-col { flex: 0 0 auto; min-width: 70px }
 
 /* CTA principal: Expedição */
@@ -113,6 +119,7 @@
   .sh-dock { gap: 8px; row-gap: 10px; padding: 8px 8px 10px }
   .dk-row { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px 6px }
   .dk { min-width: 0; max-width: none; min-height: 56px; padding: 5px 1px 4px; gap: 3px }
+  .dk-sair { grid-column: 1 / -1; justify-self: end; padding: 0 2px; }
   .dk-ic { width: 32px; height: 32px }
   .dk-lb { font-size: 10px; letter-spacing: -.02em }
   .dk-bd { top: -8px; right: -5px; font-size: 10px; padding: 2px 4px 1px; min-width: 16px }

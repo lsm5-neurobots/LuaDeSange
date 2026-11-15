@@ -9,6 +9,8 @@ import { go } from '../../core/router';
 import { openModal, type ModalHandle } from '../widgets/modal';
 import { toast } from '../widgets/toast';
 import { G, mutate, type GameState } from '../../game/state';
+import { modoRemoto } from '../../services/api';
+import { ato, msgErro } from '../../services/intent';
 import {
   buildBlock, damagedList, finishObraNow, lvl, maxHp, needsRepair, repair, repairAllCost, repairCost, startBuild,
 } from '../../game/shelter';
@@ -117,12 +119,15 @@ function repairsHtml(s: GameState): string {
 function repairAct(el: HTMLElement): boolean {
   const a = el.dataset.act;
   if (a === 'rep') {
+    const id = el.dataset.id as StructId;
+    if (modoRemoto()) { void ato('reparar', { id }).then((r) => toast(r.ok ? 'Reparado' : (r.erro || 'Faltam recursos'))).catch((e) => toast(msgErro(e))); return true; }
     let ok = false;
-    mutate((s) => { ok = repair(s, el.dataset.id as StructId); });
+    mutate((s) => { ok = repair(s, id); });
     toast(ok ? 'Reparado' : 'Faltam recursos');
     return true;
   }
   if (a === 'repall') {
+    if (modoRemoto()) { void ato('repararTudo', {}).then((r) => toast(r.ok ? 'Tudo reparado que deu pra pagar' : (r.erro || 'Nada pra reparar'))).catch((e) => toast(msgErro(e))); return true; }
     mutate((s) => { for (const id of damagedList(s)) repair(s, id); });
     toast('Tudo reparado que deu pra pagar');
     return true;
@@ -192,12 +197,20 @@ export function openBuild(focus?: StructId): void {
     const a = el.dataset.act;
     if (a === 'build') {
       const id = el.dataset.id as StructId;
+      if (modoRemoto()) {
+        void ato('construir', { id }).then((r) => {
+          if (r.ok) { toast(`Obra iniciada: ${STRUCTS[id].nome}`); hooks.focus(id); close(); } else toast(r.erro || 'Não dá pra construir agora');
+        }).catch((e) => toast(msgErro(e)));
+        return;
+      }
       let ok = false;
       mutate((s) => { ok = startBuild(s, id); });
       if (ok) { toast(`Obra iniciada: ${STRUCTS[id].nome}`); hooks.focus(id); close(); } else toast('Não dá pra construir agora');
     } else if (a === 'finish') {
+      if (modoRemoto()) { toast('Terminar a obra na hora só existe no jogo local.'); return; }
       mutate((s) => { finishObraNow(s); });
     } else if (a === 'dbgres') {
+      if (modoRemoto()) { toast('O servidor não aceita recurso inventado.'); return; }
       mutate((s) => { for (const k of Object.keys(s.res) as (keyof typeof s.res)[]) s.res[k] += 50; });
     } else repairAct(el);
   }, 1000);
@@ -288,27 +301,39 @@ export function openOficina(): void {
     const a = el.dataset.act;
     if (a === 'ofaba') { ofAba = el.dataset.id as OfAba; try { localStorage.setItem(OF_KEY, ofAba); } catch { /* sem storage */ } }
     else if (a === 'craft') {
+      const familia = el.dataset.f as WeaponFamily;
+      if (modoRemoto()) { void ato('fabricar', { familia }).then((r) => toast(r.ok ? `Fabricou: ${r.extra?.nome ?? ''}` : (r.erro || 'Não dá pra fabricar agora'))).catch((e) => toast(msgErro(e))); return; }
       let it: ReturnType<typeof craft> = null;
-      mutate((s) => { it = craft(s, el.dataset.f as WeaponFamily); });
+      mutate((s) => { it = craft(s, familia); });
       const x = it as ReturnType<typeof craft>;
       toast(x ? `Fabricou: ${WEAPONS[x.familia].nomes.comum}` : 'Não dá pra fabricar agora');
     } else if (a === 'upw') {
+      const arma = el.dataset.id!;
+      if (modoRemoto()) { void ato('evoluir', { arma }).then((r) => toast(r.ok ? `Evoluiu: ${r.extra?.nome ?? ''}` : (r.erro || 'Não dá pra evoluir agora'))).catch((e) => toast(msgErro(e))); return; }
       let it: ReturnType<typeof upgradeTier> = null;
-      mutate((s) => { it = upgradeTier(s, el.dataset.id!); });
+      mutate((s) => { it = upgradeTier(s, arma); });
       const x = it as ReturnType<typeof upgradeTier>;
       toast(x ? `Evoluiu: ${WEAPONS[x.familia].nomes[x.tier]} (${TIER_INFO[x.tier].nome})` : 'Não dá pra evoluir agora');
     } else if (a === 'forja') {
+      const arma = el.dataset.id!;
+      if (modoRemoto()) { void ato('forjar', { arma }).then((r) => toast(r.ok ? `Força ${r.extra?.nv}: ${r.extra?.nome ?? ''}` : (r.erro || 'Não dá pra forjar agora'))).catch((e) => toast(msgErro(e))); return; }
       let it: ReturnType<typeof forja> = null;
-      mutate((s) => { it = forja(s, el.dataset.id!); });
+      mutate((s) => { it = forja(s, arma); });
       const x = it as ReturnType<typeof forja>;
       toast(x ? `Força ${x.nv}: ${WEAPONS[x.familia].nomes[x.tier]}` : 'Não dá pra forjar agora');
     } else if (a === 'buildof') {
+      if (modoRemoto()) {
+        void ato('construir', { id: 'serralheria' }).then((r) => { if (r.ok) { toast('Obra iniciada: Oficina'); hooks.focus('serralheria'); } else toast(r.erro || 'Não dá pra construir agora'); }).catch((e) => toast(msgErro(e)));
+        return;
+      }
       let ok = false;
       mutate((s) => { ok = startBuild(s, 'serralheria'); });
       if (ok) { toast('Obra iniciada: Oficina'); hooks.focus('serralheria'); } else toast('Não dá pra construir agora');
     } else if (a === 'equip') {
       const v = (el as HTMLSelectElement).value;
-      if (v) mutate((s) => equip(s, el.dataset.m!, v));
+      if (!v) return;
+      if (modoRemoto()) { void ato('equipar', { membro: el.dataset.m!, arma: v }).catch((e) => toast(msgErro(e))); return; }
+      mutate((s) => equip(s, el.dataset.m!, v));
     }
   }, 1000);
 }
@@ -360,14 +385,19 @@ export function openGolpes(memberId?: string): void {
     const a = el.dataset.act, g = el.dataset.g as GolpeId;
     if (a === 'gm') golpeSel = el.dataset.id!;
     else if (a === 'gup') {
+      if (modoRemoto()) { void ato('golpeUp', { membro: golpeSel, golpe: g }).then((r) => toast(r.ok ? GOLPES[g].nome : (r.erro || 'Não dá pra upar agora'))).catch((e) => toast(msgErro(e))); return; }
       let ok = false;
       mutate((s) => { ok = upGolpe(s, golpeSel, g); });
       toast(ok ? `${GOLPES[g].nome}: nv ${golpeNv(G(), golpeSel, g)}` : 'Não dá pra upar agora');
     } else if (a === 'geq') {
+      if (modoRemoto()) { void ato('golpeEquip', { membro: golpeSel, golpe: g }).then((r) => { if (!r.ok) toast(r.erro || 'Slots cheios: tire um golpe primeiro'); }).catch((e) => toast(msgErro(e))); return; }
       let ok = false;
       mutate((s) => { ok = equipGolpe(s, golpeSel, g); });
       if (!ok) toast('Slots cheios: tire um golpe primeiro');
-    } else if (a === 'gun') mutate((s) => unequipGolpe(s, golpeSel, g));
+    } else if (a === 'gun') {
+      if (modoRemoto()) { void ato('golpeTirar', { membro: golpeSel, golpe: g }).catch((e) => toast(msgErro(e))); return; }
+      mutate((s) => unequipGolpe(s, golpeSel, g));
+    }
   });
 }
 
@@ -434,9 +464,14 @@ function openSquad(mapId: string): void {
     else if (a === 'back') { close(); openExpedition(); }
     else if (a === 'go') {
       if (bloqueioExpedicao(G(), ids(), sel.map)) return;
+      const abrir = () => { close(); openExpPlan({ ids: ids(), pet: sel.pet, map: sel.map }, () => openSquad(sel.map)); };
+      if (modoRemoto()) {
+        if (sel.b) void ato('squad', { id: sel.b }).then(abrir).catch((e) => toast(msgErro(e)));
+        else abrir();
+        return;
+      }
       if (sel.b) mutate((st) => { st.squadPadrao = sel.b!; });
-      close();
-      openExpPlan({ ids: ids(), pet: sel.pet, map: sel.map }, () => openSquad(sel.map));
+      abrir();
     } else provisoesAct(el);
   });
   bindPickSelect(m.body, () => dd, (k) => { dd = k; });

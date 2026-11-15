@@ -24,6 +24,23 @@ let offsetMs = 0;
 /** Diferença servidor − aparelho. Quando houver backend, setClockOffset(serverTime − Date.now()). */
 export function setClockOffset(ms: number): void { offsetMs = Number.isFinite(ms) ? ms : 0; }
 export function getClockOffset(): number { return offsetMs; }
+
+/** Relógio publicado em `world/clock` (janela de 8 h). Ausente no jogo local: a fórmula de sempre vale. */
+export interface RelogioPublico { agora: number; janela: number; inicio: number; fim: number }
+let publico: RelogioPublico | null = null;
+export function setRelogioPublico(r: RelogioPublico | null): void {
+  publico = r;
+  if (r && Number.isFinite(r.agora)) setClockOffset(r.agora - Date.now());
+}
+export function relogioPublico(): RelogioPublico | null { return publico; }
+
+/** Contagem da janela de 8 h, se o servidor publicou `world/clock`. Sem isso, devolve null e o jogo usa a fórmula local. */
+export function textoContagemLua(now: number, luaAtacada?: number): string | null {
+  const p = publico;
+  if (!p) return null;
+  if (luaAtacada != null && luaAtacada < p.inicio) return '<b>LUA DE SANGUE</b>';
+  return `Lua de Sangue em <b>${fmtCountdown(Math.max(0, p.fim - now))}</b>`;
+}
 /** Agora no relógio do servidor (por enquanto UTC do aparelho + offset). */
 export function serverNow(): number { return Date.now() + offsetMs; }
 

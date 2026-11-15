@@ -1,6 +1,6 @@
 # Fichas de design: 8 zumbis comuns novos dos mapas atuais
 
-Fonte do elenco: `fichas/ROSTER.md`. Direção de arte: `jogo/ART_DIRECTION.md` (padrão Marvel Cosmic Invasion, designs 100% nossos e brasileiros). Formato espelha o Zumbi Malandro em `mecanicas2.html` (`id="z-malandro"`). Tudo é **proposta**; números de status são provisórios e passam por `data/balance.ts` (escala por mapa/arena).
+Fonte do elenco: `fichas/ROSTER.md`. Direção de arte: `jogo/ART_DIRECTION.md` (padrão Marvel Cosmic Invasion, designs 100% nossos e brasileiros). Formato espelha o Zumbi Malandro em `arquivo/mecanicas2.html` (`id="z-malandro"`). Tudo é **proposta**; números de status são provisórios e passam por `data/balance.ts` (escala por mapa/arena).
 
 ## Convenções comuns a todas as fichas
 
@@ -430,7 +430,7 @@ Notas de continuidade: a baiana e o turista dividem o Pelourinho com Estalador/P
 
 ## Códigos no mecanicas2
 
-As faixas desta ficha (IA-40 a IA-63) foram renumeradas ao entrar no `mecanicas2.html`, sem colisão com amazônia e pantanal (ordem: esta ficha, depois amazônia, depois pantanal). Seção `m-zumbis-atuais-novos`; âncoras `z-<id>`.
+As faixas desta ficha (IA-40 a IA-63) foram renumeradas ao entrar no `arquivo/mecanicas2.html`, sem colisão com amazônia e pantanal (ordem: esta ficha, depois amazônia, depois pantanal). Seção `m-zumbis-atuais-novos`; âncoras `z-<id>`.
 
 | Código na ficha | Código no mecanicas2 | Regra |
 |---|---|---|

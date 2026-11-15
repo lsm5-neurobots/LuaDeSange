@@ -1,6 +1,6 @@
 // Estado do jogo: tipo, criação, store único com save versionado.
 import { emit } from '../core/events';
-import { api } from '../services/api';
+import { api, modoRemoto } from '../services/api';
 import type { ResId } from '../data/resources';
 import type { StructId } from '../data/structures';
 import type { RecruitType, PetType } from '../data/recruits';
@@ -8,6 +8,8 @@ import type { Grade } from '../data/grades';
 import type { WeaponFamily, Tier } from '../data/weapons';
 import type { GolpeId } from '../data/golpes';
 import type { AttackReport } from './bloodmoon';
+import type { ExpeditionConfig } from '../expedition/types';
+import type { RewardSummary } from './rewards';
 
 export const SAVE_VERSION = 1;
 
@@ -89,6 +91,27 @@ export interface GameState {
   statsMapa: Record<string, { vit: number }>;
   /** contadores gerais pras conquistas */
   stats: { luasSeguradas: number };
+  /** revisão do save no servidor (o cliente ignora um snapshot mais velho) */
+  rev?: number;
+  /**
+   * Expedição em andamento no relógio do servidor. O cliente não grava o resultado:
+   * a Function congela o squad/mapa e resolve com a simulação.
+   */
+  expedicao?: ExpedicaoServidor | null;
+}
+
+/** Rodada paga no servidor. `cfg` é o que a simulação usa; o dano do cliente não entra. */
+export interface ExpedicaoServidor {
+  id: string;
+  status: 'ativa' | 'resolvida';
+  inicio: number;
+  fim: number;
+  seed: number;
+  manual: boolean;
+  cfg: ExpeditionConfig;
+  resultado?: import('../expedition/types').ExpeditionResult;
+  resumo?: RewardSummary;
+  parada?: string | null;
 }
 
 export function newGame(now = Date.now()): GameState {
@@ -161,8 +184,15 @@ export const G = (): GameState => {
 };
 export const hasGame = () => !!state?.hero;
 
+/** Esquece o jogo em memória ao sair da conta. Não apaga o save remoto nem o local. */
+export function soltarJogo(): void {
+  state = null;
+}
+
 export async function loadGame(): Promise<GameState | null> {
-  state = migrate(await api.loadSave());
+  const next = migrate(await api.loadSave());
+  if (state && next && (next.rev ?? 0) < (state.rev ?? 0)) return state;
+  state = next;
   return state;
 }
 
@@ -172,9 +202,18 @@ export function startNewGame(): GameState {
 }
 
 export function save(): void {
-  if (!state) return;
+  if (!state || modoRemoto()) return;
   state.ultimaVisita = Date.now();
   void api.writeSave(state);
+}
+
+/** Troca o save em memória pelo que o servidor devolveu. Não grava de volta. */
+export function replaceState(raw: unknown, opts?: { seMaisNovo?: boolean }): GameState | null {
+  const next = migrate(raw);
+  if (opts?.seMaisNovo && state && next && (next.rev ?? 0) < (state.rev ?? 0)) return state;
+  state = next;
+  emit('state:changed');
+  return state;
 }
 
 /** Aplica uma mudança, salva e avisa as telas. */
@@ -185,7 +224,12 @@ export function mutate(fn: (s: GameState) => void): void {
 }
 
 export async function resetGame(): Promise<void> {
-  await api.clearSave();
+  if (modoRemoto()) {
+    const { chamar } = await import('../services/intent');
+    await chamar('act', { tipo: 'reset' });
+  } else {
+    await api.clearSave();
+  }
   state = null;
 }
 

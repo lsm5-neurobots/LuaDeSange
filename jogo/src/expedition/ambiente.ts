@@ -1,7 +1,7 @@
 // Dia, clima e Lua de Sangue na expedição: lê o relógio do mundo (worldClock), troca o céu/luz do cenário,
 // liga as camadas de clima (art-src/shared/clima.js) e vira modo 'lua' quando a janela nasce no meio da corrida.
 import {
-  CLIMA_EFEITO, CLIMA_NOME, PHASE_NOME, ambienteAt, fmtClock, fmtCountdown, fmtWorldHour, nextBloodMoon, serverNow, type Ambiente,
+  CLIMA_EFEITO, CLIMA_NOME, PHASE_NOME, ambienteAt, fmtClock, fmtCountdown, fmtWorldHour, nextBloodMoon, serverNow, textoContagemLua, type Ambiente,
 } from '../game/worldClock';
 import { RS, type World } from './world';
 
@@ -65,7 +65,7 @@ export function tickAmbiente(w: World, dt: number): void {
 export function ambienteHud(w: World): { html: string; lua: boolean; warn: boolean } {
   const now = serverNow(), amb: Ambiente = w.amb ?? ambienteAt(now, w.cfg.mapId), j = nextBloodMoon(now);
   const ativa = now >= j.inicio;
-  const moon = ativa ? `<b>LUA DE SANGUE</b> · ${fmtClock(j.fim - now)}` : `Lua de Sangue em <b>${fmtCountdown(j.inicio - now)}</b>`;
+  const moon = textoContagemLua(now) ?? (ativa ? `<b>LUA DE SANGUE</b> · ${fmtClock(j.fim - now)}` : `Lua de Sangue em <b>${fmtCountdown(j.inicio - now)}</b>`);
   const ceu = w.mode === 'lua' ? 'Lua de Sangue' : PHASE_NOME[amb.fase];
   return { html: `<span class="xp-hora">${fmtWorldHour(now)} · ${ceu} · ${CLIMA_NOME[amb.clima]}</span><span class="xp-lua">${moon}</span>`, lua: ativa, warn: !ativa && j.inicio - now < 10 * 60_000 };
 }

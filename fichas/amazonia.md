@@ -2,7 +2,7 @@
 
 Mapa `amazonia` · 6º mapa · nível recomendado **22** · requer vencer a **Lapa** · 12 áreas · 12 tipos de zumbi (6 novos + 6 reaproveitados do ROSTER) · mini boss **A Onça-Pintada** · chefe **A Cobra-Grande**.
 Fonte do elenco: `fichas/ROSTER.md`. Direção de arte: Marvel Cosmic Invasion (`jogo/ART_DIRECTION.md`), designs 100% nossos e brasileiros.
-Códigos propostos (reserva, ajustar ao colar no `mecanicas2.html`): **MAP-34–39** (mapa), **IA-35–50** (4 comuns), **BOSS-33–38** (onça e cobra-grande).
+Códigos propostos (reserva, ajustar ao colar no `arquivo/mecanicas2.html`): **MAP-34–39** (mapa), **IA-35–50** (4 comuns), **BOSS-33–38** (onça e cobra-grande).
 
 **Respeito (MAP-08/MAP-31):** a Cobra-Grande/Boiúna é lenda ribeirinha de rio, tratada como monstro folclórico; nada de rito, entidade ou figura religiosa; sem etnia, sem pessoas reais, sem marcas. Comunidade ribeirinha, Teatro Amazonas e Mercado são cenário. O boto cor-de-rosa só aparece como fauna do rio (e como cenário da lenda), nunca como personagem humano.
 
@@ -631,7 +631,7 @@ Specs prontas (rodar `python referencias/_tools/commons_refs.py referencias/_too
 
 ## Códigos no mecanicas2
 
-Faixas finais no `mecanicas2.html` (ordem: zumbis-mapas-atuais IA-35–58, depois esta ficha, depois pantanal). Aqui as regras de zumbi ganharam um código por regra (IA-59 a IA-74); BOSS-33–38 e MAP-34–39 ficam como estavam. Seções `m-zumbis-amazonia`, `m-bosses-amazonia`, `m-mapa-amazonia`.
+Faixas finais no `arquivo/mecanicas2.html` (ordem: zumbis-mapas-atuais IA-35–58, depois esta ficha, depois pantanal). Aqui as regras de zumbi ganharam um código por regra (IA-59 a IA-74); BOSS-33–38 e MAP-34–39 ficam como estavam. Seções `m-zumbis-amazonia`, `m-bosses-amazonia`, `m-mapa-amazonia`.
 
 | Código na ficha | Código no mecanicas2 | Regra |
 |---|---|---|

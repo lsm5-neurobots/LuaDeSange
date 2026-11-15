@@ -1,5 +1,5 @@
 // Tela inicial (site que rola): logo + desfile animado, "feito pra quem não tem tempo", Lua de Sangue,
-// mecânicas, bestiário e chamada final. O jogo em tela cheia começa na criação do recruta.
+// mecânicas, bestiário e chamada final. Com Firebase, "Jogar" abre o login antes da criação ou do abrigo.
 import './landing.css';
 import type { Screen } from '../../core/router';
 import { go } from '../../core/router';
@@ -9,6 +9,7 @@ import { esc, h, makeCanvas } from '../../core/dom';
 import { EXP, HUB, type Factory } from '../../art/legacy';
 import { anchor } from '../../art/sprites';
 import { hasGame, startNewGame, resetGame } from '../../game/state';
+import { authExigida, temSessao } from '../../services/authEstado';
 import { Warmer } from '../../expedition/warm';
 import { frameStore } from '../../art/frameStore';
 import { hubJobs } from '../hubWarm';
@@ -19,6 +20,7 @@ import { RECRUITS, PETS } from '../../data/recruits';
 import { STRUCTS } from '../../data/structures';
 import { LEMBRANCAS } from '../../data/lembrancas';
 import { msUntilBloodMoon, nextIsBloodMoon } from '../../game/bloodmoon';
+import { serverNow, textoContagemLua } from '../../game/worldClock';
 
 interface Cast { F: Factory; x: number; me: boolean; frame: (t: number) => HTMLCanvasElement }
 
@@ -134,6 +136,8 @@ function drawStreet(g: CanvasRenderingContext2D, t: number): void {
 }
 function tickMoon(el: HTMLElement): void {
   const n = el.querySelector('#nextMoon'); if (!n) return;
+  const pub = textoContagemLua(serverNow());
+  if (pub) { n.innerHTML = pub; return; }
   if (nextIsBloodMoon()) { n.innerHTML = '<b>A Lua de Sangue está no céu agora.</b>'; return; }
   const m = Math.round(msUntilBloodMoon() / 60_000), hh = Math.floor(m / 60), mm = m % 60;
   n.innerHTML = `Próxima Lua de Sangue em <b>${hh ? hh + ' h ' : ''}${mm} min</b>.`;
@@ -254,7 +258,7 @@ export function landingScreen(): Screen {
     void preloadModalCache().finally(() => { iconT = window.setTimeout(fill, 300); });
 
     el.querySelectorAll('[data-play]').forEach((b) => b.addEventListener('click', () => {
-      // TODO cadastro/login: services/api.ts
+      if (authExigida() && !temSessao()) { go('login'); return; }
       if (hasGame()) go('shelter', { intro: 'chegada' });
       else { startNewGame(); go('create'); }
     }));

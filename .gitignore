@@ -1,9 +1,20 @@
 node_modules/
 dist/
+functions/lib/
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+firestore-debug.log
+ui-debug.log
+*.local
 
 .env
 .env.*
 !.env.example
+jogo/.env
+jogo/.env.*
+!jogo/.env.example
+
 credentials.json
 *credentials*.json
 *serviceAccount*.json

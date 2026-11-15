@@ -4,6 +4,8 @@ import './provisoes.css';
 import { RESOURCES, type ResId } from '../../data/resources';
 import { STRUCTS, type StructId } from '../../data/structures';
 import { mutate, type GameState } from '../../game/state';
+import { modoRemoto } from '../../services/api';
+import { ato, msgErro } from '../../services/intent';
 import { collect, prodMult } from '../../game/shelter';
 import { custoExpedicao, faltaExpedicao, racaoEmergencia, type FaltaProvisao } from '../../game/upkeep';
 import { itemImg } from '../../art/items';
@@ -65,6 +67,10 @@ export function provisoesHtml(s: GameState, ids: string[], mapId: string): strin
 export function provisoesAct(el: HTMLElement): boolean {
   const a = el.dataset.act, id = el.dataset.id as StructId;
   if (a === 'pv-col') {
+    if (modoRemoto()) {
+      void ato('coletar', { id }).then((r) => toast(r.ok ? `Coletou da ${STRUCTS[id].nome}` : (r.erro || 'Nada pronto pra coletar'))).catch((e) => toast(msgErro(e)));
+      return true;
+    }
     let got = 0;
     mutate((s) => { const b = collect(s, id); got = Object.values(b).reduce((x, y) => x + (y ?? 0), 0); });
     toast(got ? `Coletou ${got} da ${STRUCTS[id].nome}` : 'Nada pronto pra coletar');

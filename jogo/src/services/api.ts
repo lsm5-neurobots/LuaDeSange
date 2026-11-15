@@ -30,4 +30,18 @@ export const localApi: Api = {
   async clearSave() { safeDel(KEY); },
 };
 
-export const api: Api = localApi;
+let impl: Api = localApi;
+/** O jogo chama sempre este objeto. Sem config Firebase, é o adapter local. */
+export const api: Api = {
+  account: () => impl.account(),
+  loadSave: () => impl.loadSave(),
+  writeSave: (data) => impl.writeSave(data),
+  clearSave: () => impl.clearSave(),
+};
+
+export function instalarApi(next: Api): void { impl = next; }
+
+let remoto = false;
+/** Verdade só depois que Auth + callables estão ligados. O save local não passa por aqui. */
+export const modoRemoto = (): boolean => remoto;
+export function definirModoRemoto(v: boolean): void { remoto = v; }

@@ -3,7 +3,7 @@ import { RESOURCES, RES_HUD, RES_IDS } from '../../data/resources';
 import { comSede, famintos, fluxo } from '../../game/upkeep';
 import { camas, populacao } from '../../game/shelter';
 import { defenseTotal, hordeStrength, hordeDia } from '../../game/bloodmoon';
-import { CLIMA_NOME, PHASE_NOME, ambienteAt, fmtClock, fmtCountdown, fmtWorldHour, nextBloodMoon, serverNow } from '../../game/worldClock';
+import { CLIMA_NOME, PHASE_NOME, ambienteAt, fmtClock, fmtCountdown, fmtWorldHour, nextBloodMoon, serverNow, textoContagemLua } from '../../game/worldClock';
 import type { GameState } from '../../game/state';
 import { itemImg } from '../../art/items';
 
@@ -18,7 +18,7 @@ export function hudHtml(s: GameState): string {
       return `<span class="hud-res${f?.critico ? " crit" : ""}" title="${tt}">${itemImg(k, 20)}<span class="hud-nm">${r.nome}</span> <b>${Math.floor(s.res[k] ?? 0)}</b>${d}</span>`;
     }).join('');
   const now = serverNow(), amb = ambienteAt(now, 'abrigo'), lua = nextBloodMoon(now);
-  const moon = moonChip(now);
+  const moon = moonChip(now, s.luaAtacada);
   const blood = !!amb.lua;
   const def = Math.round(defenseTotal(s)), forca = hordeStrength(hordeDia(s));
   const bad = def < forca;
@@ -35,7 +35,9 @@ export function hudHtml(s: GameState): string {
 }
 
 /** Chip da Lua de Sangue: contagem regressiva ou "LUA DE SANGUE · 18:42" (tempo que falta da janela). */
-export function moonChip(now: number = serverNow()): string {
+export function moonChip(now: number = serverNow(), luaAtacada?: number): string {
+  const remoto = textoContagemLua(now, luaAtacada);
+  if (remoto) return remoto;
   const j = nextBloodMoon(now);
   return now >= j.inicio ? `<b>LUA DE SANGUE</b> · ${fmtClock(j.fim - now)}` : `Lua de Sangue em <b>${fmtCountdown(j.inicio - now)}</b>`;
 }

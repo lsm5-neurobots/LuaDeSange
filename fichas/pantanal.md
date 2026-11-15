@@ -2,7 +2,7 @@
 
 Fonte única do elenco: `fichas/ROSTER.md`. Direção de arte: `jogo/ART_DIRECTION.md` (padrão Marvel Cosmic Invasion, 960×540, designs nossos).
 Mapa `pantanal` · **nível recomendado 26** · **requer `amazonia`** · 12 áreas · 6 zumbis novos (4 comuns + mini boss + chefe) · 12 tipos nas ondas.
-Códigos novos (continuam os de `mecanicas2.html`: último MAP-33, IA-34, BOSS-32): **MAP-34 a MAP-40**, **IA-35 a IA-44**, **BOSS-33 a BOSS-38**.
+Códigos novos (continuam os de `arquivo/mecanicas2.html`: último MAP-33, IA-34, BOSS-32): **MAP-34 a MAP-40**, **IA-35 a IA-44**, **BOSS-33 a BOSS-38**.
 Tudo é **proposta** até a ficha de arte final; medidas `ax/G/top/w` em unidades cruas (px na tela = u × 1,25) são estimativas a confirmar na folha de sprites.
 
 ---
@@ -400,7 +400,7 @@ Escala (comparar com Lapa): Errante 80 hp · Blindado 160 · Malandro 95/14 · P
 
 ## Códigos no mecanicas2
 
-Faixas finais no `mecanicas2.html` (ordem: zumbis-mapas-atuais IA-35–58, amazônia IA-59–74 / BOSS-33–38 / MAP-34–39, depois esta ficha): IA-75 a IA-84, BOSS-39 a BOSS-44, MAP-40 a MAP-46. Seções `m-zumbis-pantanal`, `m-bosses-pantanal`, `m-mapa-pantanal`.
+Faixas finais no `arquivo/mecanicas2.html` (ordem: zumbis-mapas-atuais IA-35–58, amazônia IA-59–74 / BOSS-33–38 / MAP-34–39, depois esta ficha): IA-75 a IA-84, BOSS-39 a BOSS-44, MAP-40 a MAP-46. Seções `m-zumbis-pantanal`, `m-bosses-pantanal`, `m-mapa-pantanal`.
 
 | Código na ficha | Código no mecanicas2 | Regra |
 |---|---|---|

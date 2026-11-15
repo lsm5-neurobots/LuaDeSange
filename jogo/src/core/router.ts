@@ -1,5 +1,5 @@
 // Router de telas: uma tela montada por vez dentro de #app.
-export type ScreenId = 'landing' | 'create' | 'shelter' | 'expedition';
+export type ScreenId = 'landing' | 'login' | 'create' | 'shelter' | 'expedition';
 
 export interface Screen {
   mount(root: HTMLElement, params?: any): void;

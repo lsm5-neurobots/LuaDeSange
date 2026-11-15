@@ -2,6 +2,8 @@
 import { ITEM_MK, type ItemMk } from '../../data/market';
 import { esc } from '../../core/dom';
 import { G, mutate } from '../../game/state';
+import { modoRemoto } from '../../services/api';
+import { ato, msgErro } from '../../services/intent';
 import { bagText } from '../../game/economy';
 import { buy, buyBlock, itemCount, marketList } from '../../game/market';
 import { toast } from '../widgets/toast';
@@ -33,6 +35,7 @@ export function openMarket(): void {
     const a = el.dataset.act, id = el.dataset.id ?? '';
     if (a === 'tab') tab = id;
     else if (a === 'buy') {
+      if (modoRemoto()) { void ato('comprar', { id }).then((r) => toast(r.ok ? 'Comprado!' : (r.erro || 'Recursos insuficientes'))).catch((e) => toast(msgErro(e))); return; }
       let ok = false;
       mutate((s) => { ok = buy(s, id); });
       toast(ok ? 'Comprado!' : 'Recursos insuficientes');

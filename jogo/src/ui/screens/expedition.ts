@@ -7,6 +7,9 @@ import { esc } from '../../core/dom';
 import { startExpedition, type ExpeditionHandle } from '../../expedition/engine';
 import type { ExpeditionConfig, ExpeditionResult } from '../../expedition/types';
 import { G, mutate, startNewGame, hasGame } from '../../game/state';
+import { modoRemoto } from '../../services/api';
+import { msgErro, resolver } from '../../services/intent';
+import { toast } from '../widgets/toast';
 import { buildExpedition } from '../../game/team';
 import { applyExpedition, type RewardSummary } from '../../game/rewards';
 import { MAPS } from '../../data/maps';
@@ -159,6 +162,14 @@ export function expeditionScreen(): Screen {
       const host = root.querySelector('.xps-host') as HTMLElement;
       bindSettings(root.querySelector('.xps-ctl') as HTMLElement);
       handle = startExpedition(host, cfg, (r) => {
+        if (modoRemoto()) {
+          // A luta ficou no cliente (FPS). O prêmio é a simulação do mesmo squad/mapa; o relatório da tela não é enviado.
+          void resolver({}).then((res) => {
+            if (!res.ok || !res.resultado || !res.resumo) { toast(res.erro || 'O servidor não fechou a expedição'); go('shelter'); return; }
+            showResult(res.resultado as ExpeditionResult, res.resumo as RewardSummary, (res.parada as Parada | null) ?? null, emLoop);
+          }).catch((e) => { toast(msgErro(e)); go('shelter'); });
+          return;
+        }
         let sum!: RewardSummary, parada: Parada | null = null;
         // a rodada pertence ao loop se foi iniciada por ele (mesmo que o jogador tenha parado no meio)
         mutate((s) => { sum = applyExpedition(s, r); if (emLoop) parada = fecharRodada(s, r); });

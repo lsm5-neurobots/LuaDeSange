@@ -8,13 +8,17 @@ import { ITEM_MK, type ItemMk } from '../../data/market';
 import { RECRUITS, PETS, type PetType, type RecruitType } from '../../data/recruits';
 import { esc } from '../../core/dom';
 import { go } from '../../core/router';
+import { toast } from '../widgets/toast';
 import { G, mutate } from '../../game/state';
+import { modoRemoto } from '../../services/api';
+import { ato, msgErro, partir } from '../../services/intent';
 import { equippedGolpes, slotsOf } from '../../game/golpes';
 import { buildExpedition } from '../../game/team';
 import { bloqueioExpedicao, faltaExpedicao, pagarExpedicao } from '../../game/upkeep';
 import { provisoesHtml, provisoesAct, faltaLabel } from './provisoes';
 import { itemCount, takeItems } from '../../game/market';
 import type { ExpeditionPlan } from '../../expedition/plan';
+import type { ExpeditionConfig } from '../../expedition/types';
 import { live } from './panels';
 import { openMarket } from './market';
 import { itemImg } from '../../art/items';
@@ -269,7 +273,8 @@ export function openExpPlan(sel: Sel, back: () => void, vivo?: PlanoVivo, loopPl
       const dec = { recrutar: pref.recrutar, usarChaves: pref.usarChaves, usarKits: pref.usarKits, kitLimiar: pref.kitLimiar, ...filtros };
       Object.assign(vivo.plano, dec); // o motor lê w.cfg.plano a cada decisão: vale na hora
       try { localStorage.setItem(SAVED, JSON.stringify({ ...loadPrefs(), ...pref, loop: loadPrefs().loop })); } catch { /* sem storage */ }
-      if (vivo.loop) mutate((st) => { if (st.loop) Object.assign(st.loop.plano, dec, { loopMaxH: pref.loopMaxH, loopFalhas: pref.loopFalhas }); });
+      if (vivo.loop && modoRemoto()) void ato('loopPlano', { plano: { ...dec, loopMaxH: pref.loopMaxH, loopFalhas: pref.loopFalhas } }).catch((e) => toast(msgErro(e)));
+      else if (vivo.loop) mutate((st) => { if (st.loop) Object.assign(st.loop.plano, dec, { loopMaxH: pref.loopMaxH, loopFalhas: pref.loopFalhas }); });
       close();
     }
     else if (a === 'go') {
@@ -290,6 +295,21 @@ export function openExpPlan(sel: Sel, back: () => void, vivo?: PlanoVivo, loopPl
         oficios: pref.oficios.length === OFICIOS.length ? undefined : [...pref.oficios],
         pets: pref.pets.length === PETLIST.length ? undefined : [...pref.pets],
       };
+      if (modoRemoto()) {
+        void partir({
+          mapId: sel.map, ids: sel.ids, pet: sel.pet,
+          manual: !!pref.manual && !pref.loop, loop: !!pref.loop,
+          plano: {
+            recrutar: pref.recrutar, usarChaves: pref.usarChaves, usarKits: pref.usarKits, kitLimiar: pref.kitLimiar,
+            itens: want, ...filtros, loopMaxH: pref.loopMaxH, loopFalhas: pref.loopFalhas,
+          },
+        }).then((r) => {
+          if (!r.ok || !r.config) { toast(r.erro || 'Não deu pra partir'); return; }
+          close();
+          go('expedition', { config: r.config as ExpeditionConfig, loop: pref.loop });
+        }).catch((e) => toast(msgErro(e)));
+        return;
+      }
       const config = buildExpedition(s, sel.ids, sel.pet, sel.map);
       let got: Partial<Record<ItemMk, number>> = {};
       mutate((st) => { st.ultimoMapa = sel.map; pagarExpedicao(st, sel.ids, sel.map); got = takeItems(st, want); });

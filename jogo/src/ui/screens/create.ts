@@ -8,6 +8,9 @@ import { HUB } from '../../art/legacy';
 import { ShelterScene } from '../shelter/scene';
 import '../screens/shelter.css';
 import { G, addLog, mutate, startNewGame, type HeroCfg } from '../../game/state';
+import { modoRemoto } from '../../services/api';
+import { ato, msgErro } from '../../services/intent';
+import { toast } from '../widgets/toast';
 
 const R = (g: CanvasRenderingContext2D, x: number, y: number, w: number, hh: number, c: string) => { g.fillStyle = c; g.fillRect(x, y, w, hh); };
 
@@ -86,6 +89,15 @@ export function createScreen(): Screen {
       el.querySelector('#rand')!.addEventListener('click', () => { cfg = { ...H.random(), nome: nome.value }; sync(); });
       el.querySelector('#enter')!.addEventListener('click', () => {
         const n = (nome.value || 'Sobrevivente').trim().slice(0, 16) || 'Sobrevivente';
+        if (modoRemoto()) {
+          const aparencia: Record<string, string> = {};
+          for (const [k, v] of Object.entries(cfg)) if (k !== 'nome' && typeof v === 'string') aparencia[k] = v;
+          void ato('criar', { nome: n, aparencia }).then((r) => {
+            if (!r.ok) { toast(r.erro || 'Não deu pra criar'); return; }
+            go('shelter', { intro: 'acender' });
+          }).catch((e) => toast(msgErro(e)));
+          return;
+        }
         mutate((s) => {
           s.hero = { ...cfg, nome: n };
           s.heroLv = 1; s.heroXp = 0;

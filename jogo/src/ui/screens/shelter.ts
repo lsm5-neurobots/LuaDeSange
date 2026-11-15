@@ -13,6 +13,10 @@ import { startLoop, type Loop } from '../../core/loop';
 import { $, esc, h } from '../../core/dom';
 import { on } from '../../core/events';
 import { G, addLog, mutate, resetGame, save } from '../../game/state';
+import { modoRemoto } from '../../services/api';
+import { mensagemAuth, temSessao } from '../../services/authEstado';
+import { sairParaLanding } from '../../services/sessao';
+import { ato, msgErro, pulsoAbrigo, tomarAtaques } from '../../services/intent';
 import { collect, lvl, tickObra, tickProduction } from '../../game/shelter';
 import { tickUpkeep } from '../../game/upkeep';
 import { pendingBloodMoons, resolvePendingAttacks, type AttackReport } from '../../game/bloodmoon';
@@ -54,7 +58,7 @@ export function shelterScreen(): Screen {
         return o;
       };
       let offlineMsg = '';
-      const mins = Math.min(480, (Date.now() - s0.ultimaVisita) / 60000);
+      const mins = modoRemoto() ? 0 : Math.min(480, (Date.now() - s0.ultimaVisita) / 60000);
       if (mins >= 1) {
         const antes = { agua: s0.res.agua, comida: s0.res.comida };
         tickUpkeep(s0, mins * 60000);
@@ -86,12 +90,12 @@ export function shelterScreen(): Screen {
         <button class="cam d" type="button" aria-label="Câmera para baixo">▼</button>
         <div class="sh-tag" aria-live="polite"></div>
         <div class="sh-loop"></div>
-        <nav class="sh-actions sh-dock" aria-label="Ações do abrigo">${dockHtml()}</nav>
+        <nav class="sh-actions sh-dock" aria-label="Ações do abrigo">${dockHtml({ sair: temSessao() })}</nav>
         <aside class="sh-drawer" aria-label="Squad e diário">
           <button class="sh-dclose" type="button" data-a="drawer" aria-label="Fechar">×</button>
           <section><div class="lbl">Squad</div><div class="roster"></div></section>
           <section><div class="lbl">Diário</div><ul class="log"></ul></section>
-          <div class="sh-foot"><button class="btn ghost sm" type="button" data-a="reset">Apagar progresso</button></div>
+          <div class="sh-foot"><button class="btn ghost sm" type="button" data-a="reset">Apagar progresso</button>${temSessao() ? '<button class="btn ghost sm" type="button" data-a="sair">Sair</button>' : ''}</div>
         </aside>
       </section>`);
       root.appendChild(el);
@@ -103,6 +107,10 @@ export function shelterScreen(): Screen {
       const sc = new ShelterScene($<HTMLCanvasElement>('canvas', el), {
         onStructClick(id) { sc.focusStruct(id); if (id === 'serralheria' && lvl(G(), id) > 0) openOficina(); else openBuild(id); },
         onCollect(id) {
+          if (modoRemoto()) {
+            void ato('coletar', { id }).then((r) => toast(r.ok ? ('Coletado: ' + (plainBag((r.extra?.got ?? {}) as Bag) || 'nada')) : (r.erro || 'Nada pra coletar'))).catch((e) => toast(msgErro(e)));
+            return;
+          }
           let got: Bag = {};
           mutate((s) => { got = collect(s, id); });
           const t = Object.entries(got).map(([k, v]) => `+${v} ${RESOURCES[k as keyof typeof RESOURCES].nome}`).join(' ');
@@ -145,7 +153,7 @@ export function shelterScreen(): Screen {
         const b = (e.target as HTMLElement).closest<HTMLElement>('[data-a]');
         if (!b) return;
         const a = b.dataset.a!;
-        if (b.closest('.sh-dock') && a !== 'collect' && a !== 'drawer') markDock(actions, a);
+        if (b.closest('.sh-dock') && a !== 'collect' && a !== 'drawer' && a !== 'sair') markDock(actions, a);
         if (a === 'build') openBuild();
         else if (a === 'repair') openRepairs();
         else if (a === 'weapons') openWeapons();
@@ -162,9 +170,15 @@ export function shelterScreen(): Screen {
           el.querySelectorAll('[data-a=drawer]').forEach((x) => x.setAttribute('aria-expanded', String(open)));
         }
         else if (a === 'collect') {
-          let got: Bag = {};
-          mutate((s) => { got = collect(s); });
-          toast('Coletado: ' + (plainBag(got) || 'nada'));
+          if (modoRemoto()) {
+            void ato('coletar', {}).then((r) => toast('Coletado: ' + (plainBag((r.extra?.got ?? {}) as Bag) || 'nada'))).catch((e) => toast(msgErro(e)));
+          } else {
+            let got: Bag = {};
+            mutate((s) => { got = collect(s); });
+            toast('Coletado: ' + (plainBag(got) || 'nada'));
+          }
+        } else if (a === 'sair') {
+          void sairParaLanding().catch((e) => toast(mensagemAuth(e)));
         } else if (a === 'reset') {
           if (!confirm('Apagar todo o progresso? Isso não pode ser desfeito.')) return;
           loop?.stop(); loop = null;
@@ -216,6 +230,7 @@ export function shelterScreen(): Screen {
       const luaCheck = () => {
         const now = serverNow();
         sc.setAmbiente(ambienteAt(now, 'abrigo'));
+        if (modoRemoto()) return;
         if (sc.attackOn || sc.introOn) return;
         const s = G();
         if (!pendingBloodMoons(s, now).length) return;
@@ -231,14 +246,24 @@ export function shelterScreen(): Screen {
       // loop idle
       let saveAcc = 0, uiAcc = 0, lastTag = '';
       // 1º quadro só depois de trazer do disco (cache persistente) os sprites da cena — senão ele engasga gerando
+      if (modoRemoto()) {
+        const tocar = (rep: AttackReport) => {
+          if (sc.attackOn || sc.introOn) return;
+          closeAllPanels(); sc.setFire(true); sc.startAttack(rep);
+        };
+        for (const rep of tomarAtaques()) tocar(rep);
+        offs.push(pulsoAbrigo((lista) => { const rep = lista[lista.length - 1]; if (rep) tocar(rep); }));
+      }
       const begin = () => { if (scene !== sc || loop) return; loop = startLoop((dt) => {
         const s = G();
-        tickProduction(s, dt / 60);
-        tickUpkeep(s, dt * 1000);
-        if (s.obra && Date.now() >= s.obra.fim) {
-          const done: { id: StructId | null } = { id: null };
-          mutate((st) => { done.id = tickObra(st); });
-          if (done.id) { toast(`Obra pronta: ${STRUCTS[done.id].nome} nv ${lvl(G(), done.id)}`, 2800); sc.focusStruct(done.id); }
+        if (!modoRemoto()) {
+          tickProduction(s, dt / 60);
+          tickUpkeep(s, dt * 1000);
+          if (s.obra && Date.now() >= s.obra.fim) {
+            const done: { id: StructId | null } = { id: null };
+            mutate((st) => { done.id = tickObra(st); });
+            if (done.id) { toast(`Obra pronta: ${STRUCTS[done.id].nome} nv ${lvl(G(), done.id)}`, 2800); sc.focusStruct(done.id); }
+          }
         }
         saveAcc += dt; uiAcc += dt;
         if (saveAcc > 5) { saveAcc = 0; save(); }

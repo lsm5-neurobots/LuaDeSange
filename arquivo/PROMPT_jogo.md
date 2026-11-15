@@ -24,7 +24,7 @@ Fora do MVP: conta/login (deixar um `services/api.ts` com adapter local, pronto 
 
 - **Vite + TypeScript** (strict). Sem motor de terceiros: a arte é Canvas2D procedural (pipeline `PIX`), então um loop próprio com canvas é mais simples e mais rápido que adaptar ao Phaser.
 - UI em **DOM + CSS** por cima do canvas (menus, HUD, modais). Cada tela é um módulo com `mount()` e `unmount()`.
-- **Arte legada**: `tools/extract-art.mjs` extrai as factories dos HTML gerados (`Arte Cosmica - Pivo Idle/demos/expedicao-completa.html` e `jogo.html`), embrulha cada pacote num namespace isolado (`window.ART_EXP`, `window.ART_HUB`) e grava em `public/art/`. O TS acessa a arte só via `src/art/legacy.ts` (tipos frouxos, `any` contido ali). Patch no HEROI: raridade do bastão por `cfg.tier` e desenho de pistola/laser por `cfg.arma`.
+- **Arte legada**: `tools/extract-art.mjs` extrai as factories dos HTML gerados (`arquivo/Arte Cosmica - Pivo Idle/demos/expedicao-completa.html` e `arquivo/Arte Cosmica - Pivo Idle/jogo.html`), embrulha cada pacote num namespace isolado (`window.ART_EXP`, `window.ART_HUB`) e grava em `public/art/`. O TS acessa a arte só via `src/art/legacy.ts` (tipos frouxos, `any` contido ali). Patch no HEROI: raridade do bastão por `cfg.tier` e desenho de pistola/laser por `cfg.arma`.
 - **Conteúdo orientado a dados** (`src/data/`): zumbis, mapas/ondas, armas, estruturas, recursos, recrutas, Lua de Sangue. Um mapa novo = um arquivo novo em `data/maps/` + registro.
 - **Lutadores genéricos**: perfil de combate por personagem (factory + aliases de animação). O Vigia usa o kit completo; herói e recrutas usam `combo/guard/hurt/walk` com aliases. A expedição aceita N lutadores (MVP: herói + 1 recruta opcional + pet, que fica só como bônus).
 - **IA de zumbi** num registro de comportamentos por `kind` (`expedition/ai/*.ts`). Novo zumbi = um arquivo + uma entrada em `data/zombies.ts`.
@@ -60,7 +60,7 @@ Regras:
 - O opus escreve **primeiro** o esqueleto e os contratos (tipos, store, router, art loader). Só depois disso os subagentes começam.
 - Subagentes recebem briefing autossuficiente: caminhos exatos, contratos a usar, arquivos que **podem** tocar (e só esses), critério de pronto (`npx tsc --noEmit` limpo).
 - Rodar em paralelo o que for independente: landing+criação ∥ abrigo ∥ expedição.
-- Ninguém edita `Arte Cosmica - Pivo Idle/` (é fonte de referência).
+- Ninguém edita `arquivo/Arte Cosmica - Pivo Idle/` (é fonte de referência).
 - Não gaste opus em tarefa braçal, nem dê decisão de design pro haiku.
 
 ## 4. Fluxo de execução

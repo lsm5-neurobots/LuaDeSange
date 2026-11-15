@@ -1,0 +1,108 @@
+rules_version = '2';
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: users
+// Document ID: Firebase Auth uid (anonymous)
+// Fields: the game save (GameState). Economy fields (res, loot, luaAtacada,
+//   expedicao, dia, heroLv) are written only by the Admin SDK in Cloud
+//   Functions. The client must not create, update, or delete this document.
+//   It may contain the player's shelter, so only the owner may read it.
+//   No email or phone is stored.
+//
+// Collection: world
+// Document ID: clock
+// Fields:
+//   - agora: number (server epoch ms)
+//   - janela: int (floor(agora / 8 hours))
+//   - inicio: number (window start, epoch ms)
+//   - fim: number (window end, epoch ms)
+// Public read is explicit: every player sees the same moon countdown.
+// Client write is false. Only the Admin SDK updates it.
+//
+// There is no client query with where/orderBy/limit. Reads are get by id.
+//
+// ===============================================================
+// Helper Functions
+// ===============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.uid;
+    }
+
+    function uidUnchanged() {
+      return !('uid' in request.resource.data) || request.resource.data.uid == request.auth.uid;
+    }
+
+    function uidNotModified() {
+      return !('uid' in request.resource.data) || request.resource.data.uid == resource.data.uid;
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function validStringLength(field, minLen, maxLen) {
+      return request.resource.data[field] is string
+        && request.resource.data[field].size() >= minLen
+        && request.resource.data[field].size() <= maxLen;
+    }
+
+    // Clock document the function is allowed to describe. Client writes stay closed
+    // because every allow below is AND false.
+    function isValidClock(data) {
+      return data.keys().hasOnly(['agora', 'janela', 'inicio', 'fim'])
+        && data.agora is number
+        && data.janela is number
+        && data.inicio is number
+        && data.fim is number
+        && data.agora >= 0
+        && data.janela >= 0
+        && data.inicio >= 0
+        && data.fim > data.inicio
+        && data.fim - data.inicio <= 28800000;
+    }
+
+    // Save shape is enforced in the Function (Admin SDK), not by a client write.
+    function isValidUserSave(data) {
+      return data.keys().size() < 80
+        && data.v is number
+        && data.criadoEm is number
+        && (!('rev' in data) || data.rev is number);
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isValidUserSave(request.resource.data) && uidUnchanged() && false;
+      allow update: if isValidUserSave(request.resource.data) && uidNotModified() && false;
+      allow delete: if false;
+    }
+
+    match /world/{docId} {
+      allow get: if docId == 'clock';
+      allow list: if false;
+      allow create: if docId == 'clock' && isValidClock(request.resource.data) && false;
+      allow update: if docId == 'clock' && isValidClock(request.resource.data) && false;
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

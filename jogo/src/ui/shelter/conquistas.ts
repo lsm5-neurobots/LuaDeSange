@@ -7,6 +7,8 @@ import { MAPS } from '../../data/maps';
 import type { ResId } from '../../data/resources';
 import { esc } from '../../core/dom';
 import { G, mutate, type GameState } from '../../game/state';
+import { modoRemoto } from '../../services/api';
+import { ato, msgErro } from '../../services/intent';
 import { claimConquista, claimTodas, conqProntas, conqStatus, lembProgresso, lembrancaBonus, temLembranca } from '../../game/conquistas';
 import { itemImg, menuIconURL } from '../../art/items';
 import { toast } from '../widgets/toast';
@@ -116,10 +118,12 @@ export function openConquistas(aba0: Aba = 'conq'): void {
     if (a === 'aba') aba = id as Aba;
     else if (a === 'filtro') filtro = id as Filtro;
     else if (a === 'claim') {
+      if (modoRemoto()) { void ato('conquista', { id }).then((r) => { if (r.ok) toast('Prêmio resgatado'); else if (r.erro) toast(r.erro); }).catch((e) => toast(msgErro(e))); return; }
       let ok = false;
       mutate((s) => { ok = claimConquista(s, id); });
       if (ok) toast('Prêmio resgatado');
     } else if (a === 'claimall') {
+      if (modoRemoto()) { void ato('conquistas', {}).then((r) => { const n = Number(r.extra?.n ?? 0); if (n) toast(`${n} prêmio${n > 1 ? 's' : ''} resgatado${n > 1 ? 's' : ''}`); }).catch((e) => toast(msgErro(e))); return; }
       let n = 0;
       mutate((s) => { n = claimTodas(s); });
       if (n) toast(`${n} prêmio${n > 1 ? 's' : ''} resgatado${n > 1 ? 's' : ''}`);

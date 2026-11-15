@@ -4,6 +4,8 @@ import './offlineReport.css';
 import { esc } from '../../core/dom';
 import { go } from '../../core/router';
 import { G, mutate } from '../../game/state';
+import { modoRemoto } from '../../services/api';
+import { ato, msgErro, partir } from '../../services/intent';
 import { iniciarRodada, pararLoop, simulateOffline, fmtDur, LOOP_MAX_MS, LOOP_MIN_MS, MAX_FALHAS, type OfflineReport } from '../../game/idleLoop';
 import { MAPS } from '../../data/maps';
 import { RESOURCES, type Bag, type ResId } from '../../data/resources';
@@ -25,6 +27,7 @@ export const takePendingReport = (): OfflineReport | null => { const r = pendent
 
 /** Simula a ausência (se o loop está ligado) e salva. Não repete intervalos: ultimaVisita vira `now`. */
 export function simularAusencia(now = Date.now()): OfflineReport | null {
+  if (modoRemoto()) return null; // produção, consumo e Lua offline ficam no sync
   // sem loop não mexe em nada (nem em ultimaVisita: a produção offline normal do abrigo depende dela)
   const rep = simulateOffline(G(), now);
   if (rep) mutate(() => {});
@@ -33,6 +36,15 @@ export function simularAusencia(now = Date.now()): OfflineReport | null {
 
 /** Começa a próxima rodada do loop (paga provisões, repõe itens) e abre a expedição. */
 export function continuarLoop(): boolean {
+  if (modoRemoto()) {
+    const L = G().loop;
+    if (!L?.ativo) return false;
+    void partir({ mapId: L.mapId, ids: L.ids, pet: L.pet, plano: L.plano, loop: true, continuar: true, manual: false }).then((r) => {
+      if (r.ok && r.config) go('expedition', { config: r.config as import('../../expedition/types').ExpeditionConfig, loop: true });
+      else toast(r.erro || 'Não deu pra continuar o loop');
+    }).catch((e) => toast(msgErro(e)));
+    return true;
+  }
   let ini!: ReturnType<typeof iniciarRodada>;
   mutate((s) => { ini = iniciarRodada(s); });
   if (ini.config) { go('expedition', { config: ini.config, loop: true }); return true; }
@@ -41,6 +53,7 @@ export function continuarLoop(): boolean {
 }
 
 export function pararLoopJogador(): void {
+  if (modoRemoto()) { void ato('loopParar', {}).catch((e) => toast(msgErro(e))); return; }
   mutate((s) => pararLoop(s, 'jogador'));
 }
 
@@ -51,6 +64,13 @@ export function pararLoopJogador(): void {
 export function watchAway(o: { onHide?: () => void; onShow?: (awayMs: number) => void; onAway: (rep: OfflineReport) => void }): () => void {
   let hiddenAt = 0;
   const fn = () => {
+    if (modoRemoto()) {
+      if (document.hidden) { hiddenAt = Date.now(); o.onHide?.(); return; }
+      if (!hiddenAt) return;
+      hiddenAt = 0;
+      void import('../../services/intent').then(({ sincronizar }) => sincronizar()).then(() => o.onShow?.(0)).catch(() => o.onShow?.(0));
+      return;
+    }
     if (document.hidden) {
       hiddenAt = Date.now();
       mutate(() => {}); // grava ultimaVisita = agora (início da ausência)

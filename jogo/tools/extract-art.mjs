@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const SRC = path.resolve(here, '../../Arte Cosmica - Pivo Idle');
+const SRC = path.resolve(here, '../../arquivo/Arte Cosmica - Pivo Idle');
 const OUT = path.resolve(here, '../public/art');
 fs.mkdirSync(OUT, { recursive: true });
 

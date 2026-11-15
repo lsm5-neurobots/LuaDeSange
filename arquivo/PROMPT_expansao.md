@@ -5,7 +5,7 @@ Você é o **orquestrador** desta expansão do jogo **Lua de Sangue** (`LuadeSan
 | Modelo | Use para |
 |---|---|
 | **opus** | arte procedural (mapas, zumbis, chefes), motor/IA, integração, revisão de direção de arte |
-| **sonnet** | documentação no `mecanicas2.html`, dados (`src/data/*`), UI, testes, E2E, prints |
+| **sonnet** | documentação no `arquivo/mecanicas2.html`, dados (`src/data/*`), UI, testes, E2E, prints |
 | **haiku** | trabalho braçal: baixar e organizar referências, FONTES.md, index.html, conferir arquivos |
 
 Rode em paralelo o que não depende entre si (ex.: documentação + downloads ao mesmo tempo). Cada agente recebe: objetivo, arquivos que pode editar (dono exclusivo), contrato, validação e onde salvar prints. Agentes concorrentes editam com Edit em trechos pequenos, relendo antes; nunca reescrevem arquivos inteiros do motor.
@@ -19,8 +19,8 @@ Rode em paralelo o que não depende entre si (ex.: documentação + downloads ao
 - Nada de nomes/visuais de outras franquias (anime, filmes, jogos).
 - Validação mínima por entrega: `npm run art`, `npx tsc --noEmit`, `npx vitest run`, E2E com puppeteer-core (Chrome em `C:/Program Files/Google/Chrome/Application/chrome.exe`, dev server `http://localhost:5173`), sem erros de console.
 
-## Fase 1 — Documentar no `mecanicas2.html` (sonnet; em paralelo com a Fase 2)
-Arquivo: `LuadeSangue/mecanicas2.html` (aba "Inimigos" e aba "Mundo e tempo: mapa…", seguindo o estilo visual e os códigos de regra já usados, ex. `MAP-xx`, `IA-xx`, `BOSS-xx`; marcar "proposta" onde for decisão nova).
+## Fase 1 — Documentar no `arquivo/mecanicas2.html` (sonnet; em paralelo com a Fase 2)
+Arquivo: `LuadeSangue/arquivo/mecanicas2.html` (aba "Inimigos" e aba "Mundo e tempo: mapa…", seguindo o estilo visual e os códigos de regra já usados, ex. `MAP-xx`, `IA-xx`, `BOSS-xx`; marcar "proposta" onde for decisão nova).
 1. **Mapas já feitos**, com descrição detalhada área por área (o que se vê, marcos reais, paleta, objetos de vasculhar, baús, arenas, onde fica mini boss e chefe, o que muda na Lua de Sangue), lendo o código real:
    - **Marco Zero (Recife)** — `jogo/art-src/map/marco-zero.js` (12 áreas: ponte, alfandega, feira, bomjesus, apolo, moeda, arsenal, riobranco, marco, sertao, travessia, molhe) + `jogo/src/data/maps/marcoZero.ts` (ondas).
    - **Olinda** — `jogo/art-src/map/olinda.js` (10 áreas: carmo … bonecos) + `jogo/src/data/maps/olinda.ts`.

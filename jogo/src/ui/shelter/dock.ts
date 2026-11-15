@@ -9,6 +9,7 @@ import { upBlock } from '../../game/golpes';
 import { fusionGroups } from '../../game/fusion';
 import { buyBlock, marketList } from '../../game/market';
 import { msUntilBloodMoon, nextIsBloodMoon } from '../../game/bloodmoon';
+import { serverNow, textoContagemLua } from '../../game/worldClock';
 import { STRUCT_IDS } from '../../data/structures';
 import { GOLPE_IDS } from '../../data/golpes';
 import { conqProntas } from '../../game/conquistas';
@@ -37,8 +38,8 @@ const img = (ic: string, css: number) => {
     + `<img class="dk-h" src="${menuIconURL(ic, px, 'h')}" width="${css}" height="${css}" alt="" draggable="false">`;
 };
 
-/** HTML do dock (entra no lugar da antiga barra de ações). */
-export function dockHtml(): string {
+/** HTML do dock (entra no lugar da antiga barra de ações). `sair` é o texto discreto ao lado de Opções. */
+export function dockHtml(opts?: { sair?: boolean }): string {
   const sm = matchMedia('(max-width: 720px)').matches;
   dpr = Math.min(3, Math.max(1, Math.round((window.devicePixelRatio || 1) * 2) / 2));
   cssPx = sm ? 32 : 40;
@@ -49,6 +50,7 @@ export function dockHtml(): string {
   return `<div class="dk-row">${ITEMS.map(tile).join('')}
       <button class="dk dk-cfg" type="button" data-settings style="--ac:#a9c8f0" aria-label="Configurações" title="Configurações">
         <span class="dk-ic">${img('settings', cssPx)}</span><span class="dk-lb">Opções</span></button>
+      ${opts?.sair ? '<button class="dk-sair" type="button" data-a="sair" title="Sair da conta">Sair</button>' : ''}
     </div>
     <button class="dk dk-col" type="button" data-a="collect" style="--ac:#7dff9a" hidden aria-label="Coletar tudo" title="Coletar a produção de todas as estruturas">
       <span class="dk-ic">${img('collect', cssPx)}</span><span class="dk-lb">Coletar</span><span class="dk-bd good"></span></button>
@@ -107,9 +109,11 @@ export function updateDock(nav: HTMLElement, s: GameState): void {
   col.hidden = n <= 0;
   const cb = col.querySelector<HTMLElement>('.dk-bd')!;
   if (cb.textContent !== String(n)) { cb.textContent = String(n); col.setAttribute('aria-label', `Coletar tudo: ${n} prontos`); }
-  const go = nav.querySelector<HTMLElement>('.dk-go')!, blood = nextIsBloodMoon(s);
+  const go = nav.querySelector<HTMLElement>('.dk-go')!;
+  const remoto = textoContagemLua(serverNow(), s.luaAtacada);
+  const blood = remoto ? remoto.includes('LUA DE SANGUE') : nextIsBloodMoon(s);
   const ms = blood ? 0 : msUntilBloodMoon();
-  const sub = blood ? 'Lua de Sangue no céu' : `Lua de Sangue em ${fmt(ms)}`;
+  const sub = remoto ? remoto.replace(/<[^>]+>/g, '') : blood ? 'Lua de Sangue no céu' : `Lua de Sangue em ${fmt(ms)}`;
   const soon = !blood && ms < 30 * 60000;
   const k = sub + blood + soon;
   if (last.get(go) !== k) {
